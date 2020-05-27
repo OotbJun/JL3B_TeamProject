@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.member.mapper.MemberSQLMapper">
+
+	<insert id="insertResi">
+		<![CDATA[
+			INSERT INTO JL3B_RESI VALUES(
+				JL3B_RESI_SEQ.NEXTVAL,
+				#{npki_key},
+				#{resi_id},
+				#{resi_pw},
+				#{resi_rname},
+				#{resi_mail},
+				1,
+				0,
+				SYSDATE)
+		]]>
+	</insert>
+	
+	<select id="selectResiByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+			JL3B_RESI 
+			WHERE 
+			resi_id = #{resi_id} 
+			AND 
+			resi_pw = #{resi_pw}
+		]]>
+	</select>
+	
+	<select id="selectResiByNo" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+			JL3B_RESI 
+			WHERE 
+			resi_no = #{no}
+		]]>
+	</select>
+	
+	<select id="selectResiById" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+			JL3B_RESI 
+			WHERE 
+			resi_id = #{id}
+		]]>
+	</select>
+	
+	<insert id="insertTeacher">
+		<![CDATA[
+			INSERT INTO JL3B_TEACHER VALUES(
+				JL3B_TEACHER_SEQ.NEXTVAL,
+				#{npki_key},
+				#{teacher_id},
+				#{teacher_pw},
+				#{teacher_class},
+				#{teacher_mail},
+				#{teacher_bank},
+				SYSDATE)
+		]]>
+	</insert>
+
+
+</mapper>
