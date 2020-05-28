@@ -8,7 +8,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jl3b.touche_nubes.board.mapper.BoardImgSQLMapper;
 import com.jl3b.touche_nubes.board.mapper.BoardSQLMapper;
+import com.jl3b.touche_nubes.boardvo.BoardImgVo;
+import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
@@ -22,6 +25,9 @@ public class BoardService {
 	private BoardSQLMapper boardSQLMapper;
 	@Autowired
 	private MemberSQLMapper memberSQLMapper;
+	@Autowired
+	private BoardImgSQLMapper boardImgSQLMapper;
+	
 	
 	//////////////////////////////////////////공지사항
 	//글쓰기
@@ -86,15 +92,30 @@ public class BoardService {
 	
 	
 	////////////////////////////////////////////////자게
-	public void writeBoard(BoardVo boardVo) {
-		boardSQLMapper.insertBoard(boardVo);
-	}
+	public void writeBoard(BoardVo boardVo, List<BoardImgVo> boardImgList) {
+		int boardKey = boardSQLMapper.createBoardKey();
+	      
+	      boardVo.setBoard_no(boardKey);
+	     
+	      boardSQLMapper.insertBoard(boardVo);
+	      
+	      for (BoardImgVo boardImgVo : boardImgList) {
+	      
+	    	  boardImgVo.setBoard_no(boardKey);
+	         
+	    	  boardImgSQLMapper.insertBoardImg(boardImgVo);
+	      }
+	   }
+		
 	
 	public List<Map<String, Object>> boardList(String searchWord, int currPage) {
-
+		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		
 		List<BoardVo> boardlist = null;
-
+		
+		
+		
 		if (searchWord == null) {
 			boardlist = boardSQLMapper.selectBoardAll(currPage);
 		} else {
@@ -105,10 +126,12 @@ public class BoardService {
 			
 			ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
 			
+			int count = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			map.put("resiVo", resiVo);
-			
+			map.put("count", count);
 			map.put("boardVo", boardVo);
 			
 			list.add(map);
@@ -117,12 +140,21 @@ public class BoardService {
 	}
 
 	public Map<String, Object> viewBoard(int board_no) {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
+		
 		boardSQLMapper.updateBoardReadCount(board_no);
+		
 		BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
+		
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
 
+		List<BoardImgVo> boardImgList = boardImgSQLMapper.selectBoardByNo(board_no);
+
 		map.put("resiVo", resiVo);
+		
+		map.put("boardImgList", boardImgList);
+		
 		map.put("boardVo", boardVo);
 
 		return map;
@@ -143,5 +175,20 @@ public class BoardService {
 			return boardSQLMapper.selectBoardByTitleCount(searchWord);
 		}
 	}
+	
+	//추천
+	public void chooseLike(BoardLikeVo boardLikeVo) {
+		boardSQLMapper.insertBoardLike(boardLikeVo);
+	}
+	public BoardLikeVo checkLike(BoardLikeVo boardLikeVo) {		//중복방지 본인확인
+		return boardSQLMapper.selectLikeByNo(boardLikeVo);
+	}
+//	public int likeUpCount() {									//좋아요 개수
+//		return boardSQLMapper.selectLikeUpCount();
+//	}
+//	public int likeDownCount() {								//싫어요 개수
+//		return boardSQLMapper.selectLikeDownCount();
+//	}
+	
 	
 }

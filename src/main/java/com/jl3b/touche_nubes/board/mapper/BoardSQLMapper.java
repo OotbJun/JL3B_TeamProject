@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
@@ -43,6 +44,8 @@ public interface BoardSQLMapper {
 	
 	
 	//////////////////////////자게
+	public int createBoardKey();
+	
 	public void insertBoard(BoardVo boardVo);
 	   
     public BoardVo selectBoardByNo(int no);
@@ -60,5 +63,16 @@ public interface BoardSQLMapper {
     public int selectBoardByTitleCount(String title);
 	
     public List<BoardVo> selectBoardByTitle(@Param("title")String title, @Param("currPage") int currPage);
+    
+    //추천
+    public void insertBoardLike(BoardLikeVo boardLikeVo);		//추천, 비추
+    
+    public BoardLikeVo selectLikeByNo(BoardLikeVo boardLikeVo);	//중복방지 본인확인
+    
+    public int selectLikeUpCount(int boardNo);								//좋아요 개수
+   
+    public int selectLikeDownCount(int boardNo);							//싫어요 개수
+    
+    
 		
 }

@@ -16,13 +16,14 @@
 	<insert id="insertNotice">
 	<![CDATA[
 		INSERT INTO JL3B_NOTICE
-		VALUES(JL3B_NOTICE_SEQ.NEXTVAL,
-		#{resi_no},
-		#{horsehead_sort},
-		#{notice_title},
-		#{notice_content},
-		0,
-		SYSDATE)
+		VALUES(
+			JL3B_NOTICE_SEQ.NEXTVAL,
+			#{resi_no},
+			#{horsehead_sort},
+			#{notice_title},
+			#{notice_content},
+			0,
+			SYSDATE)
 		]]>
 	</insert>
 	
@@ -113,10 +114,16 @@
 	
 	
 	<!-- ////////////////////////////////////////////////////////자게 -->
+	<select id="createBoardKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_BOARD_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
 	<insert id="insertBoard">
 	    <![CDATA[
 		INSERT INTO JL3B_BOARD
-		VALUES(JL3B_Board_seq.NEXTVAL,
+		VALUES(#{board_no},
 		#{resi_no},
 		'dd',
 		#{board_title},
@@ -202,6 +209,41 @@
 	 <select id="selectBoardByTitleCount" resultType="int">
 	    <![CDATA[
 		SELECT COUNT(*) FROM JL3B_BOARD WHERE board_title LIKE '%'||#{title}||'%'
+		]]>
+	</select>
+	
+	<!-- 추천 -->
+	<insert id="insertBoardLike">
+		<![CDATA[
+			INSERT INTO 
+			JL3B_BOARD_LIKE 
+			VALUES(
+				JL3B_BOARD_LIKE_SEQ.NEXTVAL,
+				#{resi_no}, 
+				#{board_no},
+				#{board_like}
+				)
+		]]>
+	</insert>
+	<!-- 본인확인 -->
+	<select id="selectLikeByNo" resultType="com.jl3b.touche_nubes.boardvo.BoardLikeVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+			JL3B_BOARD_LIKE 
+			WHERE resi_no = #{resi_no} AND board_no = #{board_no}
+		]]>
+	</select>
+	<!-- 좋아요 개수 -->
+	<select id="selectLikeUpCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'Y' AND BOARD_NO = #{BOARD_NO}
+		]]>
+	</select>
+	<!-- 싫어요 개수 -->
+	<select id="selectLikeDownCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'N' AND BOARD_NO = #{BOARD_NO}
 		]]>
 	</select>
 	

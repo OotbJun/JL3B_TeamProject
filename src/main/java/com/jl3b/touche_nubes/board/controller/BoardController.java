@@ -1,8 +1,14 @@
 package com.jl3b.touche_nubes.board.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jl3b.touche_nubes.board.service.BoardService;
+import com.jl3b.touche_nubes.boardvo.BoardImgVo;
+import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.membervo.ResiVo;
@@ -125,6 +133,8 @@ public class BoardController {
 			
 		List<Map<String, Object>> list = boardService.boardList(searchWord,currPage);
 		
+		
+		
 		int totalCount = boardService.getBoardDataCount(searchWord);
 		int beginPage = ((currPage-1)/5) *5 +1;
 		int endPage = ((currPage-1)/5+1) * (5);
@@ -138,6 +148,7 @@ public class BoardController {
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("boardList", list);
 		
+		
 		return "board/board";
 	}
 
@@ -149,20 +160,71 @@ public class BoardController {
 	}
 	
 	@RequestMapping("/write_board_process.jan")
-	public String writeBoardProcess(BoardVo boardVo, HttpSession session) {
-		// Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
-		// session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-		ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
+	   public String writeBoardProcess(MultipartFile [] boardImgList,BoardVo boardVo, HttpSession session) {
+	      // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
+	      // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
+	      String RootFolderName = "C:/upload/";
+	      
+	      Date today = new Date();
+	      
+	      SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+	      
+	      String todayFolder = df.format(today);
+	      
+	      String SaveFolderName = RootFolderName + todayFolder;
+	      
+	      File SaveFolder = new File (SaveFolderName);
+	   
+	      if(!SaveFolder.exists()){
+	         SaveFolder.mkdirs();
+	      
+	      }
+	      List<BoardImgVo> BoardImgList = new ArrayList<BoardImgVo>();
+	      for(MultipartFile file :boardImgList ) {
+	         if(file.getSize() <=0) {
+	            continue;
+	         }
+	      //파일명 랜덤 이름 
+	      
+	      String SaveFileTitle = UUID.randomUUID().toString();
+	      
+	      String oriFileTitle = file.getOriginalFilename();
+	      
+	      SaveFileTitle += "_" + System.currentTimeMillis();
+	      
+	      SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
+	      
+	      String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;
 
-		boardVo.setResi_no(resiVo.getResi_no());
-	
-		boardService.writeBoard(boardVo);
-	
-		return "redirect:./board.jan";
-	}
+	      try {
+	         
+	         file.transferTo(new File(SaveRealPath));
+	         
+	      }catch(IOException e) {
+	         e.printStackTrace();
+	      }
+	      
+	      // DB에 담을 Vo객체를 생성 
+	       
+	      BoardImgVo boardImgVo = new BoardImgVo();
+	      
+	      boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);
+	      
+	      boardImgVo.setBoard_img_path(SaveRealPath);
+	      
+	      BoardImgList.add(boardImgVo);
+	      }
+	      ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
+
+	      boardVo.setResi_no(resiVo.getResi_no());
+	   
+	      boardService.writeBoard(boardVo,BoardImgList);
+	   
+	      return "redirect:./board.jan";
+	   }
 
 	@RequestMapping("/read_board.jan")
-	public String readBoard(int board_no, Model model) {
+	public String readBoard(int board_no, Model model, BoardLikeVo boardLikeVo) {
 		
 		Map<String, Object> map = boardService.viewBoard(board_no);
 		
@@ -188,4 +250,23 @@ public class BoardController {
 		boardService.changeBoard(boardVo);
 		return "redirect:./board.jan";
 	}
+	
+	@RequestMapping("/choose_like_process.jan")
+	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
+		int currentPage = boardLikeVo.getBoard_no();
+		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
+		
+		boardLikeVo.setResi_no(resiVo);
+		
+		BoardLikeVo likeData = boardService.checkLike(boardLikeVo);
+		
+		if(likeData == null) {
+			boardService.chooseLike(boardLikeVo);
+			return "redirect:./read_board.jan?board_no="+currentPage;
+		}else {
+			return "redirect:./read_board.jan?board_no="+currentPage;
+		}
+	}
+	
+	
 }
