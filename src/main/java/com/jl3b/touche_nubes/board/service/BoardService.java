@@ -143,19 +143,19 @@ public class BoardService {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		boardSQLMapper.updateBoardReadCount(board_no);
-		
+		boardSQLMapper.updateBoardReadCount(board_no);				//조회수
 		BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
-		
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
-
 		List<BoardImgVo> boardImgList = boardImgSQLMapper.selectBoardByNo(board_no);
+		
+		int upCount = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
+		int downCount = boardSQLMapper.selectLikeDownCount(boardVo.getBoard_no());
 
 		map.put("resiVo", resiVo);
-		
 		map.put("boardImgList", boardImgList);
-		
 		map.put("boardVo", boardVo);
+		map.put("upCount", upCount);
+		map.put("downCount", downCount);
 
 		return map;
 	}

@@ -45,11 +45,20 @@ footer {
 				:${readBoard.boardVo.board_hits } <br> 내용
 				:${readBoard.boardVo.board_content } <br>
 
+				<!-- 이미지 -->
 				<c:forEach items="${readBoard.boardImgList}" var="BoardImgVo">
 					<img src="/upload/${BoardImgVo.board_img_title}">
 					<br>
 				</c:forEach>
 				<br> <br> <br>
+				
+				<!-- 추천! -->
+				<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=Y&board_no=${readBoard.boardVo.board_no }">좋아요</a>
+				${readBoard.upCount }
+				<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=N&board_no=${readBoard.boardVo.board_no }">싫어요</a>
+				${readBoard.downCount }
+				
+				
 			</div>
 		</div>
 
@@ -88,22 +97,19 @@ footer {
 					onclick="writeReply()">
 			</div>
 		</div>
-
-
 	</div>
-	<!-- gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggg 
 	
+	<br><br><br><br><br>
 
 	<a href="${pageContext.request.contextPath}/board/board.jan">목록으로</a>
 	<c:if
 		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no }">
-		<a
-			href="${pageContext.request.contextPath}/board/delete_board_process.jan?board_no=${readBoard.boardVo.board_no}">삭제</a>
-		<a
-			href="${pageContext.request.contextPath}/board/change_board.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
+		<a href="${pageContext.request.contextPath}/board/delete_board_process.jan?board_no=${readBoard.boardVo.board_no}">삭제</a>
+		<a href="${pageContext.request.contextPath}/board/change_board.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
 	</c:if>
+	
+		
 
--->
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

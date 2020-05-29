@@ -65,13 +65,13 @@ public interface BoardSQLMapper {
     public List<BoardVo> selectBoardByTitle(@Param("title")String title, @Param("currPage") int currPage);
     
     //추천
-    public void insertBoardLike(BoardLikeVo boardLikeVo);		//추천, 비추
+    public void insertBoardLike(BoardLikeVo boardLikeVo);		//추천, 비추 입력
     
     public BoardLikeVo selectLikeByNo(BoardLikeVo boardLikeVo);	//중복방지 본인확인
     
-    public int selectLikeUpCount(int boardNo);								//좋아요 개수
+    public int selectLikeUpCount(int boardNo);					//좋아요 개수
    
-    public int selectLikeDownCount(int boardNo);							//싫어요 개수
+    public int selectLikeDownCount(int boardNo);				//싫어요 개수
     
     
 		

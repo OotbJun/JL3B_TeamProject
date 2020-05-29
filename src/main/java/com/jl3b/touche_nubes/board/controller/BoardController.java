@@ -251,6 +251,7 @@ public class BoardController {
 		return "redirect:./board.jan";
 	}
 	
+	//추천!!
 	@RequestMapping("/choose_like_process.jan")
 	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
 		int currentPage = boardLikeVo.getBoard_no();
