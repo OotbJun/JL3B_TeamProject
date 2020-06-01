@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<nav id="xxx" class="navbar navbar-expand-lg navbar-light mr-5 pl-5 pr-5">
+<nav id="xxx" class="navbar navbar-expand-lg navbar-light pl-5">
 	<a class="navbar-brand"
 		href="${pageContext.request.contextPath }/board/main.jan">
 		<img src="${pageContext.request.contextPath }/resources/img/navi-logo.png" width="100px">
@@ -25,6 +25,9 @@
 				<a class="nav-link" href="${pageContext.request.contextPath }/board/board.jan">자유게시판</a>
 			  </li>
 			  <li class="nav-item">
+				<a class="nav-link" href="${pageContext.request.contextPath }/board/idea.jan">주민청원</a>
+			  </li>
+			  <li class="nav-item">
 				<a class="nav-link" href="#">선거 </a>
 			  </li>
 			   <li class="nav-item">
@@ -45,7 +48,7 @@
 							<a class="dropdown-item"
 								href="${pageContext.request.contextPath }/member/logout_process.jan">로그아웃</a>
 							<a class="dropdown-item" href="#">마이페이지</a> <a
-								class="dropdown-item" href="#">Something</a>
+								class="dropdown-item" href="#">Something else here</a>
 						</div></li>
 				</ul>
 			</c:when>

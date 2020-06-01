@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,14 +30,18 @@ footer {
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
 																								<!-- 파일업로드시 인코딩타입 필요 -->
-	<form action="${pageContext.request.contextPath }/board/write_notice_process.jan" method="post" enctype="multipart/form-data">
+	<form action="${pageContext.request.contextPath }/board/notice_write_process.jan" method="post" enctype="multipart/form-data">
 		닉네임 : ${sessionUser.resi_rname }<br>
 		제목 : <input type="text" name="notice_title"><br>
 		내용 : <br>
 		<textarea rows="10" cols="40" name="notice_content"></textarea><br>
-		<input type="hidden" name="horsehead_sort" value="공지">	<!-- 말머리 수정 필요 -->
+		<select name="horsehead_sort">					<!-- 말머리 수정 필요 -->
+			<option value="공지">공지사항</option>
+			<option value="aaa">아무것도 아냐~</option>
+		</select>										 	
 		<input type="submit" value="확인"><br>
 	</form>
+	
 	
 	
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,25 +45,23 @@ footer {
 				:${readBoard.resiVo.resi_rname } <br> 조회수
 				:${readBoard.boardVo.board_hits } <br> 내용
 				:${readBoard.boardVo.board_content } <br>
-
-				<!-- 이미지 -->
 				<c:forEach items="${readBoard.boardImgList}" var="BoardImgVo">
-					<img src="/upload/${BoardImgVo.board_img_title}">
+					<img style="width: 60%; height: auto" src="/upload/${BoardImgVo.board_img_title}">
 					<br>
 				</c:forEach>
 				<br> <br> <br>
-				
-				<!-- 추천! -->
-				<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=Y&board_no=${readBoard.boardVo.board_no }">좋아요</a>
-				${readBoard.upCount }
-				<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=N&board_no=${readBoard.boardVo.board_no }">싫어요</a>
-				${readBoard.downCount }
-				
-				
 			</div>
 		</div>
-
-		<div class="row">
+	</div>
+	
+	<!-- 추천! -->
+	<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=Y&board_no=${readBoard.boardVo.board_no }">좋아요</a>
+	${readBoard.upCount }
+	<a href="${pageContext.request.contextPath }/board/choose_like_process.jan?board_like=N&board_no=${readBoard.boardVo.board_no }">싫어요</a>
+	${readBoard.downCount }
+	
+	
+	<div class="row">
 			<!-- 댓글 리스트 박스 -->
 			<div class="col" id="reply_box">
 				<!-- 리스트 컨텐트 박스 -->
@@ -70,11 +69,9 @@ footer {
 					<!-- 1번 댓글 -->
 					<div class="col-8">
 						<!-- 닉네임 -->
-
 					</div>
 					<div class="col">
 						<!-- 날짜 -->
-
 					</div>
 				</div>
 				<div class="row">
@@ -85,30 +82,37 @@ footer {
 				</div>
 			</div>
 		</div>
-
+     <c:forEach items="${boardReplList}" var="boardReplList">
+       <tr>
+        <td class="col3">작성자 : ${boardReplList.resiVo.resi_rname }</td>
+         <td class="col5">내용 : ${boardReplList.boardReVo.board_re_content }</td>
+         <td class="col4">작성날짜 : <fmt:formatDate value="${boardReplList.boardReVo.board_re_wdate }" pattern="yyyy-MM-dd"/></td>
+         </tr><br>
+        </c:forEach>
+       <form action="${pageContext.request.contextPath }/board/write_reply_process.jan">
 		<div class="row">
 			<!-- 댓글 입력 -->
 			<div class="col">댓글</div>
 			<div class="col-8">
-				<textarea class="form-control" id="reply_content"></textarea>
+				<textarea class="form-control" id="reply_content" name="board_re_content"></textarea>
+				<input type="hidden" value ="${readBoard.boardVo.board_no}" name="board_no">
 			</div>
 			<div class="col">
-				<input type="button" class="btn btn-primary" value="작성"
-					onclick="writeReply()">
+				<input type="submit" class="btn btn-primary" value="작성">
 			</div>
 		</div>
-	</div>
-	
-	<br><br><br><br><br>
+		</form>
+
 
 	<a href="${pageContext.request.contextPath}/board/board.jan">목록으로</a>
 	<c:if
 		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no }">
-		<a href="${pageContext.request.contextPath}/board/delete_board_process.jan?board_no=${readBoard.boardVo.board_no}">삭제</a>
-		<a href="${pageContext.request.contextPath}/board/change_board.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
+		<a
+			href="${pageContext.request.contextPath}/board/board_delete_process.jan?board_no=${readBoard.boardVo.board_no}">삭제</a>
+		<a
+			href="${pageContext.request.contextPath}/board/board_change.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
 	</c:if>
-	
-		
+
 
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

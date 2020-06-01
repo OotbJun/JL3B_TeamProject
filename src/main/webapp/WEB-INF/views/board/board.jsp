@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Touche 공지사항</title>
 <style>
 footer {
 	margin: 0 auto;
@@ -33,46 +33,39 @@ footer {
 
 	<div class="container mt-5">
 		<div class="row">
-			<div class="col-2"></div>
+			<div class="col-1"></div>
 			<div class="col">
 				<div class="row">
 					<div class="col">
-					
-					
-					
-						<table class="table table-hover">
+						<table class="table table-hover text-center">
 							<thead>
-							
 								<tr>
 									<td>글번호</td>
 									<td>제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
 									<td>조회수</td>
-									<td>추천</td>
+									<td>추천수</td>
 								</tr>
 							</thead>
 							<tbody>
 								<c:forEach items="${boardList}" var="boardList">
-								
 									<tr class="text-center">
 										<td>${boardList.boardVo.board_no}</td>
 										<td><a
-											href="${pageContext.request.contextPath}/board/read_board.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title}</a></td>
+											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title}</a></td>
 										<td>${boardList.resiVo.resi_rname}</td>
 										<td><fmt:formatDate
 												value="${boardList.boardVo.board_wdate}"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
 										<td>${boardList.boardVo.board_hits}</td>
-										<td>${boardList.count}</td>
+										<td>${boardList.like}</td>
 									</tr>
 								</c:forEach>
 							</tbody>
 						</table>
-							
 					</div>
 				</div>
-				
 				<div class="row mt-3 ">
 					<div class="col-2"></div>
 					<div class="col">
@@ -99,7 +92,7 @@ footer {
 
 					<div class="col-2">
 						<a class="btn btn-primary btn-block"
-							href="${pageContext.request.contextPath}/board/write_board.jan">글쓰기</a>
+							href="${pageContext.request.contextPath}/board/board_write.jan">글쓰기</a>
 					</div>
 				</div>
 				<div class="row">
@@ -121,7 +114,7 @@ footer {
 					<div class="col"></div>
 				</div>
 			</div>
-			<div class="col-2"></div>
+			<div class="col-1"></div>
 		</div>
 	</div>
 

@@ -37,7 +37,7 @@ footer {
 			<div class="col">
 				<div class="row">
 					<div class="col">
-						<table class="table table-hover">
+						<table class="table table-hover text-center">
 							<thead>
 								<tr>
 									<td>글번호</td>
@@ -53,12 +53,13 @@ footer {
 									<tr class="text-center">
 										<td>${noticeList.noticeVo.notice_no }</td>
 										<td><a
-											href="${pageContext.request.contextPath }/board/read_notice.jan?notice_no=${noticeList.noticeVo.notice_no}">${noticeList.noticeVo.notice_title }</a></td>
+											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&horsehead_sort=${noticeList.horseheadVo.horsehead_sort }">${noticeList.noticeVo.notice_title }</a></td>
 										<td>${noticeList.resiVo.resi_rname }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
 										<td>${noticeList.noticeVo.notice_hits }</td>
+										<td>${noticeList.horseheadVo.horsehead_title }</td>
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -91,7 +92,7 @@ footer {
 
 					<div class="col-2">
 						<a
-							href="${pageContext.request.contextPath }/board/write_notice.jan"
+							href="${pageContext.request.contextPath }/board/notice_write.jan"
 							class="btn btn-primary btn-block">글쓰기</a>
 					</div>
 
@@ -104,39 +105,6 @@ footer {
 						<form
 							action="${pageContext.request.contextPath }/board/notice.jan"
 							method="GET">
-
-							<!-- 
-	<div class="form-group row justify-content-center">
-
-			<div class="w100" style="padding-right:10px">
-
-				<select class="form-control form-control-sm" name="searchType" id="searchType">
-
-					<option value="title">제목</option>
-
-					<option value="Content">본문</option>
-
-					<option value="reg_id">작성자</option>
-
-				</select>
-
-			</div>
-
-			<div class="w300" style="padding-right:10px">
-
-				<input type="text" class="form-control form-control-sm" name="title" id="title">
-
-			</div>
-
-			<div>
-
-				<button class="btn btn-sm btn-primary" name="btnSearch" id="btnSearch">검색</button>
-
-			</div>
-
-		</div>
-	 -->
-
 							<div class="row">
 								<div class="col">
 									<input name="searchWord" type="text" class="form-control">

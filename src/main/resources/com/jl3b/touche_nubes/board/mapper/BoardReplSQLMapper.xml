@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jl3b.touche_nubes.board.mapper.BoardReplSQLMapper">
+
+	<!-- 댓글 출력 -->
+	<select id="selectBoardRepleList" resultType="com.jl3b.touche_nubes.boardvo.BoardReVo">
+	     <![CDATA[
+	        SELECT * FROM JL3B_BOARD_RE WHERE BOARD_NO = #{board_no}
+	      ]]>
+	</select>
+	
+	<!-- 댓글 쓰기 -->
+	<insert id="insertBoardReply">
+	     <![CDATA[
+		INSERT INTO 
+		  JL3B_BOARD_RE
+		     VALUES(
+			   JL3B_BOARD_RE_SEQ.NEXTVAL,
+			    #{board_no}, 
+			    #{resi_no},
+			    #{board_re_content},
+				SYSDATE
+			)
+	     ]]>
+	</insert>
+	
+	<!-- 댓글 수정 -->
+	<update id="updateBoardReply" parameterType="com.jl3b.touche_nubes.boardvo.BoardReVo">
+	    <![CDATA[
+			UPDATE  JL3B_BOARD_RE 
+			SET BOARD_RE_CONTENT = #{board_re_content},board_re_wdate=SYSDATE 
+			WHERE BOARD_RE_NO= #{board_re_no}
+	    ]]>
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteBoardReply" parameterType="int">
+	    <![CDATA[
+	   DELETE FROM jl3b_board_re WHERE BOARD_RE_NO=#{board_re_no};
+	    ]]>
+	</delete>
+
+</mapper>

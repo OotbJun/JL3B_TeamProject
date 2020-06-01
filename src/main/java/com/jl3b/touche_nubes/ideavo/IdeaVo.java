@@ -6,35 +6,28 @@ public class IdeaVo {
 	
 	private int idea_no;
 	private int resi_no;
+	private int idea_gr_no;
 	private String horsehead_sort;
 	private String idea_title;
 	private String idea_content;
 	private int idea_hits;
 	private Date idea_wdate;
-	private String idea_a_title;
-	private String idea_a_content;
-	private int idea_a_hits;
-	private Date idea_a_wdate;
 	
 	public IdeaVo() {
 		super();
 	}
 	
-	public IdeaVo(int idea_no, int resi_no, String horsehead_sort, String idea_title, String idea_content,
-			int idea_hits, Date idea_wdate, String idea_a_title, String idea_a_content, int idea_a_hits,
-			Date idea_a_wdate) {
+	public IdeaVo(int idea_no, int resi_no, int idea_gr_no, String horsehead_sort, String idea_title,
+			String idea_content, int idea_hits, Date idea_wdate) {
 		super();
 		this.idea_no = idea_no;
 		this.resi_no = resi_no;
+		this.idea_gr_no = idea_gr_no;
 		this.horsehead_sort = horsehead_sort;
 		this.idea_title = idea_title;
 		this.idea_content = idea_content;
 		this.idea_hits = idea_hits;
 		this.idea_wdate = idea_wdate;
-		this.idea_a_title = idea_a_title;
-		this.idea_a_content = idea_a_content;
-		this.idea_a_hits = idea_a_hits;
-		this.idea_a_wdate = idea_a_wdate;
 	}
 	
 	public int getIdea_no() {
@@ -48,6 +41,12 @@ public class IdeaVo {
 	}
 	public void setResi_no(int resi_no) {
 		this.resi_no = resi_no;
+	}
+	public int getIdea_gr_no() {
+		return idea_gr_no;
+	}
+	public void setIdea_gr_no(int idea_gr_no) {
+		this.idea_gr_no = idea_gr_no;
 	}
 	public String getHorsehead_sort() {
 		return horsehead_sort;
@@ -79,30 +78,5 @@ public class IdeaVo {
 	public void setIdea_wdate(Date idea_wdate) {
 		this.idea_wdate = idea_wdate;
 	}
-	public String getIdea_a_title() {
-		return idea_a_title;
-	}
-	public void setIdea_a_title(String idea_a_title) {
-		this.idea_a_title = idea_a_title;
-	}
-	public String getIdea_a_content() {
-		return idea_a_content;
-	}
-	public void setIdea_a_content(String idea_a_content) {
-		this.idea_a_content = idea_a_content;
-	}
-	public int getIdea_a_hits() {
-		return idea_a_hits;
-	}
-	public void setIdea_a_hits(int idea_a_hits) {
-		this.idea_a_hits = idea_a_hits;
-	}
-	public Date getIdea_a_wdate() {
-		return idea_a_wdate;
-	}
-	public void setIdea_a_wdate(Date idea_a_wdate) {
-		this.idea_a_wdate = idea_a_wdate;
-	}
-	
 	
 }
