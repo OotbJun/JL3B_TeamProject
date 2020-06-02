@@ -69,5 +69,11 @@ public class MemberController {
 		}
 	}
 	
+	@RequestMapping("/logout_process.jan")
+    public String logOutProcess(HttpSession session) {
+		 session.invalidate();
+		 return "redirect:/";
+	}
+	
 	
 }

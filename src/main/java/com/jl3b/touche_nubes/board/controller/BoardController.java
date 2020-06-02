@@ -28,6 +28,7 @@ import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
+import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.ResiVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
 
@@ -66,7 +67,8 @@ public class BoardController {
 	//공지 리스트
 	@RequestMapping("/notice.jan")
 	public String notice(Model model, String searchWord, 
-				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+				HttpSession session) {
 		
 		if(currentPage <= 0) {
 			currentPage = 1;
@@ -84,6 +86,7 @@ public class BoardController {
 		if(endPage > (totalCount-1)/10 + 1) {
 			endPage = (totalCount-1)/10 + 1;
 		}
+		
 		
 		model.addAttribute("beginPage", beginPage);
 		model.addAttribute("endPage", endPage);
@@ -424,23 +427,23 @@ public class BoardController {
 	}
 	
 	//청원글 좋아요 
-	@RequestMapping("/choose_idea_like_process.jan")
-	public String chooseLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
+	@RequestMapping("/idea_like_process.jan")
+    public String ideaLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
+       int currentIdea = ideaLikeVo.getIdea_no();
+       int resi_no = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
+       
+       ideaLikeVo.setResi_no(resi_no);
+    
+       IdeaLikeVo likedata = boardService.checkideaLike(ideaLikeVo); 
+       
+       if(likedata == null) {
+          boardService.ideaLike(ideaLikeVo);
+          return "redirect:./idea_read.jan?idea_no="+currentIdea;
+       }else {
+          return "redirect:./idea_read.jan?idea_no="+currentIdea;
+       }
+    }
 
-		int currentPage = ideaLikeVo.getIdea_no();
-		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-
-		ideaLikeVo.setResi_no(resiVo);
-
-		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);
-
-		if (likeData == null) {
-			boardService.chooseLike(ideaLikeVo);
-			return "redirect:./idea_read.jan?idea_no=" + currentPage;
-		} else {
-			return "redirect:./idea_read.jan?idea_no=" + currentPage;
-		}
-	}
 	
 	//청원글답변달기
 	@RequestMapping("/idea_answer.jan")

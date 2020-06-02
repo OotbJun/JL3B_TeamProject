@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -105,10 +106,18 @@ footer {
 
 
 	<a href="${pageContext.request.contextPath}/board/board.jan">목록으로</a>
+	
+	<c:set var="admin" value="${sessionUser.npki_key}"></c:set>			<!-- 관리자만 삭제 가능 -->
 	<c:if
-		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no }">
+		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || fn:contains(admin, 'admin') }">
+	
+		
 		<a
 			href="${pageContext.request.contextPath}/board/board_delete_process.jan?board_no=${readBoard.boardVo.board_no}">삭제</a>
+	</c:if>
+	
+	<c:if
+		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}">
 		<a
 			href="${pageContext.request.contextPath}/board/board_change.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
 	</c:if>

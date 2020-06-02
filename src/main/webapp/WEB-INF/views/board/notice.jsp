@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <!DOCTYPE html>
 <html>
@@ -91,9 +92,13 @@ footer {
 					</div>
 
 					<div class="col-2">
-						<a
-							href="${pageContext.request.contextPath }/board/notice_write.jan"
-							class="btn btn-primary btn-block">글쓰기</a>
+						
+					   <c:set var="admin" value="${sessionUser.npki_key}"></c:set>		<!-- 로그인회원이 admin일 때 글쓰기 가능 -->
+    						<c:if test="${fn:contains(admin,'admin')}">				
+							<a	href="${pageContext.request.contextPath }/board/notice_write.jan" class="btn btn-primary btn-block">글쓰기</a>
+							</c:if>
+						
+						
 					</div>
 
 				</div>

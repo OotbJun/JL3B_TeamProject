@@ -385,35 +385,35 @@
 		]]>
 	</select>
 	
-	<!-- 추천 -->
-	<insert id="insertIdeaLike">
-		<![CDATA[
-			INSERT INTO 
-			JL3B_idea_LIKE 
-			VALUES(
-				JL3B_idea_LIKE_SEQ.NEXTVAL,
-				#{resi_no}, 
-				#{idea_no},
-				#{idea_like}
-				)
-		]]>
-	</insert>
-	
-	<!-- 본인확인 -->
-	<select id="selectIdeaLikeByNo" resultType="com.jl3b.touche_nubes.ideavo.IdeaLikeVo">
-		<![CDATA[
-			SELECT * 
-			FROM 
-			JL3B_idea_LIKE 
-			WHERE resi_no = #{resi_no} AND idea_no = #{idea_no}
-		]]>
-	</select>
-	
-	<!-- 좋아요 개수 -->
-	<select id="selectIdeaLikeUpCount" resultType="int">
-		<![CDATA[
-			SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_LIKE = #{idea_no}
-		]]>
-	</select>
+	 <!-- 추천 -->
+   <insert id="insertIdeaLike">
+      <![CDATA[
+         INSERT INTO 
+         JL3B_idea_LIKE 
+         VALUES(
+            JL3B_idea_LIKE_SEQ.NEXTVAL,
+            #{resi_no}, 
+            #{idea_no},
+            #{idea_like}
+            )
+      ]]>
+   </insert>
+   
+   <!-- 본인확인 -->
+   <select id="selectIdeaLikeByNo" resultType="com.jl3b.touche_nubes.ideavo.IdeaLikeVo">
+      <![CDATA[
+         SELECT * 
+         FROM 
+         JL3B_idea_LIKE 
+         WHERE resi_no = #{resi_no} AND idea_no = #{idea_no}
+      ]]>
+   </select>
+   
+   <!-- 좋아요 개수 -->
+   <select id="selectIdeaLikeUpCount" resultType="int">
+      <![CDATA[
+         SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_no = #{idea_no}
+      ]]>
+   </select>
 	
 </mapper>

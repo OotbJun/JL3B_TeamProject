@@ -58,7 +58,7 @@ footer {
 	</div>
 
 
-	<
+	<br>
 	<footer class="mt-5">
 		<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	</footer>

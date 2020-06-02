@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>      
-    
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>    
 <!DOCTYPE html>
 <html>
 <head>
@@ -84,18 +84,14 @@ footer {
 		
 	</div>
 	
-	
-
-	
-	
-	
 	<br><br><br><br>
 	<a href="${pageContext.request.contextPath }/board/notice.jan">목록</a>
 	
-	<c:if test="${!empty sessionUser && sessionUser.resi_no == readNotice.resiVo.resi_no }">
-	<a href="${pageContext.request.contextPath }/board/notice_delete_process.jan?notice_no=${readNotice.noticeVo.notice_no}">삭제</a>
-	<a href="${pageContext.request.contextPath }/board/notice_change.jan?notice_no=${readNotice.noticeVo.notice_no}">수정</a>
-	</c:if>
+	<c:set var="admin" value="${sessionUser.npki_key}"></c:set>		<!-- 로그인회원이 admin일 때 수정, 삭제 가능 -->
+    	<c:if test="${fn:contains(admin,'admin')}">				
+			<a href="${pageContext.request.contextPath }/board/notice_delete_process.jan?notice_no=${readNotice.noticeVo.notice_no}">삭제</a>
+			<a href="${pageContext.request.contextPath }/board/notice_change.jan?notice_no=${readNotice.noticeVo.notice_no}">수정</a>
+		</c:if>
 
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

@@ -42,4 +42,5 @@ public class MemberService {
 			memberSQLMapper.insertTeacher(teacherVo);;
 		}
 	}
+	
 }

@@ -64,9 +64,9 @@ footer {
 				</div>
 				
 				<div class="row mt-1">
-					<!-- 닉네임 -->
+					<!-- 이름 -->
 					<div class="col-1"></div>
-					<div class="col-2">닉네임</div>
+					<div class="col-2">이름</div>
 					<div class="col">
 						<input type="text" name="resi_rname" class="form-control"><br>
 					</div>
