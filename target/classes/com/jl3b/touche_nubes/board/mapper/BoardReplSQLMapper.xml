@@ -41,5 +41,12 @@
 	   DELETE FROM jl3b_board_re WHERE BOARD_RE_NO=#{board_re_no};
 	    ]]>
 	</delete>
+	
+	<!-- 리스트에서 댓글수 -->
+	<select id="selectReplyCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD_RE WHERE BOARD_NO = #{board_no}
+		]]>
+	</select>
 
 </mapper>

@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.ResiVo;
@@ -73,6 +74,17 @@ public class MemberController {
     public String logOutProcess(HttpSession session) {
 		 session.invalidate();
 		 return "redirect:/";
+	}
+	
+	//아이디 중복검사
+	@RequestMapping("/confirmId.jan")
+	@ResponseBody
+	public String confirmid(String id) {
+		if (memberService.confrimId(id)) {
+			return "true";
+		} else {
+			return "false";
+		}
 	}
 	
 	

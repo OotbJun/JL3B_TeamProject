@@ -14,4 +14,6 @@ public interface BoardReplSQLMapper {
 	
 	public void deleteBoardReply(int board_re_no);
 	
+	public int selectReplyCount(int board_no);								//리스트에 댓글수 출력
+	
 }

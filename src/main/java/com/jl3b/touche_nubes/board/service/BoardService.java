@@ -173,15 +173,64 @@ public class BoardService {
 			ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
 			
 			int like = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
+			int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			map.put("resiVo", resiVo);
 			map.put("like", like);
 			map.put("boardVo", boardVo);
+			map.put("replyCount", replyCount);
 			
 			list.add(map);
 		}
+		return list;
+	}
+	
+	//상단 고정 공지
+	public List<Map<String, Object>> boardNoticeList(String searchWord, int currPage) {
+		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
+		List<NoticeVo> noticelist = null;
+		if (searchWord == null) {
+			noticelist = boardSQLMapper.selectNoticeFix();
+		} else {
+			noticelist = boardSQLMapper.selectNoticeFix();
+		}
+		
+		for(NoticeVo noticeVo : noticelist) {
+			ResiVo resiVo = memberSQLMapper.selectResiByNo(noticeVo.getResi_no());
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			
+			map2.put("resiVonotice", resiVo);
+			map2.put("noticeVo", noticeVo);
+	     	list2.add(map2);
+		}
+		
+		return list2;
+	}
+	
+	public List<Map<String, Object>> boardHotList(String searchWord, int currPage) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		List<BoardVo> hotList = null;
+		if (searchWord == null) {
+			hotList = boardSQLMapper.selectHotFix();
+		} else {
+			hotList = boardSQLMapper.selectHotFix();
+		}
+		
+		
+		
+		for(BoardVo boardVo : hotList) {
+			ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
+			Map<String, Object> map = new HashMap<String, Object>();
+			int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
+			
+			map.put("resiVoHot", resiVo);
+			map.put("boardVo", boardVo);
+			map.put("replyCount", replyCount);
+	     	list.add(map);
+		}
+		
 		return list;
 	}
 
@@ -220,6 +269,10 @@ public class BoardService {
 		} else {
 			return boardSQLMapper.selectBoardByTitleCount(searchWord);
 		}
+	}
+	
+	public void changeHot() {			//인기글로 가버려~~
+		boardSQLMapper.updateHot();
 	}
 	
 	//추천
@@ -289,7 +342,26 @@ public class BoardService {
 			boardImgSQLMapper.insertIdeaImg(ideaImgVo);
 		}
 	}
-	
+	public List<Map<String, Object>> ideaNoticeList(String searchWord, int currPage) {
+		List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
+		List<NoticeVo> noticelist = null;
+		if (searchWord == null) {
+			noticelist = boardSQLMapper.selectNoticeIdeaFix();
+		} else {
+			noticelist = boardSQLMapper.selectNoticeIdeaFix();
+		}
+		
+		for(NoticeVo noticeVo : noticelist) {
+			ResiVo resiVo = memberSQLMapper.selectResiByNo(noticeVo.getResi_no());
+			Map<String, Object> map2 = new HashMap<String, Object>();
+			
+			map2.put("resiVonotice", resiVo);
+			map2.put("noticeVo", noticeVo);
+	     	list2.add(map2);
+		}
+		
+		return list2;
+	}
 	//글 리스트
 	public List<Map<String, Object>> ideaList(String searchWord, int currPage) {
 
@@ -317,32 +389,30 @@ public class BoardService {
 		}
 		return list;
 	}
-	
+		
 	//글보기
 	public Map<String, Object> viewIdea(int idea_no) {
 
-	      Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<String, Object>();
 
-	      boardSQLMapper.updateIdeaReadCount(idea_no);
+		boardSQLMapper.updateIdeaReadCount(idea_no);
 
-	      IdeaVo ideaVo = boardSQLMapper.selectIdeaByNo(idea_no);
+		IdeaVo ideaVo = boardSQLMapper.selectIdeaByNo(idea_no);
 
-	      ResiVo resiVo = memberSQLMapper.selectResiByNo(ideaVo.getResi_no());
-	      
-	      List<IdeaImgVo> ideaImgList = boardImgSQLMapper.selectIdeaByNo(idea_no);
-	      
-	      int upCount = boardSQLMapper.selectIdeaLikeUpCount(idea_no);
+		ResiVo resiVo = memberSQLMapper.selectResiByNo(ideaVo.getResi_no());
 
-	      map.put("resiVo", resiVo);
+		
+		System.out.println("qqqq" + idea_no);
+		List<IdeaImgVo> ideaImgList = boardImgSQLMapper.selectIdeaByNo(idea_no);
 
-	      map.put("ideaImgList", ideaImgList);
-	      
-	      map.put("upCount", upCount);
-	      
-	      map.put("ideaVo", ideaVo);
+		map.put("resiVo", resiVo);
 
-	      return map;
-	 }
+		map.put("ideaImgList", ideaImgList);
+		
+		map.put("ideaVo", ideaVo);
+
+		return map;
+	}
 	
 	//글삭제
 	public void deleteIdea(int idea_no) {
@@ -364,17 +434,17 @@ public class BoardService {
 	}
 
 	// 추천
-	public void ideaLike(IdeaLikeVo ideaLikeVo) {
-	      boardSQLMapper.insertIdeaLike(ideaLikeVo);
-	   }
+	public void chooseLike(IdeaLikeVo ideaLikeVo) {
+		boardSQLMapper.insertIdeaLike(ideaLikeVo);
+	}
 
-    public IdeaLikeVo checkideaLike(IdeaLikeVo ideaLikeVo) { // 중복방지 본인확인
-      return boardSQLMapper.selectIdeaLikeByNo(ideaLikeVo);
-    }
+	public IdeaLikeVo checkLike(IdeaLikeVo ideaLikeVo) { // 중복방지 본인확인
+		return boardSQLMapper.selectIdeaLikeByNo(ideaLikeVo);
+	}
 
-    public int ideaLikeCount(int idea_no) { // 좋아요 개수
-      return boardSQLMapper.selectIdeaLikeUpCount(idea_no);
-    }
+	public int recommendCount(int idea_no) { // 좋아요 개수
+		return boardSQLMapper.selectIdeaLikeUpCount(idea_no);
+	}
 	
 	//답글쓰기
 	public void answerIdea(IdeaVo ideaVo) {

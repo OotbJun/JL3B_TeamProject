@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Touche 공지사항</title>
+<title>Touche 자유게시판</title>
 <style>
 footer {
 	margin: 0 auto;
@@ -40,7 +40,7 @@ footer {
 						<table class="table table-hover text-center">
 							<thead>
 								<tr>
-									<td>글번호</td>
+									<td>     </td>
 									<td>제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
@@ -48,12 +48,45 @@ footer {
 									<td>추천수</td>
 								</tr>
 							</thead>
+						
 							<tbody>
+							<c:forEach items="${boardNoticeList}" var="boardNoticeList" begin="0" end="2">
+									<tr class="text-center">
+										<td>${boardNoticeList.noticeVo.horsehead_sort}</td>
+										<td class="text-left pl-1"><a
+											href="${pageContext.request.contextPath}/board/notice_read.jan?notice_no=${boardNoticeList.noticeVo.notice_no}">${boardNoticeList.noticeVo.notice_title}</a></td>
+										<td>${boardNoticeList.resiVonotice.resi_rname}</td>
+										<td><fmt:formatDate
+												value="${boardNoticeList.noticeVo.notice_wdate}"
+												pattern="yy.MM.dd hh:mm:ss" /></td>
+										<td>${boardNoticeList.noticeVo.notice_hits}</td>
+										<td>${boardNoticeList.like}</td>
+									</tr>
+								</c:forEach>
+								
+							
+							
+							<c:forEach items="${boardHotList}" var="boardHotList" begin="0" end="3">
+									<tr class="text-center">
+										<td>${boardHotList.boardVo.horsehead_sort}</td>
+										<td class="text-left pl-1"><a
+											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardHotList.boardVo.board_no}">${boardHotList.boardVo.board_title} (${boardHotList.replyCount })</a></td>
+										<td>${boardHotList.resiVoHot.resi_rname}</td>
+										<td><fmt:formatDate
+												value="${boardHotList.boardVo.board_wdate}"
+												pattern="yy.MM.dd hh:mm:ss" /></td>
+										<td>${boardHotList.boardVo.board_hits}</td>
+										<td>${boardHotList.like}</td>
+									</tr>
+								</c:forEach>
+								</tbody>	
+								
+								<tbody>
 								<c:forEach items="${boardList}" var="boardList">
 									<tr class="text-center">
 										<td>${boardList.boardVo.board_no}</td>
-										<td><a
-											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title}</a></td>
+										<td class="text-left pl-1"><a
+											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title} (${boardList.replyCount })</a></td>
 										<td>${boardList.resiVo.resi_rname}</td>
 										<td><fmt:formatDate
 												value="${boardList.boardVo.board_wdate}"

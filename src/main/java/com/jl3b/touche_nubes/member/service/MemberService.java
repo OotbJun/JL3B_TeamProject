@@ -43,4 +43,14 @@ public class MemberService {
 		}
 	}
 	
+	//아이디 중복검사
+	public boolean confrimId(String id) {
+		if (memberSQLMapper.selectResiById(id) == null) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
 }

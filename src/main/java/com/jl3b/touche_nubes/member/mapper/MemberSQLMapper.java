@@ -11,7 +11,7 @@ public interface MemberSQLMapper {
 	
 	public ResiVo selectResiByNo(int no);
 	
-	public ResiVo slectResiById(String id);
+	public ResiVo selectResiById(String id);
 	
 	public void insertTeacher(TeacherVo teacherVo);
 	

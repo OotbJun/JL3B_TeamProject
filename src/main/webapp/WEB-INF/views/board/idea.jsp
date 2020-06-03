@@ -41,13 +41,31 @@ footer {
 						<table class="table table-hover text-center"">
 							<thead>
 								<tr>
-									<td>말머리</td>
+									<td>     </td>
 									<td>제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
 									<td>조회수</td>
 								</tr>
 							</thead>
+							
+							<!-- 공지 상단 고정 -->
+						<tbody>
+							<c:forEach items="${ideaNoticeList}" var="ideaNoticeList" begin="0" end="2">
+									<tr class="text-center">
+										<td>${ideaNoticeList.noticeVo.horsehead_sort}</td>
+										<td class="text-left pl-1"><a
+											href="${pageContext.request.contextPath}/board/notice_read.jan?notice_no=${ideaNoticeList.noticeVo.notice_no}">${ideaNoticeList.noticeVo.notice_title}</a></td>
+										<td>${ideaNoticeList.resiVonotice.resi_rname}</td>
+										<td><fmt:formatDate
+												value="${ideaNoticeList.noticeVo.notice_wdate}"
+												pattern="yy.MM.dd hh:mm:ss" /></td>
+										<td>${ideaNoticeList.noticeVo.notice_hits}</td>
+										<td>${ideaNoticeList.like}</td>
+									</tr>
+								</c:forEach>
+							</tbody>
+							
 							<tbody>
 								<c:forEach items="${ideaList}" var="ideaList">
 									<tr class="text-center">

@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Touche 공지사항</title>
 <style>
 footer {
 	margin: 0 auto;
@@ -41,26 +41,27 @@ footer {
 						<table class="table table-hover text-center">
 							<thead>
 								<tr>
-									<td>글번호</td>
+									<td>     </td>
 									<td>제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
 									<td>조회수</td>
+									
 								</tr>
 							</thead>
 							<tbody>
 
 								<c:forEach items="${noticeList }" var="noticeList">
 									<tr class="text-center">
-										<td>${noticeList.noticeVo.notice_no }</td>
-										<td><a
+										<td>${noticeList.horseheadVo.horsehead_title }</td>
+										<td class="text-left pl-1"><a
 											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&horsehead_sort=${noticeList.horseheadVo.horsehead_sort }">${noticeList.noticeVo.notice_title }</a></td>
 										<td>${noticeList.resiVo.resi_rname }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
 										<td>${noticeList.noticeVo.notice_hits }</td>
-										<td>${noticeList.horseheadVo.horsehead_title }</td>
+										
 									</tr>
 								</c:forEach>
 							</tbody>
@@ -76,7 +77,7 @@ footer {
 								<li
 									class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
 									class="page-link"
-									href="${pageContext.request.contextPath }/board/notice.jan?currentPage=${beginPage-1}&search_word=${param.search_word}">Previous</a></li>
+									href="${pageContext.request.contextPath }/board/notice.jan?currentPage=${beginPage-1}&search_word=${param.search_word}">이전</a></li>
 								<c:forEach begin="${beginPage }" end="${endPage }" var="i">
 									<li
 										class="page-item<c:if test="${currentPage == i }"> active</c:if>"><a
@@ -86,7 +87,7 @@ footer {
 								<li
 									class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1 }"> disabled</c:if>"><a
 									class="page-link"
-									href="${pageContext.request.contextPath }/board/notice.jan?currentPage=${endPage+1}&search_word=${param.search_word}">Next</a></li>
+									href="${pageContext.request.contextPath }/board/notice.jan?currentPage=${endPage+1}&search_word=${param.search_word}">다음</a></li>
 							</ul>
 						</nav>
 					</div>

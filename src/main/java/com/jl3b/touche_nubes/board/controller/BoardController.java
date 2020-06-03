@@ -142,6 +142,9 @@ public class BoardController {
 				@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 			
 		List<Map<String, Object>> list = boardService.boardList(searchWord,currPage);
+		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//상단 고정 공지
+		boardService.changeHot();
+		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);
 		
 		
 		
@@ -157,7 +160,8 @@ public class BoardController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("boardList", list);
-		
+		model.addAttribute("boardNoticeList",list2);
+		model.addAttribute("boardHotList",list3);
 		
 		return "board/board";
 	}
@@ -302,7 +306,8 @@ public class BoardController {
 			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
 		List<Map<String, Object>> list = boardService.ideaList(searchWord, currPage);
-
+		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//공지 상단 고정
+		
 		int totalCount = boardService.getIdeaDataCount(searchWord);
 		int beginPage = ((currPage - 1) / 5) * 5 + 1;
 		int endPage = ((currPage - 1) / 5 + 1) * (5);
@@ -315,15 +320,16 @@ public class BoardController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("ideaList", list);
+		model.addAttribute("ideaNoticeList",list2);
 
 		return "board/idea";
 	}
-
+	
 	//청원글쓰기
 	@RequestMapping("/idea_write.jan")
 	public String writeidea(Model model) {
-//		    Map<String, Object> map = boardService.choiceHeadList();
-//			model.addAttribute("horseheadList", map);
+//			    Map<String, Object> map = boardService.choiceHeadList();
+//				model.addAttribute("horseheadList", map);
 		return "board/idea_write";
 	}
 
@@ -427,23 +433,23 @@ public class BoardController {
 	}
 	
 	//청원글 좋아요 
-	@RequestMapping("/idea_like_process.jan")
-    public String ideaLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
-       int currentIdea = ideaLikeVo.getIdea_no();
-       int resi_no = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-       
-       ideaLikeVo.setResi_no(resi_no);
-    
-       IdeaLikeVo likedata = boardService.checkideaLike(ideaLikeVo); 
-       
-       if(likedata == null) {
-          boardService.ideaLike(ideaLikeVo);
-          return "redirect:./idea_read.jan?idea_no="+currentIdea;
-       }else {
-          return "redirect:./idea_read.jan?idea_no="+currentIdea;
-       }
-    }
+	@RequestMapping("/choose_idea_like_process.jan")
+	public String chooseLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
 
+		int currentPage = ideaLikeVo.getIdea_no();
+		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
+
+		ideaLikeVo.setResi_no(resiVo);
+
+		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);
+
+		if (likeData == null) {
+			boardService.chooseLike(ideaLikeVo);
+			return "redirect:./idea_read.jan?idea_no=" + currentPage;
+		} else {
+			return "redirect:./idea_read.jan?idea_no=" + currentPage;
+		}
+	}
 	
 	//청원글답변달기
 	@RequestMapping("/idea_answer.jan")

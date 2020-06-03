@@ -202,14 +202,36 @@
 	</select>
 	
 	 <select id="selectBoardAllCount" resultType="int">
-	<![CDATA[
-		SELECT COUNT(*) FROM JL3B_BOARD
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD
 		]]>
 	</select>
 	
 	 <select id="selectBoardByTitleCount" resultType="int">
 	    <![CDATA[
-		SELECT COUNT(*) FROM JL3B_BOARD WHERE board_title LIKE '%'||#{title}||'%'
+			SELECT COUNT(*) FROM JL3B_BOARD WHERE board_title LIKE '%'||#{title}||'%'
+		]]>
+	</select>
+	
+	<!-- 상단 고정 공지 -->
+	<select id="selectNoticeFix"
+		resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+        <![CDATA[
+    		SELECT * FROM jL3b_notice where HorseHead_sort = '공지' AND rownum<=3 ORDER BY notice_no DESC 
+		]]>
+	</select>
+	
+	<!-- 인기글 업데이트 -->
+	<update id="updateHot">
+		<![CDATA[
+			UPDATE JL3B_BOARD SET HORSEHEAD_SORT = '인기글' WHERE BOARD_HITS > 100
+		]]>
+	</update>		
+	
+	<!-- 인기글 상단 출력 -->
+	<select id="selectHotFix" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+		<![CDATA[
+			SELECT * FROM JL3B_BOARD WHERE HORSEHEAD_SORT = '인기글' AND ROWNUM<=4 ORDER BY BOARD_NO DESC
 		]]>
 	</select>
 	
@@ -315,6 +337,14 @@
                      SELECT * FROM jl3b_idea order by idea_gr_no desc, idea_no asc ) t1
                  )t2  
             WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
+		]]>
+	</select>
+	
+	<!-- 공지사항 상단 고정 -->
+	<select id="selectNoticeIdeaFix"
+		resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+        <![CDATA[
+   			 SELECT * FROM jL3b_notice where HorseHead_sort = '청원' AND rownum<=3 ORDER BY notice_no DESC 
 		]]>
 	</select>
 	

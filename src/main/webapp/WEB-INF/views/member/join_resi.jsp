@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,6 +20,36 @@ footer {
 }
 </style>
 
+<script type="text/javascript">
+
+// 아이디 중복확인 가능 ajax  
+var isConfirmId = false;
+	function confirmId(){
+		var inputValue = document.getElementById("id").value;
+		
+		
+		var xmlhttp = new XMLHttpRequest();
+		
+	
+		xmlhttp.onreadystatechange = function(){
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){	
+				alert(xmlhttp.responseText);
+				if(xmlhttp.responseText == 'true'){	
+					isConfirmId = true;
+					alert("사용 가능한 ID입니다.");
+				}else{
+					isConfirmId = false;
+					alert("중복된 ID가 존재합니다.");
+				}
+			}
+		};	
+		xmlhttp.open("post", "./confirmId.jan" , true);
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send("id=" + inputValue);
+	}
+
+</script>
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -40,29 +69,31 @@ footer {
 		</div>
 		<form action="./join_resi_process.jan" method="post">
 			<div class="container mt-3">
-				
+
 				<div class="row mt-5">
 					<!-- id -->
 					<div class="col-1"></div>
 					<div class="col-2">ID( e-mail)</div>
 					<div class="col">
-						<input placeholder="ID로 @ 사용할. 이메일" type="text" name="resi_id" class="form-control"><br>
+						<input placeholder="ID로 @ 사용할. 이메일" type="text" name="resi_id"
+							class="form-control" id="id"><br> <input
+							type="button" value="아이디확인" onclick="confirmId()">
 					</div>
 					<div class="col-2"></div>
 					<div class="col-1"></div>
 				</div>
-				
 				<div class="row mt-1">
 					<!-- pw -->
 					<div class="col-1"></div>
 					<div class="col-2">PW</div>
 					<div class="col">
-						<input placeholder="사용할  password " name="resi_pw" type="password" class="form-control"><br>
+						<input placeholder="사용할  password " name="resi_pw" type="password"
+							class="form-control"><br>
 					</div>
 					<div class="col-2"></div>
 					<div class="col-1"></div>
 				</div>
-				
+
 				<div class="row mt-1">
 					<!-- 이름 -->
 					<div class="col-1"></div>

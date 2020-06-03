@@ -37,6 +37,9 @@ public interface BoardSQLMapper {
     public int selectBoardAllCount(); 
     public int selectBoardByTitleCount(String title);
     public List<BoardVo> selectBoardByTitle(@Param("title")String title, @Param("currPage") int currPage);
+    public List<NoticeVo> selectNoticeFix();					//상단 고정 공지
+    public void updateHot();									//인기글로~
+    public List<BoardVo> selectHotFix();						//인기글 출력 
     //추천
     public void insertBoardLike(BoardLikeVo boardLikeVo);		//추천, 비추 입력
     public BoardLikeVo selectLikeByNo(BoardLikeVo boardLikeVo);	//중복방지 본인확인
@@ -54,6 +57,7 @@ public interface BoardSQLMapper {
 	public void insertIdea(IdeaVo ideaVo);				//글쓰기
 	public IdeaVo selectIdeaByNo(int idea_no);			//글보기
 	public List<IdeaVo> selectIdeaAll(int currPage);	//전체 글 리스트
+	public List<NoticeVo> selectNoticeIdeaFix();		//공지사항 상단 고정
 	public void insertIdeaAnswer(IdeaVo ideaVo);		//답글쓰기
 	public void updateIdeaReadCount(int no);			//조회수
 	public int selectIdeaAllCount();					//게시글 개수
