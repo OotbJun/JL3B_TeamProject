@@ -7,7 +7,7 @@
 
 
 
-1. 투표 관련 테이블 생성
+1. 투표 관련 테이블 생성<br>
 --입후보
 DROP TABLE JL3B_CANDY;
 CREATE TABLE JL3B_CANDY(
