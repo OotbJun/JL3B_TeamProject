@@ -168,8 +168,10 @@
 	<!-- 글수정 -->
 	<update id="updateBoard">
         <![CDATA[
-         UPDATE JL3B_BOARD SET board_title=#{board_title},
-         board_content=#{board_content} WHERE board_no=#{board_no}
+         UPDATE JL3B_BOARD 
+         SET 
+         	board_title=#{board_title},
+         	board_content=#{board_content} WHERE board_no=#{board_no}
 		]]>
 	</update>
 
@@ -445,5 +447,13 @@
          SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_no = #{idea_no}
       ]]>
    </select>
+	
+   
+   <delete id="test" parameterType="java.lang.String">
+ 	  <![CDATA[
+   		
+   	  ]]>
+   </delete>
+   
 	
 </mapper>

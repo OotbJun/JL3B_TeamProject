@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper">
+
+	<!-- 후보 등록 -->
+	<insert id="insertCandy">
+		<![CDATA[
+			INSERT INTO JL3B_CANDY 
+			VALUES(
+				JL3B_CANDY_SEQ.NEXTVAL,
+				#{resi_no},
+				#{election_round},
+				#{candy_intro},
+				#{candy_content}
+			)
+		]]>
+	</insert>
+	
+	<!-- 후보 수정 -->
+	<update id="updateCandy">
+		<![CDATA[
+			UPDATE JL3B_CANDY
+			SET
+				candy_intro = #{candy_intro},
+				candy_content = #{candy_content}
+			WHERE
+				candy_no = #{candy_no}
+		]]>
+	</update>
+	
+	<!-- 후보 삭제 -->
+	<delete id="deleteCandy">
+		<![CDATA[
+			DELETE FROM JL3B_CANDY WHERE candy_no = #{no}
+		]]>
+	</delete>
+	
+	<!-- 투표 -->
+	<insert id="insertVote">
+		<![CDATA[
+			INSERT INTO JL3B_VOTE
+			VALUES(
+				JL3B_VOTE_SEQ.NEXTVAL,
+				#{resi_no},
+				#{candy_no}
+			)
+		]]>
+	</insert>
+	
+	<!-- 투표종료시 3개 한번에 사용-->
+	<!-- 1. 당선인 출력-->	
+	<select id="selectResultWinner" resultType="int">
+		<![CDATA[
+			SELECT CANDY_NO
+			FROM 
+				JL3B_VOTE 
+			GROUP BY 
+				CANDY_NO
+			HAVING 
+				COUNT(CANDY_NO) = (SELECT MAX(COUNT(*)) FROM JL3B_VOTE GROUP BY CANDY_NO)
+		]]>
+	</select>
+	
+	<!-- 2. 당선인 수정(선거 테이블) -->
+	<update id="updateWinner">
+		<![CDATA[
+			UPDATE JL3B_ELECTION SET CANDY_NO = #{no}
+		]]>
+	</update>
+	
+	<!-- 3. 당선인 등업(입주민 테이블)-->
+	<update id="updateGrade">
+		<![CDATA[
+			UPDATE JL3B_RESI SET RESI_GRADE = 2 WHERE RESI_NO = #{no}
+		]]>
+	</update>
+	
+	<!-- 득표수 -->
+	<select id="selectNumberVote" resultType="int">
+		<![CDATA[
+			SELECT MAX(COUNT(*)) FROM JL3B_VOTE GROUP BY CANDY_NO
+		]]>
+	</select>
+	
+	
+	<!-- 선거개시!  -->
+	<!-- 선거 개시 등록 -->
+	<insert id="insertElection">
+		<![CDATA[
+			INSERT INTO JL3B_ELECTION 
+			VALUES(
+				JL3B_ELECTION_SEQ.NEXTVAL,
+				NULL, 
+				SYSDATE,
+				SYSDATE + 3
+			)
+		]]>	
+	</insert>
+	
+	<!-- 최신 회차 출력 -->
+	<select id="selectNewRound" resultType="int">
+		<![CDATA[
+			SELECT MAX(ELECTION_ROUND) FROM JL3B_ELECTION
+		]]>
+	</select>
+	
+	<!-- 후보 리스트 출력 -->
+	<select id="selectCandyList" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * FROM 
+				JL3B_CANDY C, JL3B_ELECTION E 
+			WHERE C.CANDY_NO = E.CANDY_NO 
+			AND E.ELECTION_ROUND = #{no}
+		]]>
+	</select>
+	
+	<!-- 해당 회차 당선인 출력(등업용 필요할 것 같아서) -->
+	<select id="selectRoundWinner" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_ROUND = {no}
+		]]>
+	</select>
+	
+</mapper>

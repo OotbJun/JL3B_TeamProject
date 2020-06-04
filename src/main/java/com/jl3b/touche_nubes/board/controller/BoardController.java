@@ -1,5 +1,6 @@
 package com.jl3b.touche_nubes.board.controller;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -13,6 +14,9 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.scheduling.config.ScheduledTask;
+import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +46,7 @@ public class BoardController {
 	//걍 메인 테스트용
 	@RequestMapping("/main.jan")
 	public String main() {
+		//boardService.test();
 		return "board/main";
 	}
 	
@@ -469,5 +474,7 @@ public class BoardController {
 
 		return "redirect:./idea.jan";
 	}
+	
+	
 	
 }

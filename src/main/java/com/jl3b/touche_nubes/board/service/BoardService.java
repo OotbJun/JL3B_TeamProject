@@ -451,6 +451,8 @@ public class BoardService {
 		boardSQLMapper.insertIdeaAnswer(ideaVo);
 	}
 	
-	
+//	public void test() {
+//		boardSQLMapper.test();
+//	}
 	
 }

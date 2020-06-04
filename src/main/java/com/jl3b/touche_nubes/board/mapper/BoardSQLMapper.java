@@ -69,4 +69,7 @@ public interface BoardSQLMapper {
 	public void insertIdeaLike(IdeaLikeVo ideaLikeVo); // 추천, 비추
 	public IdeaLikeVo selectIdeaLikeByNo(IdeaLikeVo ideaLikeVo); // 중복방지 본인확인
 	public int selectIdeaLikeUpCount(int idea_no); // 좋아요 개수
+	
+	
+	//public void test();
 }

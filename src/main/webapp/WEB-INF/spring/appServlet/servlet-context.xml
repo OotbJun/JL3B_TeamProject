@@ -53,6 +53,7 @@
 	<context:component-scan base-package="com.jl3b.touche_nubes" />
 	<context:component-scan base-package="com.jl3b.touche_nubes.member.controller" />
 	<context:component-scan base-package="com.jl3b.touche_nubes.board.controller" />
+	<context:component-scan base-package="com.jl3b.touche_nubes.vote.controller" />
 	
 	
 	
