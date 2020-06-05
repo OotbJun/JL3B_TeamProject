@@ -149,7 +149,7 @@ public class BoardController {
 		List<Map<String, Object>> list = boardService.boardList(searchWord,currPage);
 		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//상단 고정 공지
 		boardService.changeHot();
-		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);
+		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);		//인기글 고정
 		
 		
 		
@@ -199,6 +199,7 @@ public class BoardController {
 	      
 	      }
 	      List<BoardImgVo> BoardImgList = new ArrayList<BoardImgVo>();
+	      
 	      for(MultipartFile file :boardImgList ) {
 	         if(file.getSize() <=0) {
 	            continue;
@@ -360,6 +361,7 @@ public class BoardController {
 
 		}
 		List<IdeaImgVo> IdeaImgList = new ArrayList<IdeaImgVo>();
+		
 		for (MultipartFile file : ideaImgList) {
 			if (file.getSize() <= 0) {
 				continue;

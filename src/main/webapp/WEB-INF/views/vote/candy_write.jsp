@@ -37,7 +37,7 @@ footer {
           <div class="row">
          <form
              action="${pageContext.request.contextPath }/vote/candy_write_process.jan"
-             method="get">
+             method="post" enctype="multipart/form-data" >
              <div class="col mt-3">후 보 자 : ${sessionUser.resi_rname }</div>
              <div class="col mt-4">
              <div>후 보 자 소 개 </div><br>
@@ -47,8 +47,7 @@ footer {
              <div>공 약 내 용</div><br>
               <textarea rows="10" cols="40" name="candy_content"></textarea>
              </div>
-             
-            <input type="hidden" name="election_round" value="1">
+            <input type="file" name="candyFile" multiple accept="image/*"><br> 
             <input type="submit" value="확인">
          </form>
          </div>

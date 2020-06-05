@@ -28,7 +28,7 @@
 				<a class="nav-link" href="${pageContext.request.contextPath }/board/idea.jan">주민청원</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="#">선거 </a>
+				<a class="nav-link" href="${pageContext.request.contextPath }/vote/vote_choice.jan">선거 </a>
 			  </li>
 			   <li class="nav-item">
 				<a class="nav-link" href="#">공과금</a>

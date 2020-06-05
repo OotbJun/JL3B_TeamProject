@@ -5,13 +5,20 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper">
-
+	
+	<!-- 파일 업로드할 때 쓸 용도로 시퀀스 미리 생성 -->
+	<select id="createCandyKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_Candy_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
 	<!-- 후보 등록 -->
 	<insert id="insertCandy">
 		<![CDATA[
 			INSERT INTO JL3B_CANDY 
 			VALUES(
-				JL3B_CANDY_SEQ.NEXTVAL,
+				#{candy_no},
 				#{resi_no},
 				#{election_round},
 				#{candy_intro},
@@ -86,6 +93,15 @@
 		]]>
 	</select>
 	
+	<!-- 후보자 상세 페이지 -->
+	<select id="selectCandyByNo" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CANDY 
+			WHERE CANDY_NO = #{no}
+		]]>
+	</select>
 	
 	<!-- 선거개시!  -->
 	<!-- 선거 개시 등록 -->
@@ -113,7 +129,7 @@
 		<![CDATA[
 			SELECT * FROM 
 				JL3B_CANDY C, JL3B_ELECTION E 
-			WHERE C.CANDY_NO = E.CANDY_NO 
+			WHERE C.ELECTION_ROUND = E.ELECTION_ROUND
 			AND E.ELECTION_ROUND = #{no}
 		]]>
 	</select>

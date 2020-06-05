@@ -8,10 +8,6 @@
 <mapper namespace="com.jl3b.touche_nubes.board.mapper.BoardSQLMapper">
 	
 	<!-- /////////////////////////////////////////////////공지사항 -->
-	<select id="createKey" resultType="int">
-		SELECT FB_Board_seq.NEXTVAL FROM DUAL
-	</select>
-	
 	<!-- 글쓰기 -->
 	<insert id="insertNotice">
 	<![CDATA[

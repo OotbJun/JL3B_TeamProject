@@ -209,6 +209,7 @@ public class BoardService {
 		return list2;
 	}
 	
+	//인기글 고정
 	public List<Map<String, Object>> boardHotList(String searchWord, int currPage) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		List<BoardVo> hotList = null;
