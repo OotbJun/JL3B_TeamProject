@@ -10,6 +10,6 @@ public interface VoteImgSQLMapper {
 	
 	
 	public void insertCandyImg(CandyImgVo candyImgVo);		//후보 이미지 등록
-	public CandyImgVo selectCandyByNo(int candy_no);	//후보 이미지 출력
+	public CandyImgVo selectCandyByNo(int candy_no);		//후보 이미지 출력
 	
 }

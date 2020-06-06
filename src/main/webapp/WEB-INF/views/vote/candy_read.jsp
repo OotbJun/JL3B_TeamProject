@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>	
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -21,8 +22,13 @@
     <div class="row">
   		<div class="col-sm-3"><!--left col-->
       <div class="text-center">
-        <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
-        <h6>후보자 이름 </h6>
+      <!-- 후보자 사진 -->
+      	
+		<img style="width: 60%; height: auto" src="/upload/${readCandy.candyImgList.candy_img_title}">
+		<br>
+		
+        
+        <!-- <h6>후보자 이름 </h6> -->
       </div><br>
         </div><!--/col-3-->
     	<div class="col-sm-9">
@@ -32,26 +38,33 @@
                       <div class="form-group">
                           <div class="col-xs-9">
                               <label for="first_name"><h4>후보자 이름</h4></label>
-                              <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name" title="enter your first name if any.">
+                              <div>${readCandy.resiVo.resi_rname }</div>
                           </div>
                       </div><br>          
                       <div class="form-group">
                           <div class="col-xs-9">
                               <label for="email"><h4>후보자 소개</h4></label>
-                              <input type="email" class="form-control" name="email" id="email" placeholder="you@email.com" title="enter your email.">
+                              <div>${readCandy.candyVo.candy_intro }</div>
                           </div>
                       </div><br>
                       <div class="form-group">
                           <div class="col-xs-9">
                             <label for="password2"><h4>후보자 공약</h4></label>
-                              <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
+                              <div>${readCandy.candyVo.candy_content }</div>
                           </div>
                       </div>
                       <div class="form-group">
                            <div class="col-xs-12">
                                 <br>
-                              	<a class="btn btn-lg btn-success" type="submit" href="${pageContext.request.contextPath }/vote/candy_list.jan">목록으로</a>
-                            </div>
+                              	<a class="btn btn-lg btn-success" type="submit" href="${pageContext.request.contextPath }/vote/candy.jan?election_round=${round}">목록으로</a>
+                           </div>
+                           <div class="col-xs-12">
+                           	<c:if
+								test="${!empty sessionUser && sessionUser.resi_no == readCandy.resiVo.resi_no}">
+								<a class="btn btn-lg btn-success"
+									href="${pageContext.request.contextPath}/vote/candy_change.jan?candy_no=${readCandy.candyVo.candy_no}">수정</a>
+							</c:if>
+                           </div>
                       </div>
               	</form>
              </div><!--/tab-pane-->

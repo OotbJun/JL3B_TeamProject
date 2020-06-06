@@ -56,15 +56,12 @@ public class BoardController {
 	public String writeNotice() {		//말머리 테스트
 		return "board/notice_write";
 	}
-	
 	@RequestMapping("/notice_write_process.jan")
 	public String writeNoticeProcess(NoticeVo noticeVo, HttpSession session) {
 		
 		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
 		noticeVo.setResi_no(resiVo.getResi_no());
 		boardService.writeNotice(noticeVo);
-//		boardService.chooseHorsehead(sort);
-		
 		
 		return "redirect:./notice.jan";
 	}
@@ -92,24 +89,21 @@ public class BoardController {
 			endPage = (totalCount-1)/10 + 1;
 		}
 		
-		
 		model.addAttribute("beginPage", beginPage);
 		model.addAttribute("endPage", endPage);
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("noticeList", list);
 		
-		
 		return "board/notice";
 	}
 	
-	//글보기
+	//글 하나 읽기
 	@RequestMapping("/notice_read.jan")
-	public String readNotice(int notice_no, Model model) {		//테스트
+	public String readNotice(int notice_no, Model model) {		
 		
 		Map<String, Object> map = boardService.viewNotice(notice_no);
 		model.addAttribute("readNotice", map);
-		
 		
 		return "board/notice_read";
 	}
@@ -125,15 +119,14 @@ public class BoardController {
 	
 	//글수정
 	@RequestMapping("/notice_change.jan")
-	public String changeNotice(int notice_no, Model model) {		//테스트
+	public String changeNotice(int notice_no, Model model) {		
 		
 		model.addAttribute("readNotice", boardService.viewNotice(notice_no));
 		
 		return "board/notice_change";
 	}
-	
 	@RequestMapping("/notice_change_process.jan")
-	public String changeNoticeProcess(NoticeVo noticeVo) {						//테스트
+	public String changeNoticeProcess(NoticeVo noticeVo) {						
 		
 		boardService.changeNotice(noticeVo);
 		
@@ -165,19 +158,17 @@ public class BoardController {
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("boardList", list);
-		model.addAttribute("boardNoticeList",list2);
-		model.addAttribute("boardHotList",list3);
+		model.addAttribute("boardNoticeList",list2);		//공지 고정
+		model.addAttribute("boardHotList",list3);			//인기글 고정
 		
 		return "board/board";
 	}
-
+	
+	//글쓰기
 	@RequestMapping("/board_write.jan")
 	public String writeBoard(Model model) {
-//		    Map<String, Object> map = boardService.choiceHeadList();
-//			model.addAttribute("horseheadList", map);
 		return "board/board_write";
 	}
-	
 	@RequestMapping("/board_write_process.jan")
 	   public String writeBoardProcess(MultipartFile [] boardImgList,BoardVo boardVo, HttpSession session) {
 	      // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
@@ -205,7 +196,6 @@ public class BoardController {
 	            continue;
 	         }
 	      //파일명 랜덤 이름 
-	      
 	      String SaveFileTitle = UUID.randomUUID().toString();
 	      
 	      String oriFileTitle = file.getOriginalFilename();
@@ -225,7 +215,6 @@ public class BoardController {
 	      }
 	      
 	      // DB에 담을 Vo객체를 생성 
-	       
 	      BoardImgVo boardImgVo = new BoardImgVo();
 	      
 	      boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);
@@ -242,7 +231,8 @@ public class BoardController {
 	   
 	      return "redirect:./board.jan";
 	   }
-
+	
+	//글 하나 읽기
 	@RequestMapping("/board_read.jan")
 	public String readBoard(int board_no, Model model, BoardLikeVo boardLikeVo) {
 		
@@ -254,19 +244,20 @@ public class BoardController {
 		
 		return "board/board_read";
 	}
-
+	
+	//글삭제
 	@RequestMapping("/board_delete_process.jan")
 	public String deleteBoard(int board_no) {
 		boardService.deleteBoard(board_no);
 		return "redirect:./board.jan";
 	}
-
+	
+	//글수정
 	@RequestMapping("/board_change.jan")
 	public String changeBoard(int board_no, Model model) {
 		model.addAttribute("readBoard", boardService.viewBoard(board_no));
 		return "board/board_change";
 	}
-
 	@RequestMapping("/board_change_process.jan")
 	public String updateContentProcess(BoardVo boardVo) {
 		boardService.changeBoard(boardVo);
@@ -278,10 +269,9 @@ public class BoardController {
 	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
 		int currentPage = boardLikeVo.getBoard_no();
 		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-		
 		boardLikeVo.setResi_no(resiVo);
 		
-		BoardLikeVo likeData = boardService.checkLike(boardLikeVo);
+		BoardLikeVo likeData = boardService.checkLike(boardLikeVo);			//중복방지 본인확인
 		
 		if(likeData == null) {
 			boardService.chooseLike(boardLikeVo);
@@ -298,14 +288,12 @@ public class BoardController {
 		int boardNo = boardReVo.getBoard_no();
 		boardReVo.setResi_no(resiNo);
 		boardService.insertRepl(boardReVo);
-		return "redirect:./board_read.jan?board_no="+boardNo;
 		
+		return "redirect:./board_read.jan?board_no="+boardNo;
 	}
 	
 	
-	
 	////////////////////////////////// 주민청원게시판
-	
 	//주민청원게시판 리스트
 	@RequestMapping("/idea.jan")
 	public String idea(String searchWord, Model model,
@@ -334,11 +322,9 @@ public class BoardController {
 	//청원글쓰기
 	@RequestMapping("/idea_write.jan")
 	public String writeidea(Model model) {
-//			    Map<String, Object> map = boardService.choiceHeadList();
-//				model.addAttribute("horseheadList", map);
+
 		return "board/idea_write";
 	}
-
 	//청원글쓰기 프로세스
 	@RequestMapping("/idea_write_process.jan")
 	public String writeideaProcess(MultipartFile[] ideaImgList, IdeaVo ideaVo, HttpSession session) {
@@ -367,7 +353,6 @@ public class BoardController {
 				continue;
 			}
 			// 파일명 랜덤 이름
-
 			String SaveFileTitle = UUID.randomUUID().toString();
 
 			String oriFileTitle = file.getOriginalFilename();
@@ -387,7 +372,6 @@ public class BoardController {
 			}
 
 			// DB에 담을 Vo객체를 생성
-
 			IdeaImgVo ideaImgVo = new IdeaImgVo();
 
 			ideaImgVo.setIdea_img_title(todayFolder + "/" + SaveFileTitle);
@@ -397,9 +381,7 @@ public class BoardController {
 			IdeaImgList.add(ideaImgVo);
 		}
 		ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
-
 		ideaVo.setResi_no(resiVo.getResi_no());
-
 		boardService.writeIdea(ideaVo, IdeaImgList);
 
 		return "redirect:./idea.jan";
@@ -432,7 +414,6 @@ public class BoardController {
 
 		return "board/idea_change";
 	}
-	
 	@RequestMapping("/idea_change_process.jan")
 	public String updateIdeaProcess(IdeaVo ideaVo) {
 		boardService.changeIdea(ideaVo);
@@ -447,8 +428,7 @@ public class BoardController {
 		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
 
 		ideaLikeVo.setResi_no(resiVo);
-
-		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);
+		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);			//중복방지 본인확인
 
 		if (likeData == null) {
 			boardService.chooseLike(ideaLikeVo);
@@ -466,7 +446,6 @@ public class BoardController {
 
 		return "board/idea_answer";
 	}
-	
 	@RequestMapping("/idea_answer_process.jan")
 	public String answerIdeaProcess(IdeaVo ideaVo, HttpSession session) {
 		
@@ -476,7 +455,5 @@ public class BoardController {
 
 		return "redirect:./idea.jan";
 	}
-	
-	
 	
 }

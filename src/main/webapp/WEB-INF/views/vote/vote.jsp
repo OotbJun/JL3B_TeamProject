@@ -34,34 +34,39 @@ footer {
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	<!-- Page Content -->
 	<div class="container">
-
 		<!-- Page Heading -->
 		<h1 class="my-4">
 			싸발적 동대표 투표 <small>후보자</small>
 		</h1>
+		<form
+			action="${pageContext.request.contextPath }/vote/vote_process.jan">
 			<div class="row">
-		<c:forEach var="candyList" items="${candyList }">
-				<div class="col-lg-4 col-sm-6 mb-4">
-					<div class="card h-100">
-						<img class="card-img-top"
-							src="/upload/${candyList.candyImgList.candy_img_title}">
-						<div class="card-body">
-							<h4 class="card-title">
-								<a href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=${candyList.candyVo.candy_no }">${candyList.resiVo.resi_rname }</a>
-							</h4>
-							<p class="card-text">${candyList.candyVo.candy_intro}</p>
+				<c:forEach var="candyList" items="${candyList }">
+					<div class="col-lg-4 col-sm-6 mb-4">
+						<div class="card h-100">
+							<img class="card-img-top"
+								src="/upload/${candyList.candyImgList.candy_img_title}">
+							<div class="card-body">
+								<h4 class="card-title">
+									<a
+										href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=">${candyList.resiVo.resi_rname }</a>
+								</h4>
+								<div class="card-text">${candyList.candyVo.candy_intro}</div>
+								<input type="radio" value="${candyList.candyVo.candy_no}"
+									name="candy_no">
+								
+							</div>
 						</div>
 					</div>
-					</div>
-		</c:forEach>
+				</c:forEach>
 				
+			<c:if test="" ></c:if>	
+				<input type="submit" value="투표">
+			
 			</div>
-		
-
-		<!-- /.row -->
-		<!-- Pagination -->
-
+		</form>
 	</div>
+
 	<!-- /.container -->
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

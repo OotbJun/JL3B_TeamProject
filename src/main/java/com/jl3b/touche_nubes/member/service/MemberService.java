@@ -25,10 +25,15 @@ public class MemberService {
 		}
 	}
 	
-	public String checkNpki(String npki_key) {
+	public String checkNpki(String npki_key) {			//인증번호가 맞는지 확인
 		return npkiSQLMapper.selectNpki(npki_key);
 		
 	}
+	
+	public ResiVo checkNpkiDupl(String npki_key) {
+		return memberSQLMapper.selectResiByNpki(npki_key);
+	}
+	
 	
 	public ResiVo login(ResiVo resiVo) {
 		return memberSQLMapper.selectResiByIdAndPw(resiVo);

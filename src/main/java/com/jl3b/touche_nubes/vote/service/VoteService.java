@@ -40,6 +40,10 @@ public class VoteService {
 			voteImgSQLMapper.insertCandyImg(candyImgVo);
 		}
 	}
+	//후보 등록 중복방지 본인확인
+	public CandyVo checkCandy(CandyVo candyVo) {
+		return voteSQLMapper.selectCandyDupl(candyVo);
+	}
 	
 	//후보 수정
 	public void changeCandy(CandyVo candyVo) {
@@ -102,6 +106,16 @@ public class VoteService {
 	//선거 개시
 	public void startElection() {
 		voteSQLMapper.insertElection();
+	}
+	
+	//투표 중복방지 본인확인
+	public VoteVo checkVote(VoteVo voteVo) {
+		return voteSQLMapper.selectVoteByNo(voteVo);
+	}
+	
+	//후보자 각각 득표수
+	public int voteSummary() {
+		return voteSQLMapper.selectEachNumberVote();
 	}
 	
 	

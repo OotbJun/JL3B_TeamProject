@@ -15,4 +15,6 @@ public interface MemberSQLMapper {
 	
 	public void insertTeacher(TeacherVo teacherVo);
 	
+	public ResiVo selectResiByNpki(String key);			//인증번호 중복방지
+	
 }

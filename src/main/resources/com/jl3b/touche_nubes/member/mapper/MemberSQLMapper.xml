@@ -67,5 +67,15 @@
 		]]>
 	</insert>
 	
+	<!-- 인증번호 중복방지 -->
+	<select id="selectResiByNpki" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_RESI 
+			WHERE NPKI_KEY = #{key}
+		]]>	
+	</select>
+	
 
 </mapper>

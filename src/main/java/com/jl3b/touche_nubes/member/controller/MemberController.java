@@ -31,14 +31,18 @@ public class MemberController {
 	
 	@RequestMapping("/join_resi_process.jan")
 	public String joinMemberProcess(ResiVo resiVo) { 
-       
+		
+
 		if (memberService.checkNpki(resiVo.getNpki_key()) == null) { //인증키값이 null로 들어오면 Fail 
 			return"/member/join_fail";
-		} else {
+		}else if(memberService.checkNpkiDupl(resiVo.getNpki_key()) != null) {
+			return"/member/join_fail";
+		}else {
 			memberService.joinResiMember(resiVo);
 			return "redirect:./login.jan";
 		}
 	}
+	
 	
 	@RequestMapping("join_teacher.jan")
 	public String joinTeacherPage() {

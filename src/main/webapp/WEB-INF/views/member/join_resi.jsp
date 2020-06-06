@@ -35,10 +35,9 @@ var isConfirmId = false;
 			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){	
 				alert(xmlhttp.responseText);
 				if(xmlhttp.responseText == 'true'){	
-					isConfirmId = true;
+					
 					alert("사용 가능한 ID입니다.");
 				}else{
-					isConfirmId = false;
 					alert("중복된 ID가 존재합니다.");
 				}
 			}
