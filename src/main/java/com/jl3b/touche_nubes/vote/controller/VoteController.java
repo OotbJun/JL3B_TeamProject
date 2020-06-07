@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -17,6 +18,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
+import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.ResiVo;
 import com.jl3b.touche_nubes.vote.service.VoteService;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
@@ -31,11 +34,10 @@ public class VoteController {
 	private VoteService voteService;
 	
 	
-	
 	//선거 메인
 	@RequestMapping("vote_choice.jan")
-	public String choiceVote(Model model) {
-
+	public String choiceVote(Model model, HttpSession session) {
+		
 		try {
 			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.
 			model.addAttribute("round", round);		//round값을 받아줘서 항상 최신회차 출력을 위한 것.
@@ -197,11 +199,12 @@ public class VoteController {
 	}
 	
 	//선거 득표수 보기
-	@RequestMapping("vote_summary.jan")
-	public String voteSummary() {
-		voteService.voteSummary();
+	@RequestMapping("vote_result.jan")
+	public String resultVote(Model model, int election_round) {
+		List<Map<String, Object>> list = voteService.resultVote(election_round);
+		model.addAttribute("voteList", list);
 		
-		return "/vote/vote_summary";
+		return "/vote/vote_result";
 	}
 	
 }

@@ -165,7 +165,10 @@
 	<!-- 후보자 각각의 득표수 -->
 	<select id="selectEachNumberVote" resultType="int">
 		<![CDATA[
-			SELECT COUNT(*) FROM JL3B_VOTE GROUP BY CANDY_NO
+			SELECT COUNT(*)
+			FROM JL3B_VOTE
+			WHERE ELECTION_ROUND = (SELECT MAX(ELECTION_ROUND)-1 FROM JL3B_VOTE)
+            AND CANDY_NO = #{no}
 		]]>
 	</select>
 	

@@ -67,15 +67,20 @@ public class VoteService {
 		
 		candyList = voteSQLMapper.selectCandyList(election_round);
 		
+		
 		for(CandyVo candyVo : candyList) {
 			ResiVo resiVo = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
 			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
+			
+			
+			
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
 			map.put("resiVo", resiVo);
 			map.put("candyVo", candyVo);
 			map.put("candyImgList", candyImgList);
+			
 			
 			list.add(map);
 		}
@@ -114,9 +119,34 @@ public class VoteService {
 	}
 	
 	//후보자 각각 득표수
-	public int voteSummary() {
-		return voteSQLMapper.selectEachNumberVote();
+	public List<Map<String, Object>> resultVote(int election_round){
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		List<CandyVo> candyList = null;
+		
+		candyList = voteSQLMapper.selectCandyList(election_round);
+		
+		
+		for(CandyVo candyVo : candyList) {
+			ResiVo resiVo = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
+			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
+			
+			int result = voteSQLMapper.selectEachNumberVote(candyVo.getCandy_no());
+			
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("resiVo", resiVo);
+			map.put("candyVo", candyVo);
+			map.put("candyImgList", candyImgList);
+			map.put("result", result);
+			
+			
+			list.add(map);
+		}
+		return list;
 	}
+	
+	
 	
 	
 }

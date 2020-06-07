@@ -39,26 +39,24 @@ footer {
 		<h1 class="my-4">
 			싸발적 동대표 투표 <small>후보자</small>
 		</h1>
-			<div class="row">
-		<c:forEach var="candyList" items="${candyList }">
+		<div class="row">
+			<c:forEach var="voteList" items="${voteList }">
 				<div class="col-lg-4 col-sm-6 mb-4">
 					<div class="card h-100">
 						<img class="card-img-top"
-							src="/upload/${candyList.candyImgList.candy_img_title}">
+							src="/upload/${voteList.candyImgList.candy_img_title}">
 						<div class="card-body">
-							<h4 class="card-title">
-								<a href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=${candyList.candyVo.candy_no }">${candyList.resiVo.resi_rname }</a>
-							</h4>
-							<p class="card-text">${candyList.candyVo.candy_intro}</p>
-							<div>${candyList.ccc }</div>
-			
+							<h4 class="card-title">${voteList.resiVo.resi_rname }</h4>
+							<p class="card-text"> 선거회차 : ${voteList.voteVo.election_round}</p>
+							<p class="card-text">득표 수 : ${voteList.result}</p>
+
 						</div>
 					</div>
-					</div>
-		</c:forEach>
-				
-			</div>
-		
+				</div>
+			</c:forEach>
+
+		</div>
+
 
 		<!-- /.row -->
 		<!-- Pagination -->

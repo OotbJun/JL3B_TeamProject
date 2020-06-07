@@ -27,5 +27,6 @@ public interface VoteSQLMapper {
 	public int createCandyKey();						//파일 업로드할 때 쓸거야~
 	public VoteVo selectVoteByNo(VoteVo voteVo);		//투표 중복방지 본인확인
 	public CandyVo selectCandyDupl(CandyVo candyVo);	//입후보 중복방지 본인확인
-	public int selectEachNumberVote();					//후보자 각각의 득표수
+	
+	public int selectEachNumberVote(int no);			//투표 결과 보기
 }

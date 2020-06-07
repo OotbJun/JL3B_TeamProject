@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +40,9 @@ footer {
          </div>
       </div>
       <div class="col">
+      
+      <c:set var="admin" value="${sessionUser.npki_key}"></c:set>	<!-- admin만 가능 -->
+      <c:if test="${fn:contains(admin, 'admin') }">	
       <div class="row">
          <div class="col text-center">
             <div class="col-md-12 text-center">
@@ -46,6 +51,10 @@ footer {
             </div>
          </div>
       </div>
+      </c:if>
+      
+      
+      <c:if test="${!empty sessionUser }">
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
@@ -54,10 +63,12 @@ footer {
             </div>
          </div>
       </div>
+      </c:if>
+      
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
-            <c:if test="${!empty round }">
+            <c:if test="${!empty round && !empty sessionUser}">		<!-- 회차 있어야 출력됨. -->
                <a href="${pageContext.request.contextPath }/vote/candy.jan?election_round=${round}">
                <button   class="btn btn btn-danger btn-round" style="width: 100%">후보자 리스트 출력</button></a>
                </c:if>
@@ -67,9 +78,19 @@ footer {
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
-            <c:if test="${!empty round }">
+            <c:if test="${!empty round && !empty sessionUser}">		<!-- 회차 있어야 출력됨. -->
                <a href="${pageContext.request.contextPath }/vote/vote.jan?election_round=${round}">
                <button   class="btn btn btn-danger btn-round" style="width: 100%">투표하러 가기</button></a>
+               </c:if>
+            </div>
+         </div>
+      </div>
+       <div class="row">
+         <div class="col text-center mt-5">
+            <div class="col-md-12 text-center">
+            <c:if test="${!empty round }">							<!-- 회차 있어야 출력됨. -->
+               <a href="${pageContext.request.contextPath }/vote/vote_result.jan?election_round=${round-1}">
+               <button   class="btn btn btn-danger btn-round" style="width: 100%">지난투표결과</button></a>
                </c:if>
             </div>
          </div>
