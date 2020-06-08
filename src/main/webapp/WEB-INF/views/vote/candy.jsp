@@ -56,6 +56,8 @@ footer {
 					</div>
 					</div>
 		</c:forEach>
+		
+			<div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
 				
 			</div>
 		

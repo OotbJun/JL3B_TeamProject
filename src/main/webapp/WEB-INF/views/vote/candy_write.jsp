@@ -50,6 +50,9 @@ footer {
             <input type="file" name="candyFile" multiple accept="image/*"><br> 
             <input type="submit" value="확인">
          </form>
+         
+         <div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
+         
          </div>
       </div>
       <div class="col"></div>

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
@@ -16,6 +17,7 @@ import com.jl3b.touche_nubes.vote.mapper.VoteImgSQLMapper;
 import com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.votevo.CandyVo;
+import com.jl3b.touche_nubes.votevo.ElectionVo;
 import com.jl3b.touche_nubes.votevo.VoteVo;
 
 @Service
@@ -28,12 +30,52 @@ public class VoteService {
 	@Autowired
 	private VoteImgSQLMapper voteImgSQLMapper;
 	
+	//public static VoteVo vote;
+	
+	//선거 개시
+	//@Scheduled(cron = "0 0/3 * * * *")
+	public void startElection() {
+		System.out.println("타이머 테스트");
+		voteSQLMapper.insertElection();
+		
+	}
+	
+	//매일 상태 업데이트
+	@Scheduled(cron = "0 0/1 * * * *")
+	public void gang() {
+		System.out.println("투표 상태 갱신 테스트");
+		voteSQLMapper.updateVoteIng();
+		voteSQLMapper.updateElectionEnd();
+		//////////
+		
+		try {
+			int round = voteSQLMapper.selectNewRound();
+			
+			
+			ElectionVo electionVo = new ElectionVo();						//이러면 되지 않을까?
+			electionVo.setCandy_no(voteSQLMapper.selectResultWinner());		//당선인
+			electionVo.setElection_round(round);							//where절 해당 회차
+			CandyVo candyVo = new CandyVo();								//테스트!
+			candyVo.setCandy_no(electionVo.getCandy_no());
+			
+			if(voteSQLMapper.voteEnd() != null) {
+				voteSQLMapper.updateWinner(electionVo);																//선거테이블 당선인 수정
+				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getResi_no());	//레지테이블 등급 변경
+				
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//후보 등록
 	public void writeCandy(CandyVo candyVo, List<CandyImgVo> candyImgList) {
 		int candyKey = voteSQLMapper.createCandyKey();
 		candyVo.setCandy_no(candyKey);
 		
-		voteSQLMapper.insertCandy(candyVo);
+		if(voteSQLMapper.candyAble() != null) {				//기간이 맞는지 확인 후 맞다면 후보등록 가능
+			voteSQLMapper.insertCandy(candyVo);
+		}
 		
 		for(CandyImgVo candyImgVo : candyImgList) {			//이미지 등록
 			candyImgVo.setCandy_no(candyKey);
@@ -54,10 +96,14 @@ public class VoteService {
 	public void deleteCandy(int no) {
 		voteSQLMapper.deleteCandy(no);
 	}
-	
+
 	//투표
 	public void takeVote(VoteVo voteVo) {
-		voteSQLMapper.insertVote(voteVo);
+		
+		if(voteSQLMapper.voteAble() != null) {			//투표 기간 맞는지 확인 후 맞으면 투표 가능
+			voteSQLMapper.insertVote(voteVo);
+		}
+		
 	}
 	
 	//후보자 리스트
@@ -108,10 +154,6 @@ public class VoteService {
 		return map;
 	}
 	
-	//선거 개시
-	public void startElection() {
-		voteSQLMapper.insertElection();
-	}
 	
 	//투표 중복방지 본인확인
 	public VoteVo checkVote(VoteVo voteVo) {
@@ -146,7 +188,17 @@ public class VoteService {
 		return list;
 	}
 	
-	
-	
+//	//당선인 수정(선거테이블)
+//	public void changeWinner() {
+//		
+//		int round = voteSQLMapper.selectNewRound();
+//		
+//		ElectionVo electionVo = voteSQLMapper.voteEnd();		//이러면 되지 않을까?
+//		electionVo.setElection_round(round);
+//		
+//		if(voteSQLMapper.voteEnd() != null) {
+//			voteSQLMapper.updateWinner(electionVo);
+//		}
+//	}
 	
 }

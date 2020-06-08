@@ -35,7 +35,7 @@
 	    ]]>
 	</update>
 	
-	<!-- 댓글 삭제 -->
+	<!-- 해당 댓글 삭제 -->
 	<delete id="deleteBoardReply" parameterType="int">
 	    <![CDATA[
 	   DELETE FROM jl3b_board_re WHERE BOARD_RE_NO=#{board_re_no};
@@ -48,5 +48,12 @@
 			SELECT COUNT(*) FROM JL3B_BOARD_RE WHERE BOARD_NO = #{board_no}
 		]]>
 	</select>
+	
+	<!-- 게시글 번호로 삭제시킴으로 전체 댓글 삭제 -->
+	<delete id ="deleteBoardRe">
+	   <![CDATA[
+	   	DELETE FROM jl3b_board_re WHere board_no=#{board_no}; 
+	   ]]>
+	</delete>
 
 </mapper>

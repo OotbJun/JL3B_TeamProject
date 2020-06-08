@@ -289,9 +289,19 @@ public class BoardService {
 	public void changeRepl(BoardReVo boardReVo) {
 	    boardReplSQLMapper.updateBoardReply(boardReVo);
 	}
-	//댓글 삭제 
+	//해당 댓글만 삭제 
 	public void deleteRepl(int board_re_no) {
 	    boardReplSQLMapper.deleteBoardReply(board_re_no);
+	}
+	
+	//이미지 삭제
+	public int deleteBoardImg(int board_no) {
+		return boardImgSQLMapper.deleteBoardImg(board_no);
+	}
+	
+	//게시글 번호로 삭제시킴으로 전체 댓글 삭제
+	public void deleteBoardRe(int board_no) {
+		boardReplSQLMapper.deleteBoardRe(board_no);
 	}
 	
 	

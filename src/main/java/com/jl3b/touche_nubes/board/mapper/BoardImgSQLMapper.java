@@ -10,6 +10,7 @@ public interface BoardImgSQLMapper {
 	//////////////////////////////자게
 	public void insertBoardImg(BoardImgVo boaradimgVo);
 	public List<BoardImgVo> selectBoardByNo(int board_no);
+	public int deleteBoardImg(int board_no);				//이미지 삭제
 	
 	
 	//////////////////////////////청원

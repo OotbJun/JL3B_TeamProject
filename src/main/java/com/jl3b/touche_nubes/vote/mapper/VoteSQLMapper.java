@@ -3,6 +3,7 @@ package com.jl3b.touche_nubes.vote.mapper;
 import java.util.List;
 
 import com.jl3b.touche_nubes.votevo.CandyVo;
+import com.jl3b.touche_nubes.votevo.ElectionVo;
 import com.jl3b.touche_nubes.votevo.VoteVo;
 
 public interface VoteSQLMapper {
@@ -16,7 +17,7 @@ public interface VoteSQLMapper {
 	public CandyVo selectCandyByNo(int no);				//후보자 상세 페이지
 	
 	//선거 개시
-	public void updateWinner(int no);					//당선인 수정(선거 테이블)
+	public void updateWinner(ElectionVo electionVo);	//당선인 수정(선거 테이블)
 	public void updateGrade(int no);					//당선인 등업(입주민 테이블)
 	public void insertElection();						//선거 개시 등록
 	
@@ -29,4 +30,14 @@ public interface VoteSQLMapper {
 	public CandyVo selectCandyDupl(CandyVo candyVo);	//입후보 중복방지 본인확인
 	
 	public int selectEachNumberVote(int no);			//투표 결과 보기
+	
+	
+	//스케줄링 이용해서 매일 자동으로 상태 업데이트
+	public void updateVoteIng();
+	public void updateElectionEnd();
+	
+	//제약조건 - 입후보등록기간, 투표기간 확인하기
+	public ElectionVo candyAble();						//입후보등록기간인지 확인
+	public ElectionVo voteAble();						//투표기간인지 확인			==> 확인되면 인서트 가능, 없다면 인서트 불가
+	public ElectionVo voteEnd();						//지난 투표인지 확인 -> 결과 발표용
 }

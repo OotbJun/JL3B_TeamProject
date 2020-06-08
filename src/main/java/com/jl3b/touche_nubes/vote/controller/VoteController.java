@@ -13,6 +13,8 @@ import java.util.UUID;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +30,7 @@ import com.jl3b.touche_nubes.votevo.VoteVo;
 
 @Controller
 @RequestMapping("/vote/*")
+@EnableScheduling
 public class VoteController {
 	
 	@Autowired
@@ -44,6 +47,8 @@ public class VoteController {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
+		//voteService.gang();						//매일 상태 업데이트
 			
 		return "vote/vote_choice";
 	}
@@ -55,6 +60,7 @@ public class VoteController {
 	}
 	@RequestMapping("candy_write_process.jan")
 	public String writeCandyProcess(MultipartFile [] candyFile, CandyVo candyVo, HttpSession session) {
+		
 		
 	    String rootFolderName = "C:/upload/";
        

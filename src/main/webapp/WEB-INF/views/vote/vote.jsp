@@ -53,7 +53,7 @@ footer {
 								</h4>
 								<div class="card-text">${candyList.candyVo.candy_intro}</div>
 								<input type="radio" value="${candyList.candyVo.candy_no}"
-									name="candy_no">
+									name="candy_no" checked>
 								
 							</div>
 						</div>
@@ -62,6 +62,8 @@ footer {
 				
 			<c:if test="" ></c:if>	
 				<input type="submit" value="투표">
+				
+				<div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
 			
 			</div>
 		</form>

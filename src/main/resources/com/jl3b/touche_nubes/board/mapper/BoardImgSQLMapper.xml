@@ -24,6 +24,13 @@
       ]]>
    </select>
    
+   <!-- 이미지 삭제 -->
+   <delete id="deleteBoardImg">
+      <![CDATA[
+       DELETE FROM JL3b_board_IMG WHERE board_no = #{board_no}
+      ]]>
+   </delete>
+   
    
    <!-- /////////////////////////////////////////청원 -->
       <insert id="insertIdeaImg">
@@ -45,6 +52,7 @@
            WHERE idea_no = #{idea_no} 
       ]]>
    </select>
+   
    
    
    

@@ -248,7 +248,10 @@ public class BoardController {
 	//글삭제
 	@RequestMapping("/board_delete_process.jan")
 	public String deleteBoard(int board_no) {
-		boardService.deleteBoard(board_no);
+		boardService.deleteBoard(board_no);			//게시글 삭제
+		boardService.deleteBoardImg(board_no);		//게시글 이미지 삭제
+		boardService.deleteBoardRe(board_no);		//게시글 댓글 삭제
+
 		return "redirect:./board.jan";
 	}
 	
@@ -283,7 +286,7 @@ public class BoardController {
 	
 	//댓글!
 	@RequestMapping("/write_reply_process.jan")
-	   public String wirteReplyProcess(HttpSession session, BoardReVo boardReVo) {
+	public String wirteReplyProcess(HttpSession session, BoardReVo boardReVo) {
 		int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
 		int boardNo = boardReVo.getBoard_no();
 		boardReVo.setResi_no(resiNo);
@@ -291,6 +294,15 @@ public class BoardController {
 		
 		return "redirect:./board_read.jan?board_no="+boardNo;
 	}
+	
+	//이미지 삭제
+	@RequestMapping("/delete_board_img.jan")
+	public String deleteBoardImg(int board_no) {
+		boardService.deleteBoardImg(board_no);
+		return "redirect:./board_read.jan?board_no="+board_no ;
+	}
+	
+	
 	
 	
 	////////////////////////////////// 주민청원게시판

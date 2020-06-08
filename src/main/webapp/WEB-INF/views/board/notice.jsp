@@ -111,9 +111,8 @@
 			<div></div>
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
-				<c:set var="admin" value="${sessionUser.npki_key}"></c:set>
-				<!-- 로그인회원이 admin일 때 글쓰기 가능 -->
-				<c:if test="${fn:contains(admin,'admin')}">
+				
+				<c:if test="${sessionUser.grade==2 }">
 					<a
 						href="${pageContext.request.contextPath }/board/notice_write.jan"
 						class="btn btn-primary btn-block">글쓰기</a>

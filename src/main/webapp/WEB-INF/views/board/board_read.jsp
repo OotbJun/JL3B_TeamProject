@@ -143,6 +143,12 @@ footer {
 		<a
 			href="${pageContext.request.contextPath}/board/board_change.jan?board_no=${readBoard.boardVo.board_no}">수정</a>
 	</c:if>
+	
+	<c:if
+		test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}">
+		<a
+			href="${pageContext.request.contextPath}/board/delete_board_img.jan?board_no=${readBoard.boardVo.board_no}">이미지삭제</a>
+	</c:if>
 
 
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>

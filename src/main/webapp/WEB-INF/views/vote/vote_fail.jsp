@@ -7,26 +7,27 @@
 <title>Insert title here</title>
 <style>
 footer {
-	margin: 0 auto;
-	text-align: center;
+   margin: 0 auto;
+   text-align: center;
 }
 
 #xxx * {
-	background-color: rgba(255, 255, 255, 0.0);
+   background-color: rgba(255, 255, 255, 0.0);
 }
 
 #xxx {
-	background-color: rgba(255, 255, 255, 0.0);
+   background-color: rgba(255, 255, 255, 0.0);
 }
 </style>
 
 <link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-	crossorigin="anonymous">
+   href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+   crossorigin="anonymous">
 </head>
+
 <body>
-	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
 <script type="text/javascript">
 

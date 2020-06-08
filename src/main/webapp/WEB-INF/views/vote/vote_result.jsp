@@ -47,13 +47,15 @@ footer {
 							src="/upload/${voteList.candyImgList.candy_img_title}">
 						<div class="card-body">
 							<h4 class="card-title">${voteList.resiVo.resi_rname }</h4>
-							<p class="card-text"> 선거회차 : ${voteList.voteVo.election_round}</p>
+							<p class="card-text"> 선거회차 : ${voteList.candyVo.election_round}</p>
 							<p class="card-text">득표 수 : ${voteList.result}</p>
 
 						</div>
 					</div>
 				</div>
 			</c:forEach>
+			
+				<div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
 
 		</div>
 
