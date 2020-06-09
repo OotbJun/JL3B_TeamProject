@@ -188,6 +188,11 @@ public class VoteService {
 		return list;
 	}
 	
+	//선거 상태 뽑기
+	public String checkStatus(int round) {
+		return voteSQLMapper.electionStatus(round);
+	}
+	
 //	//당선인 수정(선거테이블)
 //	public void changeWinner() {
 //		

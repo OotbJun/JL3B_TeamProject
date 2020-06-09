@@ -213,6 +213,12 @@
 		]]>
 	</select>
 	
+	<!-- 예외처리 - 기간에 맞게 처리하려고 -->
+	<select id="electionStatus" resultType="String">
+		<![CDATA[
+			SELECT ELECTION_STATUS FROM JL3B_ELECTION WHERE ELECTION_ROUND = #{round}
+		]]>
+	</select>
 	
 	
 </mapper>

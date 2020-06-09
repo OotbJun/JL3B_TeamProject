@@ -95,7 +95,7 @@
 			<div class="col-1"></div>
 			<!--검색-->
 			<div class="col">
-				<form action="./board.jan" method="get">
+				<form action="./notice.jan" method="get">
 					<div class="row">
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"

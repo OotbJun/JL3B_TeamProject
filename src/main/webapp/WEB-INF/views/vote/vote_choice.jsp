@@ -86,7 +86,7 @@ footer {
       </c:if>
       
       
-      <c:if test="${!empty sessionUser && !empty round }">
+      <c:if test="${!empty sessionUser && !empty round && status.equals('C_ING') }">
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
@@ -100,7 +100,7 @@ footer {
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
-            <c:if test="${!empty round && !empty sessionUser}">		<!-- 회차 있어야 출력됨. -->
+            <c:if test="${!empty round && !empty sessionUser && !status.equals('E_END') }">		<!-- 회차 있어야 출력됨. -->
                <a href="${pageContext.request.contextPath }/vote/candy.jan?election_round=${round}">
                <button   class="btn btn btn-danger btn-round" style="width: 100%">후보자 리스트 출력</button></a>
                </c:if>
@@ -110,7 +110,7 @@ footer {
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
-            <c:if test="${!empty round && !empty sessionUser}">		<!-- 회차 있어야 출력됨. -->
+            <c:if test="${!empty round && !empty sessionUser && status.equals('V_ING')}">		<!-- 회차 있어야 출력됨. -->
                <a href="${pageContext.request.contextPath }/vote/vote.jan?election_round=${round}">
                <button   class="btn btn btn-danger btn-round" style="width: 100%">투표하러 가기</button></a>
                </c:if>

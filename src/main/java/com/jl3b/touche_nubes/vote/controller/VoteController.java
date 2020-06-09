@@ -41,14 +41,21 @@ public class VoteController {
 	@RequestMapping("vote_choice.jan")
 	public String choiceVote(Model model, HttpSession session) {
 		
+		//voteService.gang();						//매일 상태 업데이트
+		
+		
+		
 		try {
 			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.
 			model.addAttribute("round", round);		//round값을 받아줘서 항상 최신회차 출력을 위한 것.
+			String status = voteService.checkStatus(round);
+			model.addAttribute("status", status);
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 		
-		//voteService.gang();						//매일 상태 업데이트
+		
+		
 			
 		return "vote/vote_choice";
 	}

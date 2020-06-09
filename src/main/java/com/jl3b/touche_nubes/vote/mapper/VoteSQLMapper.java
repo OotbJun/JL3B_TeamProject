@@ -40,4 +40,7 @@ public interface VoteSQLMapper {
 	public ElectionVo candyAble();						//입후보등록기간인지 확인
 	public ElectionVo voteAble();						//투표기간인지 확인			==> 확인되면 인서트 가능, 없다면 인서트 불가
 	public ElectionVo voteEnd();						//지난 투표인지 확인 -> 결과 발표용
+	
+	//예외처리 - 기간에 맞게 처리하려고
+	public String electionStatus(int round);
 }
