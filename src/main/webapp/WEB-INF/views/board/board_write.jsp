@@ -1,16 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>자게 글쓰기</title>
 <style>
-footer {
-   margin: 0 auto;
-   text-align: center;
-}
-
 #xxx * {
    background-color: rgba(255, 255, 255, 0.0);
 }
@@ -27,20 +23,43 @@ footer {
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-   
+   <div class="container" role="main" style="margin-top:5%;" >
+    <h2>자유 게시판 글쓰기</h2>
+
    <form action="${pageContext.request.contextPath }/board/board_write_process.jan" method="post" enctype="multipart/form-data">
-      닉네임 : ${sessionUser.resi_rname }<br>
-      말머리 : ${horseheadList.horseheadVo.horsehead_sort }<br>
-      제목 : <input type="text" name="board_title"><br>
-      내용 : <br>
-      <textarea rows="10" cols="40" name="board_content"></textarea><br>
-      <input type="file" name="boardImgList" multiple accept="image/*"><br> 
-      <input type="hidden" name="horsehead_sort" value="자게">   <!-- 말머리 수정 필요 -->
-      <input type="submit" value="확인">
+    <div class="mb-3">
+        <label for="title">제목</label>
+        <input type="text" class="form-control" name="board_title" id="title" placeholder="제목을 입력해 주세요">
+    </div>
+    <div class="mb-3">
+    </div>
+    <div class="mb-3">
+    </div>
+     <div class="mb-3">
+       <label for="content">글내용</label>
+         <textarea class="form-control" rows="10"  name="board_content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+    </div>
+    <div class="mb-3">
+        <div class="row mb-5">
+        <div class="col">
+         <label for="tag">파일첨부</label>
+        <input type="file" name="boardImgList" multiple accept="image/*"><br> 
+        </div>
+         </div>
+         <div class="row mb-3">
+        <div class="col">
+          <input type="submit" value="확인" class="btn btn-primary btn-lg btn-block">
+          <input type="hidden" name="horsehead_sort" value="자게">
+        </div>
+       </div>
+          <div class="row">
+        <div class="col">
+          <a href="${pageContext.request.contextPath }/board/board.jan" class="btn btn-primary btn-lg btn-block">목록으로</a>
+        </div>
+       </div>
+    </div>
    </form>
-   
-   
-   <jsp:include page="../commons/include_footer.jsp"></jsp:include>
+   </div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

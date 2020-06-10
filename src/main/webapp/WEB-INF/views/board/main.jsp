@@ -57,7 +57,7 @@ footer {
             <div class="mt-2"></div>
             <div class="row mt-1">
                <div class="col-5" style="padding-top: 30px">
-                  <a href="${pageContext.request.contextPath }/board/notice.jan"><button
+                  <a href="${pageContext.request.contextPath }/board/board.jan"><button
                         class="btn btn-outline-secondary" style="width: 100%; border-color: white;">자유게시판</button></a>
                </div>
                <div class="col"></div>
@@ -74,7 +74,7 @@ footer {
                      style="max-width: 380px; height: auto"></div>
                   <div class="col"></div>
                   <div class="col-5" style="padding-top: 30px">
-                  <a href="${pageContext.request.contextPath }/board/notice.jan"><button
+                  <a href="${pageContext.request.contextPath }/board/idea.jan"><button
                         class="btn btn-outline-secondary" style="width: 100%; border-color: white;">주민청원</button>
                      </a>
                   </div>
@@ -83,7 +83,7 @@ footer {
             <div class="mt-2">
                <div class="row mt-1">
                   <div class="col-5" style="padding-top: 30px">
-                  <a href="${pageContext.request.contextPath }/board/notice.jan"><button
+                  <a href="${pageContext.request.contextPath }/vote/vote_choice.jan"><button
                         class="btn btn-outline-secondary" style="width: 100%; border-color: white;">주민투표</button>
                      </a>
                   </div>

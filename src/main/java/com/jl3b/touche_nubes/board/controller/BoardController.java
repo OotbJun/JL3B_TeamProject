@@ -72,6 +72,8 @@ public class BoardController {
 				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
 				HttpSession session) {
 		
+		
+		
 		if(currentPage <= 0) {
 			currentPage = 1;
 		}
@@ -94,6 +96,8 @@ public class BoardController {
 		model.addAttribute("currentPage", currentPage);
 		model.addAttribute("totalCount", totalCount);
 		model.addAttribute("noticeList", list);
+		
+		
 		
 		return "board/notice";
 	}
@@ -136,17 +140,17 @@ public class BoardController {
 	
 	///////////////////////////////////자게
 	@RequestMapping("/board.jan")
-	public String board(String searchWord,Model model,
+	public String board(@RequestParam(defaultValue = "board_title")String searchOption, String searchWord,Model model,
 				@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 			
-		List<Map<String, Object>> list = boardService.boardList(searchWord,currPage);
+		List<Map<String, Object>> list = boardService.boardList(searchOption, searchWord, currPage);		////////테스트
 		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//상단 고정 공지
 		boardService.changeHot();
 		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);		//인기글 고정
 		
 		
 		
-		int totalCount = boardService.getBoardDataCount(searchWord);
+		int totalCount = boardService.getBoardDataCount(searchOption, searchWord);
 		int beginPage = ((currPage-1)/5) *5 +1;
 		int endPage = ((currPage-1)/5+1) * (5);
 		
@@ -160,6 +164,7 @@ public class BoardController {
 		model.addAttribute("boardList", list);
 		model.addAttribute("boardNoticeList",list2);		//공지 고정
 		model.addAttribute("boardHotList",list3);			//인기글 고정
+		
 		
 		return "board/board";
 	}
@@ -270,6 +275,11 @@ public class BoardController {
 	//추천!!
 	@RequestMapping("/choose_like_process.jan")
 	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
+		
+		if(session.getAttribute("sessionUser") == null) {
+			return "board/board_fail";
+		}
+		
 		int currentPage = boardLikeVo.getBoard_no();
 		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
 		boardLikeVo.setResi_no(resiVo);
@@ -287,6 +297,11 @@ public class BoardController {
 	//댓글!
 	@RequestMapping("/write_reply_process.jan")
 	public String wirteReplyProcess(HttpSession session, BoardReVo boardReVo) {
+		
+		if(session.getAttribute("sessionUser") == null) {
+			return "board/board_fail";
+		}
+		
 		int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
 		int boardNo = boardReVo.getBoard_no();
 		boardReVo.setResi_no(resiNo);
@@ -435,7 +450,9 @@ public class BoardController {
 	//청원글 좋아요 
 	@RequestMapping("/choose_idea_like_process.jan")
 	public String chooseLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
-
+       if(session.getAttribute("sessionUser")==null) {
+    	   return "board/board_fail";
+       }
 		int currentPage = ideaLikeVo.getIdea_no();
 		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
 
@@ -452,8 +469,12 @@ public class BoardController {
 	
 	//청원글답변달기
 	@RequestMapping("/idea_answer.jan")
-	public String answerIdea(IdeaVo ideaVo, Model model) {
-
+	public String answerIdea(IdeaVo ideaVo, Model model, HttpSession session) {
+		
+		if(session.getAttribute("sessionUser") == null) {
+			return "board/board_fail";
+		}
+		
 		model.addAttribute("readIdea", boardService.viewIdea(ideaVo.getIdea_no()));
 
 		return "board/idea_answer";

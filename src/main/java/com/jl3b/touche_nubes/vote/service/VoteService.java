@@ -44,21 +44,27 @@ public class VoteService {
 	@Scheduled(cron = "0 0/1 * * * *")
 	public void gang() {
 		System.out.println("투표 상태 갱신 테스트");
-		voteSQLMapper.updateVoteIng();
-		voteSQLMapper.updateElectionEnd();
+		
 		//////////
 		
 		try {
-			int round = voteSQLMapper.selectNewRound();
-			
+			int round = voteSQLMapper.selectNewRound();						//최신 회차 담아주고
+			voteSQLMapper.updateVoteIng();									//투표기간으로 자동 갱신
+			voteSQLMapper.updateElectionEnd();								//선거기간 끝으로 자동 갱신
 			
 			ElectionVo electionVo = new ElectionVo();						//이러면 되지 않을까?
-			electionVo.setCandy_no(voteSQLMapper.selectResultWinner());		//당선인
+			
 			electionVo.setElection_round(round);							//where절 해당 회차
 			CandyVo candyVo = new CandyVo();								//테스트!
 			candyVo.setCandy_no(electionVo.getCandy_no());
 			
+			
+			if(voteSQLMapper.selectResultWinner() != null) {
+				electionVo.setCandy_no(voteSQLMapper.selectResultWinner());		//당선인
+			}
+			
 			if(voteSQLMapper.voteEnd() != null) {
+				
 				voteSQLMapper.updateWinner(electionVo);																//선거테이블 당선인 수정
 				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getResi_no());	//레지테이블 등급 변경
 				

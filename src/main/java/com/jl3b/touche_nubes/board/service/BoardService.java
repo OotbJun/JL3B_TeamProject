@@ -123,17 +123,18 @@ public class BoardService {
 	      }
 	   }
 	//자게 글 리스트
-	public List<Map<String, Object>> boardList(String searchWord, int currPage) {
+	public List<Map<String, Object>> boardList(String searchOption, String keyword, int currPage) {			///////테스트
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		List<BoardVo> boardlist = null;
 		
-		
-		if (searchWord == null) {
+																									
+		if (keyword == null) {
 			boardlist = boardSQLMapper.selectBoardAll(currPage);
 		} else {
-			boardlist = boardSQLMapper.selectBoardByTitle(searchWord, currPage);
+			//boardlist = boardSQLMapper.selectBoardByTitle(keyword, currPage);
+			boardlist = boardSQLMapper.selectBoardByKeyword(searchOption, keyword, currPage);					//////////////테스트
 		}
 
 		for (BoardVo boardVo : boardlist) {
@@ -230,12 +231,14 @@ public class BoardService {
 	public void changeBoard(BoardVo boardVo) {
 		boardSQLMapper.updateBoard(boardVo);
 	}
+	
+																		//////////////////////////////////테스트
 	//총 게시글 수, 검색 게시글 수
-	public int getBoardDataCount(String searchWord) {
+	public int getBoardDataCount(String searchOption, String searchWord) {
 		if (searchWord == null) {
 			return boardSQLMapper.selectBoardAllCount();
 		} else {
-			return boardSQLMapper.selectBoardByTitleCount(searchWord);
+			return boardSQLMapper.selectBoardByTitleCount(searchOption, searchWord);
 		}
 	}
 	
@@ -263,7 +266,6 @@ public class BoardService {
 	public  List<Map<String, Object>> getReplyList(int board_no){
 		
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		
 		List<BoardReVo> boardReplyList = boardReplSQLMapper.selectBoardRepleList(board_no);
 		
 		for(BoardReVo boardReVo : boardReplyList ) {
@@ -273,14 +275,11 @@ public class BoardService {
 			Map<String,Object> map = new HashMap<String, Object>();
 			
 			map.put("boardReVo", boardReVo);
-			
 			map.put("resiVo",resiVo);
-			
 			list.add(map);
 		}
 		return list;
 	}
-
     //댓글 입력
 	public void insertRepl(BoardReVo boardReVo) {
 	    boardReplSQLMapper.insertBoardReply(boardReVo);
@@ -346,7 +345,6 @@ public class BoardService {
 	public List<Map<String, Object>> ideaList(String searchWord, int currPage) {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-
 		List<IdeaVo> idealist = null;
 
 		if (searchWord == null) {
@@ -358,12 +356,14 @@ public class BoardService {
 		for (IdeaVo ideaVo : idealist) {
 
 			ResiVo resiVo = memberSQLMapper.selectResiByNo(ideaVo.getResi_no());
-
+			
+			int ideaLike = boardSQLMapper.selectIdeaLikeUpCount(ideaVo.getIdea_no());
+			
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			map.put("resiVo", resiVo);
-
 			map.put("ideaVo", ideaVo);
+			map.put("ideaLike", ideaLike);
 
 			list.add(map);
 		}
@@ -374,21 +374,17 @@ public class BoardService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		boardSQLMapper.updateIdeaReadCount(idea_no);
-
+		boardSQLMapper.updateIdeaReadCount(idea_no);								//조회수
 		IdeaVo ideaVo = boardSQLMapper.selectIdeaByNo(idea_no);
-
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(ideaVo.getResi_no());
-
+		int upCount = boardSQLMapper.selectIdeaLikeUpCount(ideaVo.getIdea_no());	//좋아요 개수
 		
-		System.out.println("qqqq" + idea_no);
 		List<IdeaImgVo> ideaImgList = boardImgSQLMapper.selectIdeaByNo(idea_no);
 
 		map.put("resiVo", resiVo);
-
 		map.put("ideaImgList", ideaImgList);
-		
 		map.put("ideaVo", ideaVo);
+		map.put("upCount", upCount);
 
 		return map;
 	}

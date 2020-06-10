@@ -23,7 +23,7 @@ public interface BoardSQLMapper {
 	public void updateNoticeReadCount(int no);			//조회수
 	public List<NoticeVo> selectNoticeAll(int currentPage);		//전체 글 리스트
 	public List<NoticeVo> selectNoticeByTitle(@Param("title") String title, @Param("currentPage") int currentPage);		//제목 검색(매개변수는 무조건 하나 밖에 못 받는다. 따라서 @param 써줘야함!)
-	public int selectNoticeByTitleCount(String title);	//검색
+	public int selectNoticeByTitleCount(String title);	//검색 개수
 	
 	
 	//////////////////////////자게
@@ -35,8 +35,8 @@ public interface BoardSQLMapper {
     public void updateBoard(BoardVo boardVo);	
     public void updateBoardReadCount(int no);
     public int selectBoardAllCount(); 
-    public int selectBoardByTitleCount(String title);
-    public List<BoardVo> selectBoardByTitle(@Param("title")String title, @Param("currPage") int currPage);
+    public int selectBoardByTitleCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
+    public List<BoardVo> selectBoardByKeyword(@Param("searchOption") String searchOption, @Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
     public List<NoticeVo> selectNoticeFix();					//상단 고정 공지
     public void updateHot();									//인기글로~
     public List<BoardVo> selectHotFix();						//인기글 출력 
@@ -71,5 +71,4 @@ public interface BoardSQLMapper {
 	public int selectIdeaLikeUpCount(int idea_no); // 좋아요 개수
 	
 	
-	//public void test();
 }

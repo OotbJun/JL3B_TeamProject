@@ -10,16 +10,16 @@ public class ResiVo {
 	private String resi_pw;
 	private String resi_rname;
 	private String resi_mail;
-	private int grade;
-	private int point;
-	private Date jdate;
+	private int resi_grade;
+	private int resi_point;
+	private Date resi_jdate;
 	
 	public ResiVo() {
 		super();
 	}
 
 	public ResiVo(int resi_no, String npki_key, String resi_id, String resi_pw, String resi_rname, String resi_mail,
-			int grade, int point, Date jdate) {
+			int resi_grade, int resi_point, Date resi_jdate) {
 		super();
 		this.resi_no = resi_no;
 		this.npki_key = npki_key;
@@ -27,9 +27,9 @@ public class ResiVo {
 		this.resi_pw = resi_pw;
 		this.resi_rname = resi_rname;
 		this.resi_mail = resi_mail;
-		this.grade = grade;
-		this.point = point;
-		this.jdate = jdate;
+		this.resi_grade = resi_grade;
+		this.resi_point = resi_point;
+		this.resi_jdate = resi_jdate;
 	}
 
 	public int getResi_no() {
@@ -80,29 +80,28 @@ public class ResiVo {
 		this.resi_mail = resi_mail;
 	}
 
-	public int getGrade() {
-		return grade;
+	public int getResi_grade() {
+		return resi_grade;
 	}
 
-	public void setGrade(int grade) {
-		this.grade = grade;
+	public void setResi_grade(int resi_grade) {
+		this.resi_grade = resi_grade;
 	}
 
-	public int getPoint() {
-		return point;
+	public int getResi_point() {
+		return resi_point;
 	}
 
-	public void setPoint(int point) {
-		this.point = point;
+	public void setResi_point(int resi_point) {
+		this.resi_point = resi_point;
 	}
 
-	public Date getJdate() {
-		return jdate;
+	public Date getResi_jdate() {
+		return resi_jdate;
 	}
 
-	public void setJdate(Date jdate) {
-		this.jdate = jdate;
+	public void setResi_jdate(Date resi_jdate) {
+		this.resi_jdate = resi_jdate;
 	}
-	
 	
 }

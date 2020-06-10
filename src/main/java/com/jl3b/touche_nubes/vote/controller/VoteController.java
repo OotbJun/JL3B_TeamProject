@@ -43,7 +43,9 @@ public class VoteController {
 		
 		//voteService.gang();						//매일 상태 업데이트
 		
-		
+		if(session.getAttribute("sessionUser") == null) {		//로그인 예외처리
+			return "./board/board_fail";
+		}
 		
 		try {
 			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.

@@ -60,7 +60,7 @@
 	
 	<!-- 투표종료시 3개 한번에 사용-->
 	<!-- 1. 당선인 출력-->	
-	<select id="selectResultWinner" resultType="int">
+	<select id="selectResultWinner" resultType="Integer">
 		<![CDATA[
 			SELECT CANDY_NO
 			FROM 

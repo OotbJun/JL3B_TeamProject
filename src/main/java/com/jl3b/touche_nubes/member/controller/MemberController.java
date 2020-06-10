@@ -66,7 +66,7 @@ public class MemberController {
 	public String loginProcess(ResiVo resiVo, HttpSession session) {
 		ResiVo residata = memberService.login(resiVo);
 		if (residata == null) {
-			return "/member/login_fail";
+			return "member/login_fail";
 		} else {
 			session.setAttribute("sessionUser", residata);
 			System.out.println("로그인성공 ");

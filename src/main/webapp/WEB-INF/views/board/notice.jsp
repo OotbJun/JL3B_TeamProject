@@ -56,8 +56,8 @@
 						<table class="table table-hover text-center">
 							<thead style="font-size: small">
 								<tr>
-									<td>말머리</td>
-									<td class="text-left pl-1">제 목</td>
+									<td></td>
+									<td class="text-left pl-1">제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
 									<td>조회수</td>
@@ -109,10 +109,11 @@
 				</form>
 			</div>
 			<div></div>
+
+
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
-				
-				<c:if test="${sessionUser.grade==2 }">
+				<c:if test="${sessionUser.resi_grade>=2 }">
 					<a
 						href="${pageContext.request.contextPath }/board/notice_write.jan"
 						class="btn btn-primary btn-block">글쓰기</a>
@@ -121,6 +122,7 @@
 			<div class="col-1"></div>
 
 		</div>
+		
 
 	<div class="row mt-3">
 		<div class="col-2"></div>
@@ -135,17 +137,17 @@
 							<li
 								class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
 								class="page-link"
-								href="./notice.jan?currPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
+								href="./notice.jan?currentPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
 							<c:forEach begin="${beginPage}" end="${endPage}" var="i">
 								<li
-									class="page-item<c:if test="${currPage == i}"> active</c:if>"><a
+									class="page-item<c:if test="${currentPage == i}"> active</c:if>"><a
 									class="page-link"
-									href="./notice.jan?currPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
+									href="./notice.jan?currentPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
 							</c:forEach>
 							<li
 								class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1}"> disabled</c:if>"><a
 								class="page-link"
-								href="./notice.jan?currPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
+								href="./notice.jan?currentPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
 						</ul>
 					</nav>
 

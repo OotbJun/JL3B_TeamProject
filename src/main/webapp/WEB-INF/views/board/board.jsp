@@ -37,7 +37,7 @@
 						<table class="table table-hover text-center">
 							<thead style="font-size: small">
 								<tr>
-									<td>말머리</td>
+									<td></td>
 									<td class="text-left pl-1">제목</td>
 									<td>작성자</td>
 									<td>작성일</td>
@@ -45,7 +45,8 @@
 									<td>좋아요</td>
 								</tr>
 							</thead>
-
+							
+							<!-- 공지사항 리스트 -->
 							<tbody>
 								<c:forEach items="${boardNoticeList}" var="boardNoticeList"
 									begin="0" end="2">
@@ -63,7 +64,7 @@
 								</c:forEach>
 
 
-
+								<!-- 인기글 리스트 -->
 								<c:forEach items="${boardHotList}" var="boardHotList" begin="0"
 									end="3">
 									<tr class="text-center">
@@ -80,7 +81,9 @@
 									</tr>
 								</c:forEach>
 							</tbody>
-
+							
+							
+							<!-- 자유게시판 리스트 -->
 							<tbody>
 								<c:forEach items="${boardList}" var="boardList">
 									<tr class="text-center">
@@ -111,10 +114,21 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-1"></div>
+			
+			
 			<!--검색-->
 			<div class="col">
 				<form action="./board.jan" method="get">
 					<div class="row">
+					
+					<!-- 검색 조건 -->
+					<select name="searchOption">
+						<option value="board_title">제목</option>
+						<option value="board_content">내용</option>
+						<option value="resi_rname">작성자</option>
+						<option value="titleContent">제목+내용</option> 
+					</select>
+					
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
 								class="form-control">
@@ -126,6 +140,8 @@
 					</div>
 				</form>
 			</div>
+			
+			
 			<div></div>
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">

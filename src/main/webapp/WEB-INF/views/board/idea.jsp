@@ -81,6 +81,8 @@
 										<td>${ideaNoticeList.like}</td>
 									</tr>
 								</c:forEach>
+								
+							<!-- 청원 리스트 -->	
 							<tbody>
 								<c:forEach items="${ideaList}" var="ideaList">
 									<tr class="text-center">

@@ -185,19 +185,6 @@
 		SELECT * FROM JL3B_HORSEHEAD
 			]]>
 	</select>
-	<select id="selectBoardByTitle"
-		resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
-	   <![CDATA[
-		SELECT * 
-		FROM (
-               SELECT ROWNUM rnum, t1.*  
-               FROM(
-                     SELECT * FROM JL3B_BOARD WHERE board_title LIKE '%'||#{title}||'%'
-                     ORDER BY board_no DESC) t1
-                 )t2  
-           WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
-		]]>
-	</select>
 	
 	 <select id="selectBoardAllCount" resultType="int">
 		<![CDATA[
@@ -205,11 +192,14 @@
 		]]>
 	</select>
 	
+	
+	<!-- 테스트!!!!!!!!!!!!!!!!!! 검색 수  -->
 	 <select id="selectBoardByTitleCount" resultType="int">
 	    <![CDATA[
-			SELECT COUNT(*) FROM JL3B_BOARD WHERE board_title LIKE '%'||#{title}||'%'
+			SELECT COUNT(*) FROM JL3B_BOARD WHERE #{searchOption} LIKE '%'||#{keyword}||'%'			
 		]]>
 	</select>
+	
 	
 	<!-- 상단 고정 공지 -->
 	<select id="selectNoticeFix"
@@ -229,7 +219,7 @@
 	<!-- 인기글 상단 출력 -->
 	<select id="selectHotFix" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
 		<![CDATA[
-			SELECT * FROM JL3B_BOARD WHERE HORSEHEAD_SORT = '인기글' AND ROWNUM<=4 ORDER BY BOARD_NO DESC
+			SELECT * FROM JL3B_BOARD WHERE HORSEHEAD_SORT = '인기글' AND ROWNUM<=4 ORDER BY BOARD_HITS DESC
 		]]>
 	</select>
 	
@@ -445,11 +435,33 @@
    </select>
 	
    
-   <delete id="test" parameterType="java.lang.String">
- 	  <![CDATA[
-   		
-   	  ]]>
-   </delete>
    
+   
+   
+   
+   <!-- 테스트 -->
+   <select id="selectBoardByKeyword" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+   	<![CDATA[
+   		SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*
+               FROM(
+                     SELECT DISTINCT B.board_no, B.board_title, R.resi_rname, B.board_wdate, B.board_hits, R.resi_no FROM JL3B_BOARD B, JL3B_RESI R 
+                     WHERE B.RESI_NO = R.RESI_NO ]]>  
+                     <include refid="search"></include>
+    <![CDATA[        ORDER BY board_no DESC) t1
+                )t2  
+    		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10]]>
+   	
+   </select>
+   
+   <sql id="search">
+   	<if test="searchOption != null">
+   		<if test="searchOption == 'board_title'.toString()">AND B.board_title LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'board_content'.toString()">AND B.board_content LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'resi_rname'.toString()">AND R.resi_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (B.board_title LIKE '%' || #{keyword} || '%' OR B.board_content LIKE '%' || #{keyword} || '%')</if>
+   	</if>
+   </sql>
 	
 </mapper>

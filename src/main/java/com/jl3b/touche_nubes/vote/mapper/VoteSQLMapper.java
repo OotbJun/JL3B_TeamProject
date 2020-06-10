@@ -12,7 +12,7 @@ public interface VoteSQLMapper {
 	public void updateCandy(CandyVo candyVo);			//후보 수정
 	public void deleteCandy(int no);					//후보 삭제
 	public void insertVote(VoteVo voteVo);				//투표
-	public int selectResultWinner();					//당선인 출력
+	public Integer selectResultWinner();				//당선인 출력
 	public int selectNumberVote();						//다득표수
 	public CandyVo selectCandyByNo(int no);				//후보자 상세 페이지
 	
