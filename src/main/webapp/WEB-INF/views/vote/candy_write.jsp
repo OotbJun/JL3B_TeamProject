@@ -26,36 +26,65 @@ footer {
 </head>
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
-   <div class="row">
-      <div class="col"></div>
-      <div class="col-8"></div>
-      <div class="col"></div>
-   </div>
-   <div class="row">
-      <div class="col"></div>
-      <div class="col-8">
-          <div class="row">
-         <form
-             action="${pageContext.request.contextPath }/vote/candy_write_process.jan"
-             method="post" enctype="multipart/form-data" >
-             <div class="col mt-3">후 보 자 : ${sessionUser.resi_rname }</div>
-             <div class="col mt-4">
-             <div>후 보 자 소 개 </div><br>
-              <textarea rows="10" cols="40" name="candy_intro"></textarea>
-             </div>
-             <div class="col mt-4">
-             <div>공 약 내 용</div><br>
-              <textarea rows="10" cols="40" name="candy_content"></textarea>
-             </div>
-            <input type="file" name="candyFile" multiple accept="image/*"><br> 
-            <input type="submit" value="확인">
-         </form>
-         
-         <div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
-         
+
+   <div class="col mt-4">
+      <div class="row">
+         <div class="col"></div>
+         <div class="col">
+            <img
+               src="${pageContext.request.contextPath }/resources/img/candyfix.png">
          </div>
+         <div class="col"></div>
       </div>
-      <div class="col"></div>
+   </div>
+   <div class="container" role="main" style="margin-top: 5%;">
+      <h2 class="text-center" style="color: #28364a">후보등록하기</h2>
+      <form
+         action="${pageContext.request.contextPath }/vote/candy_write_process.jan"
+         method="post" enctype="multipart/form-data">
+         
+         <div class="mb-3">후 보 자 : ${sessionUser.resi_rname }</div>
+         <div class="mb-3">
+            <label for="title">소개</label> <input type="text" class="form-control"
+               name="candy_intro" id="title" placeholder="후보자 약력을 작성해주세요">
+         </div>
+         <div class="mb-3"></div>
+         <div class="mb-3"></div>
+         <div class="mb-3">
+            <label for="content">공약사항</label>
+            <textarea class="form-control" rows="10" name="candy_content"
+               id="content" placeholder="공약을 입력해주세요"></textarea>
+         </div>
+
+         <div class="mb-3">
+            <div class="row mb-5">
+               <div class="col">
+                  <label for="tag">파일첨부</label> <input type="file"
+                     name="candyFile" multiple accept="image/*"><br>
+               </div>
+            </div>
+            <div class="row mb-3">
+
+               <div class="col-6">
+                  <a href="${pageContext.request.contextPath }/vote/vote_choice.jan"
+                     class="btn btn-secondary btn-lg btn-block">돌아가기</a>
+               </div>
+               <div class="col-6">
+                  <input type="submit" value="확인"
+                     class="btn btn-primary btn-lg btn-block">
+               </div>
+            
+   
+            </div>
+         </div>
+      </form>
+
+         <div>
+            <a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a>
+         </div>
+   </div>
+   </div>
+   <div class="col"></div>
    </div>
    <jsp:include page="../commons/include_footer.jsp"></jsp:include>
    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

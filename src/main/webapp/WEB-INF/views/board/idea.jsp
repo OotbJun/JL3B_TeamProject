@@ -38,11 +38,15 @@
 <body>
 
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col text-center mt-3">
+	<div class="col mt-4">
 		<div class="row">
-			<div class="col">
-				<h1>주민청원 대표이미지 출력</h1>
+			<div class="col"></div>
+			<div class="col" style="max-width: 100%; height: auto">
+				<img
+					src="${pageContext.request.contextPath }/resources/img/ideapage.png"
+					>
 			</div>
+			<div class="col"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>
@@ -120,13 +124,23 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-1"></div>
+			
+			
+			
 			<!--검색-->
 			<div class="col">
 				<form action="./idea.jan" method="get">
 					<div class="row">
+					<!-- 검색 조건 -->
+					<select name="searchOption" class="ml-3">
+						<option value="idea_title" <c:if test="${searchOption.equals('idea_title') }">selected="selected"</c:if>>제목</option>
+						<option value="idea_content" <c:if test="${searchOption.equals('idea_content') }">selected="selected"</c:if>>내용</option>
+						<option value="resi_rname" <c:if test="${searchOption.equals('resi_rname') }">selected="selected"</c:if>>작성자</option>
+						<option value="ideaContent" <c:if test="${searchOption.equals('ideaContent') }">selected="selected"</c:if>>제목+내용</option> 
+					</select>
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
-								class="form-control">
+								class="form-control" value="${searchWord }">
 						</div>
 						<!-- 게시글 검색어 입력-->
 						<div class="col-2">
@@ -136,6 +150,9 @@
 				</form>
 			</div>
 			<div></div>
+			
+			
+			
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
 			

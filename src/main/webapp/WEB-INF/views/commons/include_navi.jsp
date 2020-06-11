@@ -4,9 +4,10 @@
 
 <nav id="xxx" class="navbar navbar-expand-lg navbar-light pl-5">
 	<a class="navbar-brand"
-		href="${pageContext.request.contextPath }/board/main.jan">
-		<img src="${pageContext.request.contextPath }/resources/img/navi-logo.png" width="100px">
-		</a>
+		href="${pageContext.request.contextPath }/board/main.jan"> <img
+		src="${pageContext.request.contextPath }/resources/img/navi-logo.png"
+		width="100px">
+	</a>
 	<button class="navbar-toggler" type="button" data-toggle="collapse"
 		data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 		aria-expanded="false" aria-label="Toggle navigation">
@@ -14,25 +15,19 @@
 	</button>
 	<div class="collapse navbar-collapse" id="navbarNavDropdown">
 		<ul class="navbar-nav mr-auto">
-			<li class="nav-item active"><a class="nav-link"
-				href="${pageContext.request.contextPath }/board/main.jan">Home
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath }/board/notice.jan">공지사항
 					<span class="sr-only">(current)</span>
 			</a></li>
-			<li class="nav-item active">
-				<a class="nav-link" href="${pageContext.request.contextPath }/board/notice.jan">공지사항 <span class="sr-only">(current)</span></a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="${pageContext.request.contextPath }/board/board.jan">자유게시판</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="${pageContext.request.contextPath }/board/idea.jan">주민청원</a>
-			  </li>
-			  <li class="nav-item">
-				<a class="nav-link" href="${pageContext.request.contextPath }/vote/vote_choice.jan">선거 </a>
-			  </li>
-			   <li class="nav-item">
-				<a class="nav-link" href="#">공과금</a>
-			  </li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath }/board/board.jan">자유게시판</a>
+			</li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath }/board/idea.jan">주민청원</a></li>
+			<li class="nav-item"><a class="nav-link"
+				href="${pageContext.request.contextPath }/vote/vote_choice.jan">선거
+			</a></li>
+			<li class="nav-item"><a class="nav-link" href="#">공과금</a></li>
 
 		</ul>
 		<c:choose>

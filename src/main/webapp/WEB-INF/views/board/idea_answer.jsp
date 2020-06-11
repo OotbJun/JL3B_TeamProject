@@ -46,7 +46,7 @@
        </div>
           <div class="row">
         <div class="col">
-          <a href="${pageContext.request.contextPath }/board/notice.jan" class="btn btn-primary btn-lg btn-block">목록으로</a>
+          <a href="${pageContext.request.contextPath }/board/idea.jan" class="btn btn-primary btn-lg btn-block">목록으로</a>
         </div>
        </div>
     </div>

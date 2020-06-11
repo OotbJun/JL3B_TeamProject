@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Touche 주민청원</title>
+<title>Touche 공지사항</title>
 <style type="text/css">
 #nav {
 	position: 0px auto;
@@ -38,11 +38,15 @@
 <body>
 
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col text-center mt-3">
+	<div class="col mt-4">
 		<div class="row">
+			<div class="col"></div>
 			<div class="col">
-				<h1>공지사항 대표이미지 출력</h1>
+				<img
+					src="${pageContext.request.contextPath }/resources/img/noticepage.png"
+					>
 			</div>
+			<div class="col"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>

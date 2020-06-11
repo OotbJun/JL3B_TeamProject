@@ -19,11 +19,15 @@
 <body>
 
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col text-center mt-3">
+	<div class="col mt-4">
 		<div class="row">
+			<div class="col"></div>
 			<div class="col">
-				<h1>게시판 대표이미지 출력</h1>
+				<img
+					src="${pageContext.request.contextPath }/resources/img/boardpage.png"
+					>
 			</div>
+			<div class="col"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>
@@ -45,7 +49,7 @@
 									<td>좋아요</td>
 								</tr>
 							</thead>
-							
+
 							<!-- 공지사항 리스트 -->
 							<tbody>
 								<c:forEach items="${boardNoticeList}" var="boardNoticeList"
@@ -81,8 +85,8 @@
 									</tr>
 								</c:forEach>
 							</tbody>
-							
-							
+
+
 							<!-- 자유게시판 리스트 -->
 							<tbody>
 								<c:forEach items="${boardList}" var="boardList">
@@ -114,24 +118,25 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-1"></div>
-			
-			
+
+
 			<!--검색-->
 			<div class="col">
 				<form action="./board.jan" method="get">
 					<div class="row">
-					
-					<!-- 검색 조건 -->
-					<select name="searchOption">
-						<option value="board_title">제목</option>
-						<option value="board_content">내용</option>
-						<option value="resi_rname">작성자</option>
-						<option value="titleContent">제목+내용</option> 
-					</select>
-					
+
+						<!-- 검색 조건 -->
+						<select name="searchOption" class="ml-3">
+						
+							<option value="board_title" <c:if test="${searchOption.equals('board_title') }">selected="selected"</c:if>>제목</option>
+							<option value="board_content" <c:if test="${searchOption.equals('board_content') }">selected="selected"</c:if>>내용</option>
+							<option value="resi_rname" <c:if test="${searchOption.equals('resi_rname') }">selected="selected"</c:if>>작성자</option>
+							<option value="titleContent" <c:if test="${searchOption.equals('titleContent') }">selected="selected"</c:if>>제목+내용</option>
+						</select>
+
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
-								class="form-control">
+								class="form-control" value="${searchWord }">
 						</div>
 						<!-- 게시글 검색어 입력-->
 						<div class="col-2">
@@ -140,15 +145,15 @@
 					</div>
 				</form>
 			</div>
-			
-			
+
+
 			<div></div>
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
-			<c:if test="${!empty sessionUser }">
-				<a class="btn btn-primary btn-block"
-					href="${pageContext.request.contextPath}/board/board_write.jan">글쓰기</a>
-			</c:if>
+				<c:if test="${!empty sessionUser }">
+					<a class="btn btn-primary btn-block"
+						href="${pageContext.request.contextPath}/board/board_write.jan">글쓰기</a>
+				</c:if>
 			</div>
 			<div class="col-1"></div>
 		</div>

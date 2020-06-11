@@ -32,6 +32,16 @@ footer {
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+	   <div class="col mt-4">
+      <div class="row">
+         <div class="col"></div>
+         <div class="col">
+            <img
+               src="${pageContext.request.contextPath }/resources/img/candyfix.png">
+         </div>
+         <div class="col"></div>
+      </div>
+   </div>
 	<!-- Page Content -->
 	<div class="container">
 		<!-- Page Heading -->

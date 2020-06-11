@@ -15,9 +15,20 @@
 
 <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 <body>
+   <div class="col mt-4">
+      <div class="row">
+         <div class="col"></div>
+         <div class="col">
+            <img
+               src="${pageContext.request.contextPath }/resources/img/candyfix.png">
+         </div>
+         <div class="col"></div>
+      </div>
+   </div>
+
 <div class="container bootstrap snippet">
     <div class="row">
-  		<div class="col-sm-10"><h1>1번 후보</h1></div>
+  		<div class="col-sm-10"><h1></h1></div>
     </div>
     <div class="row">
   		<div class="col-sm-3"><!--left col-->

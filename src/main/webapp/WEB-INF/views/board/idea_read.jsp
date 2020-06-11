@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>청원 글읽기</title>
 <style>
 footer {
    margin: 0 auto;
@@ -30,15 +30,16 @@ footer {
 </head>
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
-   <div class="col mt-4">
-      <div class="row">
-         <div class="col"></div>
-         <div class="col">
-           <img src="https://dummyimage.com/1280X300/ababab/63646b">
-         </div>
-         <div class="col"></div>
-      </div>
-   </div>
+  <div class="col mt-4">
+		<div class="row">
+			<div class="col"></div>
+			<div class="col">
+				<img
+					src="${pageContext.request.contextPath }/resources/img/ideafix.png">
+			</div>
+			<div class="col"></div>
+		</div>
+	</div>
 
 
    <div class="container"

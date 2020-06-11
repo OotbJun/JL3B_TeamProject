@@ -342,15 +342,15 @@ public class BoardService {
 		return list2;
 	}
 	//글 리스트
-	public List<Map<String, Object>> ideaList(String searchWord, int currPage) {
+	public List<Map<String, Object>> ideaList(String searchOption, String keyword, int currPage) {
 
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		List<IdeaVo> idealist = null;
 
-		if (searchWord == null) {
+		if (keyword == null) {
 			idealist = boardSQLMapper.selectIdeaAll(currPage);
 		} else {
-			idealist = boardSQLMapper.selectIdeaByTitle(searchWord, currPage);
+			idealist = boardSQLMapper.selectIdeaByKeyword(searchOption, keyword, currPage);
 		}
 
 		for (IdeaVo ideaVo : idealist) {
@@ -397,11 +397,11 @@ public class BoardService {
 		boardSQLMapper.updateIdea(ideaVo);
 	}
 	//총 게시글 수, 검색 게시글 수
-	public int getIdeaDataCount(String searchWord) {
+	public int getIdeaDataCount(String searchOption,String searchWord) {
 		if (searchWord == null) {
 			return boardSQLMapper.selectIdeaAllCount();
 		} else {
-			return boardSQLMapper.selectIdeaByTitleCount(searchWord);
+			return boardSQLMapper.selectIdeaByTitleCount(searchOption,searchWord);
 		}
 	}
 

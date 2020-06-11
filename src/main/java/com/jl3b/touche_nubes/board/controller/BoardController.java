@@ -164,6 +164,9 @@ public class BoardController {
 		model.addAttribute("boardList", list);
 		model.addAttribute("boardNoticeList",list2);		//공지 고정
 		model.addAttribute("boardHotList",list3);			//인기글 고정
+		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("searchOption", searchOption);
+		
 		
 		
 		return "board/board";
@@ -254,8 +257,8 @@ public class BoardController {
 	@RequestMapping("/board_delete_process.jan")
 	public String deleteBoard(int board_no) {
 		boardService.deleteBoard(board_no);			//게시글 삭제
-		boardService.deleteBoardImg(board_no);		//게시글 이미지 삭제
-		boardService.deleteBoardRe(board_no);		//게시글 댓글 삭제
+//		boardService.deleteBoardImg(board_no);		//게시글 이미지 삭제
+//		boardService.deleteBoardRe(board_no);		//게시글 댓글 삭제
 
 		return "redirect:./board.jan";
 	}
@@ -317,19 +320,17 @@ public class BoardController {
 		return "redirect:./board_read.jan?board_no="+board_no ;
 	}
 	
-	
-	
-	
 	////////////////////////////////// 주민청원게시판
 	//주민청원게시판 리스트
+	
 	@RequestMapping("/idea.jan")
-	public String idea(String searchWord, Model model,
+	public String idea(@RequestParam(defaultValue = "idea_title")String searchOption,String searchWord, Model model,
 			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
-		List<Map<String, Object>> list = boardService.ideaList(searchWord, currPage);
+		List<Map<String, Object>> list = boardService.ideaList(searchOption,searchWord, currPage);
 		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//공지 상단 고정
 		
-		int totalCount = boardService.getIdeaDataCount(searchWord);
+		int totalCount = boardService.getIdeaDataCount(searchOption,searchWord);
 		int beginPage = ((currPage - 1) / 5) * 5 + 1;
 		int endPage = ((currPage - 1) / 5 + 1) * (5);
 
@@ -342,6 +343,9 @@ public class BoardController {
 		model.addAttribute("currPage", currPage);
 		model.addAttribute("ideaList", list);
 		model.addAttribute("ideaNoticeList",list2);
+		model.addAttribute("searchOption",searchOption);
+		model.addAttribute("searchWord",searchWord);
+		
 
 		return "board/idea";
 	}

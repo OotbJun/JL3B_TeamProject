@@ -44,7 +44,8 @@ li {
 		<div class="row">
 			<div class="col"></div>
 			<div class="col">
-				<img src="https://dummyimage.com/1280X300/ababab/63646b">
+				<img
+					src="${pageContext.request.contextPath }/resources/img/noticefix.png">
 			</div>
 			<div class="col"></div>
 		</div>
@@ -92,12 +93,12 @@ li {
 
 	</div>
 
-	<div class="container">
-		<div class="row">
-			<a href="${pageContext.request.contextPath}/board/notice.jan"
+	<div class="container text-right mt-2" style="padding: 0px">
+		
+			<a href="${pageContext.request.contextPath}/board/board.jan"
 				class="btn btn-light">목록으로</a>
-		</div>
-	</div>
+		
+	</div>	
 
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

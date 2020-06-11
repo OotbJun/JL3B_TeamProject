@@ -51,7 +51,6 @@ public interface BoardSQLMapper {
     public HorseheadVo selectNoticeHorsehead(String sort);
     public NoticeVo selectNoticeBySort(String sort);
     
-    
     /////////////////////////////청원입니당~
 	public int createIdeaKey();							//파일업로드시 필요(시퀀스 미리 만들어서 넣는 용도)
 	public void insertIdea(IdeaVo ideaVo);				//글쓰기
@@ -61,14 +60,12 @@ public interface BoardSQLMapper {
 	public void insertIdeaAnswer(IdeaVo ideaVo);		//답글쓰기
 	public void updateIdeaReadCount(int no);			//조회수
 	public int selectIdeaAllCount();					//게시글 개수
-	public int selectIdeaByTitleCount(String title);	//
-	public List<IdeaVo> selectIdeaByTitle(@Param("title") String title, @Param("currPage") int currPage);	//제목검색
 	public void deleteIdeaByNo(int idea_no);			//글삭제
 	public void updateIdea(IdeaVo ideaVo);				//글수정
 	// 추천
 	public void insertIdeaLike(IdeaLikeVo ideaLikeVo); // 추천, 비추
 	public IdeaLikeVo selectIdeaLikeByNo(IdeaLikeVo ideaLikeVo); // 중복방지 본인확인
 	public int selectIdeaLikeUpCount(int idea_no); // 좋아요 개수
-	
-	
+	public List<IdeaVo> selectIdeaByKeyword(@Param("searchOption") String searchOption, @Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
+	public int selectIdeaByTitleCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
 }

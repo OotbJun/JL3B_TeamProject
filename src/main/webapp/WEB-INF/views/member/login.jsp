@@ -18,6 +18,10 @@ footer {
 #xxx {
    background-color: rgba(255, 255, 255, 0.0);
 }
+
+body {
+ background-image: "${pageContext.request.contextPath }/resources/img/login.jpg"
+}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/login2.css">
 <link rel="stylesheet"
@@ -28,23 +32,24 @@ footer {
 </head>
 <body>
  <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+ 
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
 <div class="wrapper fadeInDown">
   <div id="formContent">
     <!-- Icon -->
-    <div class="fadeIn first">
+    <div class="fadeIn first mt-3">
       <img src="${pageContext.request.contextPath }/resources/img/navi-logo.png" id="icon" alt="User Icon" />
     </div>
     <!-- Login Form -->
-   <form action="./login_process.jan" method="post">
+   <form action="./login_process.jan" method="post" >
       <input type="text" id="login" class="fadeIn second" name="resi_id" placeholder="아이디 ">
       <input type="password" id="password" class="fadeIn third" name="resi_pw" placeholder="비밀번호">
-      <input type="submit" class="fadeIn fourth" value="Log In">
+      <input type="submit" class="fadeIn fourth" value="Log In" style="margin: 24px 20px 24px 20px">
     </form>
      <div id="formFooter">
-      <a class="underlineHover" href="./join_member_choice.jan">회원 가입</a>
+      <a class="underlineHover" href="./join_member_choice.jan" style="text-decoration: none; color: #56baed" >회원 가입</a>
     </div>
   </div>
 </div>
