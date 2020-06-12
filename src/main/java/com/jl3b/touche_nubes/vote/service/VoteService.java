@@ -41,7 +41,7 @@ public class VoteService {
 	}
 	
 	//매일 상태 업데이트
-	@Scheduled(cron = "0 0/1 * * * *")
+	@Scheduled(cron = "0 0 12 * * *")
 	public void gang() {
 		System.out.println("투표 상태 갱신 테스트");
 		

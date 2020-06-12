@@ -95,7 +95,7 @@ li {
 
 	<div class="container text-right mt-2" style="padding: 0px">
 		
-			<a href="${pageContext.request.contextPath}/board/board.jan"
+			<a href="${pageContext.request.contextPath}/board/notice.jan"
 				class="btn btn-light">목록으로</a>
 		
 	</div>	

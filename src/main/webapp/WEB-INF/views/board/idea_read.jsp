@@ -132,16 +132,20 @@ footer {
 
       <!-- 댓글 작성 -->
    </div>
-   <div class="container">
+   <div class="container text-right">
       <div class="row">
-         <div class=col-9></div>
-         <div class="col-2">
+         <div class=col></div>
+         
+         <c:if test="${sessionUser.resi_grade >= 2 }">
+         <div class="col-1">
            <a href="${pageContext.request.contextPath}/board/idea_answer.jan?idea_no=${readIdea.ideaVo.idea_no}"
                class="btn btn-light">답글달기</a>
          </div>
-         <div class="col-1" style="padding: 0px">
+         </c:if>
+         
+         <div class="col-1" style="padding: 0px; margin-right: 0px; ">
             <a href="${pageContext.request.contextPath}/board/idea.jan"
-               class="btn btn-light">목록으로</a>
+               class="btn btn-light">목록</a>
          </div>
     </div>
       </div>

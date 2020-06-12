@@ -43,6 +43,9 @@
 					class="form-control" name="board_title" id="title"
 					placeholder="제목을 입력해 주세요">
 			</div>
+			
+			
+			
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">

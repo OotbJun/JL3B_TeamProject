@@ -8,7 +8,7 @@
    <div class="col">
       <div class="row align-center mt-5">
          <div class="col"></div>
-         <div class="col">
+         <div class="col" style="text-align: center;">
             <img
                src="${pageContext.request.contextPath }/resources/img/footer-logo.png">
          </div>

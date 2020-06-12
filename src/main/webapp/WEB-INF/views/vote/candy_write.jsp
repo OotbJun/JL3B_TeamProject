@@ -60,7 +60,7 @@ footer {
             <div class="row mb-5">
                <div class="col">
                   <label for="tag">파일첨부</label> <input type="file"
-                     name="candyFile" multiple accept="image/*"><br>
+                     name="candyFile" accept="image/*"><br>
                </div>
             </div>
             <div class="row mb-3">
