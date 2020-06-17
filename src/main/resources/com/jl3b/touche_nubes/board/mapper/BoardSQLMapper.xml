@@ -237,6 +237,7 @@
 				)
 		]]>
 	</insert>
+	
 	<!-- 본인확인 -->
 	<select id="selectLikeByNo" resultType="com.jl3b.touche_nubes.boardvo.BoardLikeVo">
 		<![CDATA[
@@ -246,18 +247,27 @@
 			WHERE resi_no = #{resi_no} AND board_no = #{board_no}
 		]]>
 	</select>
+	
 	<!-- 좋아요 개수 -->
 	<select id="selectLikeUpCount" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'Y' AND BOARD_NO = #{BOARD_NO}
 		]]>
 	</select>
+	
 	<!-- 싫어요 개수 -->
 	<select id="selectLikeDownCount" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'N' AND BOARD_NO = #{BOARD_NO}
 		]]>
 	</select>
+	
+	<!-- 자게 추천 취소 -->
+	<delete id="deleteBoardLike">
+		<![CDATA[
+			DELETE FROM JL3B_BOARD_LIKE WHERE RESI_NO = #{resi_no} AND BOARD_NO = #{board_no}
+		]]>
+	</delete>
 	
 	
 	<!-- /////////////////////////////////말머리 -->
@@ -297,7 +307,7 @@
 		VALUES(#{idea_no},
 		#{resi_no},
 		(JL3B_IDEA_SEQ.nextval-1)+1,
-		'dd',
+		'미답변',
 		#{idea_title},
 		#{idea_content},
 		0,
@@ -358,13 +368,30 @@
 		VALUES(JL3B_IDEA_SEQ.nextval,
 		#{resi_no},
 		#{idea_gr_no},
-		'답변',
+		'aa',
 		#{idea_title},
 		#{idea_content},
 		0,
 		SYSDATE)
 		]]>
 	</insert>
+	
+	<!-- 답변 달리면 말머리 수정 -->
+	<update id="updateHorsehead">
+		<![CDATA[
+			UPDATE JL3B_IDEA 
+			SET 
+				HORSEHEAD_SORT = '답변완료' 
+			WHERE IDEA_GR_NO IN(
+					SELECT IDEA_GR_NO 
+					FROM
+						(SELECT IDEA_GR_NO, COUNT(IDEA_GR_NO) 
+						FROM JL3B_IDEA 
+						GROUP BY IDEA_GR_NO 
+						HAVING COUNT(IDEA_GR_NO)=2))
+		]]>
+	</update>
+	
 	
 	<!-- 조회수 -->
 	<update id="updateIdeaReadCount">
@@ -383,7 +410,7 @@
                SELECT ROWNUM rnum, t1.*  
                FROM(
                      SELECT * FROM JL3B_idea WHERE idea_title LIKE '%'||#{title}||'%'
-                     ORDER BY idea_no DESC) t1
+                     ORDER BY idea_gr_no desc, idea_no asc) t1
                  )t2  
            WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
 		]]>
@@ -406,12 +433,19 @@
          JL3B_idea_LIKE 
          VALUES(
             JL3B_idea_LIKE_SEQ.NEXTVAL,
-            #{resi_no}, 
+            #{resi_no},
             #{idea_no},
             #{idea_like}
             )
       ]]>
    </insert>
+   
+   <!-- 추천 취소 -->
+   <delete id="deleteIdeaLike">
+   		<![CDATA[
+   			DELETE FROM JL3B_IDEA_LIKE WHERE RESI_NO = #{resi_no} AND IDEA_NO = #{idea_no}
+   		]]>
+   </delete>
    
    <!-- 본인확인 -->
    <select id="selectIdeaLikeByNo" resultType="com.jl3b.touche_nubes.ideavo.IdeaLikeVo">
@@ -442,7 +476,7 @@
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT DISTINCT B.board_no, B.board_title, R.resi_rname, B.board_wdate, B.board_hits, R.resi_no FROM JL3B_BOARD B, JL3B_RESI R 
+                     SELECT B.board_no, B.board_title, R.resi_rname, B.board_wdate, B.board_hits, R.resi_no FROM JL3B_BOARD B, JL3B_RESI R 
                      WHERE B.RESI_NO = R.RESI_NO ]]>  
                      <include refid="search"></include>
     <![CDATA[        ORDER BY board_no DESC) t1
@@ -469,10 +503,10 @@
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT DISTINCT I.IDEA_NO, I.IDEA_TITLE, R.RESI_RNAME, I.IDEA_WDATE, I.IDEA_HITS, R.RESI_NO FROM JL3B_Idea I, JL3B_RESI R 
+                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, R.RESI_RNAME, I.IDEA_WDATE, I.IDEA_HITS, R.RESI_NO FROM JL3B_Idea I, JL3B_RESI R 
                      WHERE I.RESI_NO = R.RESI_NO ]]>  
                      <include refid="search2"></include>
-    <![CDATA[        ORDER BY idea_no DESC) t1
+    <![CDATA[        ORDER BY I.idea_gr_no desc, I.idea_no asc) t1
                 )t2  
     		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10]]>
    	

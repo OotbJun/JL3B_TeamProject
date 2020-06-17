@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.ResiVo;
-import com.jl3b.touche_nubes.membervo.TeacherVo;
+import com.jl3b.touche_nubes.membervo.CenterVo;
 
 @Controller
 @RequestMapping("/member/*")
@@ -38,7 +38,7 @@ public class MemberController {
 		}else if(memberService.checkNpkiDupl(resiVo.getNpki_key()) != null) {
 			return"/member/join_fail";
 		}else {
-			memberService.joinResiMember(resiVo);
+			memberService.joinResi(resiVo);
 			return "redirect:./login.jan";
 		}
 	}
@@ -50,9 +50,9 @@ public class MemberController {
 	}
 	
 	@RequestMapping("join_teacher_process.jan")
-	public String joinTeacherProcess(TeacherVo teacherVo) {
+	public String joinTeacherProcess(CenterVo teacherVo) {
 		
-		memberService.joinTeacherMember(teacherVo);
+		memberService.joinCenter(teacherVo);
 		
 		return "redirect:./login.jan";
 	}
@@ -64,7 +64,7 @@ public class MemberController {
 	
 	@RequestMapping("/login_process.jan")
 	public String loginProcess(ResiVo resiVo, HttpSession session) {
-		ResiVo residata = memberService.login(resiVo);
+		ResiVo residata = memberService.loginResi(resiVo);
 		if (residata == null) {
 			return "member/login_fail";
 		} else {
@@ -80,16 +80,22 @@ public class MemberController {
 		 return "redirect:/";
 	}
 	
-	//아이디 중복검사
-	@RequestMapping("/confirmId.jan")
-	@ResponseBody
-	public String confirmid(String id) {
-		if (memberService.confrimId(id)) {
-			return "true";
-		} else {
-			return "false";
+	
+	//센터 로그인
+	@RequestMapping("/login_center.jan")
+	public String loginCenter() {
+		return "member/login_center";
+	}
+	@RequestMapping("/login_center_process.jan")
+	public String loginCenterProcess(CenterVo centerVo, HttpSession session) {
+		CenterVo centerData = memberService.loginCenter(centerVo);
+		if(centerData == null) {
+			return "member/login_fail";
+		}else {
+			session.setAttribute("sessionUser", centerData);
+			System.out.println("센터 로그인");
+			return "redirect:/board/main.jan";
 		}
 	}
-	
 	
 }

@@ -5,7 +5,8 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.jl3b.touche_nubes.member.mapper.MemberSQLMapper">
-
+	
+	<!-- 입주민 가입 -->
 	<insert id="insertResi">
 		<![CDATA[
 			INSERT INTO JL3B_RESI VALUES(
@@ -21,6 +22,7 @@
 		]]>
 	</insert>
 	
+	<!-- 입주민 로그인 -->
 	<select id="selectResiByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
 		<![CDATA[
 			SELECT * 
@@ -33,6 +35,7 @@
 		]]>
 	</select>
 	
+	<!-- 입주민 확인 -->
 	<select id="selectResiByNo" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
 		<![CDATA[
 			SELECT * 
@@ -43,6 +46,7 @@
 		]]>
 	</select>
 	
+	<!-- 아이디 확인 -->
 	<select id="selectResiById" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
 		<![CDATA[
 			SELECT * 
@@ -53,21 +57,21 @@
 		]]>
 	</select>
 	
-	<insert id="insertTeacher">
+	<!-- 센터 가입 -->
+	<insert id="insertCenter">
 		<![CDATA[
-			INSERT INTO JL3B_TEACHER VALUES(
-				JL3B_TEACHER_SEQ.NEXTVAL,
+			INSERT INTO JL3B_CENTER VALUES(
+				JL3B_CENTER_SEQ.NEXTVAL,
 				#{npki_key},
-				#{teacher_id},
-				#{teacher_pw},
-				#{teacher_class},
-				#{teacher_mail},
-				#{teacher_bank},
+				#{center_id},
+				#{center_pw},
+				#{center_name},
+				#{center_mail},
 				SYSDATE)
 		]]>
 	</insert>
 	
-	<!-- 인증번호 중복방지 -->
+	<!-- 입주민 인증번호 중복방지 -->
 	<select id="selectResiByNpki" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
 		<![CDATA[
 			SELECT * 
@@ -77,5 +81,49 @@
 		]]>	
 	</select>
 	
+	
+	<!-- 인증번호 유효성검사? -->
+   <select id="existNpki" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_NPKI 
+         WHERE NPKI_KEY = #{key}
+      ]]>   
+   </select>
+   
+   <!-- 센터 인증번호 중복방지 -->
+   <select id="selectCenterByNpki" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT *
+   			FROM
+   				JL3B_CENTER
+   			WHERE NPKI_KEY = #{key}
+   		]]>
+   </select>
+   
+   <!-- 센터 확인 -->
+	<select id="selectCenterByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CENTER
+			WHERE 
+				center_no = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 센터 로그인 -->
+	<select id="selectCenterByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CENTER 
+			WHERE 
+				center_id = #{center_id} 
+			AND 
+				center_pw = #{center_pw}
+		]]>
+	</select>
 
 </mapper>

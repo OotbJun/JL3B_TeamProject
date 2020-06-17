@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jl3b.touche_nubes.center.mapper.CenterSQLMapper">
+	
+	<!-- 센터정보 -->
+	<!-- 파일업로드용 키 -->
+	<select id="createCenterInfoKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_center_info_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
+	<!-- 센터 정보 등록 -->
+	<insert id="insertCenterInfo">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER_INFO 
+			VALUES(
+				#{info_no}, 
+				#{center_no}, 
+				#{info_pr},
+				#{info_about}
+			)
+		]]>
+	</insert>
+	
+	<!-- 센터 정보 수정 -->
+	<update id="updateCenterInfo">
+		<![CDATA[
+			UPDATE JL3B_CENTER_INFO 
+			SET 
+				INFO_PR = #{info_pr} 
+			WHERE CENTER_NO = #{center_no}
+		]]>
+	</update>
+	
+	<!-- 센터 정보 삭제 -->
+	<delete id="deleteCenterInfo">
+		<![CDATA[
+			DELETE FROM JL3B_CENTER_INFO 
+			WHERE INFO_NO = #{info_no}
+		]]>
+	</delete>
+	
+	<!-- 센터 정보 보기 -->
+	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CENTER_INFO 
+			WHERE INFO_NO = #{info_no}
+		]]>
+	</select>
+	
+	<!-- 센터 리스트 -->
+	<select id="selectCenterInfoAll" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_INFO ORDER BY info_no DESC
+		]]>
+	</select>
+	
+	
+	<!-- 센터리뷰 -->
+	<!-- 센터 리뷰 등록 -->
+	<insert id="insertCenterReview">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER_REVIEW 
+			VALUES(
+				JL3B_CENTER_REVIEW_SEQ.NEXTVAL, 
+				#{center_no}, 
+				#{review_comment}, 
+				SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!-- 센터 리뷰 수정 -->
+	<update id="updateCenterReview">
+		<![CDATA[
+			UPDATE JL3B_CENTER_REVIEW 
+			SET 
+				REVIEW_COMMENT = #{review_comment}, REVIEW_WDATE = SYSDATE 
+			WHERE REVIEW_NO = #{review_no}
+		]]>
+	</update>
+	
+	<!-- 센터 리뷰 삭제 -->
+	<delete id="deleteCenterReview">
+		<![CDATA[
+			DELETE FROM JL3B_CENTER_REVIEW WHERE REVIEW_NO = #{review_no}
+		]]>
+	</delete>
+	
+	<!-- 센터 리뷰 보기 -->
+	<select id="selectCenterReviewByNo" resultType="com.jl3b.touche_nubes.centervo.CenterReviewVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_REVIEW WHERE REVIEW_NO = #{review_no}
+		]]>
+	</select>
+	
+	
+	<!-- 예약 -->
+	<!-- 프로그램 예약하기 -->
+	<insert id="insertBooking">
+		<![CDATA[
+			INSERT INTO JL3B_BOOKING VALUES(JL3B_BOOKING_SEQ.NEXTVAL, #{resi_no}, #{prog_no})
+		]]>
+	</insert>
+	
+	<delete id="deleteBooking">
+		<![CDATA[
+			DELETE FROM JL3B_BOOKING WHERE BOOKING_NO = #{booking_no}
+		]]>
+	</delete>
+	
+	<!-- 예약 조회(본인 예약 내역) -->
+	<select id="selectBookingByResi" resultType="com.jl3b.touche_nubes.centervo.BookingVo">
+		<![CDATA[
+			SELECT * FROM JL3B_BOOKING WHERE RESI_NO = #{resi_no}
+		]]>
+	</select>
+	
+	<!-- 인원 수 조회(예약 마감 활성화) -->
+	<select id="selectBookingCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOOKING WHERE PROG_NO = #{prog_no}
+		]]>
+	</select>
+
+</mapper>

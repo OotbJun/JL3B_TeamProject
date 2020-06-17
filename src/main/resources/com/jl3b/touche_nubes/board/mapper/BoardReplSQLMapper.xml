@@ -7,7 +7,7 @@
 	<!-- 댓글 출력 -->
 	<select id="selectBoardRepleList" resultType="com.jl3b.touche_nubes.boardvo.BoardReVo">
 	     <![CDATA[
-	        SELECT * FROM JL3B_BOARD_RE WHERE BOARD_NO = #{board_no}
+	        SELECT * FROM JL3B_BOARD_RE WHERE BOARD_NO = #{board_no} ORDER BY BOARD_RE_NO ASC
 	      ]]>
 	</select>
 	
@@ -22,7 +22,7 @@
 			    #{resi_no},
 			    #{board_re_content},
 				SYSDATE
-			)
+		)
 	     ]]>
 	</insert>
 	
@@ -38,7 +38,7 @@
 	<!-- 해당 댓글 삭제 -->
 	<delete id="deleteBoardReply" parameterType="int">
 	    <![CDATA[
-	   DELETE FROM jl3b_board_re WHERE BOARD_RE_NO=#{board_re_no};
+	   DELETE FROM jl3b_board_re WHERE BOARD_RE_NO=#{board_re_no}
 	    ]]>
 	</delete>
 	
@@ -55,5 +55,14 @@
 	   	DELETE FROM jl3b_board_re WHere board_no=#{board_no}; 
 	   ]]>
 	</delete>
+	
+	
+	
+	<!-- 테스트 -->
+	<select id="selectCheckReply" resultType="com.jl3b.touche_nubes.boardvo.BoardReVo">
+		<![CDATA[
+			SELECT * FROM JL3B_BOARD_RE WHERE RESI_NO = #{resi_no} AND BOARD_RE_NO = #{board_re_no}
+		]]>
+	</select>
 
 </mapper>

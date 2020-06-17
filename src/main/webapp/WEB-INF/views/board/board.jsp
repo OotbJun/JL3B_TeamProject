@@ -24,8 +24,7 @@
 			<div class="col"></div>
 			<div class="col">
 				<img
-					src="${pageContext.request.contextPath }/resources/img/boardpage.png"
-					>
+					src="${pageContext.request.contextPath }/resources/img/boardpage.png">
 			</div>
 			<div class="col"></div>
 		</div>
@@ -94,7 +93,9 @@
 										<td>${boardList.boardVo.board_no}</td>
 										<td class="text-left pl-1"><a
 											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title}
-												(${boardList.replyCount })</a></td>
+												<c:if test="${boardList.replyCount > 0 }">
+												(${boardList.replyCount })</c:if>
+										</a></td>
 										<td>${boardList.resiVo.resi_rname}</td>
 										<td><fmt:formatDate
 												value="${boardList.boardVo.board_wdate}"
@@ -127,11 +128,15 @@
 
 						<!-- 검색 조건 -->
 						<select name="searchOption" class="ml-3">
-						
-							<option value="board_title" <c:if test="${searchOption.equals('board_title') }">selected="selected"</c:if>>제목</option>
-							<option value="board_content" <c:if test="${searchOption.equals('board_content') }">selected="selected"</c:if>>내용</option>
-							<option value="resi_rname" <c:if test="${searchOption.equals('resi_rname') }">selected="selected"</c:if>>작성자</option>
-							<option value="titleContent" <c:if test="${searchOption.equals('titleContent') }">selected="selected"</c:if>>제목+내용</option>
+
+							<option value="board_title"
+								<c:if test="${searchOption.equals('board_title') }">selected="selected"</c:if>>제목</option>
+							<option value="board_content"
+								<c:if test="${searchOption.equals('board_content') }">selected="selected"</c:if>>내용</option>
+							<option value="resi_rname"
+								<c:if test="${searchOption.equals('resi_rname') }">selected="selected"</c:if>>작성자</option>
+							<option value="titleContent"
+								<c:if test="${searchOption.equals('titleContent') }">selected="selected"</c:if>>제목+내용</option>
 						</select>
 
 						<div class="col-3" style="padding-right: 0px">

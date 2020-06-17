@@ -69,8 +69,7 @@ public class BoardController {
 	//공지 리스트
 	@RequestMapping("/notice.jan")
 	public String notice(Model model, String searchWord, 
-				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-				HttpSession session) {
+				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		
 		
 		
@@ -242,10 +241,11 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/board_read.jan")
-	public String readBoard(int board_no, Model model, BoardLikeVo boardLikeVo) {
+	public String readBoard(int board_no, Model model) {
 		
 		Map<String, Object> map = boardService.viewBoard(board_no);
 		List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
+		
 		
 		model.addAttribute("readBoard", map);
 		model.addAttribute("boardReplList",boardReplList);
@@ -275,43 +275,45 @@ public class BoardController {
 		return "redirect:./board.jan";
 	}
 	
-	//추천!!
-	@RequestMapping("/choose_like_process.jan")
-	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
-		
-		if(session.getAttribute("sessionUser") == null) {
-			return "board/board_fail";
-		}
-		
-		int currentPage = boardLikeVo.getBoard_no();
-		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-		boardLikeVo.setResi_no(resiVo);
-		
-		BoardLikeVo likeData = boardService.checkLike(boardLikeVo);			//중복방지 본인확인
-		
-		if(likeData == null) {
-			boardService.chooseLike(boardLikeVo);
-			return "redirect:./board_read.jan?board_no="+currentPage;
-		}else {
-			return "redirect:./board_read.jan?board_no="+currentPage;
-		}
-	}
 	
-	//댓글!
-	@RequestMapping("/write_reply_process.jan")
-	public String wirteReplyProcess(HttpSession session, BoardReVo boardReVo) {
-		
-		if(session.getAttribute("sessionUser") == null) {
-			return "board/board_fail";
-		}
-		
-		int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-		int boardNo = boardReVo.getBoard_no();
-		boardReVo.setResi_no(resiNo);
-		boardService.insertRepl(boardReVo);
-		
-		return "redirect:./board_read.jan?board_no="+boardNo;
-	}
+	//추천!! -> Ajax로
+//	@RequestMapping("/choose_like_process.jan")
+//	public String chooseLikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
+//		
+//		if(session.getAttribute("sessionUser") == null) {
+//			return "board/board_fail";
+//		}
+//		
+//		int currentPage = boardLikeVo.getBoard_no();
+//		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
+//		boardLikeVo.setResi_no(resiVo);
+//		
+//		BoardLikeVo likeData = boardService.checkLike(boardLikeVo);			//중복방지 본인확인
+//		
+//		if(likeData == null) {
+//			boardService.chooseLike(boardLikeVo);
+//			return "redirect:./board_read.jan?board_no="+currentPage;
+//		}else {
+//			return "redirect:./board_read.jan?board_no="+currentPage;
+//		}
+//	}
+	
+	//댓글! -> Ajax로
+//	@RequestMapping("/write_reply_process.jan")
+//	public String wirteReplyProcess(HttpSession session, BoardReVo boardReVo) {
+//		
+//		if(session.getAttribute("sessionUser") == null) {
+//			return "board/board_fail";
+//		}
+//		
+//		int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
+//		int boardNo = boardReVo.getBoard_no();
+//		boardReVo.setResi_no(resiNo);
+//		boardService.insertRepl(boardReVo);
+//		
+//		return "redirect:./board_read.jan?board_no="+boardNo;
+//	}
+//	
 	
 	//이미지 삭제
 	@RequestMapping("/delete_board_img.jan")
@@ -451,25 +453,26 @@ public class BoardController {
 		return "redirect:./idea.jan";
 	}
 	
-	//청원글 좋아요 
-	@RequestMapping("/choose_idea_like_process.jan")
-	public String chooseLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
-       if(session.getAttribute("sessionUser")==null) {
-    	   return "board/board_fail";
-       }
-		int currentPage = ideaLikeVo.getIdea_no();
-		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-
-		ideaLikeVo.setResi_no(resiVo);
-		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);			//중복방지 본인확인
-
-		if (likeData == null) {
-			boardService.chooseLike(ideaLikeVo);
-			return "redirect:./idea_read.jan?idea_no=" + currentPage;
-		} else {
-			return "redirect:./idea_read.jan?idea_no=" + currentPage;
-		}
-	}
+	//청원글 좋아요 -> Ajax로
+//	@RequestMapping("/choose_idea_like_process.jan")
+//	public String chooseLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session, IdeaVo ideaVo) {
+//       if(session.getAttribute("sessionUser")==null) {
+//    	   return "board/board_fail";
+//       }
+//       
+//		int currentPage = ideaLikeVo.getIdea_no();
+//		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
+//
+//		ideaLikeVo.setResi_no(resiVo);
+//		IdeaLikeVo likeData = boardService.checkLike(ideaLikeVo);			//중복방지 본인확인
+//
+//		if (likeData == null) {
+//			boardService.chooseLike(ideaLikeVo);
+//			return "redirect:./idea_read.jan?idea_no=" + currentPage;
+//		} else {
+//			return "redirect:./idea_read.jan?idea_no=" + currentPage;
+//		}
+//	}
 	
 	//청원글답변달기
 	@RequestMapping("/idea_answer.jan")

@@ -27,8 +27,70 @@ footer {
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
    crossorigin="anonymous">
+   
+<script type="text/javascript">
+	
+	function refreshIdeaLike() {
+		var ideaNo = ${readIdea.ideaVo.idea_no};
+		var xmlhttp = new XMLHttpRequest();
+		var ideaLikeBox = document.getElementById("idea_like_count");
+		var boxSpan = document.createElement("span");
+		
+		xmlhttp.onreadystatechange = function() {
+			
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				
+				var ideaLikeCount = xmlhttp.responseText;
+				var length = ideaLikeBox.childNodes.length;
+				
+				boxSpan.innerText = ideaLikeCount;
+				
+				for(var i = 0; i < length; i++) {
+					ideaLikeBox.removeChild(ideaLikeBox.childNodes[0]);
+				}
+				
+				ideaLikeBox.appendChild(boxSpan);
+				
+			}
+		};
+		
+		xmlhttp.open("get", "./get_idea_likecount.jan?idea_no=" + ideaNo, true);
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send();
+		
+	};
+	
+	function ideaLike() {
+			
+		var ideaNo = ${readIdea.ideaVo.idea_no};
+		var ideaLike = document.getElementById("idea_like").value;
+		var xmlhttp = new XMLHttpRequest();
+		
+		xmlhttp.onreadystatechange = function() {
+			
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				refreshIdeaLike();
+			}
+			
+		};
+		
+		xmlhttp.open("post", "./choose_idea_like_process.jan", true);
+		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xmlhttp.send("idea_no=" + ideaNo + "&idea_like=" + ideaLike);
+		
+		console.log("idea_no : " + ideaNo);
+		console.log("value : "+ ideaLike);
+		
+	};
+	
+	
+	
+	
+</script>   
+   
 </head>
-<body>
+
+<body onload="refreshIdeaLike()">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
   <div class="col mt-4">
 		<div class="row">
@@ -79,6 +141,7 @@ footer {
    </div>
 
 
+
    <!-- 추천! -->
    <div class="container" style="margin-top: 20px;">
       <div class="row"
@@ -88,11 +151,22 @@ footer {
             <div class="row">
                <div class="col-4"></div>
                <div class="col-4" style="padding: 0%">
-
+               
+               
+				<!-- 
                   <a
                      href="${pageContext.request.contextPath }/board/choose_idea_like_process.jan?idea_like=Y&idea_no=${readIdea.ideaVo.idea_no }">청원</a>
                   ${readIdea.upCount }
+				 -->
+				 <span style="color: red" id="idea_like_count"></span>
 
+				<button type="button" onclick="ideaLike()" class="btn btn-group" id="idea_like" style="max-width: 100%; width: 50px; height: 30px;" value="Y">
+				<img class="btn-img"
+								src="${pageContext.request.contextPath }/resources/img/heart.ico"
+								style="max-width: 100%">
+				</button>
+				 
+				 
 
                </div>
                <div class="col-4"></div>

@@ -50,6 +50,7 @@ body {
     </form>
      <div id="formFooter">
       <a class="underlineHover" href="./join_member_choice.jan" style="text-decoration: none; color: #56baed" >회원 가입</a>
+      <a class="underlineHover" href="./login_center.jan" style="text-decoration: none; color: #56baed" >센터 로그인</a>
     </div>
   </div>
 </div>

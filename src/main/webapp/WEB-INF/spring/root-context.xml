@@ -37,12 +37,15 @@
 	<mybatis-spring:scan base-package="com.jl3b.touche_nubes.member.mapper"/>	
 	<mybatis-spring:scan base-package="com.jl3b.touche_nubes.board.mapper"/>
 	<mybatis-spring:scan base-package="com.jl3b.touche_nubes.vote.mapper"/>
+	<mybatis-spring:scan base-package="com.jl3b.touche_nubes.center.mapper"/>
 	
 	
 	<!-- 서비스 걸어준다. -->
 	<context:component-scan base-package="com.jl3b.touche_nubes.member.service"></context:component-scan>
 	<context:component-scan base-package="com.jl3b.touche_nubes.board.service"></context:component-scan>
 	<context:component-scan base-package="com.jl3b.touche_nubes.vote.service"></context:component-scan>
+	<context:component-scan base-package="com.jl3b.touche_nubes.center.service"></context:component-scan>
+	
 	
 
 		

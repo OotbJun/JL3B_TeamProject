@@ -90,14 +90,21 @@
 							<tbody>
 								<c:forEach items="${ideaList}" var="ideaList">
 									<tr class="text-center">
-										<td>미답변</td>
-										<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
+									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
+										<c:if test="${!fn:contains(answer,'답변')}">
+										<td>${ideaList.ideaVo.horsehead_sort }</td>
+										</c:if>
+										<c:if test="${fn:contains(answer,'답변')}">
+										<td></td>
+										</c:if>
+										
+									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${fn:contains(answer,'답변')}">
 											<td class="text-left pl-5"><a
 												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}">${ideaList.ideaVo.idea_title}</a>
 											</td>
 										</c:if>
-										<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
+									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${!fn:contains(answer,'답변')}">
 											<td class="text-left pl-2"><a
 												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}">${ideaList.ideaVo.idea_title}</a></td>

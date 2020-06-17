@@ -45,11 +45,17 @@ public interface BoardSQLMapper {
     public BoardLikeVo selectLikeByNo(BoardLikeVo boardLikeVo);	//중복방지 본인확인
     public int selectLikeUpCount(int boardNo);					//좋아요 개수
     public int selectLikeDownCount(int boardNo);				//싫어요 개수
+    public void deleteBoardLike(BoardLikeVo boardLikeVo);		//추천 취소
     
-    //말머리
+    
+    
+    
+    ////////말머리
     public List<HorseheadVo> selectHorsehead(String sort);
     public HorseheadVo selectNoticeHorsehead(String sort);
     public NoticeVo selectNoticeBySort(String sort);
+    
+    
     
     /////////////////////////////청원입니당~
 	public int createIdeaKey();							//파일업로드시 필요(시퀀스 미리 만들어서 넣는 용도)
@@ -62,10 +68,12 @@ public interface BoardSQLMapper {
 	public int selectIdeaAllCount();					//게시글 개수
 	public void deleteIdeaByNo(int idea_no);			//글삭제
 	public void updateIdea(IdeaVo ideaVo);				//글수정
-	// 추천
+	public void updateHorsehead();						//답변 달리면 말머리 수정
+	//추천
 	public void insertIdeaLike(IdeaLikeVo ideaLikeVo); // 추천, 비추
 	public IdeaLikeVo selectIdeaLikeByNo(IdeaLikeVo ideaLikeVo); // 중복방지 본인확인
 	public int selectIdeaLikeUpCount(int idea_no); // 좋아요 개수
 	public List<IdeaVo> selectIdeaByKeyword(@Param("searchOption") String searchOption, @Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
 	public int selectIdeaByTitleCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
+	public void deleteIdeaLike(IdeaLikeVo ideaLikeVo);	//추천 취소
 }
