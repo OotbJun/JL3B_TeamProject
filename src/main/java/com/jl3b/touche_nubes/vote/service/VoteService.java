@@ -212,4 +212,10 @@ public class VoteService {
 //		}
 //	}
 	
+	
+	//test
+	public CandyVo check(int resi_no, int election_round) {
+		return voteSQLMapper.check(resi_no, election_round);
+	}
+	
 }

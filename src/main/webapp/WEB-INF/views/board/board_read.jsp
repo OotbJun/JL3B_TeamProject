@@ -76,8 +76,8 @@ function insert() {
 	                            a += '<div class="col-1" style="font-size:small; font-weight: bold;">'+value.resiVo.resi_rname +'</div>'; 
 	                            a += '<div class="col-8 commentContent'+value.boardReVo.board_re_no+'" style="font-size:small";>'+value.boardReVo.board_re_content +'</div>';
 	                            a += '<div class="col-3 text-right">'
-	                            a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}"> <a onclick="commentUpdate('+value.boardReVo.board_re_no+',\''+value.boardReVo.board_re_content+'\');"style="font-size: x-small";> 수정 </a></c:if>' 
-	                            a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}"><a onclick="commentDelete('+value.boardReVo.board_re_no+');"style="font-size:x-small";> 삭제 </a></c:if></div>'
+                            	a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentUpdate('+value.boardReVo.board_re_no+',\''+value.boardReVo.board_re_content+'\');"style="font-size: x-small";> 수정 </a></c:if>' 
+                                a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentDelete('+value.boardReVo.board_re_no+');"style="font-size:x-small";> 삭제 </a></c:if></div>'
 	                            a += '</div></div>';
 	                              });
 	                  $("#commentList").html(a);
@@ -408,7 +408,7 @@ function insert() {
 		<div class="commentList" id="commentList"></div>
 		<!-- 댓글 작성 -->
 		<label for="content">comment</label>
-		<form name="commentInsertForm">
+		<form name="commentInsertForm" onsubmit="return false">
 			<div class="input-group">
 				<input type="hidden" value="${readBoard.boardVo.board_no}"
 					id="board_no" /> <input type="text" class="form-control"

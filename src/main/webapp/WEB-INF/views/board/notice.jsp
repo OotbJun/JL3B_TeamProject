@@ -71,7 +71,7 @@
 							<tbody>
 								<c:forEach items="${noticeList }" var="noticeList">
 									<tr class="text-center">
-										<td style="font-weight: bold">${noticeList.horseheadVo.horsehead_title }</td>
+										<td style="font-weight: bold">${noticeList.noticeVo.horsehead_sort }</td>
 										<td class="text-left pl-1"><a
 											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&horsehead_sort=${noticeList.horseheadVo.horsehead_sort }">${noticeList.noticeVo.notice_title }</a></td>
 										<td>${noticeList.resiVo.resi_rname }</td>
@@ -117,7 +117,8 @@
 
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
-				<c:if test="${sessionUser.resi_grade>=2 }">
+			<c:set value="${sessionUser.npki_key }" var="key"></c:set>
+				<c:if test="${sessionUser.resi_grade>=2}">
 					<a
 						href="${pageContext.request.contextPath }/board/notice_write.jan"
 						class="btn btn-primary btn-block">글쓰기</a>

@@ -8,14 +8,11 @@ public interface MemberSQLMapper {
 	public void insertResi(ResiVo resiVo);
 
 	public ResiVo selectResiByIdAndPw(ResiVo resiVo);
-
 	public ResiVo selectResiByNo(int no);
-
 	public ResiVo selectResiById(String id);
-
-	public ResiVo selectResiByNpki(String key); // 인증번호 중복방지
-
-	public String existNpki(String key);
+	public ResiVo selectResiByNpki(String key); 			//인증번호 중복방지
+	public String existNpki(String key);					//인증키 확인
+	public String existEmail(String resi_mail);				//이메일 확인
 	
 	
 	//////센터

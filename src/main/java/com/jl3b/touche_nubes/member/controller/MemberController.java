@@ -92,7 +92,7 @@ public class MemberController {
 		if(centerData == null) {
 			return "member/login_fail";
 		}else {
-			session.setAttribute("sessionUser", centerData);
+			session.setAttribute("sessionCenter", centerData);
 			System.out.println("센터 로그인");
 			return "redirect:/board/main.jan";
 		}

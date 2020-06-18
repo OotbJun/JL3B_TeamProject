@@ -130,5 +130,20 @@
 			SELECT COUNT(*) FROM JL3B_BOOKING WHERE PROG_NO = #{prog_no}
 		]]>
 	</select>
-
+	
+	<!-- 인포넘버값 받아오기 -->
+	<select id="selectInfoNo" resultType="int">
+		<![CDATA[
+			SELECT INFO_NO FROM JL3B_CENTER_INFO
+		]]>
+	</select>
+	
+	<!-- 정보등록 중복방지 -->
+	<select id="checkCenterInfo" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_INFO WHERE CENTER_NO = #{center_no}
+		]]>
+	</select>
+	
+	
 </mapper>

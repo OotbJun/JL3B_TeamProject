@@ -221,4 +221,16 @@
 	</select>
 	
 	
+	
+	<!-- test -->
+	<select id="check" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CANDY 
+			WHERE resi_no = #{resi_no}
+			AND election_round = #{round}
+		]]>
+	</select>
+	
 </mapper>

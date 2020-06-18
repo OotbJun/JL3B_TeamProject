@@ -2,6 +2,8 @@ package com.jl3b.touche_nubes.vote.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.jl3b.touche_nubes.votevo.CandyVo;
 import com.jl3b.touche_nubes.votevo.ElectionVo;
 import com.jl3b.touche_nubes.votevo.VoteVo;
@@ -43,4 +45,7 @@ public interface VoteSQLMapper {
 	
 	//예외처리 - 기간에 맞게 처리하려고
 	public String electionStatus(int round);
+	
+	//test
+	public CandyVo check(@Param("resi_no") int resi_no, @Param("round") int round);
 }

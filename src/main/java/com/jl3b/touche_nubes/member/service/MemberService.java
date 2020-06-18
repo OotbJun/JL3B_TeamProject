@@ -82,4 +82,13 @@ public class MemberService {
          return false;
       }
    }
+   
+   //이메일 확인
+   public boolean confirmEmail(String resi_mail) {
+      if(memberSQLMapper.existEmail(resi_mail)!= null) {
+         return true;
+      } else {
+         return false;
+      }   
+	}
 }

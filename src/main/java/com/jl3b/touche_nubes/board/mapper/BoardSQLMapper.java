@@ -51,9 +51,9 @@ public interface BoardSQLMapper {
     
     
     ////////말머리
-    public List<HorseheadVo> selectHorsehead(String sort);
-    public HorseheadVo selectNoticeHorsehead(String sort);
-    public NoticeVo selectNoticeBySort(String sort);
+//    public List<HorseheadVo> selectHorsehead(String sort);
+//    public HorseheadVo selectNoticeHorsehead(String sort);
+//    public NoticeVo selectNoticeBySort(String sort);
     
     
     

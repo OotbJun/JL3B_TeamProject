@@ -52,9 +52,15 @@ public class VoteController {
 			model.addAttribute("round", round);		//round값을 받아줘서 항상 최신회차 출력을 위한 것.
 			String status = voteService.checkStatus(round);
 			model.addAttribute("status", status);
+			
+			int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
+			CandyVo candyVo = voteService.check(resiNo, round);
+			model.addAttribute("candyVo", candyVo);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		
 		
 		

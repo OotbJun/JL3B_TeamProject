@@ -87,9 +87,18 @@ public class CenterService {
 			
 			list.add(map);
 		}
-		
-		
 		return list;
+	}
+	
+	
+	//인포넘버값 받아오기
+	public int getInfoNo() {
+		return centerSQLMapper.selectInfoNo();
+	}
+	
+	//정보등록 중복방지
+	public CenterInfoVo checkCenterInfo(int center_no) {
+		return centerSQLMapper.checkCenterInfo(center_no);
 	}
 	
 }

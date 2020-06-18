@@ -33,7 +33,7 @@
          </a></li>
       </ul>
       <c:choose>
-         <c:when test="${!empty sessionUser }">
+         <c:when test="${!empty sessionUser || !empty sessionCenter }">
             <ul class="nav navbar-nav navbar-right">
                <li class="nav-item dropdown"><a
                   class="nav-link dropdown-toggle" href="#"
@@ -44,8 +44,8 @@
                   <c:if test="${fn:contains(resi,'admin') }">${sessionUser.resi_rname }님</c:if> 
                   <c:if test="${fn:contains(resi,'nubes-1') }">${sessionUser.resi_rname }님</c:if>
           			
-          			<c:set var="center" value="${sessionUser.npki_key }"></c:set>
-          			<c:if test="${fn:contains(center,'nubes-') }">${sessionUser.center_name }님</c:if>
+          			<c:set var="center" value="${sessionCenter.npki_key }"></c:set>
+          			<c:if test="${fn:contains(center,'center') }">${sessionCenter.center_name }님</c:if>
 
                      </a>
                   <div class="dropdown-menu"

@@ -26,6 +26,7 @@ public class RESTfulMemberController {
       }
    }
    
+   //인증키 확인
    @RequestMapping("/checkNpkiKey.jan")
    public String checkNpkiKey(@RequestParam("npki_key") String npki_key) {
       System.out.println("컨트롤러 진입");
@@ -39,4 +40,16 @@ public class RESTfulMemberController {
          return "false";                              //존재하지 않는 인증번호
       }
    }
+   
+   //이메일 확인
+   @RequestMapping("/confirmEmail.jan")
+   public String confirmEmail(@RequestParam("resi_mail") String resi_mail) {
+      if (memberService.confrimId(resi_mail)){
+         System.out.println(memberService.confirmEmail(resi_mail));
+         return "true";
+      } else {
+         return "false";
+      }
+   }
+   
 }

@@ -90,7 +90,7 @@ footer {
 
 
          <c:if
-            test="${!empty round && !empty sessionUser && status.equals('C_ING') }">
+            test="${!empty round && !empty sessionUser && status.equals('C_ING') && sessionUser.resi_no != candyVo.resi_no }">
             <div class="row">
                <div class="col text-center mt-5">
                   <div class="col-md-12 text-center">

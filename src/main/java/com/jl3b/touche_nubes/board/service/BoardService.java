@@ -22,6 +22,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
+import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.ResiVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
 
@@ -38,9 +39,9 @@ public class BoardService {
 	private BoardReplSQLMapper boardReplSQLMapper;
 
 	// 말머리 선택
-	public HorseheadVo chooseHorsehead(String sort) {
-		return boardSQLMapper.selectNoticeHorsehead(sort);
-	}
+//	public HorseheadVo chooseHorsehead(String sort) {
+//		return boardSQLMapper.selectNoticeHorsehead(sort);
+//	}
 
 	////////////////////////////////////////// 공지사항
 	// 글쓰기
@@ -82,11 +83,10 @@ public class BoardService {
 		// 담기
 		for (NoticeVo noticeVo : noticeList) {
 			ResiVo resiVo = memberSQLMapper.selectResiByNo(noticeVo.getResi_no());
-			HorseheadVo horseheadVo = boardSQLMapper.selectNoticeHorsehead(noticeVo.getHorsehead_sort());
 
 			Map<String, Object> map = new HashMap<String, Object>();
 
-			map.put("horseheadVo", horseheadVo);
+			
 			map.put("resiVo", resiVo);
 			map.put("noticeVo", noticeVo);
 
@@ -103,8 +103,8 @@ public class BoardService {
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(noticeVo.getResi_no());
 
 		// 말머리 출력
-		HorseheadVo horseheadVo = boardSQLMapper.selectNoticeHorsehead(noticeVo.getHorsehead_sort());
-		map.put("horseheadVo", horseheadVo);
+//		HorseheadVo horseheadVo = boardSQLMapper.selectNoticeHorsehead(noticeVo.getHorsehead_sort());
+//		map.put("horseheadVo", horseheadVo);
 
 		map.put("noticeVo", noticeVo);
 		map.put("resiVo", resiVo);
@@ -209,13 +209,14 @@ public class BoardService {
 	}
 
 	// 글 하나 보기
-	public Map<String, Object> viewBoard(int board_no) {
+	public Map<String, Object> viewBoard(int board_no, HttpSession session) {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		boardSQLMapper.updateBoardReadCount(board_no); // 조회수
 		BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
+//		CenterVo centerVo = memberSQLMapper.selectCenterByNo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());
 		List<BoardImgVo> boardImgList = boardImgSQLMapper.selectBoardByNo(board_no);
 		int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 		int upCount = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
@@ -223,6 +224,7 @@ public class BoardService {
 		
 
 		map.put("resiVo", resiVo);
+//		map.put("centerVo", centerVo);
 		map.put("replyCount", replyCount);
 		map.put("boardImgList", boardImgList);
 		map.put("boardVo", boardVo);

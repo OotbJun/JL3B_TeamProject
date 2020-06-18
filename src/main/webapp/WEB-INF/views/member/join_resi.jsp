@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>입주민 회원가입</title>
 <style>
 footer {
    margin: 0 auto;
@@ -38,7 +38,30 @@ footer {
 
 <script type="text/javascript">
    // 아이디 중복확인  ajax   
+   
+   var isConfirmed1 =false;
+   var isConfirmed2 =false;
+   var isConfirmed3 =false;
+   var isConfirmed4 =false;
+   
+   function toggleSubmitButton(){
+      if(         document.getElementById("resi_id").value == "" ||
+            (document.getElementById("resi_pw").value != document.getElementById("check_pw").value) ||
+            document.getElementById("npki_key").value == ""||
+            document.getElementById("resi_mail").value == "" || 
+            isConfirmed1 == false || isConfirmed2 == false ||isConfirmed3 == false ||isConfirmed4 == false
+            ) 
+            {
+         document.getElementById("join_submit").setAttribute("disabled","true");   
+      } else {
+         document.getElementById("join_submit").removeAttribute("disabled");
+      }
+            
+      
+   }  
+   
    function confirmId() {
+      var submit1 =  document.getElementById("join_submit");
       var resi_id = document.getElementById("resi_id").value;
       var xmlhttp = new XMLHttpRequest;
 
@@ -49,17 +72,25 @@ footer {
                document.getElementById("id_check").innerText = "사용 할 수 있는 아이디 입니다."
                document.getElementById("id_check").style.color = "#11609c";
                document.getElementById("id_check").style.fontWeight = "bold";
-               document.getElementById("id_check").style.fontSize = "large"
-               document.getElementById("join_submit").setAttribute("disabled","false");
+               document.getElementById("id_check").style.fontSize = "large";
+               isConfirmed1 =true;
+              
+               toggleSubmitButton();
+         
             } else {
                document.getElementById("id_check").innerHTML = "사용 할 수 없는 아이디 입니다."
                document.getElementById("id_check").style.color = "#ae0e36";
                document.getElementById("id_check").style.fontWeight = "bold";
-               document.getElementById("id_check").style.fontSize = "large"
-               document.getElementById("join_submit").setAttribute("disabled","true");
+               document.getElementById("id_check").style.fontSize = "large";
+               isConfirmed1 = false;
+              
+               toggleSubmitButton();
+
             }
+           
          }
 
+           
       };
       xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmId.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -69,130 +100,176 @@ footer {
    //비밀번호 일치 확인 ajax
 
 function confirmPw(){
-   var pw = document.getElementById("resi_pw").value;
-   var check_pw = document.getElementById("check_pw").value
-
-   if (pw==check_pw) {
+      var pw = document.getElementById("resi_pw").value;
+      var check_pw = document.getElementById("check_pw").value
+  
+   if (pw==check_pw) {    
       document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
       document.getElementById("checked_pw").style.color = "#11609c";
       document.getElementById("checked_pw").style.fontWeight = "bold";
-      document.getElementById("checked_pw").style.fontSize = "large"
-      document.getElementById("join_submit").setAttribute("disabled","false");
-   } else {
+      document.getElementById("checked_pw").style.fontSize = "large";
+      isConfirmed2 =true;
+      toggleSubmitButton();
+
+} else {      
       document.getElementById("checked_pw").innerText = "비밀번호가 일치하지 않습니다"
       document.getElementById("checked_pw").style.color = "#ae0e36";
       document.getElementById("checked_pw").style.fontWeight = "bold";
       document.getElementById("checked_pw").style.fontSize = "large"
-      document.getElementById("join_submit").setAttribute("disabled","true");
+      isConfirmed2 = false
+      toggleSubmitButton();
    }
+   
 }
    //인증번호
 
 function check_npki() {
    var npki_key = document.getElementById("npki_key").value;
    var xmlhttp = new XMLHttpRequest;
-
+   var submit3 =  document.getElementById("join_submit");
+   
       xmlhttp.onreadystatechange = function() {
          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            if (xmlhttp.responseText == 'true') {
+            if (xmlhttp.responseText == 'true') {             
                document.getElementById("checked_npki").innerText = "유효한 인증번호 입니다.";
                document.getElementById("checked_npki").style.color = "#11609c";
                document.getElementById("checked_npki").style.fontWeight = "bold";
-               document.getElementById("checked_npki").style.fontSize = "large"
-               document.getElementById("join_submit").setAttribute("disabled","false");
+               document.getElementById("checked_npki").style.fontSize = "large";
+               isConfirmed3 =true;
+              
+               toggleSubmitButton();
+                  
             } else 
-               if(xmlhttp.responseText == 'used')
-               {
-               document.getElementById("checked_npki").innerText = "이미 등록된 인증번호 입니다. 인증번호를 다시 확인해주세요";
+               if(xmlhttp.responseText == 'used') {
+                 document.getElementById("checked_npki").innerText = "이미 등록된 인증번호 입니다. 인증번호를 다시 확인해주세요";
                document.getElementById("checked_npki").style.color = "#20604f";
                document.getElementById("checked_npki").style.fontWeight = "bold";
-               document.getElementById("checked_npki").style.fontSize = "large"
-               document.getElementById("join_submit").setAttribute("disabled","true");
-            } 
+               document.getElementById("checked_npki").style.fontSize = "large";
+               isConfirmed3 = false;
+              
+               toggleSubmitButton();
+                  
+               }
                else {
                document.getElementById("checked_npki").innerText = "유효하지 않은 인증번호 입니다.";
                document.getElementById("checked_npki").style.color = "#ae0e36";
                document.getElementById("checked_npki").style.fontWeight = "bold";
-               document.getElementById("checked_npki").style.fontSize = "large"
-               document.getElementById("join_submit").setAttribute("disabled","true");
-
-            ;
+               document.getElementById("checked_npki").style.fontSize = "large";
+               isConfirmed3 = false;
+               
+               toggleSubmitButton();
          };
          };
+        
       };
+     
       xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkNpkiKey.jan",true);
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("npki_key="+ npki_key);
    };
    
-   function pageMove(){
-      setTimeout(test , 36*1000);
-   }
+   
+   //////////////////////////이메일 중복 체크
+   function checkEmail() {
+    
+      var resi_mail = document.getElementById("resi_mail").value;
+      var xmlhttp = new XMLHttpRequest;
 
-   
-   function test(){
-      alert("회원가입시간이 종료되었습니다. 다시 시도해주세욬ㅋㅋㅋㅋㅋㅋㅋㅋ");
-      location.href="/touche_nubes/";
-   }
-   
-  function timer() {
-    setInterval(timeAttack,1000);
-}
-   
-   
+      xmlhttp.onreadystatechange = function() {
+
+   if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       
-        var setTime = 35;      // 최초 설정 시간(기본 : 초)
-
-      function timeAttack() {   // 1초씩 카운트
-         
-        var m = Math.floor(setTime/60) + "분 ";
-         var s = (setTime % 60)+ "초";   // 남은 시간 계산
-         var o = "60초";
-         console.log(m);
-         
-         if (setTime < 0) {         // 시간이 종료 되었으면..
+         if (xmlhttp.responseText == 'true') {
+              document.getElementById("emailchecked").innerText = "등록 할 수 있는 E-mail 입니다."
+              document.getElementById("emailchecked").style.color = "#11609c";
+              document.getElementById("emailchecked").style.fontWeight = "bold";
+              document.getElementById("emailchecked").style.fontSize = "large";
+              isConfirmed4 =true;
              
-             clearInterval(timeAttack);      // 타이머 해제
-          
-        } else if( setTime>60 ){
-            document.getElementById("ViewTimer").innerText = m+s;      // div 영역에 보여줌
-            document.getElementById("ViewTimer").style.color = "#11609c";
-            document.getElementById("ViewTimer").style.fontWeight = "bold";
-            document.getElementById("ViewTimer").style.fontSize = "large"
-        } else if( setTime<61 && setTime>10 ){
-           
-           if((setTime%60)==0 ){
-           document.getElementById("ViewTimer").innerText = o;      // div 영역에 보여줌      
-           document.getElementById("ViewTimer").style.color = "#ae0e36";
-            document.getElementById("ViewTimer").style.fontWeight = "bold";
-            document.getElementById("ViewTimer").style.fontSize = "large"
-            
-           }else{
-           document.getElementById("ViewTimer").innerText = s;      // div 영역에 보여줌
-           document.getElementById("ViewTimer").style.color = "#ae0e36";
-            document.getElementById("ViewTimer").style.fontWeight = "bold";
-            document.getElementById("ViewTimer").style.fontSize = "large"
-        }
-        }else if(setTime<=10){
-           document.getElementById("ViewTimer").innerText = s;      // div 영역에 보여줌
-            document.getElementById("ViewTimer").style.color = "#ae0e36";
-            document.getElementById("ViewTimer").style.fontWeight = "bold";
-            document.getElementById("ViewTimer").style.fontSize = "x-large"
-        }
-               
-        setTime--;               // 1초씩 감소
-         
-        
-         
+              toggleSubmitButton();
+                 
+           } else {
+              document.getElementById("emailchecked").innerHTML = "이미 등록 된 E-mail 입니다."
+              document.getElementById("emailchecked").style.color = "#ae0e36";
+              document.getElementById("emailchecked").style.fontWeight = "bold";
+              document.getElementById("emailchecked").style.fontSize = "large";
+              isConfirmed4 = false;
+             
+              toggleSubmitButton();
+
+           }
+   }
+   
+      };
+      
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmEmail.jan",true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.send("resi_mail=" + resi_mail);
+   }
+  
+   
+   function pageMove(){
+         setTimeout(test , 360*1000);
       }
 
+      
+   function test(){
+         alert("회원가입시간이 종료되었습니다. 다시 시도해주세욬ㅋㅋㅋㅋㅋㅋㅋㅋ");
+         location.href="/touche_nubes/";
+      }
+      
+   function timer() {
+       setInterval(timeAttack,1000);
+   }
+         
+   var setTime = 359;      // 최초 설정 시간(기본 : 초)
+
+ function timeAttack() {   // 1초씩 카운트
+            
+   var m = Math.floor(setTime/60) + "분 ";
+       var s = (setTime % 60)+ "초";   // 남은 시간 계산
+       var o = "60초";
+       console.log(m);
+            
+      if (setTime < 0) {         // 시간이 종료 되었으면..
+                
+         clearInterval(timeAttack);      // 타이머 해제
+             
+      } else if( setTime>60 ){
+               document.getElementById("ViewTimer").innerText = m+s;      // div 영역에 보여줌
+               document.getElementById("ViewTimer").style.color = "#11609c";
+               document.getElementById("ViewTimer").style.fontWeight = "bold";
+               document.getElementById("ViewTimer").style.fontSize = "large"
+      } else if( setTime<61 && setTime>10 ){
+              
+            if((setTime%60)==0 ){
+              document.getElementById("ViewTimer").innerText = o;      // div 영역에 보여줌      
+              document.getElementById("ViewTimer").style.color = "#ae0e36";
+              document.getElementById("ViewTimer").style.fontWeight = "bold";
+              document.getElementById("ViewTimer").style.fontSize = "large"
+               
+            }else{
+              document.getElementById("ViewTimer").innerText = s;      // div 영역에 보여줌
+              document.getElementById("ViewTimer").style.color = "#ae0e36";
+              document.getElementById("ViewTimer").style.fontWeight = "bold";
+              document.getElementById("ViewTimer").style.fontSize = "large"
+           }
+           }else if(setTime<=10){
+              document.getElementById("ViewTimer").innerText = s;      // div 영역에 보여줌
+              document.getElementById("ViewTimer").style.color = "#ae0e36";
+              document.getElementById("ViewTimer").style.fontWeight = "bold";
+              document.getElementById("ViewTimer").style.fontSize = "x-large"
+           }
+                  
+           setTime--;               // 1초씩 감소
+}
 
      
 
    </script>
 
 </head>
-<body onload="timer(); pageMove()">
+<body onload="timer(); pageMove();">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
    <div class="container text-center" style="margin-top: 50px">
@@ -213,19 +290,24 @@ function check_npki() {
       <div class="row">
          <div class="col-2"></div>
          <div class="col">
-            <form method="post" class="text-left">
+            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_resi_process.jan">
                <!-- 아이디 -->
                <div class="form-group">
-                  <label for="resi_id">ID</label> <input type="text"
+                  <label for="resi_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
                      class="form-control" id="resi_id" name="resi_id"
                      placeholder="시용할 ID 입력" required onkeyup="confirmId()">
                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
                   <div class="check_font text-center" id="id_check"></div>
                </div>
-
+               
+               <div class="form-group">
+                  <label for="resi_rname">이름</label> <input onblur="toggleSubmitButton()" type="text"
+                     class="form-control" id="resi_rname" name="resi_rname" placeholder="이름" required>
+               </div>
+         
                <!-- 비밀번호 -->
                <div class="form-group">
-                  <label for="resi_pw">비밀번호</label> <input type="password"
+                  <label for="resi_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
                      class="form-control" id="resi_pw" name="resi_pw"
                      placeholder="사용할 비밀번호" required>
                   <div class="check_font" id="pw_check"></div>
@@ -235,7 +317,7 @@ function check_npki() {
                <!-- 비밀번호 재확인 -->
                <div class="form-group">
                   <label for="resi_pw2">비밀번호 확인</label> <input type="password"
-                     class="form-control" id="check_pw" name="check_pw"
+                     class="form-control" id="check_pw" name="check_pw" onblur="toggleSubmitButton()"
                      placeholder="비밀번호를 한 번 더 입력해주세요" required onkeyup="confirmPw()">
                   <div class="check_font" id="checked_pw"></div>
                </div>
@@ -245,15 +327,16 @@ function check_npki() {
 
                   <label for="npki_key">인증번호</label> <input type="text"
                      placeholder="부여받은 인증번호 입력 reis-xxx-xxxx" id="npki_key" name="npki_key"
-                     class="form-control" onblur="check_npki()" required="required">
+                     class="form-control" onblur="check_npki(); toggleSubmitButton()" required>
                   <div class="check_font" id="checked_npki"></div>
                </div>
 
                <!-- 이메일 -->
                <div class="form-group">
                   <label for="resi_mail">이메일</label> <input
-                     placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text"
-                     name="resi_mail" class="form-control">
+                     placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text" 
+                     name="resi_mail" onblur="checkEmail(); toggleSubmitButton()" id="resi_mail" class="form-control" required>
+                   <div class="check_font" id="emailchecked"></div>
                </div>
 
                <div class="col-2">
@@ -262,13 +345,13 @@ function check_npki() {
                </div>
                <!-- 회원가입 버튼 -->
                <div class="col-3">
-                  <input id="join_submit" type="submit" value="회원가입"
+                  <input id="join_submit" type="submit" value="회원가입" disabled="disabled"
                      class="btn btn-primary btn-block">
                </div>
-         </div>
+          </form></div>
          <div class="col-2"></div>
       </div>
-      </form>
+     
    </div>
 
 

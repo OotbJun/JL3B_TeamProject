@@ -15,6 +15,8 @@ public interface CenterSQLMapper {
 	public void deleteCenterInfo(int info_no);						//클래스 정보 삭제
 	public CenterInfoVo selectCenterInfoByNo(int info_no);			//클래스 정보 보기
 	public List<CenterInfoVo> selectCenterInfoAll();				//클래스 리스트
+	public int selectInfoNo();										//인포넘버값 받아오기
+	public CenterInfoVo checkCenterInfo(int center_no);				//중복방지
 	
 	
 	//클래스 후기

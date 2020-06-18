@@ -49,15 +49,23 @@ footer {
       <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
+            
+            <c:if test="${!empty sessionCenter && sessionCenter.center_no != centerInfoVo.center_no }">
                <a href="${pageContext.request.contextPath }/center/center_write.jan">
                <button class="btn btn btn-danger btn-round" style="width: 100%">클래스 등록</button></a>
+            </c:if>
+            
             </div>
          </div>
          <div class="row">
          <div class="col text-center mt-5">
             <div class="col-md-12 text-center">
-               <a href="${pageContext.request.contextPath }/center/center_modify.jan">
+
+            <c:if test="${!empty sessionCenter }">
+               <a href="${pageContext.request.contextPath }/center/center_modify.jan?info_no=${info_no}">
                <button class="btn btn btn-danger btn-round" style="width: 100%">클래스 수정</button></a>
+            </c:if>   
+
             </div>
          </div>
    </div>

@@ -40,9 +40,9 @@
 		<![CDATA[
 			SELECT * 
 			FROM 
-			JL3B_RESI 
+				JL3B_RESI 
 			WHERE 
-			resi_no = #{no}
+				resi_no = #{no}
 		]]>
 	</select>
 	
@@ -51,9 +51,9 @@
 		<![CDATA[
 			SELECT * 
 			FROM 
-			JL3B_RESI 
+				JL3B_RESI 
 			WHERE 
-			resi_id = #{id}
+				resi_id = #{id}
 		]]>
 	</select>
 	
@@ -125,5 +125,16 @@
 				center_pw = #{center_pw}
 		]]>
 	</select>
+	
+	<!-- 이메일 중복확인 -->
+   <select id="existEmail" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+         	JL3B_RESI 
+         WHERE 
+         	resi_mail = #{resi_mail}
+      ]]>
+   </select>
 
 </mapper>

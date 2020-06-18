@@ -32,13 +32,31 @@ public class CenterController {
 	
 	//센터 초이스
 	@RequestMapping("/center_choice.jan")
-	public String centerChoice() {
+	public String centerChoice(Model model, HttpSession session) {
+		
+		int info_no = centerService.getInfoNo();
+		model.addAttribute("info_no", info_no);
+		
+		if(session.getAttribute("sessionCenter") != null) {
+			CenterInfoVo centerInfoVo = centerService.checkCenterInfo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());	//중복방지
+			model.addAttribute("centerInfoVo", centerInfoVo);
+		}
+		
 		return "center/center_choice";
 	}
 	
 	//센터 정보 등록
 	@RequestMapping("/center_write.jan")
-	public String writeCenter() {
+	public String writeCenter(HttpSession session) {
+		
+		
+		CenterInfoVo centerInfoData = centerService.checkCenterInfo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());
+		
+		if(centerInfoData == null) {			//중복등록 방지
+			
+		}else {
+			return "center/center_fail";
+		}
 		return "center/center_write";
 	}
 	@RequestMapping("/center_write_process.jan")
@@ -90,9 +108,18 @@ public class CenterController {
         }
 	
 		
-		CenterVo centerVo = (CenterVo)session.getAttribute("sessionUser");
+		CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");
 		centerInfoVo.setCenter_no(centerVo.getCenter_no());
-		centerService.writeCenterInfo(centerInfoVo, centerImgList);
+		CenterInfoVo centerInfoData = centerService.checkCenterInfo(centerInfoVo.getCenter_no());
+		
+	
+		
+		if(centerInfoData == null) {
+			centerService.writeCenterInfo(centerInfoVo, centerImgList);
+		}else {
+			return "center/center_fail";
+		}
+		
 		
 		return "redirect:./center.jan";
 	}

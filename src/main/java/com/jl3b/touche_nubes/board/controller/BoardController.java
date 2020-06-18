@@ -53,7 +53,7 @@ public class BoardController {
 	/////////////////////////////////////공지사항
 	//글쓰기
 	@RequestMapping("/notice_write.jan")
-	public String writeNotice() {		//말머리 테스트
+	public String writeNotice() {		
 		return "board/notice_write";
 	}
 	@RequestMapping("/notice_write_process.jan")
@@ -241,9 +241,9 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/board_read.jan")
-	public String readBoard(int board_no, Model model) {
+	public String readBoard(int board_no, Model model, HttpSession session) {
 		
-		Map<String, Object> map = boardService.viewBoard(board_no);
+		Map<String, Object> map = boardService.viewBoard(board_no, session);
 		List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
 		
 		
@@ -265,8 +265,8 @@ public class BoardController {
 	
 	//글수정
 	@RequestMapping("/board_change.jan")
-	public String changeBoard(int board_no, Model model) {
-		model.addAttribute("readBoard", boardService.viewBoard(board_no));
+	public String changeBoard(int board_no, Model model, HttpSession session) {
+		model.addAttribute("readBoard", boardService.viewBoard(board_no, session));
 		return "board/board_change";
 	}
 	@RequestMapping("/board_change_process.jan")

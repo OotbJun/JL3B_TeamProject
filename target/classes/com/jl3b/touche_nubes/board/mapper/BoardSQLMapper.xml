@@ -15,7 +15,7 @@
 		VALUES(
 			JL3B_NOTICE_SEQ.NEXTVAL,
 			#{resi_no},
-			#{horsehead_sort},
+			'공지',
 			#{notice_title},
 			#{notice_content},
 			0,
@@ -49,7 +49,6 @@
 	<![CDATA[
 		UPDATE JL3B_NOTICE 
 		SET 
-			horsehead_sort = #{horsehead_sort},
 			notice_title = #{notice_title}, 
 			notice_content = #{notice_content}, 
 			notice_wdate = SYSDATE 
@@ -122,7 +121,7 @@
 		INSERT INTO JL3B_BOARD
 		VALUES(#{board_no},
 		#{resi_no},
-		'dd',
+		NULL,
 		#{board_title},
 		#{board_content},
 		0,
@@ -342,7 +341,7 @@
 	<select id="selectNoticeIdeaFix"
 		resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
         <![CDATA[
-   			 SELECT * FROM jL3b_notice where HorseHead_sort = '청원' AND rownum<=3 ORDER BY notice_no DESC 
+   			 SELECT * FROM jL3b_notice where HorseHead_sort = '공지' AND rownum<=3 ORDER BY notice_no DESC 
 		]]>
 	</select>
 	
@@ -368,7 +367,7 @@
 		VALUES(JL3B_IDEA_SEQ.nextval,
 		#{resi_no},
 		#{idea_gr_no},
-		'aa',
+		NULL,
 		#{idea_title},
 		#{idea_content},
 		0,
