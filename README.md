@@ -16,6 +16,8 @@
 
 4. 센터 가입
 
+5. 센터 초이스 페이지 없애고 바로 리스트로
+
 --센터
 DROP TABLE JL3B_CENTER;
 CREATE TABLE JL3B_CENTER(
