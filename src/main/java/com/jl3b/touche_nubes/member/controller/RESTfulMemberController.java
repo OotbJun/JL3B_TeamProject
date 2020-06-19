@@ -52,4 +52,42 @@ public class RESTfulMemberController {
       }
    }
    
+   
+   
+   ////센터
+   // 센터 아이디 확인
+   @RequestMapping("/confirmCenterId.jan")
+   public String confirmCenterId(@RequestParam("center_id") String center_id) {
+      if (memberService.confirmCenterId(center_id)) {
+         return "true";
+      } else {
+         return "false";
+      }
+   }
+   
+   // 센터 인증번호 확인
+   @RequestMapping("/checkCenterNpkiKey.jan")
+   public String checkCenterNpkiKey(@RequestParam("npki_key") String npki_key) {
+   
+      if (memberService.onlyNpki(npki_key)) { // 사용 가능한 인증번호
+         if (memberService.confirmCenterNpki(npki_key)) { // 사용하지 않은 인증번호
+            return "true";
+         } else {
+            return "used"; // 사용하고 있는 인증번호
+         }
+      } else {
+         return "false"; // 존재하지 않는 인증번호
+      }
+   }
+   
+   // 센터이메일확인
+   @RequestMapping("/checkCenterEmail.jan")
+   public String confirmCenterEmail(@RequestParam("center_mail") String center_mail) {
+      if (memberService.confirmCenterEmail(center_mail)) {
+         return "true";
+      } else {
+         return "false";
+      }
+   }
+   
 }

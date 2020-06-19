@@ -28,7 +28,7 @@
     <form action="${pageContext.request.contextPath }/board/notice_write_process.jan" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="title">제목</label>
-        <input type="text" class="form-control" name="notice_title" id="title" placeholder="제목을 입력해 주세요">
+        <input type="text" class="form-control" name="notice_title" id="title" placeholder="제목을 입력해 주세요" maxlength="50">
     </div>
     <div class="mb-3">
     </div>
@@ -36,15 +36,12 @@
     </div>
      <div class="mb-3">
        <label for="content">글내용</label>
-         <textarea class="form-control" rows="10"  name="notice_content" id="content" placeholder="내용을 입력해 주세요" ></textarea>
+         <textarea class="form-control" rows="10"  name="notice_content" id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
     </div>
     <div class="mb-3">
         <div class="row mb-5">
         <div class="col">
-            <select name="horsehead_sort"> 
-            <option value="공지">공지사항</option>
-         <option value="aaa">테스트</option>
-             </select>   
+             
         </div>
          </div>
          <div class="row mb-3">

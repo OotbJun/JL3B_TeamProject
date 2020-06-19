@@ -10,6 +10,8 @@ public class CenterVo {
 	private String center_pw;
 	private String center_name;
 	private String center_mail;
+	private String center_pr;
+	private String center_about;
 	private Date center_jdate;
 	
 	public CenterVo() {
@@ -17,7 +19,7 @@ public class CenterVo {
 	}
 
 	public CenterVo(int center_no, String npki_key, String center_id, String center_pw, String center_name,
-			String center_mail, Date center_jdate) {
+			String center_mail, String center_pr, String center_about, Date center_jdate) {
 		super();
 		this.center_no = center_no;
 		this.npki_key = npki_key;
@@ -25,6 +27,8 @@ public class CenterVo {
 		this.center_pw = center_pw;
 		this.center_name = center_name;
 		this.center_mail = center_mail;
+		this.center_pr = center_pr;
+		this.center_about = center_about;
 		this.center_jdate = center_jdate;
 	}
 
@@ -74,6 +78,22 @@ public class CenterVo {
 
 	public void setCenter_mail(String center_mail) {
 		this.center_mail = center_mail;
+	}
+
+	public String getCenter_pr() {
+		return center_pr;
+	}
+
+	public void setCenter_pr(String center_pr) {
+		this.center_pr = center_pr;
+	}
+
+	public String getCenter_about() {
+		return center_about;
+	}
+
+	public void setCenter_about(String center_about) {
+		this.center_about = center_about;
 	}
 
 	public Date getCenter_jdate() {

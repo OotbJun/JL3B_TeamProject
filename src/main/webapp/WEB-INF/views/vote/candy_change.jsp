@@ -40,11 +40,11 @@ footer {
              <div class="col mt-3">후 보 자 : ${sessionUser.resi_rname }</div>
              <div class="col mt-4">
              <div>후 보 자 소 개 </div><br>
-              <textarea rows="10" cols="40" name="candy_intro">${readCandy.candyVo.candy_intro }</textarea>
+              <textarea rows="10" cols="40" name="candy_intro" maxlength="300">${readCandy.candyVo.candy_intro }</textarea>
              </div>
              <div class="col mt-4">
              <div>공 약 내 용</div><br>
-              <textarea rows="10" cols="40" name="candy_content">${readCandy.candyVo.candy_content }</textarea>
+              <textarea rows="10" cols="40" name="candy_content" maxlength="1000">${readCandy.candyVo.candy_content }</textarea>
              </div>
             <input type="file" name="candyFile" multiple accept="image/*"><br> 
             <input type="hidden" name="candy_no" value="${readCandy.candyVo.candy_no }">

@@ -7,11 +7,12 @@
 
 <mapper namespace="com.jl3b.touche_nubes.center.mapper.CenterSQLMapper">
 	
+	
 	<!-- 센터정보 -->
 	<!-- 파일업로드용 키 -->
-	<select id="createCenterInfoKey" resultType="int">
+	<select id="createCenterKey" resultType="int">
 		<![CDATA[
-			SELECT JL3B_center_info_seq.NEXTVAL FROM DUAL
+			SELECT JL3B_center_seq.NEXTVAL FROM DUAL
 		]]>
 	</select>
 	
@@ -47,19 +48,19 @@
 	</delete>
 	
 	<!-- 센터 정보 보기 -->
-	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
+	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
 		<![CDATA[
 			SELECT * 
 			FROM 
-				JL3B_CENTER_INFO 
-			WHERE INFO_NO = #{info_no}
+				JL3B_CENTER
+			WHERE CENTER_NO = #{center_no}
 		]]>
 	</select>
 	
 	<!-- 센터 리스트 -->
-	<select id="selectCenterInfoAll" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
+	<select id="selectCenterInfoAll" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
 		<![CDATA[
-			SELECT * FROM JL3B_CENTER_INFO ORDER BY info_no DESC
+			SELECT * FROM JL3B_CENTER ORDER BY center_no DESC
 		]]>
 	</select>
 	
@@ -102,6 +103,13 @@
 		]]>
 	</select>
 	
+	<!-- 리뷰 전체보기 -->
+	<select id="selectCenterReviewAll" resultType="com.jl3b.touche_nubes.centervo.CenterReviewVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_REVIEW WHERE CENTER_NO = #{center_no}
+		]]>
+	</select>
+	
 	
 	<!-- 예약 -->
 	<!-- 프로그램 예약하기 -->
@@ -138,12 +146,62 @@
 		]]>
 	</select>
 	
-	<!-- 정보등록 중복방지 -->
-	<select id="checkCenterInfo" resultType="com.jl3b.touche_nubes.centervo.CenterInfoVo">
-		<![CDATA[
-			SELECT * FROM JL3B_CENTER_INFO WHERE CENTER_NO = #{center_no}
-		]]>
-	</select>
 	
+	<!-- 프로그램 -->
+	<!-- 프로그램 등록 -->
+	<insert id="insertProg">
+		<![CDATA[
+			INSERT INTO JL3B_PROG 
+			VALUES(
+				JL3B_PROG_SEQ.NEXTVAL, 
+				#{center_no}, 
+				'예약가능', 
+				#{prog_title}, 
+				#{prog_content}
+			)
+		]]>
+	</insert>
+	
+	<!-- 프로그램 수정 -->
+	<update id="updateProg">
+		<![CDATA[
+			UPDATE JL3B_PROG 
+			SET 
+				PROG_TITLE = #{prog_title}, 
+				PROG_CONTENT = #{prog_content} 
+			WHERE 
+				PROG_NO = #{prog_no}
+		]]>
+	</update>
+	
+	<!-- 프로그램 삭제 -->
+	<delete id="deleteProg">
+		<![CDATA[
+			DELETE FROM JL3B_PROG WHERE PROG_NO = #{prog_no}
+		]]>
+	</delete>
+	
+	
+	<!-- 프로그램 시간대 -->
+	<!-- 시간대 등록 -->
+	<insert id="insertTime">
+		<![CDATA[
+			INSERT INTO JL3B_PROG_TIME 
+			VALUES(
+				JL3B_PROG_TIME_SEQ.NEXTVAL, 
+				#{prog_no}, 
+				SYSDATE, 
+				#{time_part}, 
+				#{time_seat}
+			)
+		]]>
+	</insert>
+	
+	<!-- 예약되면 인원수 차감 -->
+	<update id="minusSeat">
+		<![CDATA[
+			UPDATE JL3B_PROG_TIME SET TIME_SEAT = TIME_SEAT - 1
+		]]>
+	</update>
 	
 </mapper>

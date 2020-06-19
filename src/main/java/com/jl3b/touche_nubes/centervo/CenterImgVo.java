@@ -5,7 +5,7 @@ import java.util.Date;
 public class CenterImgVo {
 	
 	private int center_img_no;
-	private int info_no;
+	private int center_no;
 	private String center_img_title;
 	private String center_img_path;
 	private Date center_img_udate;
@@ -14,11 +14,11 @@ public class CenterImgVo {
 		super();
 	}
 
-	public CenterImgVo(int center_img_no, int info_no, String center_img_title, String center_img_path,
+	public CenterImgVo(int center_img_no, int center_no, String center_img_title, String center_img_path,
 			Date center_img_udate) {
 		super();
 		this.center_img_no = center_img_no;
-		this.info_no = info_no;
+		this.center_no = center_no;
 		this.center_img_title = center_img_title;
 		this.center_img_path = center_img_path;
 		this.center_img_udate = center_img_udate;
@@ -32,12 +32,12 @@ public class CenterImgVo {
 		this.center_img_no = center_img_no;
 	}
 
-	public int getInfo_no() {
-		return info_no;
+	public int getCenter_no() {
+		return center_no;
 	}
 
-	public void setInfo_no(int info_no) {
-		this.info_no = info_no;
+	public void setCenter_no(int center_no) {
+		this.center_no = center_no;
 	}
 
 	public String getCenter_img_title() {

@@ -31,9 +31,9 @@ footer {
 
 	<form action="${pageContext.request.contextPath }/board/idea_change_process.jan" method="post">
 		닉네임 : ${readIdea.resiVo.resi_rname }<br>
-		제목 : <input type="text" name="idea_title" value="${readIdea.ideaVo.idea_title }"><br>
+		제목 : <input type="text" name="idea_title" value="${readIdea.ideaVo.idea_title }" maxlength="50"><br>
 		내용 : <br>
-		<textarea rows="10" cols="40" name="idea_content">${readIdea.ideaVo.idea_content }</textarea>
+		<textarea rows="10" cols="40" name="idea_content" maxlength="4000">${readIdea.ideaVo.idea_content }</textarea>
 		
 		<br><br><br><br><br><br>
 		

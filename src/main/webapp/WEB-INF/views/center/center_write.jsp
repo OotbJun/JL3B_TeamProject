@@ -40,14 +40,14 @@
          <div class="mb-3">
             <label for="title">수강제목</label> <input type="text"
                class="form-control" name="info_pr" id="info_pr"
-               placeholder="제목을 입력해 주세요">
+               placeholder="제목을 입력해 주세요" maxlength="200">
          </div>
          <div class="mb-3"></div>
          <div class="mb-3"></div>
          <div class="mb-3">
             <label for="content">교육소개</label>
             <textarea class="form-control" rows="10" name="info_about"
-               id="info_about" placeholder="소개를 입력해주세요"></textarea>
+               id="info_about" placeholder="소개를 입력해주세요" maxlength="4000"></textarea>
          </div>
          <div class="mb-3">
             <div class="row mb-5">

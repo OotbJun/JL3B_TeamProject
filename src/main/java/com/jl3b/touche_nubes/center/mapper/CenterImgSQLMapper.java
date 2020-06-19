@@ -7,6 +7,6 @@ import com.jl3b.touche_nubes.centervo.CenterImgVo;
 public interface CenterImgSQLMapper {
 	
 	public void insertCenterInfoImg(CenterImgVo centerImgVo);		//센터 정보 이미지
-	public List<CenterImgVo> selectCenterInfoImg(int info_no);
-	public CenterImgVo test(int info_no);
+	//public List<CenterImgVo> selectCenterInfoImg(int info_no);
+	public CenterImgVo selectCenterInfoImg(int center_no);
 }

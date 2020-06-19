@@ -78,15 +78,10 @@ public class VoteController {
 		
 		
 	    String rootFolderName = "C:/upload/";
-       
 	    Date today = new Date();
-        
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-        
 	    String todayFolder = df.format(today);
-        
 	    String saveFolderName = rootFolderName + todayFolder;
-        
 	    File saveFolder = new File (saveFolderName);
         
 	    if(!saveFolder.exists()){
@@ -101,7 +96,6 @@ public class VoteController {
         	}
         	//파일명 랜덤 이름
         	String saveFileTitle = UUID.randomUUID().toString();
-  	      
         	String oriFileTitle = file.getOriginalFilename();
   	      
   	      	saveFileTitle += "_" + System.currentTimeMillis();

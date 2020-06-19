@@ -215,7 +215,7 @@ body {
                     <figcaption>
                         <div>
                             <h2>${centerList.centerVo.center_name }</h2>
-                            <p>${centerList.centerInfoVo.info_pr }</p> <!--  -->
+                            <p>${centerList.centerVo.center_pr }</p> <!--  -->
                         </div>
                         <a href="${pageContext.request.contextPath }/center/class.jan">클래스 세부정보</a>
                     </figcaption>

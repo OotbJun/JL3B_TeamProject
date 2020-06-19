@@ -413,7 +413,7 @@ function insert() {
 				<input type="hidden" value="${readBoard.boardVo.board_no}"
 					id="board_no" /> <input type="text" class="form-control"
 					id="board_re_content" name="board_re_content"
-					placeholder="내용을 입력하세요."> <span class="input-group-btn">
+					placeholder="내용을 입력하세요." maxlength="1000"> <span class="input-group-btn">
 					<button class="btn btn-default" type="button"
 						name="commentInsertBtn">등록</button>
 				</span>

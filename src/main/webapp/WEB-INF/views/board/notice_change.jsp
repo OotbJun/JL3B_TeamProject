@@ -30,13 +30,11 @@
 
 	<form action="${pageContext.request.contextPath }/board/notice_change_process.jan" method="post">
 		닉네임 : ${readNotice.resiVo.resi_rname }<br>
-		제목 : <input type="text" name="notice_title" value="${readNotice.noticeVo.notice_title }"><br>
+		제목 : <input type="text" name="notice_title" value="${readNotice.noticeVo.notice_title }" maxlength="50"><br>
 		내용 : <br>
-		<textarea rows="10" cols="40" name="notice_content">${readNotice.noticeVo.notice_content }</textarea>
-		<select name="horsehead_sort">					<!-- 말머리 수정 필요 -->
-			<option value="공지">공지사항</option>
-			<option value="aaa">아무것도 아냐~</option>
-		</select>
+		<textarea rows="10" cols="40" name="notice_content" maxlength="4000">${readNotice.noticeVo.notice_content }</textarea>
+		
+		
 		<br><br><br><br><br><br>
 		
 		<input type="submit" value="수정"> 

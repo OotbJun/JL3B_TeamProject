@@ -27,7 +27,7 @@
     <form action="${pageContext.request.contextPath }/board/idea_answer_process.jan" method="post">
     <div class="mb-3">
         <label for="title">제목</label>
-        <input type="text" class="form-control" name="idea_title" id="title" value="답변 : ${readIdea.ideaVo.idea_title }">
+        <input type="text" class="form-control" name="idea_title" id="title" value="답변 : ${readIdea.ideaVo.idea_title }" maxlength="50">
     </div>
     <div class="mb-3">
     </div>
@@ -35,7 +35,7 @@
     </div>
      <div class="mb-3">
        <label for="content">글내용</label>
-         <textarea class="form-control" rows="10"  name="idea_content" id="content" placeholder="답변을 입력해주세요" ></textarea>
+         <textarea class="form-control" rows="10"  name="idea_content" id="content" placeholder="답변을 입력해주세요" maxlength="4000"></textarea>
     </div>
     <div class="mb-3">
          <div class="row mb-3">

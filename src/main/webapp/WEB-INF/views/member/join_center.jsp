@@ -7,48 +7,48 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>입주민 회원가입</title>
+<title>센터 회원가입</title>
 <style>
-footer {
-   margin: 0 auto;
-   text-align: center;
-}
-
-#xxx * {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-
-#xxx {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-</style>
-
-<link rel="stylesheet"
-   href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-   crossorigin="anonymous">
-
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-   integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-   crossorigin="anonymous"></script>
-
-<script type="text/javascript"
-   src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-<script type="text/javascript">
-   // 아이디 중복확인  ajax   
-   
-   var isConfirmed1 =false;
+    footer {
+       margin: 0 auto;
+       text-align: center;
+    }
+    
+    #xxx * {
+       background-color: rgba(255, 255, 255, 0.0);
+    }
+    
+    #xxx {
+       background-color: rgba(255, 255, 255, 0.0);
+    }
+    </style>
+    
+    <link rel="stylesheet"
+       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+       crossorigin="anonymous">
+    
+    
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+       crossorigin="anonymous"></script>
+    
+    <script type="text/javascript"
+       src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    
+    <script type="text/javascript"> //ajax 및 예외처리 js 코드
+    var isConfirmed1 =false;
    var isConfirmed2 =false;
    var isConfirmed3 =false;
    var isConfirmed4 =false;
    
    function toggleSubmitButton(){
-      if(         document.getElementById("resi_id").value == "" ||
-            (document.getElementById("resi_pw").value != document.getElementById("check_pw").value) ||
+      if(         document.getElementById("center_id").value == "" ||
+            (document.getElementById("center_pw").value != document.getElementById("check_pw").value) ||
             document.getElementById("npki_key").value == ""||
-            document.getElementById("resi_mail").value == "" || 
+            document.getElementById("center_mail").value == "" || 
+            document.getElementById("center_pr").value == "" || 
+            document.getElementById("center_about").value == "" || 
             isConfirmed1 == false || isConfirmed2 == false ||isConfirmed3 == false ||isConfirmed4 == false
             ) 
             {
@@ -59,10 +59,8 @@ footer {
             
       
    }  
-   
    function confirmId() {
-      var submit1 =  document.getElementById("join_submit");
-      var resi_id = document.getElementById("resi_id").value;
+      var center_id = document.getElementById("center_id").value;
       var xmlhttp = new XMLHttpRequest;
 
       xmlhttp.onreadystatechange = function() {
@@ -92,18 +90,18 @@ footer {
 
            
       };
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmId.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmCenterId.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("resi_id=" + resi_id);
+      xmlhttp.send("center_id=" + center_id);
    }
 
    //비밀번호 일치 확인 ajax
 
 function confirmPw(){
-      var pw = document.getElementById("resi_pw").value;
+      var center_pw = document.getElementById("center_pw").value;
       var check_pw = document.getElementById("check_pw").value
   
-   if (pw==check_pw) {    
+   if (center_pw==check_pw) {    
       document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
       document.getElementById("checked_pw").style.color = "#11609c";
       document.getElementById("checked_pw").style.fontWeight = "bold";
@@ -126,7 +124,6 @@ function confirmPw(){
 function check_npki() {
    var npki_key = document.getElementById("npki_key").value;
    var xmlhttp = new XMLHttpRequest;
-   var submit3 =  document.getElementById("join_submit");
    
       xmlhttp.onreadystatechange = function() {
          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
@@ -163,7 +160,7 @@ function check_npki() {
         
       };
      
-      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkNpkiKey.jan",true);
+      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkCenterNpkiKey.jan",true);
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("npki_key="+ npki_key);
    };
@@ -172,7 +169,7 @@ function check_npki() {
    //////////////////////////이메일 중복 체크
    function checkEmail() {
     
-      var resi_mail = document.getElementById("resi_mail").value;
+      var center_mail = document.getElementById("center_mail").value;
       var xmlhttp = new XMLHttpRequest;
 
       xmlhttp.onreadystatechange = function() {
@@ -202,14 +199,14 @@ function check_npki() {
    
       };
       
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmEmail.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/checkCenterEmail.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("resi_mail=" + resi_mail);
+      xmlhttp.send("center_mail=" + center_mail);
    }
   
    
    function pageMove(){
-         setTimeout(test , 360*1000);
+         setTimeout(test , 600*1000);
       }
 
       
@@ -222,14 +219,14 @@ function check_npki() {
        setInterval(timeAttack,1000);
    }
          
-   var setTime = 359;      // 최초 설정 시간(기본 : 초)
+   var setTime = 559;      // 최초 설정 시간(기본 : 초)
 
  function timeAttack() {   // 1초씩 카운트
             
    var m = Math.floor(setTime/60) + "분 ";
        var s = (setTime % 60)+ "초";   // 남은 시간 계산
        var o = "60초";
-       console.log(m);
+      
             
       if (setTime < 0) {         // 시간이 종료 되었으면..
                 
@@ -264,104 +261,121 @@ function check_npki() {
            setTime--;               // 1초씩 감소
 }
 
-     
-
-   </script>
-
+    
+    </script>
 </head>
 <body onload="timer(); pageMove();">
-   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+ 
+    <div class="container text-center" style="margin-top: 50px">
+       <div class="row">
+          <div class="col-2"></div>
+          <div class="col">
+             <img style="max-width: 700px"
+                src="${pageContext.request.contextPath }/resources/img/join-page.png">
+          </div>
+          <div class="col-2"></div>
+       </div>
+       <div class="row" >
+          <div class="col-5"></div>
+          <div class="col" id="ViewTimer"></div>
+          <div class="col-5"></div>
+       </div>
+ 
+       <div class="row">
+          <div class="col-2"></div>
+          <div class="col">
+             <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_center_process.jan"
+             	enctype="multipart/form-data">
+                <!-- 아이디 -->
+                <div class="form-group">
+                   <label for="center_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
+                      class="form-control" id="center_id" name="center_id"
+                      placeholder="시용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
+                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
+                   <div class="check_font text-center" id="id_check"></div>
+                </div>
+                
+                <div class="form-group">
+                   <label for="center_name">이름</label> <input onblur="toggleSubmitButton()" type="text"
+                      class="form-control" id="center_name" name="center_name" placeholder="이름" required maxlength="20">
+                </div>
+          
+                <!-- 비밀번호 -->
+                <div class="form-group">
+                   <label for="center_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
+                      class="form-control" id="center_pw" name="center_pw"
+                      placeholder="사용할 비밀번호" required maxlength="20">
+                   <div class="check_font" id="pw_check"></div>
+ 
+                </div>
+ 
+                <!-- 비밀번호 재확인 -->
+                <div class="form-group">
+                   <label for="center_pw2">비밀번호 확인</label> <input type="password"
+                      class="form-control" id="check_pw" name="check_pw" onblur="toggleSubmitButton()"
+                      placeholder="비밀번호를 한 번 더 입력해주세요" required onkeyup="confirmPw()" maxlength="20">
+                   <div class="check_font" id="checked_pw"></div>
+                </div>
+ 
+                <!-- 인증번호 -->
+                <div class="form-group">
+ 
+                   <label for="npki_key">인증번호</label> <input type="text"
+                      placeholder="부여받은 인증번호 입력 center-xxx-xxxx" id="npki_key" name="npki_key"
+                      class="form-control" onblur="check_npki(); toggleSubmitButton()" required maxlength="20">
+                   <div class="check_font" id="checked_npki"></div>
+                </div>
+ 
+                <!-- 이메일 -->
+                <div class="form-group">
+                   <label for="center_mail">이메일</label> <input
+                      placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text" 
+                      name="center_mail" onblur="checkEmail(); toggleSubmitButton()" id="center_mail" class="form-control" required maxlength="50">
+                    <div class="check_font" id="emailchecked"></div>
+                </div>
+ 
+                <!--센터 소개란 -->
 
-   <div class="container text-center" style="margin-top: 50px">
-      <div class="row">
-         <div class="col-2"></div>
-         <div class="col">
-            <img style="max-width: 700px"
-               src="${pageContext.request.contextPath }/resources/img/join-page.png">
-         </div>
-         <div class="col-2"></div>
-      </div>
-      <div class="row" >
-         <div class="col-5"></div>
-         <div class="col" id="ViewTimer"></div>
-         <div class="col-5"></div>
-      </div>
+                <div class="form-group">
+                    <label for="center_pr">센터 간략정보</label>
+                    <textarea class="form-control" type="text" rows="3"  name="center_pr"  id="center_pr" onblur="toggleSubmitButton()"
+               placeholder="센터 PR을 작성해주세요" required maxlength="200"></textarea>
+                     <div class="check_font" id="prCheck()"></div>
+                 </div>
 
-      <div class="row">
-         <div class="col-2"></div>
-         <div class="col">
-            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_resi_process.jan">
-               <!-- 아이디 -->
-               <div class="form-group">
-                  <label for="resi_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
-                     class="form-control" id="resi_id" name="resi_id"
-                     placeholder="시용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
-                  <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
-                  <div class="check_font text-center" id="id_check"></div>
-               </div>
-               
-               <div class="form-group">
-                  <label for="resi_rname">이름</label> <input onblur="toggleSubmitButton()" type="text"
-                     class="form-control" id="resi_rname" name="resi_rname" placeholder="이름" required maxlength="20">
-               </div>
-         
-               <!-- 비밀번호 -->
-               <div class="form-group">
-                  <label for="resi_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
-                     class="form-control" id="resi_pw" name="resi_pw"
-                     placeholder="사용할 비밀번호" required maxlength="20">
-                  <div class="check_font" id="pw_check"></div>
+                 <!-- 센터 정보-->
+                 <div class="form-group">
+                    <label for="center_about">센터 간략정보</label> 
+                    <textarea class="form-control" type="text" rows="10" name="center_about" onblur="toggleSubmitButton()" 
+               name="center_about" id="center_about" placeholder="센터소개 글을 입력해 주세요" required maxlength="4000"></textarea>
+                </div>
 
-               </div>
+                 <!-- 센터이미지 첨부-->
+                 <div class="form-group">
+                    <label for="tag">파일첨부</label> <input type="file"
+                        name="centerFile" multiple accept="image/*"><br>
+                </div>
 
-               <!-- 비밀번호 재확인 -->
-               <div class="form-group">
-                  <label for="resi_pw2">비밀번호 확인</label> <input type="password"
-                     class="form-control" id="check_pw" name="check_pw" onblur="toggleSubmitButton()"
-                     placeholder="비밀번호를 한 번 더 입력해주세요" required onkeyup="confirmPw()" maxlength="20">
-                  <div class="check_font" id="checked_pw"></div>
-               </div>
-
-               <!-- 인증번호 -->
-               <div class="form-group">
-
-                  <label for="npki_key">인증번호</label> <input type="text"
-                     placeholder="부여받은 인증번호 입력 reis-xxx-xxxx" id="npki_key" name="npki_key"
-                     class="form-control" onblur="check_npki(); toggleSubmitButton()" required maxlength="20">
-                  <div class="check_font" id="checked_npki"></div>
-               </div>
-
-               <!-- 이메일 -->
-               <div class="form-group">
-                  <label for="resi_mail">이메일</label> <input
-                     placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text" 
-                     name="resi_mail" onblur="checkEmail(); toggleSubmitButton()" id="resi_mail" class="form-control" required maxlength="50">
-                   <div class="check_font" id="emailchecked"></div>
-               </div>
-
-               <div class="col-2">
-                  <input type="hidden" value="1" name="resi_grade"> <input
-                     type="hidden" value="0" name="resi_point">
-               </div>
-               <!-- 회원가입 버튼 -->
-               <div class="col-3">
-                  <input id="join_submit" type="submit" value="회원가입" disabled="disabled"
-                     class="btn btn-primary btn-block">
-               </div>
-          </form></div>
-         <div class="col-2"></div>
-      </div>
-     
-   </div>
-
-
-   <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"></script>
-   <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-      crossorigin="anonymous"></script>
-</body>
-</html>
+                <!-- 회원가입 버튼 -->
+                <div class="col-3">
+                   <input id="join_submit" type="submit" value="회원가입" disabled="disabled"
+                      class="btn btn-primary btn-block">
+                </div>
+           </form></div>
+          <div class="col-2"></div>
+       </div>
+      
+    </div>
+ 
+ 
+    <script
+       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+       crossorigin="anonymous"></script>
+    <script
+       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+       crossorigin="anonymous"></script>
+ </body>
+ </html>

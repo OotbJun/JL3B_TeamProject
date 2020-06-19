@@ -40,14 +40,14 @@
          <div class="mb-3">
             <label for="title">수강제목</label> <input type="text"
                class="form-control" name="info_pr" id="info_pr"
-               value ="${controller.centerVo.info_pr}">
+               value ="${controller.centerVo.info_pr}" max="200">
          </div>
          <div class="mb-3"></div>
          <div class="mb-3"></div>
          <div class="mb-3">
             <label for="content">교육소개</label>
             <textarea class="form-control" rows="10" name="info_about"
-               id="info_about">
+               id="info_about" maxlength="4000">
                ${controller.centerVo.info_about}
                </textarea>
          </div>

@@ -53,7 +53,7 @@ footer {
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<a
-									href="${pageContext.request.contextPath }/member/join_resi.jan"><button
+									href="${pageContext.request.contextPath }/member/join_center.jan"><button
 										class="btn btn btn-danger btn-round" style="width: 100%">센터
 										가입</button></a>
 							</div>

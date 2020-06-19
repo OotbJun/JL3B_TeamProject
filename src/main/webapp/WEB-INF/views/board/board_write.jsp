@@ -41,7 +41,7 @@
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="board_title" id="title"
-					placeholder="제목을 입력해 주세요">
+					placeholder="제목을 입력해 주세요" maxlength="50">
 			</div>
 			
 			
@@ -51,7 +51,7 @@
 			<div class="mb-3">
 				<label for="content">글내용</label>
 				<textarea class="form-control" rows="10" name="board_content"
-					id="content" placeholder="내용을 입력해 주세요"></textarea>
+					id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
 			</div>
 			<div class="mb-3">
 				<div class="row mb-5">
@@ -68,8 +68,7 @@
 					</div>
 					<div class="col-6">
 						<input type="submit" value="확인"
-							class="btn btn-primary btn-lg btn-block"> <input
-							type="hidden" name="horsehead_sort" value="자게">
+							class="btn btn-primary btn-lg btn-block"> 
 					</div>
 				
 	

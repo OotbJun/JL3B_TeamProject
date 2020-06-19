@@ -78,15 +78,9 @@ public class RESTfulBoardController {
 		
 		int resiNo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
 		boardReVo.setResi_no(resiNo);
-		
 		BoardReVo replyData = boardService.checkReply(boardReVo);
 		
-		System.out.println("보드넘버 : "+boardReVo.getBoard_no());
-		System.out.println("리플넘버 : "+boardReVo.getBoard_re_no());
-		System.out.println("레지넘버 : "+boardReVo.getResi_no());
-		
 		if(replyData == null) {
-			System.out.println("리턴 ?");
 			return 0;
 		}else {
 			System.out.println("리턴 값 : " + boardService.deleteRepl(boardReVo.getBoard_re_no()));
@@ -94,8 +88,6 @@ public class RESTfulBoardController {
 			
 			return 1;
 		}
-		
-		
 	}
 
 	// 자게 추천!!
@@ -184,7 +176,6 @@ public class RESTfulBoardController {
 			boardService.cancelIdeaLike(ideaLikeVo);			//추천 취소
 			return "false";
 		}
-
 	}
 
 	// 청원 동의 출력

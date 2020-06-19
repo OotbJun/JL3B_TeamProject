@@ -6,6 +6,8 @@
 
 <mapper namespace="com.jl3b.touche_nubes.member.mapper.MemberSQLMapper">
 	
+	
+	<!-- 입주민 -->
 	<!-- 입주민 가입 -->
 	<insert id="insertResi">
 		<![CDATA[
@@ -57,20 +59,6 @@
 		]]>
 	</select>
 	
-	<!-- 센터 가입 -->
-	<insert id="insertCenter">
-		<![CDATA[
-			INSERT INTO JL3B_CENTER VALUES(
-				JL3B_CENTER_SEQ.NEXTVAL,
-				#{npki_key},
-				#{center_id},
-				#{center_pw},
-				#{center_name},
-				#{center_mail},
-				SYSDATE)
-		]]>
-	</insert>
-	
 	<!-- 입주민 인증번호 중복방지 -->
 	<select id="selectResiByNpki" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
 		<![CDATA[
@@ -81,7 +69,6 @@
 		]]>	
 	</select>
 	
-	
 	<!-- 인증번호 유효성검사? -->
    <select id="existNpki" resultType="String">
       <![CDATA[
@@ -91,6 +78,24 @@
          WHERE NPKI_KEY = #{key}
       ]]>   
    </select>
+	
+	
+	<!-- 센터 -->
+	<!-- 센터 가입 -->
+	<insert id="insertCenter">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER VALUES(
+				#{center_no},
+				#{npki_key},
+				#{center_id},
+				#{center_pw},
+				#{center_name},
+				#{center_mail},
+				#{center_pr},
+				#{center_about},
+				SYSDATE)
+		]]>
+	</insert>
    
    <!-- 센터 인증번호 중복방지 -->
    <select id="selectCenterByNpki" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
@@ -102,7 +107,7 @@
    		]]>
    </select>
    
-   <!-- 센터 확인 -->
+   <!-- 센터 보기 -->
 	<select id="selectCenterByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
 		<![CDATA[
 			SELECT * 
@@ -136,5 +141,42 @@
          	resi_mail = #{resi_mail}
       ]]>
    </select>
+   
+   <!-- 센터 아이디 중복체크 -->
+   <select id="selectCenterById" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_CENTER
+         WHERE 
+            center_id = #{center_id}
+      ]]>
+   </select>
+   
+   <!-- 센터 이메일 중복확인 -->
+   <select id="existCenterEmail" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_CENTER
+         WHERE 
+            center_mail = #{center_mail}
+      ]]>
+   </select>
+   
+   
+   <!-- 관리자 -->
+   <!-- 전체 회원 목록 출력 -->
+   <select id="selectResiAll" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+   		<![CDATA[
+   			SELECT * FROM JL3B_RESI ORDER BY RESI_GRADE DESC
+   		]]>
+   </select>
+   
+   <update id="updateResiGrade">
+   		<![CDATA[
+   			UPDATE JL3B_RESI SET RESI_GRADE = #{resi_grade} WHERE RESI_NO = #{resi_no}
+   		]]>
+   </update>
 
 </mapper>

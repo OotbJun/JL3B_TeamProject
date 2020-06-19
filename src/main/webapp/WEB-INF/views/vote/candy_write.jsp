@@ -46,14 +46,14 @@ footer {
          <div class="mb-3">후 보 자 : ${sessionUser.resi_rname }</div>
          <div class="mb-3">
             <label for="title">소개</label> <input type="text" class="form-control"
-               name="candy_intro" id="title" placeholder="후보자 약력을 작성해주세요">
+               name="candy_intro" id="title" placeholder="후보자 약력을 작성해주세요" maxlength="300">
          </div>
          <div class="mb-3"></div>
          <div class="mb-3"></div>
          <div class="mb-3">
             <label for="content">공약사항</label>
             <textarea class="form-control" rows="10" name="candy_content"
-               id="content" placeholder="공약을 입력해주세요"></textarea>
+               id="content" placeholder="공약을 입력해주세요" maxlength="1000"></textarea>
          </div>
 
          <div class="mb-3">

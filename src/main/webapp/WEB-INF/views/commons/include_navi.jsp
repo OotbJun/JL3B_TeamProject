@@ -29,7 +29,7 @@
             href="${pageContext.request.contextPath }/vote/vote_choice.jan">선거
          </a></li>
            <li class="nav-item"><a class="nav-link"
-            href="${pageContext.request.contextPath }/center/center_choice.jan">클래스
+            href="${pageContext.request.contextPath }/center/center.jan">클래스
          </a></li>
       </ul>
       <c:choose>

@@ -10,7 +10,7 @@
 			INSERT INTO JL3B_CENTER_IMG 
 			VALUES(
 				JL3B_CENTER_IMG_SEQ.NEXTVAL, 
-				#{info_no}, 
+				#{center_no}, 
 				#{center_img_title}, 
 				#{center_img_path}, 
 				SYSDATE
@@ -23,7 +23,7 @@
 			SELECT * 
            	FROM 
            		JL3B_CENTER_IMG 
-           	WHERE info_no = #{info_no} 
+           	WHERE center_no = #{center_no} 
 		]]>	
 	</select>
 	
@@ -32,7 +32,7 @@
 			SELECT * 
            	FROM 
            		JL3B_CENTER_IMG 
-           	WHERE info_no = #{info_no} 
+           	WHERE center_no = #{center_no} 
 		]]>
 	</select>
 	

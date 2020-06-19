@@ -51,14 +51,14 @@ footer {
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="board_title" id="title"
-					value="${readBoard.boardVo.board_title }">
+					value="${readBoard.boardVo.board_title }" maxlength="50">
 			</div>
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
 				<label for="content">글내용</label>
 				<textarea class="form-control" rows="10" name="board_content"
-					id="content">${readBoard.boardVo.board_content }</textarea>
+					id="content" maxlength="4000">${readBoard.boardVo.board_content }</textarea>
 				<br>
 			</div>
 			<div class="mb-3">
@@ -76,8 +76,7 @@ footer {
 					</div>
 					<div class="col-6">
 						<input type="submit" value="확인"
-							class="btn btn-primary btn-lg btn-block"> <input
-							type="hidden" name="horsehead_sort" value="자게">
+							class="btn btn-primary btn-lg btn-block"> 
 					</div>
 				</div>
 			</div>
