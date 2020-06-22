@@ -78,7 +78,50 @@
          WHERE NPKI_KEY = #{key}
       ]]>   
    </select>
+   
+   <!-- 아이디 찾기 -->
+   <select id="searchResiId" resultType="String">
+ 		<![CDATA[
+ 			SELECT NVL(resi_id,0) 
+ 			FROM JL3B_RESI 
+ 			WHERE 
+ 				NPKI_KEY = #{npki_key} 
+ 			AND 
+ 				RESI_RNAME = #{resi_rname}
+ 		]]>  
+   </select>
+   
+   <!-- 비밀번호 변경 조건 -->
+   <select id="conditionResiPw" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_RESI 
+   			WHERE 
+   				RESI_ID = #{resi_id} 
+   			AND 
+   				RESI_MAIL = #{resi_mail}
+   		]]>
+   </select>
 	
+   <!-- 입주민 회원 비밀번호 변경 -->
+   <update id="updateResiPw">
+   		<![CDATA[
+   			UPDATE JL3B_RESI 
+   			SET 
+   				RESI_PW = #{resi_pw} 
+   			WHERE 
+   				RESI_NO = #{resi_no}
+   		]]>
+   </update>
+   
+   <!-- 인증 키 -->
+   <select id="creatKey" resultType="int">
+         <![CDATA[
+	      	SELECT JL3B_RESI_SEQ.nextval FROM DUAL
+	     ]]>
+   </select>
+   
 	
 	<!-- 센터 -->
 	<!-- 센터 가입 -->
@@ -163,6 +206,43 @@
             center_mail = #{center_mail}
       ]]>
    </select>
+   
+   <!-- 센터 아이디 찾기 -->
+   <select id="searchCenterId" resultType="String">
+ 		<![CDATA[
+ 			SELECT NVL(center_id, 0) 
+ 			FROM 
+ 				JL3B_CENTER 
+ 			WHERE 
+ 				NPKI_KEY = #{npki_key} 
+ 			AND 
+ 				CENTER_NAME = #{center_name}
+ 		]]>  
+   </select>
+   
+   <!-- 센터 비밀번호 변경 조건 -->
+   <select id="conditionCenterPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_ID = #{center_id} 
+   			AND 
+   				CENTER_MAIL = #{center_mail}
+   		]]>
+   </select>
+   
+   <!-- 센터 비밀번호 변경 -->
+   <update id="updateCenterPw">
+   		<![CDATA[
+   			UPDATE JL3B_CENTER 
+   			SET 
+   				CENTER_PW = #{center_pw} 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
+   </update>
    
    
    <!-- 관리자 -->

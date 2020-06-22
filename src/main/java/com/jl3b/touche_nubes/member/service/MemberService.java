@@ -30,13 +30,18 @@ public class MemberService {
 	private CenterImgSQLMapper centerImgSQLMapper;
 	
 	//입주민 회원가입
-	public void joinResi(ResiVo resiVo) {			
-		if(npkiSQLMapper.selectNpki(resiVo.getNpki_key()) == null) {
-			return;
-		}else {
-			memberSQLMapper.insertResi(resiVo);
-		}
-	}
+	public void joinResi(ResiVo resiVo) {
+		
+	      if(npkiSQLMapper.selectNpki(resiVo.getNpki_key()) == null) {
+	         return;
+	      }else {
+	         String hashCode = ResiMessageDigest.digest(resiVo.getResi_pw());
+	         resiVo.setResi_pw(hashCode);
+	         int resi_key = memberSQLMapper.creatKey();   
+	         resiVo.setResi_no(resi_key);
+	         memberSQLMapper.insertResi(resiVo);
+	      }
+   }
 	
 	//인증번호가 맞는지 확인
 	public String checkNpki(String npki_key) {			
@@ -50,10 +55,21 @@ public class MemberService {
 	}
 	
 	//입주민 로그인
-	public ResiVo loginResi(ResiVo resiVo) {				
-		return memberSQLMapper.selectResiByIdAndPw(resiVo);
+	public ResiVo loginResi(ResiVo resiVo) {   
+		
+       String hashCode = ResiMessageDigest.digest(resiVo.getResi_pw());
+       resiVo.setResi_pw(hashCode);
+       
+       return memberSQLMapper.selectResiByIdAndPw(resiVo);
 	}
 	
+	// 아이디 찾기
+	public String get_searchId(String resi_rname, String npki_key) {
+      return memberSQLMapper.searchResiId(resi_rname,npki_key);
+	}
+	
+	
+	////////////////////////////////////////////////센터
 	//센터 로그인
 	public CenterVo loginCenter(CenterVo centerVo) {		
 		return memberSQLMapper.selectCenterByIdAndPw(centerVo);

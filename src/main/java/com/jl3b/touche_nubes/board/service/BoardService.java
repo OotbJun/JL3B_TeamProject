@@ -50,13 +50,23 @@ public class BoardService {
 	}
 
 	// 글삭제
-	public void deleteNotice(int notice_no) {
-		boardSQLMapper.deleteNoticeByNo(notice_no);
+	public void deleteNotice(NoticeVo noticeVo, HttpSession session) {
+		
+		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
+		
+		if(resiVo.getResi_no() == noticeVo.getResi_no() && resiVo != null || resiVo.getResi_grade() >= 2) {		//예외처리
+			boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());				//권한 없이 주소창으로 입력시 삭제되는 거 막음.
+		}
 	}
 
 	// 글수정
-	public void changeNotice(NoticeVo noticeVo) {
-		boardSQLMapper.updateNoticeByNo(noticeVo);
+	public void changeNotice(NoticeVo noticeVo, HttpSession session) {
+		
+		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
+		
+		if(resiVo.getResi_no() == noticeVo.getResi_no() && resiVo != null || resiVo.getResi_grade() >= 2) {		//예외처리
+			boardSQLMapper.updateNoticeByNo(noticeVo);
+		}
 	}
 
 	// 검색
@@ -213,10 +223,9 @@ public class BoardService {
 
 		Map<String, Object> map = new HashMap<String, Object>();
 
-		boardSQLMapper.updateBoardReadCount(board_no); // 조회수
+		boardSQLMapper.updateBoardReadCount(board_no); 							// 조회수
 		BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
 		ResiVo resiVo = memberSQLMapper.selectResiByNo(boardVo.getResi_no());
-//		CenterVo centerVo = memberSQLMapper.selectCenterByNo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());
 		List<BoardImgVo> boardImgList = boardImgSQLMapper.selectBoardByNo(board_no);
 		int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 		int upCount = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
@@ -224,7 +233,6 @@ public class BoardService {
 		
 
 		map.put("resiVo", resiVo);
-//		map.put("centerVo", centerVo);
 		map.put("replyCount", replyCount);
 		map.put("boardImgList", boardImgList);
 		map.put("boardVo", boardVo);
@@ -235,13 +243,23 @@ public class BoardService {
 	}
 
 	// 글삭제
-	public void deleteBoard(int board_no) {
-		boardSQLMapper.deleteBoardByNo(board_no);
+	public void deleteBoard(BoardVo boardVo, HttpSession session) {
+		
+		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
+		
+		if(resiVo.getResi_no() == boardVo.getResi_no() && resiVo != null || resiVo.getResi_grade() >= 2) {		//예외처리
+			boardSQLMapper.deleteBoardByNo(boardVo.getBoard_no());								//권한 없이 주소창으로 입력시 삭제되는 거 막음.
+		}
 	}
 
 	// 글수정
-	public void changeBoard(BoardVo boardVo) {
-		boardSQLMapper.updateBoard(boardVo);
+	public void changeBoard(BoardVo boardVo, HttpSession session) {
+		
+		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
+		
+		if(resiVo.getResi_no() == boardVo.getResi_no() && resiVo != null) {
+			boardSQLMapper.updateBoard(boardVo);
+		}
 	}
 
 	////////////////////////////////// 테스트

@@ -7,7 +7,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>입주민 회원가입</title>
+<meta name="viewport" content="width=divice-width initial-scale=1">
+<title>Touche 입주민 회원가입</title>
 <style>
 footer {
    margin: 0 auto;
@@ -179,7 +180,7 @@ function check_npki() {
 
    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       
-         if (xmlhttp.responseText == 'true') {
+         if (xmlhttp.responseText == 'true' && resi_mail !="") {
               document.getElementById("emailchecked").innerText = "등록 할 수 있는 E-mail 입니다."
               document.getElementById("emailchecked").style.color = "#11609c";
               document.getElementById("emailchecked").style.fontWeight = "bold";
@@ -188,7 +189,16 @@ function check_npki() {
              
               toggleSubmitButton();
                  
-           } else {
+           } else   if (xmlhttp.responseText == 'true' && resi_mail =="") {
+               document.getElementById("emailchecked").innerText = "공백으로 둘 수 없습니다. 메일 주소를 입력해주세요"
+                   document.getElementById("emailchecked").style.color = "#20604f";
+                   document.getElementById("emailchecked").style.fontWeight = "bold";
+                   document.getElementById("emailchecked").style.fontSize = "large";
+                   isConfirmed4 =true;
+                  
+                   toggleSubmitButton();
+                   
+           }  else {
               document.getElementById("emailchecked").innerHTML = "이미 등록 된 E-mail 입니다."
               document.getElementById("emailchecked").style.color = "#ae0e36";
               document.getElementById("emailchecked").style.fontWeight = "bold";

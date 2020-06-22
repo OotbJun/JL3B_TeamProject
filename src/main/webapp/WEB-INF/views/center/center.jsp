@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>센터페이지</title>
 <style>
 
@@ -217,7 +218,7 @@ body {
                             <h2>${centerList.centerVo.center_name }</h2>
                             <p>${centerList.centerVo.center_pr }</p> <!--  -->
                         </div>
-                        <a href="${pageContext.request.contextPath }/center/class.jan">클래스 세부정보</a>
+                        <a href="${pageContext.request.contextPath }/center/center_read.jan?center_no=${centerList.centerVo.center_no }">클래스 세부정보</a>
                     </figcaption>
                 </figure>
             </c:forEach>

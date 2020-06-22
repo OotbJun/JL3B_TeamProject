@@ -52,6 +52,15 @@ public class RESTfulMemberController {
       }
    }
    
+   // 아이디 찾기
+   @RequestMapping("/find_resi_process.jan")
+   public String resiIdSearch(@RequestParam("resi_rname") String resi_rname,
+         @RequestParam("npki_key") String npki_key) {
+	   
+      String result = memberService.get_searchId(resi_rname, npki_key);
+      return result;
+   }
+   
    
    
    ////센터

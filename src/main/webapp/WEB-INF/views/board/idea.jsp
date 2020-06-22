@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 주민청원</title>
 <style type="text/css">
 #nav {
@@ -40,13 +41,12 @@
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	<div class="col mt-4">
 		<div class="row">
-			<div class="col"></div>
-			<div class="col" style="max-width: 100%; height: auto">
+			<div class="col-1"></div>
+			<div class="col text-center" style="max-width: 100%; height: auto">
 				<img
-					src="${pageContext.request.contextPath }/resources/img/ideapage.png"
-					>
+					src="${pageContext.request.contextPath }/resources/img/ideapage.png"  style="max-width: 75%; height: auto;">
 			</div>
-			<div class="col"></div>
+			<div class="col-1"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>
@@ -101,13 +101,15 @@
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${fn:contains(answer,'답변')}">
 											<td class="text-left pl-5"><a
-												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}">${ideaList.ideaVo.idea_title}</a>
+												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
+												${ideaList.ideaVo.idea_title}</a>
 											</td>
 										</c:if>
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${!fn:contains(answer,'답변')}">
 											<td class="text-left pl-2"><a
-												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}">${ideaList.ideaVo.idea_title}</a></td>
+												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
+												${ideaList.ideaVo.idea_title}</a></td>
 										</c:if>
 										<td>${ideaList.resiVo.resi_rname}</td>
 										<td><fmt:formatDate value="${ideaList.ideaVo.idea_wdate}"

@@ -18,21 +18,33 @@
 		]]>
 	</insert>
 	
-	<select id="selectCenterInfoImg" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
+	<!-- 상세페이지에서 전체 이미지 출력 -->
+	<select id="selectCenterImgAll" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
 		<![CDATA[
 			SELECT * 
            	FROM 
            		JL3B_CENTER_IMG 
-           	WHERE center_no = #{center_no} 
+           	WHERE 
+           		center_no = #{center_no}
+           	AND 
+           		ROWNUM <= 8 
+           	ORDER BY 
+           		CENTER_IMG_NO DESC
 		]]>	
 	</select>
 	
-	<select id="test" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
+	<!-- 리스트에서 대표 이미지 하나만 출력 -->
+	<select id="selectCenterImg" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
 		<![CDATA[
 			SELECT * 
            	FROM 
            		JL3B_CENTER_IMG 
-           	WHERE center_no = #{center_no} 
+           	WHERE 
+           		center_no = #{center_no} 
+           	AND 
+           		ROWNUM <= 1 
+           	ORDER BY 
+           		CENTER_IMG_NO ASC 
 		]]>
 	</select>
 	

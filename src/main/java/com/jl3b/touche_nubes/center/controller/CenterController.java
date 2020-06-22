@@ -17,9 +17,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.jl3b.touche_nubes.boardvo.BoardImgVo;
+import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.center.service.CenterService;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
+import com.jl3b.touche_nubes.membervo.ResiVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 
 @Controller
@@ -116,6 +120,7 @@ public class CenterController {
 	public String center(Model model) {
 		
 		List<Map<String, Object>> centerList = centerService.centerList();
+		
 		model.addAttribute("centerList", centerList);
 		
 		return "center/center";
@@ -123,12 +128,68 @@ public class CenterController {
 	
 	//센터 정보 보기
 	@RequestMapping("/center_read.jan")
-	public String readCenter(int info_no, Model model) {
+	public String readCenter(int center_no, Model model) {
 		
-		Map<String, Object> readCenter = centerService.viewCenterInfo(info_no);
+		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);
+		List<Map<String, Object>> readReview = centerService.viewReviewList(center_no);
+		
 		model.addAttribute("readCenter", readCenter);
+		model.addAttribute("readReview", readReview);
 		
 		return "center/center_read";
+	}
+	
+	//센터 이미지 업로드
+	@RequestMapping("/center_img.jan")
+	public String uploadImgCenter() {
+		return "center/center_img";
+	}
+	@RequestMapping("/center_img_process.jan")
+	public String uploadImgCenterProcess(MultipartFile [] centerImgFile, CenterVo centerVo, HttpSession session) {
+		
+		String RootFolderName = "C:/upload/";
+		Date today = new Date();
+		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+		String todayFolder = df.format(today);
+		String SaveFolderName = RootFolderName + todayFolder;
+		File SaveFolder = new File (SaveFolderName);
+   
+		if(!SaveFolder.exists()){
+			SaveFolder.mkdirs();
+		}
+		List<CenterImgVo> centerImgList = new ArrayList<CenterImgVo>();
+      
+		for(MultipartFile file : centerImgFile) {
+			if(file.getSize() <=0) {
+				continue;
+			}
+			//파일명 랜덤 이름 
+			String SaveFileTitle = UUID.randomUUID().toString();
+			String oriFileTitle = file.getOriginalFilename();
+			SaveFileTitle += "_" + System.currentTimeMillis();
+			SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
+			String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;
+
+			try {
+				file.transferTo(new File(SaveRealPath));
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			
+			
+			centerVo = (CenterVo) session.getAttribute("sessionCenter");
+			
+			// DB에 담을 Vo객체를 생성 
+			CenterImgVo centerImgVo = new CenterImgVo();
+			centerImgVo.setCenter_img_title(todayFolder+"/"+SaveFileTitle);
+			centerImgVo.setCenter_img_path(SaveRealPath);
+			centerImgVo.setCenter_no(centerVo.getCenter_no());
+			centerImgList.add(centerImgVo);
+		}
+		
+	    centerService.uploadCenterImg(centerImgList);
+	    
+	    return "redirect:./center_read.jan?center_no="+centerVo.getCenter_no();
 	}
 	
 	//센터 정보 수정
@@ -157,4 +218,22 @@ public class CenterController {
 //	}
 	
 	
+	///////////////////////////////////////////////리뷰
+	//리뷰 등록
+	@RequestMapping("/review_write.jan")
+	public String writeReview(Model model, int center_no) {
+		
+		model.addAttribute("center_no", center_no);
+		
+		return "center/review_write";
+	}
+	@RequestMapping("/review_write_process.jan")
+	public String writeReviewProcess(CenterReviewVo centerReviewVo, HttpSession session) {
+		
+		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
+		centerReviewVo.setResi_no(resiVo.getResi_no());
+		centerService.writeReview(centerReviewVo);
+		
+		return "redirect:./center_read.jan?center_no="+centerReviewVo.getCenter_no();
+	}
 }

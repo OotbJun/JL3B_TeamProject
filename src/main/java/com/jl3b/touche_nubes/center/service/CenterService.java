@@ -12,8 +12,10 @@ import com.jl3b.touche_nubes.boardvo.BoardImgVo;
 import com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper;
 import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.membervo.CenterVo;
+import com.jl3b.touche_nubes.membervo.ResiVo;
 
 @Service
 public class CenterService {
@@ -54,13 +56,44 @@ public class CenterService {
 	public Map<String, Object> viewCenterInfo(int center_no) {
 		
 		Map<String, Object> map = new HashMap<String, Object>();
-//		CenterVo centerVo = centerSQLMapper.selectCenterInfoByNo(center_no);
-		CenterVo centerVo = memberSQLMapper.selectCenterByNo(center_no);
+		CenterVo centerVo = memberSQLMapper.selectCenterByNo(center_no);						//센터 pr, about
+		List<CenterImgVo> centerImgList = centerImgSQLMapper.selectCenterImgAll(center_no);		//이미지 리스트
+		CenterImgVo centerImgVo = centerImgSQLMapper.selectCenterImg(center_no);
 		
-//		map.put("centerInfoVo", centerInfoVo);
 		map.put("centerVo", centerVo);
+		map.put("centerImgList", centerImgList);
+		map.put("centerImgVo", centerImgVo);
 		
 		return map;
+	}
+	
+	//센터 리뷰 페이지
+	public List<Map<String, Object>> viewReviewList(int center_no) {
+
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		List<CenterReviewVo> reviewList = centerSQLMapper.selectCenterReviewAll(center_no);
+		
+		
+		for(CenterReviewVo centerReviewVo : reviewList) {
+			ResiVo resiVo = memberSQLMapper.selectResiByNo(centerReviewVo.getResi_no());
+			
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("resiVo", resiVo);
+			map.put("centerReviewVo", centerReviewVo);
+			
+			list.add(map);
+		}
+		return list;
+	}
+	
+	//센터 이미지 업로드
+	public void uploadCenterImg(List<CenterImgVo> centerImgList) {
+		
+		for(CenterImgVo centerImgVo : centerImgList) {
+			centerImgSQLMapper.insertCenterInfoImg(centerImgVo);
+		}
 	}
 	
 	//센터 리스트
@@ -70,10 +103,8 @@ public class CenterService {
 		List<CenterVo> centerList = centerSQLMapper.selectCenterInfoAll();
 		
 		for(CenterVo centerVo : centerList) {
-//			centerVo = memberSQLMapper.selectCenterByNo(centerInfoVo.getCenter_no());
-			
-			//List<CenterImgVo> centerImgList = centerImgSQLMapper.selectCenterInfoImg(centerInfoVo.getInfo_no());	//이미지
-			CenterImgVo centerImgList = centerImgSQLMapper.selectCenterInfoImg(centerVo.getCenter_no());			//이미지 리스트 ㄴㄴ 그냥 vo로
+
+			CenterImgVo centerImgList = centerImgSQLMapper.selectCenterImg(centerVo.getCenter_no());			//이미지 리스트 ㄴㄴ 그냥 vo로
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
@@ -85,14 +116,13 @@ public class CenterService {
 		return list;
 	}
 	
-	//인포넘버값 받아오기
-	public int getInfoNo() {
-		return centerSQLMapper.selectInfoNo();
+	//센터 정보 불러오기
+	public CenterVo getCenter(int center_no) {
+		return centerSQLMapper.selectCenterInfoByNo(center_no);
 	}
 	
-	//정보등록 중복방지
-//	public CenterInfoVo checkCenterInfo(int center_no) {
-//		return centerSQLMapper.checkCenterInfo(center_no);
-//	}
-	
+	///////////////////리뷰
+	public void writeReview(CenterReviewVo centerReviewVo) {
+		centerSQLMapper.insertCenterReview(centerReviewVo);
+	}
 }

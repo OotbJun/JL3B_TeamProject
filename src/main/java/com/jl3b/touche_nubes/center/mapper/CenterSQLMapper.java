@@ -12,13 +12,11 @@ public interface CenterSQLMapper {
 	
 	//클래스 정보
 	public int createCenterKey();									//파일업로드용
+	public CenterVo selectCenterInfoByNo(int center_no);			//센터 보기
+	public List<CenterVo> selectCenterInfoAll();					//센터 리스트
 //	public void insertCenterInfo(CenterInfoVo centerInfoVo);		//클래스 정보 등록
 //	public void updateCenterInfo(CenterInfoVo centerInfoVo);		//클래스 정보 수정
 //	public void deleteCenterInfo(int info_no);						//클래스 정보 삭제
-	public CenterVo selectCenterInfoByNo(int center_no);			//센터 보기
-	public List<CenterVo> selectCenterInfoAll();					//센터 리스트
-	public int selectInfoNo();										//인포넘버값 받아오기
-//	public CenterInfoVo checkCenterInfo(int center_no);				//중복방지
 	
 	//클래스 후기
 	public void insertCenterReview(CenterReviewVo centerReviewVo);		//클래스 리뷰 등록

@@ -57,12 +57,14 @@ public class BoardController {
 		return "board/notice_write";
 	}
 	@RequestMapping("/notice_write_process.jan")
-	public String writeNoticeProcess(NoticeVo noticeVo, HttpSession session) {
+	public String writeNoticeProcess(NoticeVo noticeVo, HttpSession session, Model model) {
 		
 		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
 		noticeVo.setResi_no(resiVo.getResi_no());
 		boardService.writeNotice(noticeVo);
 		
+		model.addAttribute("sessionUser", resiVo);
+
 		return "redirect:./notice.jan";
 	}
 	
@@ -103,37 +105,42 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/notice_read.jan")
-	public String readNotice(int notice_no, Model model) {		
+	public String readNotice(int notice_no, Model model, 
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {		
 		
 		Map<String, Object> map = boardService.viewNotice(notice_no);
 		model.addAttribute("readNotice", map);
+		model.addAttribute("currentPage", currentPage);
 		
 		return "board/notice_read";
 	}
 	
 	//글삭제
 	@RequestMapping("/notice_delete_process.jan")
-	public String deleteNotice(int notice_no) {
+	public String deleteNotice(NoticeVo noticeVo, HttpSession session) {
 		
-		boardService.deleteNotice(notice_no);
+		boardService.deleteNotice(noticeVo, session);
 		
 		return "redirect:./notice.jan";
 	}
 	
 	//글수정
 	@RequestMapping("/notice_change.jan")
-	public String changeNotice(int notice_no, Model model) {		
+	public String changeNotice(int notice_no, Model model, HttpSession session,
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {		
 		
 		model.addAttribute("readNotice", boardService.viewNotice(notice_no));
+		model.addAttribute("currentPage", currentPage);
 		
 		return "board/notice_change";
 	}
 	@RequestMapping("/notice_change_process.jan")
-	public String changeNoticeProcess(NoticeVo noticeVo) {						
+	public String changeNoticeProcess(NoticeVo noticeVo, HttpSession session,
+			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {						
 		
-		boardService.changeNotice(noticeVo);
+		boardService.changeNotice(noticeVo, session);
 		
-		return "redirect:./notice.jan";
+		return "redirect:./notice_read.jan?notice_no="+noticeVo.getNotice_no()+"&currentPage="+currentPage;
 	}
 	
 	
@@ -142,10 +149,10 @@ public class BoardController {
 	public String board(@RequestParam(defaultValue = "board_title")String searchOption, String searchWord,Model model,
 				@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 			
-		List<Map<String, Object>> list = boardService.boardList(searchOption, searchWord, currPage);		////////테스트
-		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//상단 고정 공지
-		boardService.changeHot();
-		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);		//인기글 고정
+		List<Map<String, Object>> list = boardService.boardList(searchOption, searchWord, currPage);		//그냥 자게
+		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);				//상단 고정 공지
+		boardService.changeHot();																			//인기글 업데이트
+		List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);					//인기글 고정
 		
 		
 		
@@ -173,7 +180,7 @@ public class BoardController {
 	
 	//글쓰기
 	@RequestMapping("/board_write.jan")
-	public String writeBoard(Model model) {
+	public String writeBoard() {
 		return "board/board_write";
 	}
 	@RequestMapping("/board_write_process.jan")
@@ -181,15 +188,10 @@ public class BoardController {
 	      // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
 	      // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
 	      String RootFolderName = "C:/upload/";
-	      
 	      Date today = new Date();
-	      
 	      SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-	      
 	      String todayFolder = df.format(today);
-	      
 	      String SaveFolderName = RootFolderName + todayFolder;
-	      
 	      File SaveFolder = new File (SaveFolderName);
 	   
 	      if(!SaveFolder.exists()){
@@ -204,13 +206,9 @@ public class BoardController {
 	         }
 	      //파일명 랜덤 이름 
 	      String SaveFileTitle = UUID.randomUUID().toString();
-	      
 	      String oriFileTitle = file.getOriginalFilename();
-	      
 	      SaveFileTitle += "_" + System.currentTimeMillis();
-	      
 	      SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
-	      
 	      String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;
 
 	      try {
@@ -221,15 +219,13 @@ public class BoardController {
 	         e.printStackTrace();
 	      }
 	      
-	      // DB에 담을 Vo객체를 생성 
-	      BoardImgVo boardImgVo = new BoardImgVo();
-	      
-	      boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);
-	      
-	      boardImgVo.setBoard_img_path(SaveRealPath);
-	      
-	      BoardImgList.add(boardImgVo);
+	      	// DB에 담을 Vo객체를 생성 
+		      BoardImgVo boardImgVo = new BoardImgVo();
+		      boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);
+		      boardImgVo.setBoard_img_path(SaveRealPath);
+		      BoardImgList.add(boardImgVo);
 	      }
+	      
 	      ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
 
 	      boardVo.setResi_no(resiVo.getResi_no());
@@ -241,7 +237,8 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/board_read.jan")
-	public String readBoard(int board_no, Model model, HttpSession session) {
+	public String readBoard(int board_no, Model model, HttpSession session, 
+			@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 		
 		Map<String, Object> map = boardService.viewBoard(board_no, session);
 		List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
@@ -249,14 +246,15 @@ public class BoardController {
 		
 		model.addAttribute("readBoard", map);
 		model.addAttribute("boardReplList",boardReplList);
+		model.addAttribute("currPage", currPage);
 		
 		return "board/board_read";
 	}
 	
 	//글삭제
 	@RequestMapping("/board_delete_process.jan")
-	public String deleteBoard(int board_no) {
-		boardService.deleteBoard(board_no);			//게시글 삭제
+	public String deleteBoard(BoardVo boardVo, HttpSession session) {
+		boardService.deleteBoard(boardVo, session);			//게시글 삭제
 //		boardService.deleteBoardImg(board_no);		//게시글 이미지 삭제
 //		boardService.deleteBoardRe(board_no);		//게시글 댓글 삭제
 
@@ -265,13 +263,17 @@ public class BoardController {
 	
 	//글수정
 	@RequestMapping("/board_change.jan")
-	public String changeBoard(int board_no, Model model, HttpSession session) {
+	public String changeBoard(int board_no, Model model, HttpSession session, 
+			@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
+		
 		model.addAttribute("readBoard", boardService.viewBoard(board_no, session));
+		model.addAttribute("currPage", currPage);
+		
 		return "board/board_change";
 	}
 	@RequestMapping("/board_change_process.jan")
-	public String updateContentProcess(BoardVo boardVo) {
-		boardService.changeBoard(boardVo);
+	public String updateContentProcess(BoardVo boardVo, HttpSession session) {
+		boardService.changeBoard(boardVo, session);
 		return "redirect:./board.jan";
 	}
 	
@@ -330,7 +332,7 @@ public class BoardController {
 			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
 		List<Map<String, Object>> list = boardService.ideaList(searchOption,searchWord, currPage);
-		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);	//공지 상단 고정
+		List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);		//공지 상단 고정
 		
 		int totalCount = boardService.getIdeaDataCount(searchOption,searchWord);
 		int beginPage = ((currPage - 1) / 5) * 5 + 1;
@@ -364,21 +366,16 @@ public class BoardController {
 		// Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
 		// session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
 		String RootFolderName = "C:/upload/";
-
 		Date today = new Date();
-
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-
 		String todayFolder = df.format(today);
-
 		String SaveFolderName = RootFolderName + todayFolder;
-
 		File SaveFolder = new File(SaveFolderName);
 
 		if (!SaveFolder.exists()) {
 			SaveFolder.mkdirs();
-
 		}
+		
 		List<IdeaImgVo> IdeaImgList = new ArrayList<IdeaImgVo>();
 		
 		for (MultipartFile file : ideaImgList) {
@@ -387,32 +384,24 @@ public class BoardController {
 			}
 			// 파일명 랜덤 이름
 			String SaveFileTitle = UUID.randomUUID().toString();
-
 			String oriFileTitle = file.getOriginalFilename();
-
 			SaveFileTitle += "_" + System.currentTimeMillis();
-
 			SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
-
 			String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;
 
 			try {
-
 				file.transferTo(new File(SaveRealPath));
-
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 
 			// DB에 담을 Vo객체를 생성
 			IdeaImgVo ideaImgVo = new IdeaImgVo();
-
 			ideaImgVo.setIdea_img_title(todayFolder + "/" + SaveFileTitle);
-
 			ideaImgVo.setIdea_img_path(SaveRealPath);
-
 			IdeaImgList.add(ideaImgVo);
 		}
+		
 		ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
 		ideaVo.setResi_no(resiVo.getResi_no());
 		boardService.writeIdea(ideaVo, IdeaImgList);
@@ -422,10 +411,12 @@ public class BoardController {
 
 	//청원글읽기
 	@RequestMapping("/idea_read.jan")
-	public String readidea(int idea_no, Model model, IdeaLikeVo ideaLikeVo) {
+	public String readidea(int idea_no, Model model, IdeaLikeVo ideaLikeVo, 
+			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
 		Map<String, Object> map = boardService.viewIdea(idea_no);
 		model.addAttribute("readIdea", map);
+		model.addAttribute("currPage", currPage);
 
 		return "board/idea_read";
 	}
@@ -441,9 +432,11 @@ public class BoardController {
 
 	// 글수정
 	@RequestMapping("/idea_change.jan")
-	public String changeIdea(int idea_no, Model model) {
+	public String changeIdea(int idea_no, Model model, 
+			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
 		model.addAttribute("readIdea", boardService.viewIdea(idea_no));
+		model.addAttribute("currPage", currPage);
 
 		return "board/idea_change";
 	}

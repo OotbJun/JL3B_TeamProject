@@ -7,6 +7,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>청원 글읽기</title>
 <style>
 footer {
@@ -29,63 +30,63 @@ footer {
    crossorigin="anonymous">
    
 <script type="text/javascript">
-	
-	function refreshIdeaLike() {
-		var ideaNo = ${readIdea.ideaVo.idea_no};
-		var xmlhttp = new XMLHttpRequest();
-		var ideaLikeBox = document.getElementById("idea_like_count");
-		var boxSpan = document.createElement("span");
-		
-		xmlhttp.onreadystatechange = function() {
-			
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				
-				var ideaLikeCount = xmlhttp.responseText;
-				var length = ideaLikeBox.childNodes.length;
-				
-				boxSpan.innerText = ideaLikeCount;
-				
-				for(var i = 0; i < length; i++) {
-					ideaLikeBox.removeChild(ideaLikeBox.childNodes[0]);
-				}
-				
-				ideaLikeBox.appendChild(boxSpan);
-				
-			}
-		};
-		
-		xmlhttp.open("get", "./get_idea_likecount.jan?idea_no=" + ideaNo, true);
-		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send();
-		
-	};
-	
-	function ideaLike() {
-			
-		var ideaNo = ${readIdea.ideaVo.idea_no};
-		var ideaLike = document.getElementById("idea_like").value;
-		var xmlhttp = new XMLHttpRequest();
-		
-		xmlhttp.onreadystatechange = function() {
-			
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				refreshIdeaLike();
-			}
-			
-		};
-		
-		xmlhttp.open("post", "./choose_idea_like_process.jan", true);
-		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xmlhttp.send("idea_no=" + ideaNo + "&idea_like=" + ideaLike);
-		
-		console.log("idea_no : " + ideaNo);
-		console.log("value : "+ ideaLike);
-		
-	};
-	
-	
-	
-	
+   
+   function refreshIdeaLike() {
+      var ideaNo = ${readIdea.ideaVo.idea_no};
+      var xmlhttp = new XMLHttpRequest();
+      var ideaLikeBox = document.getElementById("idea_like_count");
+      var boxSpan = document.createElement("span");
+      
+      xmlhttp.onreadystatechange = function() {
+         
+         if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            
+            var ideaLikeCount = xmlhttp.responseText;
+            var length = ideaLikeBox.childNodes.length;
+            
+            boxSpan.innerText = ideaLikeCount;
+            
+            for(var i = 0; i < length; i++) {
+               ideaLikeBox.removeChild(ideaLikeBox.childNodes[0]);
+            }
+            
+            ideaLikeBox.appendChild(boxSpan);
+            
+         }
+      };
+      
+      xmlhttp.open("get", "./get_idea_likecount.jan?idea_no=" + ideaNo, true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.send();
+      
+   };
+   
+   function ideaLike() {
+         
+      var ideaNo = ${readIdea.ideaVo.idea_no};
+      var ideaLike = document.getElementById("idea_like").value;
+      var xmlhttp = new XMLHttpRequest();
+      
+      xmlhttp.onreadystatechange = function() {
+         
+         if(xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            refreshIdeaLike();
+         }
+         
+      };
+      
+      xmlhttp.open("post", "./choose_idea_like_process.jan", true);
+      xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xmlhttp.send("idea_no=" + ideaNo + "&idea_like=" + ideaLike);
+      
+      console.log("idea_no : " + ideaNo);
+      console.log("value : "+ ideaLike);
+      
+   };
+   
+   
+   
+   
 </script>   
    
 </head>
@@ -93,15 +94,15 @@ footer {
 <body onload="refreshIdeaLike()">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
   <div class="col mt-4">
-		<div class="row">
-			<div class="col"></div>
-			<div class="col">
-				<img
-					src="${pageContext.request.contextPath }/resources/img/ideafix.png">
-			</div>
-			<div class="col"></div>
-		</div>
-	</div>
+      <div class="row">
+         <div class="col-1"></div>
+         <div class="col text-center">
+            <img
+               src="${pageContext.request.contextPath }/resources/img/ideafix.png"  style="max-width: 75%; height: auto;">
+         </div>
+         <div class="col-1"></div>
+      </div>
+   </div>
 
 
    <div class="container"
@@ -136,7 +137,7 @@ footer {
          <br>
       </c:forEach>
       <div class="row mt-1">
-         <div class="col" style="font-size: 20px;">${readIdea.ideaVo.idea_content }</div>
+         <div class="col text-wrap">${readIdea.ideaVo.idea_content }</div>
       </div>
    </div>
 
@@ -153,20 +154,20 @@ footer {
                <div class="col-4" style="padding: 0%">
                
                
-				<!-- 
+            <!-- 
                   <a
                      href="${pageContext.request.contextPath }/board/choose_idea_like_process.jan?idea_like=Y&idea_no=${readIdea.ideaVo.idea_no }">청원</a>
                   ${readIdea.upCount }
-				 -->
-				 <span style="color: red" id="idea_like_count"></span>
+             -->
+             <span style="color: red" id="idea_like_count"></span>
 
-				<button type="button" onclick="ideaLike()" class="btn btn-group" id="idea_like" style="max-width: 100%; width: 50px; height: 30px;" value="Y">
-				<img class="btn-img"
-								src="${pageContext.request.contextPath }/resources/img/heart.ico"
-								style="max-width: 100%">
-				</button>
-				 
-				 
+            <button type="button" onclick="ideaLike()" class="btn btn-group" id="idea_like" style="max-width: 100%; width: 50px; height: 30px;" value="Y">
+            <img class="btn-img"
+                        src="${pageContext.request.contextPath }/resources/img/heart.ico"
+                        style="max-width: 100%">
+            </button>
+             
+             
 
                </div>
                <div class="col-4"></div>
@@ -179,11 +180,20 @@ footer {
 
             <c:if test="${fn:contains(admin,'admin')}">
                <a
-                  href="${pageContext.request.contextPath}/board/idea_delete_process.jan?idea_no=${readIdea.ideaVo.idea_no}">삭제</a>
-               <a
                   href="${pageContext.request.contextPath}/board/idea_answer.jan?idea_no=${readIdea.ideaVo.idea_no}">답글</a>
-               <a
-                  href="${pageContext.request.contextPath}/board/idea_change.jan?idea_no=${readIdea.ideaVo.idea_no}">수정</a>
+               <form action="${pageContext.request.contextPath }/board/idea_delete_process.jan" method="post">
+					      
+					      <input type="hidden" name="idea_no" value="${readIdea.ideaVo.idea_no}">
+					      <input type="hidden" name="resi_no" value="${readIdea.ideaVo.resi_no}">
+					      <input class="btn btn-outline-danger" type="submit" value="삭제">
+					      
+					   </form>   
+                  <form action="${pageContext.request.contextPath }/board/idea_change.jan" method="post">
+						<input type="hidden" name="idea_no" value="${readIdea.ideaVo.idea_no}">
+			      		<input type="hidden" name="resi_no" value="${readIdea.ideaVo.resi_no}">
+			      		<input type="hidden" name="currPage" value="${currPage }">
+			      		<input class="btn btn-outline-info" type="submit" value="수정">
+					</form>
             </c:if>
          </div>
       </div>
@@ -218,7 +228,7 @@ footer {
          </c:if>
          
          <div class="col-1" style="padding: 0px; margin-right: 0px; ">
-            <a href="${pageContext.request.contextPath}/board/idea.jan"
+            <a href="${pageContext.request.contextPath}/board/idea.jan?&currPage=${currPage }"
                class="btn btn-light">목록</a>
          </div>
     </div>

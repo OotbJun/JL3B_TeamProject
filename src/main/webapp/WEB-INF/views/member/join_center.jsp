@@ -7,36 +7,37 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>센터 회원가입</title>
+<meta name="viewport" content="width=divice-width initial-scale=1">
+<title>Touche 센터 회원가입</title>
 <style>
-    footer {
-       margin: 0 auto;
-       text-align: center;
-    }
-    
-    #xxx * {
-       background-color: rgba(255, 255, 255, 0.0);
-    }
-    
-    #xxx {
-       background-color: rgba(255, 255, 255, 0.0);
-    }
-    </style>
-    
-    <link rel="stylesheet"
-       href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
-       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
-       crossorigin="anonymous">
-    
-    
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-       crossorigin="anonymous"></script>
-    
-    <script type="text/javascript"
-       src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
-    
-    <script type="text/javascript"> //ajax 및 예외처리 js 코드
+footer {
+   margin: 0 auto;
+   text-align: center;
+}
+
+#xxx * {
+   background-color: rgba(255, 255, 255, 0.0);
+}
+
+#xxx {
+   background-color: rgba(255, 255, 255, 0.0);
+}
+</style>
+
+<link rel="stylesheet"
+   href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+   integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+   crossorigin="anonymous">
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+   integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+   crossorigin="anonymous"></script>
+
+<script type="text/javascript"
+   src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+
+<script type="text/javascript"> //ajax 및 예외처리 js 코드
     var isConfirmed1 =false;
    var isConfirmed2 =false;
    var isConfirmed3 =false;
@@ -83,7 +84,7 @@
                isConfirmed1 = false;
               
                toggleSubmitButton();
-
+ 
             }
            
          }
@@ -156,14 +157,13 @@ function check_npki() {
                
                toggleSubmitButton();
          };
-         };
-        
-      };
+      };       
+   };
      
       xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkCenterNpkiKey.jan",true);
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("npki_key="+ npki_key);
-   };
+};
    
    
    //////////////////////////이메일 중복 체크
@@ -176,7 +176,7 @@ function check_npki() {
 
    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       
-         if (xmlhttp.responseText == 'true') {
+         if (xmlhttp.responseText == 'true' && center_mail !="") {
               document.getElementById("emailchecked").innerText = "등록 할 수 있는 E-mail 입니다."
               document.getElementById("emailchecked").style.color = "#11609c";
               document.getElementById("emailchecked").style.fontWeight = "bold";
@@ -185,6 +185,12 @@ function check_npki() {
              
               toggleSubmitButton();
                  
+           } else if(xmlhttp.responseText == 'true' && center_mail =="") {
+               document.getElementById("emailchecked").innerText = "공백으로 둘 수 없습니다. 이메일을 작성해주세요"
+              document.getElementById("emailchecked").style.color = "#20604f";
+               document.getElementById("emailchecked").style.fontWeight = "bold";
+               document.getElementById("emailchecked").style.fontSize = "large";
+               isConfirmed4 = false;
            } else {
               document.getElementById("emailchecked").innerHTML = "이미 등록 된 E-mail 입니다."
               document.getElementById("emailchecked").style.color = "#ae0e36";
@@ -195,9 +201,8 @@ function check_npki() {
               toggleSubmitButton();
 
            }
-   }
-   
-      };
+         }
+   };
       
       xmlhttp.open("post","${pageContext.request.contextPath}/member/checkCenterEmail.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -265,117 +270,130 @@ function check_npki() {
     </script>
 </head>
 <body onload="timer(); pageMove();">
-    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
- 
-    <div class="container text-center" style="margin-top: 50px">
-       <div class="row">
-          <div class="col-2"></div>
-          <div class="col">
-             <img style="max-width: 700px"
-                src="${pageContext.request.contextPath }/resources/img/join-page.png">
-          </div>
-          <div class="col-2"></div>
-       </div>
-       <div class="row" >
-          <div class="col-5"></div>
-          <div class="col" id="ViewTimer"></div>
-          <div class="col-5"></div>
-       </div>
- 
-       <div class="row">
-          <div class="col-2"></div>
-          <div class="col">
-             <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_center_process.jan"
-             	enctype="multipart/form-data">
-                <!-- 아이디 -->
-                <div class="form-group">
-                   <label for="center_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
-                      class="form-control" id="center_id" name="center_id"
-                      placeholder="시용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
-                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
-                   <div class="check_font text-center" id="id_check"></div>
-                </div>
-                
-                <div class="form-group">
-                   <label for="center_name">이름</label> <input onblur="toggleSubmitButton()" type="text"
-                      class="form-control" id="center_name" name="center_name" placeholder="이름" required maxlength="20">
-                </div>
-          
-                <!-- 비밀번호 -->
-                <div class="form-group">
-                   <label for="center_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
-                      class="form-control" id="center_pw" name="center_pw"
-                      placeholder="사용할 비밀번호" required maxlength="20">
-                   <div class="check_font" id="pw_check"></div>
- 
-                </div>
- 
-                <!-- 비밀번호 재확인 -->
-                <div class="form-group">
-                   <label for="center_pw2">비밀번호 확인</label> <input type="password"
-                      class="form-control" id="check_pw" name="check_pw" onblur="toggleSubmitButton()"
-                      placeholder="비밀번호를 한 번 더 입력해주세요" required onkeyup="confirmPw()" maxlength="20">
-                   <div class="check_font" id="checked_pw"></div>
-                </div>
- 
-                <!-- 인증번호 -->
-                <div class="form-group">
- 
-                   <label for="npki_key">인증번호</label> <input type="text"
-                      placeholder="부여받은 인증번호 입력 center-xxx-xxxx" id="npki_key" name="npki_key"
-                      class="form-control" onblur="check_npki(); toggleSubmitButton()" required maxlength="20">
-                   <div class="check_font" id="checked_npki"></div>
-                </div>
- 
-                <!-- 이메일 -->
-                <div class="form-group">
-                   <label for="center_mail">이메일</label> <input
-                      placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text" 
-                      name="center_mail" onblur="checkEmail(); toggleSubmitButton()" id="center_mail" class="form-control" required maxlength="50">
-                    <div class="check_font" id="emailchecked"></div>
-                </div>
- 
-                <!--센터 소개란 -->
+   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-                <div class="form-group">
-                    <label for="center_pr">센터 간략정보</label>
-                    <textarea class="form-control" type="text" rows="3"  name="center_pr"  id="center_pr" onblur="toggleSubmitButton()"
-               placeholder="센터 PR을 작성해주세요" required maxlength="200"></textarea>
-                     <div class="check_font" id="prCheck()"></div>
-                 </div>
+   <div class="container text-center" style="margin-top: 50px">
+      <div class="row">
+         <div class="col-2"></div>
+         <div class="col">
+            <img style="max-width: 700px"
+               src="${pageContext.request.contextPath }/resources/img/join-page.png">
+         </div>
+         <div class="col-2"></div>
+      </div>
+      <div class="row">
+         <div class="col-5"></div>
+         <div class="col" id="ViewTimer"></div>
+         <div class="col-5"></div>
+      </div>
 
-                 <!-- 센터 정보-->
-                 <div class="form-group">
-                    <label for="center_about">센터 간략정보</label> 
-                    <textarea class="form-control" type="text" rows="10" name="center_about" onblur="toggleSubmitButton()" 
-               name="center_about" id="center_about" placeholder="센터소개 글을 입력해 주세요" required maxlength="4000"></textarea>
-                </div>
+      <div class="row">
+         <div class="col-2"></div>
+         <div class="col">
+            <form method="post" class="text-left"
+               action="${pageContext.request.contextPath }/member/join_center_process.jan"
+               enctype="multipart/form-data">
+               <!-- 아이디 -->
+               <div class="form-group">
+                  <label for="center_id">ID</label> <input
+                     onblur="toggleSubmitButton()" type="text" class="form-control"
+                     id="center_id" name="center_id" placeholder="시용할 ID 입력" required
+                     onkeyup="confirmId()" maxlength="20">
+                  <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
+                  <div class="check_font text-center" id="id_check"></div>
+               </div>
 
-                 <!-- 센터이미지 첨부-->
-                 <div class="form-group">
-                    <label for="tag">파일첨부</label> <input type="file"
-                        name="centerFile" multiple accept="image/*"><br>
-                </div>
+               <div class="form-group">
+                  <label for="center_name">이름</label> <input
+                     onblur="toggleSubmitButton()" type="text" class="form-control"
+                     id="center_name" name="center_name" placeholder="이름" required
+                     maxlength="20">
+               </div>
 
-                <!-- 회원가입 버튼 -->
-                <div class="col-3">
-                   <input id="join_submit" type="submit" value="회원가입" disabled="disabled"
-                      class="btn btn-primary btn-block">
-                </div>
-           </form></div>
-          <div class="col-2"></div>
-       </div>
-      
-    </div>
- 
- 
-    <script
-       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-       crossorigin="anonymous"></script>
-    <script
-       src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-       integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-       crossorigin="anonymous"></script>
- </body>
- </html>
+               <!-- 비밀번호 -->
+               <div class="form-group">
+                  <label for="center_pw">비밀번호</label> <input
+                     onblur="toggleSubmitButton()" type="password"
+                     class="form-control" id="center_pw" name="center_pw"
+                     placeholder="사용할 비밀번호" required maxlength="20">
+                  <div class="check_font" id="pw_check"></div>
+
+               </div>
+
+               <!-- 비밀번호 재확인 -->
+               <div class="form-group">
+                  <label for="center_pw2">비밀번호 확인</label> <input type="password"
+                     class="form-control" id="check_pw" name="check_pw"
+                     onblur="toggleSubmitButton()" placeholder="비밀번호를 한 번 더 입력해주세요"
+                     required onkeyup="confirmPw()" maxlength="20">
+                  <div class="check_font" id="checked_pw"></div>
+               </div>
+
+               <!-- 인증번호 -->
+               <div class="form-group">
+
+                  <label for="npki_key">인증번호</label> <input type="text"
+                     placeholder="부여받은 인증번호 입력 center-xxx-xxxx" id="npki_key"
+                     name="npki_key" class="form-control"
+                     onblur="check_npki(); toggleSubmitButton()" required
+                     maxlength="20">
+                  <div class="check_font" id="checked_npki"></div>
+               </div>
+
+               <!-- 이메일 -->
+               <div class="form-group">
+                  <label for="center_mail">이메일</label> <input
+                     placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text"
+                     name="center_mail" onblur="checkEmail(); toggleSubmitButton()"
+                     id="center_mail" class="form-control" required maxlength="50">
+                  <div class="check_font" id="emailchecked"></div>
+               </div>
+
+               <!--센터 소개란 -->
+
+               <div class="form-group">
+                  <label for="center_pr">센터 간략정보</label>
+                  <textarea class="form-control" type="text" rows="3"
+                     name="center_pr" id="center_pr" onblur="toggleSubmitButton()"
+                     placeholder="센터 PR을 작성해주세요" required maxlength="200"></textarea>
+                  <div class="check_font" id="prCheck()"></div>
+               </div>
+
+               <!-- 센터 정보-->
+               <div class="form-group">
+                  <label for="center_about">센터 간략정보</label>
+                  <textarea class="form-control" type="text" rows="10"
+                     name="center_about" onblur="toggleSubmitButton()"
+                     name="center_about" id="center_about"
+                     placeholder="센터소개 글을 입력해 주세요" required maxlength="4000"></textarea>
+               </div>
+
+               <!-- 센터이미지 첨부-->
+               <div class="form-group">
+                  <label for="tag">파일첨부</label> <input type="file" name="centerFile"
+                     multiple accept="image/*"><br>
+               </div>
+
+               <!-- 회원가입 버튼 -->
+               <div class="col-3">
+                  <input id="join_submit" type="submit" value="회원가입"
+                     disabled="disabled" class="btn btn-primary btn-block">
+               </div>
+            </form>
+         </div>
+         <div class="col-2"></div>
+      </div>
+
+   </div>
+
+
+   <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+   <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
+</body>
+</html>

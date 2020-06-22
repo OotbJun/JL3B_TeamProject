@@ -16,7 +16,7 @@
 		]]>
 	</select>
 	
-	<!-- 센터 정보 등록 -->
+	<!-- 센터 정보 등록 
 	<insert id="insertCenterInfo">
 		<![CDATA[
 			INSERT INTO JL3B_CENTER_INFO 
@@ -28,8 +28,9 @@
 			)
 		]]>
 	</insert>
+	-->
 	
-	<!-- 센터 정보 수정 -->
+	<!-- 센터 정보 수정 
 	<update id="updateCenterInfo">
 		<![CDATA[
 			UPDATE JL3B_CENTER_INFO 
@@ -38,14 +39,16 @@
 			WHERE CENTER_NO = #{center_no}
 		]]>
 	</update>
+	-->
 	
-	<!-- 센터 정보 삭제 -->
+	<!-- 센터 정보 삭제 
 	<delete id="deleteCenterInfo">
 		<![CDATA[
 			DELETE FROM JL3B_CENTER_INFO 
 			WHERE INFO_NO = #{info_no}
 		]]>
 	</delete>
+	-->
 	
 	<!-- 센터 정보 보기 -->
 	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
@@ -72,7 +75,8 @@
 			INSERT INTO JL3B_CENTER_REVIEW 
 			VALUES(
 				JL3B_CENTER_REVIEW_SEQ.NEXTVAL, 
-				#{center_no}, 
+				#{center_no},
+				#{resi_no},
 				#{review_comment}, 
 				SYSDATE
 			)
@@ -136,13 +140,6 @@
 	<select id="selectBookingCount" resultType="int">
 		<![CDATA[
 			SELECT COUNT(*) FROM JL3B_BOOKING WHERE PROG_NO = #{prog_no}
-		]]>
-	</select>
-	
-	<!-- 인포넘버값 받아오기 -->
-	<select id="selectInfoNo" resultType="int">
-		<![CDATA[
-			SELECT INFO_NO FROM JL3B_CENTER_INFO
 		]]>
 	</select>
 	

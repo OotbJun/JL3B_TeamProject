@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 자유게시판</title>
 
 <link rel="stylesheet"
@@ -21,12 +22,12 @@
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	<div class="col mt-4">
 		<div class="row">
-			<div class="col"></div>
-			<div class="col">
+			<div class="col-1"></div>
+			<div class="col text-center">
 				<img
-					src="${pageContext.request.contextPath }/resources/img/boardpage.png">
+					src="${pageContext.request.contextPath }/resources/img/boardpage.png"  style="max-width: 75%; height: auto;">
 			</div>
-			<div class="col"></div>
+			<div class="col-1"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>
@@ -66,7 +67,6 @@
 									</tr>
 								</c:forEach>
 
-
 								<!-- 인기글 리스트 -->
 								<c:forEach items="${boardHotList}" var="boardHotList" begin="0"
 									end="3">
@@ -92,7 +92,7 @@
 									<tr class="text-center">
 										<td>${boardList.boardVo.board_no}</td>
 										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}">${boardList.boardVo.board_title}
+											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}&currPage=${currPage }">${boardList.boardVo.board_title}
 												<c:if test="${boardList.replyCount > 0 }">
 												(${boardList.replyCount })</c:if>
 										</a></td>

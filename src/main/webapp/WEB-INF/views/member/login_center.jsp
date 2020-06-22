@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>센터 로그인</title>
 <style>
 footer {

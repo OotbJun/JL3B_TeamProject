@@ -9,6 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 공지사항</title>
 <style type="text/css">
 #nav {
@@ -40,13 +41,12 @@
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	<div class="col mt-4">
 		<div class="row">
-			<div class="col"></div>
-			<div class="col">
+			<div class="col-1"></div>
+			<div class="col text-center">
 				<img
-					src="${pageContext.request.contextPath }/resources/img/noticepage.png"
-					>
+					src="${pageContext.request.contextPath }/resources/img/noticepage.png"  style="max-width: 75%; height: auto;">
 			</div>
-			<div class="col"></div>
+			<div class="col-1"></div>
 		</div>
 	</div>
 	<div style="border-bottom: 1em, #6ac9ca;"></div>
@@ -73,7 +73,8 @@
 									<tr class="text-center">
 										<td style="font-weight: bold">${noticeList.noticeVo.horsehead_sort }</td>
 										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&horsehead_sort=${noticeList.horseheadVo.horsehead_sort }">${noticeList.noticeVo.notice_title }</a></td>
+											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&currentPage=${currentPage }">
+											${noticeList.noticeVo.notice_title }</a></td>
 										<td>${noticeList.resiVo.resi_rname }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"

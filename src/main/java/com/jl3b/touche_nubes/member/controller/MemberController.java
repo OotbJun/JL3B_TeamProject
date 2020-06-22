@@ -77,7 +77,13 @@ public class MemberController {
 		 return "redirect:/";
 	}
 	
+	//아이디 찾기
+	@RequestMapping("/find_resi.jan")
+    public String searchUser() {
+		return "member/find_resi";
+	}
 	
+	/////////////////////////////센터
 	//센터 로그인
 	@RequestMapping("/login_center.jan")
 	public String loginCenter() {

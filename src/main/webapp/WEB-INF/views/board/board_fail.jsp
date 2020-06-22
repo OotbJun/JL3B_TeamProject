@@ -4,7 +4,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>ㄴ
+<meta name="viewport" content="width=divice-width initial-scale=1">
+<title>Insert title here</title>
 <style>
 footer {
    margin: 0 auto;
