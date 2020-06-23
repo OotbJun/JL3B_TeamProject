@@ -5,7 +5,7 @@ import java.util.Date;
 public class IdeaVo {
 	
 	private int idea_no;
-	private int resi_no;
+	private int member_no;
 	private int idea_gr_no;
 	private String horsehead_sort;
 	private String idea_title;
@@ -17,11 +17,11 @@ public class IdeaVo {
 		super();
 	}
 	
-	public IdeaVo(int idea_no, int resi_no, int idea_gr_no, String horsehead_sort, String idea_title,
+	public IdeaVo(int idea_no, int member_no, int idea_gr_no, String horsehead_sort, String idea_title,
 			String idea_content, int idea_hits, Date idea_wdate) {
 		super();
 		this.idea_no = idea_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.idea_gr_no = idea_gr_no;
 		this.horsehead_sort = horsehead_sort;
 		this.idea_title = idea_title;
@@ -36,11 +36,11 @@ public class IdeaVo {
 	public void setIdea_no(int idea_no) {
 		this.idea_no = idea_no;
 	}
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 	public int getIdea_gr_no() {
 		return idea_gr_no;

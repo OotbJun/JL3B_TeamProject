@@ -57,54 +57,72 @@
   transform: rotate(180deg);
 }
         </style>
+        
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
     </head>
 
     <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	
         <!-- Top content -->
-        <div class="top-content">
-        <div class="container">
-        <div class="row mb-5 text-right">
-            <a href="${pageContext.request.contextPath }/center/center_img.jan"><button type="button" class="btn btn-primary btn-lg btn-block">대표이미지 올리기</button></a> 
-               </div>
-               </div>
-        	<div class="container-fluid">
-        		<div id="carousel-example" class="carousel slide" data-ride="carousel">
-        			<!--  여기 자리에 이미지 포이치 문 들어가면 됩니다. -->
-        			<div class="carousel-inner row w-100 mx-auto" role="listbox">
-        			<!-- 
-            			<div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
-							<img src="${pageContext.request.contextPath }/resources/assets/img/backgrounds/1.jpg" class="img-fluid mx-auto d-block" alt="img1">
-						</div>
-						
-						-->
-						<div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
-								<img src="/upload/${readCenter.centerImgVo.center_img_title }" class="img-fluid mx-auto d-block">
-						</div>
-						<c:forEach items="${readCenter.centerImgList}" var="centerImgVo">
-						 <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
-					         <img src="/upload/${centerImgVo.center_img_title}" class="img-fluid mx-auto d-block">
-					         <br>
-					         </div>
-					    </c:forEach>
-						</div>
+           <div class="top-content">
 
-        			</div>
-        			<a class="carousel-control-prev" href="#carousel-example" role="button" data-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a>
-					<a class="carousel-control-next" href="#carousel-example" role="button" data-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-        		</div>
-        	</div>
-        </div>
+      <div class="container-fluid">
+         <div id="carousel-example" class="carousel slide"
+            data-ride="carousel">
+            <!--  여기 자리에 이미지 포이치 문 들어가면 됩니다. -->
+            <div class="carousel-inner row w-100 mx-auto" role="listbox"
+               style="height: 300px">
+               
+               <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
+                  <img src="/upload/${readCenter.centerImgVo.center_img_title }"
+                     class="img-fluid mx-auto d-block" style="max-height: 300px; width: auto;">
+               </div>
+               <c:forEach items="${readCenter.centerImgList}" var="centerImgVo">
+                  <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
+                     <img src="/upload/${centerImgVo.center_img_title}"
+                        class="img-fluid mx-auto d-block"
+                        style="max-height: 300px; max-width: 300;">
+                  </div>
+               </c:forEach>
+            </div>
+
+         </div>
+         
+         <a class="carousel-control-prev" href="#carousel-example"
+            role="button" data-slide="prev"
+            style="height: 50%; width: 90px; margin-top: 7%;"> 
+         <span
+            class="carousel-control-prev-icon" aria-hidden="true"></span> 
+         <span
+            class="sr-only">Previous</span>
+         </a> <a class="carousel-control-next" href="#carousel-example"
+            role="button" data-slide="next"
+            style="height: 50%; width: 90px; margin-top: 7%;"> 
+         <span
+            class="carousel-control-next-icon" aria-hidden="true"></span> 
+         <span
+            class="sr-only">Next</span>
+         </a>
+      </div>
+      <div class="container">
+         <div class="row mt-3">
+            <div class="col"></div>
+            <div class="col-2">
+               <a href="${pageContext.request.contextPath }/center/center_img.jan"><button
+                     type="button" class="btn btn-primary btn-sm btn-block">대표이미지
+                     올리기</button></a>
+            </div>
+
+         </div>
+      </div>
+   </div>
 
         <!-- Section 1 -->
-        <div class="section-1-container section-container">
+        <div class="section-1-container section-container text-center">
 	        <div class="container">
 	            <div class="row">
 	                <div class="col section-1 section-description wow fadeIn">
@@ -119,7 +137,7 @@
         </div>
 
         <!-- Section 2 -->
-        <div class="section-2-container section-container section-container-gray-bg">
+        <div class="section-2-container section-container section-container-gray-bg text-center">
 	        <div class="container">
 	            <div class="row">
 	                <div class="col section-2 section-description wow fadeIn">
@@ -129,7 +147,7 @@
 	            	<div class="container">
   <!-- For demo purpose -->
   <div class="row py-5">
-      <div class="col section-2 section-description wow fadeIn">
+      <div class="col section-2 section-description wow fadeIn text-center">
         <h1>요가 클래스 예약 </h1>
      <div class="divider-1 wow fadeInUp"><span></span></div>
     </div>
@@ -220,7 +238,7 @@
  </div>
  </div>
 		<!-- Section 3 -->
-        <div class="section-3-container section-container">
+        <div class="section-3-container section-container text-center">
 	        <div class="container">
 	        	
 	            <div class="row">
@@ -242,7 +260,7 @@
 	                		<div class="col-md-9">
 	                			<h3>${readReview.centerReviewVo.review_comment }</h3>
 		                    	<p>
-		                    		${readReview.centerReviewVo.resi_no}
+		                    		${readReview.centerReviewVo.member_no}
 		                    	</p>
 	                		</div>
 	                	</div>

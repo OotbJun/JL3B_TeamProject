@@ -74,11 +74,11 @@ function insert() {
                      var a = '';
                      $.each(data, function(key, value) {
                             a += '<div class="row" style="margin-top: 20px; border-bottom: solid thin;; border-bottom-color: #f4f4f4";>'
-                               a += '<div class="col-1" style="font-size:small; font-weight: bold;">'+value.resiVo.resi_rname +'</div>'; 
+                               a += '<div class="col-1" style="font-size:small; font-weight: bold;">'+value.memberVo.member_rname +'</div>'; 
                                a += '<div class="col-8 commentContent'+value.boardReVo.board_re_no+'" style="font-size:small; white-space: pre";>'+value.boardReVo.board_re_content +'</div>';
                                a += '<div class="col-3 text-right">'
-                               a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentUpdate('+value.boardReVo.board_re_no+',\''+value.boardReVo.board_re_content+'\');"style="font-size: x-small";> 수정 </a></c:if>' 
-                                a += '<c:if test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentDelete('+value.boardReVo.board_re_no+');"style="font-size:x-small";> 삭제 </a></c:if></div>'
+                               a += '<c:if test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentUpdate('+value.boardReVo.board_re_no+',\''+value.boardReVo.board_re_content+'\');"style="font-size: x-small";> 수정 </a></c:if>' 
+                                a += '<c:if test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentDelete('+value.boardReVo.board_re_no+');"style="font-size:x-small";> 삭제 </a></c:if></div>'
                                a += '</div></div>';
                                  });
                      $("#commentList").html(a);
@@ -290,7 +290,7 @@ function insert() {
       </div>
       <div class="row mt-1 mb-1">
          <div class="col-1 " style="font-size: small;">
-            ${readBoard.resiVo.resi_rname}</div>
+            ${readBoard.memberVo.member_rname}</div>
          <div class="col-1" style="font-size: small">
             <fmt:formatDate value="${readBoard.boardVo.board_wdate}"
                pattern="yyyy.MM.dd"></fmt:formatDate>
@@ -385,27 +385,27 @@ function insert() {
             <ul>
                <li><c:set var="admin" value="${sessionUser.npki_key}"></c:set>
                   <c:if
-                     test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no || fn:contains(admin, 'admin') }">
+                     test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || fn:contains(admin, 'admin') }">
                      <!-- 마우스 올리면 주소창 뜨는 거 막음 -->
 					   <form action="${pageContext.request.contextPath }/board/board_delete_process.jan" method="post">
 					      
 					      <input type="hidden" name="board_no" value="${readBoard.boardVo.board_no}">
-					      <input type="hidden" name="resi_no" value="${readBoard.boardVo.resi_no}">
+					      <input type="hidden" name="member_no" value="${readBoard.boardVo.member_no}">
 					      <input class="btn btn-outline-danger" type="submit" value="삭제">
 					      
 					   </form>
                   </c:if></li>
                <li><c:if
-                     test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}">
+                     test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no}">
                      <form action="${pageContext.request.contextPath }/board/board_change.jan" method="post">
 						<input type="hidden" name="board_no" value="${readBoard.boardVo.board_no}">
-			      		<input type="hidden" name="resi_no" value="${readBoard.boardVo.resi_no}">
+			      		<input type="hidden" name="member_no" value="${readBoard.boardVo.member_no}">
 			      		<input type="hidden" name="currPage" value="${currPage }">
 			      		<input class="btn btn-outline-info" type="submit" value="수정">
 					</form>
                   </c:if></li>
                <li><c:if
-                     test="${!empty sessionUser && sessionUser.resi_no == readBoard.resiVo.resi_no}">
+                     test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no}">
                      <a
                         href="${pageContext.request.contextPath}/board/delete_board_img.jan?board_no=${readBoard.boardVo.board_no}">이미지삭제</a>
                   </c:if></li>

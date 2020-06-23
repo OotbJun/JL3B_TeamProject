@@ -91,7 +91,7 @@ footer {
 
 
          <c:if
-            test="${!empty round && !empty sessionUser && status.equals('C_ING') && sessionUser.resi_no != candyVo.resi_no }">
+            test="${!empty round && !empty sessionUser && status.equals('C_ING') && sessionUser.member_no != candyVo.member_no }">
             <div class="row">
                <div class="col text-center mt-5">
                   <div class="col-md-12 text-center">
@@ -100,7 +100,7 @@ footer {
 
                         <img
                         src="${pageContext.request.contextPath }/resources/img/resiCandy.png"
-                        style="max-width: 800px; height: auto">
+                        style="max-width: 45%; height: auto">
                      </a>
                   </div>
                </div>
@@ -117,7 +117,7 @@ footer {
                         href="${pageContext.request.contextPath }/vote/candy.jan?election_round=${round}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/candyList.png"
-                        style="max-width: 800px; height: auto">
+                        style="max-width: 45%; height: auto">
                      </a>
                   </c:if>
                </div>
@@ -133,7 +133,7 @@ footer {
                         href="${pageContext.request.contextPath }/vote/vote.jan?election_round=${round}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/Vote.png"
-                        style="max-width: 800px; height: auto">
+                        style="max-width: 45%; height: auto">
                      </a>
                   </c:if>
                </div>
@@ -148,7 +148,7 @@ footer {
                         href="${pageContext.request.contextPath }/vote/vote_result.jan?election_round=${(round-1)+1}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/voteResult.png"
-                        style="max-width: 800px; height: auto">
+                        style="max-width: 45%; height: auto">
                      </a>
                   </c:if>
                </div>

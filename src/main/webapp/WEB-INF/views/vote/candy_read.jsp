@@ -49,7 +49,7 @@
                       <div class="form-group">
                           <div class="col-xs-9">
                               <label for="first_name"><h4>후보자 이름</h4></label>
-                              <div>${readCandy.resiVo.resi_rname }</div>
+                              <div>${readCandy.memberVo.member_rname }</div>
                           </div>
                       </div><br>          
                       <div class="form-group">
@@ -71,7 +71,7 @@
                            </div>
                            <div class="col-xs-12">
                            	<c:if
-								test="${!empty sessionUser && sessionUser.resi_no == readCandy.resiVo.resi_no}">
+								test="${!empty sessionUser && sessionUser.member_no == readCandy.memberVo.member_no}">
 								<a class="btn btn-lg btn-success"
 									href="${pageContext.request.contextPath}/vote/candy_change.jan?candy_no=${readCandy.candyVo.candy_no}">수정</a>
 							</c:if>

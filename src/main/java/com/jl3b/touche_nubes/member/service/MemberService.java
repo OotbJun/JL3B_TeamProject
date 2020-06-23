@@ -13,9 +13,10 @@ import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper;
 import com.jl3b.touche_nubes.membervo.NpkiVo;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
+import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 
 @Service
 public class MemberService {
@@ -30,18 +31,25 @@ public class MemberService {
 	private CenterImgSQLMapper centerImgSQLMapper;
 	
 	//입주민 회원가입
-	public void joinResi(ResiVo resiVo) {
+	public void joinMember(MemberVo memberVo, MemberAuthVo memberAuthVo) {
 		
-	      if(npkiSQLMapper.selectNpki(resiVo.getNpki_key()) == null) {
+		if(npkiSQLMapper.selectNpki(memberVo.getNpki_key()) == null) {
 	         return;
-	      }else {
-	         String hashCode = ResiMessageDigest.digest(resiVo.getResi_pw());
-	         resiVo.setResi_pw(hashCode);
-	         int resi_key = memberSQLMapper.creatKey();   
-	         resiVo.setResi_no(resi_key);
-	         memberSQLMapper.insertResi(resiVo);
+	    }else {
+	    	 //비밀번호 암호화 
+	    	 String hashCode = MemberMessageDigest.digest(memberVo.getmember_pw());
+	         memberVo.setmember_pw(hashCode);
+	         
+	         int member_key = memberSQLMapper.creatKey();   
+	         
+	         memberVo.setmember_no(member_key);
+	         
+	         memberSQLMapper.insertMember(memberVo);    
+	         //인증
+	         memberAuthVo.setmember_no(member_key);
+	         memberSQLMapper.insertAuth(memberAuthVo);
 	      }
-   }
+	}
 	
 	//인증번호가 맞는지 확인
 	public String checkNpki(String npki_key) {			
@@ -50,22 +58,26 @@ public class MemberService {
 	}
 	
 	//인증번호 중복 확인
-	public ResiVo checkNpkiDupl(String npki_key) {			
-		return memberSQLMapper.selectResiByNpki(npki_key);
+	public MemberVo checkNpkiDupl(String npki_key) {			
+		return memberSQLMapper.selectMemberByNpki(npki_key);
 	}
 	
 	//입주민 로그인
-	public ResiVo loginResi(ResiVo resiVo) {   
+	public MemberVo loginMember(MemberVo memberVo) {   
 		
-       String hashCode = ResiMessageDigest.digest(resiVo.getResi_pw());
-       resiVo.setResi_pw(hashCode);
+       String hashCode = MemberMessageDigest.digest(memberVo.getmember_pw());
+       memberVo.setmember_pw(hashCode);
        
-       return memberSQLMapper.selectResiByIdAndPw(resiVo);
+       return memberSQLMapper.selectMemberByIdAndPw(memberVo);
 	}
 	
 	// 아이디 찾기
-	public String get_searchId(String resi_rname, String npki_key) {
-      return memberSQLMapper.searchResiId(resi_rname,npki_key);
+	public String get_searchId(String member_rname, String npki_key) {
+      return memberSQLMapper.searchMemberId(member_rname,npki_key);
+	}
+	
+	public void certification(String key) {
+	       memberSQLMapper.updateAuth(key);	
 	}
 	
 	
@@ -96,7 +108,7 @@ public class MemberService {
 	
 	//아이디 중복검사
 	public boolean confrimId(String id) {
-		if (memberSQLMapper.selectResiById(id) == null) {
+		if (memberSQLMapper.selectMemberById(id) == null) {
 			return true;
 		} else {
 			return false;
@@ -106,7 +118,7 @@ public class MemberService {
 	
 	//인증번호 유효성검사
    public boolean confirmNpki(String npki_key) {
-      if (memberSQLMapper.selectResiByNpki(npki_key)==null) {
+      if (memberSQLMapper.selectMemberByNpki(npki_key)==null) {
          return true;
       } else {
          return false;
@@ -123,8 +135,8 @@ public class MemberService {
    }
    
    //이메일 확인
-   public boolean confirmEmail(String resi_mail) {
-      if(memberSQLMapper.existEmail(resi_mail)!= null) {
+   public boolean confirmEmail(String member_mail) {
+      if(memberSQLMapper.existEmail(member_mail)!= null) {
          return true;
       } else {
          return false;

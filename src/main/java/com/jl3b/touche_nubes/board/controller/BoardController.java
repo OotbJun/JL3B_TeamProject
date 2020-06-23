@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +22,12 @@ import org.springframework.scheduling.config.ScheduledTask;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.jl3b.touche_nubes.board.service.BoardService;
 import com.jl3b.touche_nubes.boardvo.BoardImgVo;
@@ -33,7 +39,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
 
 @Controller
@@ -59,20 +65,26 @@ public class BoardController {
 	@RequestMapping("/notice_write_process.jan")
 	public String writeNoticeProcess(NoticeVo noticeVo, HttpSession session, Model model) {
 		
-		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
-		noticeVo.setResi_no(resiVo.getResi_no());
+		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+		noticeVo.setmember_no(memberVo.getmember_no());
 		boardService.writeNotice(noticeVo);
 		
-		model.addAttribute("sessionUser", resiVo);
+		model.addAttribute("sessionUser", memberVo);
 
 		return "redirect:./notice.jan";
 	}
 	
 	//공지 리스트
 	@RequestMapping("/notice.jan")
-	public String notice(Model model, String searchWord, 
+	public String notice(Model model, String searchWord, HttpSession session,
 				@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
 		
+		if(session.getAttribute("sessionUser") != null) {
+			MemberVo memberData = (MemberVo)session.getAttribute("sessionUser");		//등업 한 후 로그아웃 없이 바로 공지 글 쓸 수 있게
+			MemberVo updateData = boardService.updateSession(memberData);
+			session.setAttribute("sessionUser", updateData);					//될지 모르겠네
+			System.out.println("갱신 테스트");
+		}
 		
 		
 		if(currentPage <= 0) {
@@ -105,10 +117,35 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/notice_read.jan")
-	public String readNotice(int notice_no, Model model, 
+	public String readNotice(int notice_no, Model model, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {		
 		
 		Map<String, Object> map = boardService.viewNotice(notice_no);
+		
+		//쿠키 이용해서 조회수 중복 방지
+		boolean isRead = false;								//디폴트는 false로 세팅
+		
+		Cookie[] cookies = request.getCookies();			//쿠키값 가져와서
+		
+		for(Cookie cookie : cookies) {
+			String name = cookie.getName();					//네임 변수에 담아주고
+			if(name.startsWith("read_notice_no")) {			//네임이 read_notice_no로 시작된다면
+				int no = Integer.parseInt(name.substring(name.indexOf("|")+1));		//파이프+1 자리부터 잘라서 변수에 담아준다.
+				
+				if(no == notice_no) {						//변수가 notice_no와 같다면 트루로 변환, 즉 한번이라도 읽은 넘버는 true로
+					isRead = true;
+				}
+			}
+		}
+		
+		Cookie cookie = new Cookie("read_notice_no|" + notice_no, "aaaa");		//키에 notice_no 붙여주고, 값은 쓸모 없어서 대충
+		response.addCookie(cookie);												//쿠키 추가
+		
+		if(!isRead) {
+			boardService.updateNoticeReadCount(notice_no);						//isRead가 false면 조회수 증가
+		}
+		
+		
 		model.addAttribute("readNotice", map);
 		model.addAttribute("currentPage", currentPage);
 		
@@ -226,9 +263,9 @@ public class BoardController {
 		      BoardImgList.add(boardImgVo);
 	      }
 	      
-	      ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
+	      MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
 
-	      boardVo.setResi_no(resiVo.getResi_no());
+	      boardVo.setmember_no(memberVo.getmember_no());
 	   
 	      boardService.writeBoard(boardVo,BoardImgList);
 	   
@@ -237,11 +274,97 @@ public class BoardController {
 	
 	//글 하나 읽기
 	@RequestMapping("/board_read.jan")
-	public String readBoard(int board_no, Model model, HttpSession session, 
+	public String readBoard(int board_no, Model model, HttpSession session, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 		
 		Map<String, Object> map = boardService.viewBoard(board_no, session);
 		List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
+		
+		
+		
+		//쿠키 사용해서 조회수 중복 방지
+		boolean isRead = false;
+		
+		Cookie[] cookies = request.getCookies();
+		
+		for(Cookie cookie : cookies) {
+			String name = cookie.getName();
+			if(name.startsWith("read_board_no")) {
+				int no = Integer.parseInt(name.substring(name.indexOf("|")+1));
+				
+				if(no == board_no) {
+					isRead = true;
+				}
+			}
+		}
+		
+		Cookie cookie = new Cookie("read_board_no|"+board_no , "xxxxx");
+		response.addCookie(cookie);
+		
+/*		
+		Cookie[] cookies = request.getCookies();
+		Cookie cookieView = null;
+		
+		if(cookies != null && cookies.length > 0) {
+			for(int i = 0; i < cookies.length; i++) {
+				cookieView = cookies[i];
+			}
+		}
+		
+		if(cookieView == null) {
+			String cookieName = "cookie";
+			Cookie newCookie = new Cookie(cookieName,"." + board_no);
+			newCookie.setMaxAge(60*30);
+			response.addCookie(newCookie);
+			
+			boardService.updateBoardReadCount(board_no);
+		}else {
+			String cookieValue = cookieView.getValue();
+			if(cookieValue.indexOf(".", board_no) < 0) {
+				
+				
+				cookieValue = cookieValue + "." + board_no;
+				cookieView.setValue(cookieValue);
+				response.addCookie(cookieView);
+			}
+		}
+*/		
+		if(!isRead) {
+			boardService.updateBoardReadCount(board_no);
+		}
+		
+//		BoardVo boardView = (BoardVo) boardService.viewBoard(board_no, session);
+//		
+//		ModelAndView view = new ModelAndView();
+//		
+//		Cookie[] cookies = request.getCookies();
+//		
+//		Cookie viewCookie = null;
+//		
+//		if(cookies != null && cookies.length > 0) {
+//			for(int i = 0; i < cookies.length; i++) {
+//				
+//				if(cookies[i].getName().equals("cookie"+board_no)) {
+//					viewCookie = cookies[i];
+//				}
+//			}
+//		}
+//		
+//		if(boardView != null) {
+//			view.addObject("boardView", boardView);
+//			
+//			if(viewCookie == null) {
+//				Cookie newCookie = new Cookie("cookie" + board_no, "|" + board_no + "|" );
+//				response.addCookie(newCookie);
+//				
+//				boardService.updateBoardReadCount(board_no);
+//			}else {
+//				String value = viewCookie.getValue();
+//			}
+//			
+//			view.setViewName("board/board_read");
+//		}
+		
 		
 		
 		model.addAttribute("readBoard", map);
@@ -263,7 +386,7 @@ public class BoardController {
 	
 	//글수정
 	@RequestMapping("/board_change.jan")
-	public String changeBoard(int board_no, Model model, HttpSession session, 
+	public String changeBoard(int board_no, Model model, HttpSession session,
 			@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 		
 		model.addAttribute("readBoard", boardService.viewBoard(board_no, session));
@@ -272,9 +395,10 @@ public class BoardController {
 		return "board/board_change";
 	}
 	@RequestMapping("/board_change_process.jan")
-	public String updateContentProcess(BoardVo boardVo, HttpSession session) {
+	public String updateContentProcess(BoardVo boardVo, HttpSession session,
+			@RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
 		boardService.changeBoard(boardVo, session);
-		return "redirect:./board.jan";
+		return "redirect:./board_read.jan?board_no="+boardVo.getBoard_no()+"&currPage="+currPage;
 	}
 	
 	
@@ -402,8 +526,8 @@ public class BoardController {
 			IdeaImgList.add(ideaImgVo);
 		}
 		
-		ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
-		ideaVo.setResi_no(resiVo.getResi_no());
+		MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
+		ideaVo.setmember_no(memberVo.getmember_no());
 		boardService.writeIdea(ideaVo, IdeaImgList);
 
 		return "redirect:./idea.jan";
@@ -411,10 +535,34 @@ public class BoardController {
 
 	//청원글읽기
 	@RequestMapping("/idea_read.jan")
-	public String readidea(int idea_no, Model model, IdeaLikeVo ideaLikeVo, 
+	public String readidea(int idea_no, Model model, IdeaLikeVo ideaLikeVo, HttpServletRequest request, HttpServletResponse response,
 			@RequestParam(value = "currPage", required = false, defaultValue = "1") int currPage) {
 
 		Map<String, Object> map = boardService.viewIdea(idea_no);
+		
+		
+		boolean isRead = false;
+		
+		Cookie[] cookies = request.getCookies();
+		
+		for(Cookie cookie : cookies) {
+			String name = cookie.getName();
+			if(name.startsWith("read_idea_no")) {
+				int no = Integer.parseInt(name.substring(name.indexOf("|")+1));
+				
+				if(no == idea_no) {
+					isRead = true;
+				}
+			}
+		}
+		
+		Cookie cookie = new Cookie("read_idea_no|"+idea_no , "xxxxx");
+		response.addCookie(cookie);
+		
+		if(!isRead) {
+			boardService.updateIdeaReadCount(idea_no);;
+		}
+		
 		model.addAttribute("readIdea", map);
 		model.addAttribute("currPage", currPage);
 
@@ -482,8 +630,8 @@ public class BoardController {
 	@RequestMapping("/idea_answer_process.jan")
 	public String answerIdeaProcess(IdeaVo ideaVo, HttpSession session) {
 		
-		ResiVo resiVo = (ResiVo) session.getAttribute("sessionUser");
-		ideaVo.setResi_no(resiVo.getResi_no());
+		MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
+		ideaVo.setmember_no(memberVo.getmember_no());
 		boardService.answerIdea(ideaVo);
 
 		return "redirect:./idea.jan";

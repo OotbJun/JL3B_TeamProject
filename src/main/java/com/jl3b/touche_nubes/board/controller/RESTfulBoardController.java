@@ -20,7 +20,7 @@ import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardReVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 
 @Controller
 @ResponseBody
@@ -36,9 +36,9 @@ public class RESTfulBoardController {
 	public int writeReplyProcess(@RequestParam int board_no, @RequestParam String board_re_content,
 			HttpSession session) {
 
-		int resi_no = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
+		int member_no = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
 		BoardReVo boardrevo = new BoardReVo();
-		boardrevo.setResi_no(resi_no);
+		boardrevo.setmember_no(member_no);
 		boardrevo.setBoard_no(board_no);
 		boardrevo.setBoard_re_content(board_re_content);
 
@@ -76,8 +76,8 @@ public class RESTfulBoardController {
 		
 		System.out.println(boardReVo.getBoard_re_no());
 		
-		int resiNo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-		boardReVo.setResi_no(resiNo);
+		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
+		boardReVo.setmember_no(memberNo);
 		BoardReVo replyData = boardService.checkReply(boardReVo);
 		
 		if(replyData == null) {
@@ -99,8 +99,8 @@ public class RESTfulBoardController {
 		}
 
 //		int currentPage = boardLikeVo.getBoard_no();
-		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-		boardLikeVo.setResi_no(resiVo);
+		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
+		boardLikeVo.setmember_no(memberVo);
 
 		BoardLikeVo likeData = boardService.checkLike(boardLikeVo); // 중복방지 본인확인
 		
@@ -133,8 +133,8 @@ public class RESTfulBoardController {
 		}
 		
 //			int currentPage = boardLikeVo.getBoard_no();
-		int resiVo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-		boardLikeVo.setResi_no(resiVo);
+		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
+		boardLikeVo.setmember_no(memberVo);
 
 		BoardLikeVo likeData = boardService.checkLike(boardLikeVo); // 중복방지 본인확인
 
@@ -164,8 +164,8 @@ public class RESTfulBoardController {
 			return "board/board_fail";
 		}
 
-		int resiNo = ((ResiVo) session.getAttribute("sessionUser")).getResi_no();
-		ideaLikeVo.setResi_no(resiNo);
+		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
+		ideaLikeVo.setmember_no(memberNo);
 		
 		IdeaLikeVo ideaData = boardService.checkLike(ideaLikeVo); // 중복방지 확인
 

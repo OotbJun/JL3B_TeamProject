@@ -58,7 +58,7 @@ li {
       </div>
       <div class="row mt-1 mb-1">
          <div class="col-1 " style="font-size: small;">
-            ${readNotice.resiVo.resi_rname}</div>
+            ${readNotice.memberVo.member_rname}</div>
          <div class="col-1" style="font-size: small">
             <fmt:formatDate value="${readBoard.boardVo.board_wdate}"
                pattern="yyyy.MM.dd"></fmt:formatDate>
@@ -87,7 +87,7 @@ li {
    <form action="${pageContext.request.contextPath }/board/notice_delete_process.jan" method="post">
       
       <input type="hidden" name="notice_no" value="${readNotice.noticeVo.notice_no}">
-      <input type="hidden" name="resi_no" value="${readNotice.noticeVo.resi_no}">
+      <input type="hidden" name="member_no" value="${readNotice.noticeVo.member_no}">
       <input class="btn btn-outline-danger" type="submit" value="삭제">
       
    </form>   
@@ -97,7 +97,7 @@ li {
       <c:if test="${fn:contains(admin,'admin')}">	
 		<form action="${pageContext.request.contextPath }/board/notice_change.jan" method="post">
 			<input type="hidden" name="notice_no" value="${readNotice.noticeVo.notice_no}">
-      		<input type="hidden" name="resi_no" value="${readNotice.noticeVo.resi_no}">
+      		<input type="hidden" name="member_no" value="${readNotice.noticeVo.member_no}">
       		<input type="hidden" name="currentPage" value="${currentPage }">
       		<input class="btn btn-outline-info" type="submit" value="수정">
 		</form>

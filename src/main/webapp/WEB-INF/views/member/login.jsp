@@ -74,9 +74,9 @@ body {
    
 
    function open_tab() {
-      openCity(event, 'resi')
-      document.getElementById("btnresi").style.display = "block";
-      document.getElementById("btnresi").className += " active";
+      openCity(event, 'member')
+      document.getElementById("btnmember").style.display = "block";
+      document.getElementById("btnmember").className += " active";
    }
 
    function openCity(evt, cityName) {
@@ -135,8 +135,8 @@ body {
             <div class="row" style="margin: 2px 2px 2px 2px; background-color: white; border-color: none;" >
                <div class="col-1"></div>
                <div class="col-3">
-                  <button id='btnresi' class="tablinks" 
-                     onclick="openCity(event, 'resi')" style="text-align: left; max-width: 100%">입주민</button>
+                  <button id='btnmember' class="tablinks" 
+                     onclick="openCity(event, 'member')" style="text-align: left; max-width: 100%">입주민</button>
                </div>
                <div class="col"></div>
                <div class="col-3">
@@ -148,11 +148,11 @@ body {
          </div>
 
          <!-- Tab content -->
-         <div id="resi" class="tabcontent fadeIn !important">
+         <div id="member" class="tabcontent fadeIn !important">
             <form action="./login_process.jan" method="post">
-               <input type="text" id="login" class="second" name="resi_id"
+               <input type="text" id="login" class="second" name="member_id"
                   placeholder="아이디"> <input type="password" id="password"
-                  class="third" name="resi_pw" placeholder="비밀번호"> <input
+                  class="third" name="member_pw" placeholder="비밀번호"> <input
                   type="submit" class="fourth" value="Log In"
                   style="margin: 24px 20px 24px 20px">
             </form>
@@ -179,7 +179,7 @@ body {
                style="text-decoration: none; color: #56baed">회원 가입</a>
                </div>
                  <div>
-                 <a class="underlineHover" href="./find_resi.jan"
+                 <a class="underlineHover" href="./find_member.jan"
                  style="text-decoration: none; color: #56baed">아이디 비밀번호 찾기</a>
                </div>
          </div>

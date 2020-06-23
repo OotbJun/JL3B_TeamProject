@@ -14,7 +14,7 @@
 		INSERT INTO JL3B_NOTICE
 		VALUES(
 			JL3B_NOTICE_SEQ.NEXTVAL,
-			#{resi_no},
+			#{member_no},
 			'공지',
 			#{notice_title},
 			#{notice_content},
@@ -120,7 +120,7 @@
 	    <![CDATA[
 		INSERT INTO JL3B_BOARD
 		VALUES(#{board_no},
-		#{resi_no},
+		#{member_no},
 		NULL,
 		#{board_title},
 		#{board_content},
@@ -230,7 +230,7 @@
 			JL3B_BOARD_LIKE 
 			VALUES(
 				JL3B_BOARD_LIKE_SEQ.NEXTVAL,
-				#{resi_no}, 
+				#{member_no}, 
 				#{board_no},
 				#{board_like}
 				)
@@ -243,7 +243,7 @@
 			SELECT * 
 			FROM 
 			JL3B_BOARD_LIKE 
-			WHERE resi_no = #{resi_no} AND board_no = #{board_no}
+			WHERE member_no = #{member_no} AND board_no = #{board_no}
 		]]>
 	</select>
 	
@@ -264,7 +264,7 @@
 	<!-- 자게 추천 취소 -->
 	<delete id="deleteBoardLike">
 		<![CDATA[
-			DELETE FROM JL3B_BOARD_LIKE WHERE RESI_NO = #{resi_no} AND BOARD_NO = #{board_no}
+			DELETE FROM JL3B_BOARD_LIKE WHERE member_NO = #{member_no} AND BOARD_NO = #{board_no}
 		]]>
 	</delete>
 	
@@ -304,7 +304,7 @@
 	    <![CDATA[
 		INSERT INTO JL3B_IDEA
 		VALUES(#{idea_no},
-		#{resi_no},
+		#{member_no},
 		(JL3B_IDEA_SEQ.nextval-1)+1,
 		'미답변',
 		#{idea_title},
@@ -365,7 +365,7 @@
 	    <![CDATA[
 		INSERT INTO JL3B_IDEA
 		VALUES(JL3B_IDEA_SEQ.nextval,
-		#{resi_no},
+		#{member_no},
 		#{idea_gr_no},
 		NULL,
 		#{idea_title},
@@ -432,7 +432,7 @@
          JL3B_idea_LIKE 
          VALUES(
             JL3B_idea_LIKE_SEQ.NEXTVAL,
-            #{resi_no},
+            #{member_no},
             #{idea_no},
             #{idea_like}
             )
@@ -442,7 +442,7 @@
    <!-- 추천 취소 -->
    <delete id="deleteIdeaLike">
    		<![CDATA[
-   			DELETE FROM JL3B_IDEA_LIKE WHERE RESI_NO = #{resi_no} AND IDEA_NO = #{idea_no}
+   			DELETE FROM JL3B_IDEA_LIKE WHERE member_NO = #{member_no} AND IDEA_NO = #{idea_no}
    		]]>
    </delete>
    
@@ -452,7 +452,7 @@
          SELECT * 
          FROM 
          JL3B_idea_LIKE 
-         WHERE resi_no = #{resi_no} AND idea_no = #{idea_no}
+         WHERE member_no = #{member_no} AND idea_no = #{idea_no}
       ]]>
    </select>
    
@@ -475,8 +475,8 @@
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT B.board_no, B.board_title, R.resi_rname, B.board_wdate, B.board_hits, R.resi_no FROM JL3B_BOARD B, JL3B_RESI R 
-                     WHERE B.RESI_NO = R.RESI_NO ]]>  
+                     SELECT B.board_no, B.board_title, R.member_rname, B.board_wdate, B.board_hits, R.member_no FROM JL3B_BOARD B, JL3B_member R 
+                     WHERE B.member_NO = R.member_NO ]]>  
                      <include refid="search"></include>
     <![CDATA[        ORDER BY board_no DESC) t1
                 )t2  
@@ -489,7 +489,7 @@
    	<if test="searchOption != null">
    		<if test="searchOption == 'board_title'.toString()">AND B.board_title LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'board_content'.toString()">AND B.board_content LIKE '%'||#{keyword}||'%'</if>
-   		<if test="searchOption == 'resi_rname'.toString()">AND R.resi_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND R.member_rname LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'titleContent'.toString()">AND (B.board_title LIKE '%' || #{keyword} || '%' OR B.board_content LIKE '%' || #{keyword} || '%')</if>
    	</if>
    </sql>
@@ -502,8 +502,8 @@
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, R.RESI_RNAME, I.IDEA_WDATE, I.IDEA_HITS, R.RESI_NO FROM JL3B_Idea I, JL3B_RESI R 
-                     WHERE I.RESI_NO = R.RESI_NO ]]>  
+                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, R.member_RNAME, I.IDEA_WDATE, I.IDEA_HITS, R.member_NO FROM JL3B_Idea I, JL3B_member R 
+                     WHERE I.member_NO = R.member_NO ]]>  
                      <include refid="search2"></include>
     <![CDATA[        ORDER BY I.idea_gr_no desc, I.idea_no asc) t1
                 )t2  
@@ -514,7 +514,7 @@
    	<if test="searchOption != null">
    		<if test="searchOption == 'idea_title'.toString()">AND I.idea_title LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'idea_content'.toString()">AND I.idea_content LIKE '%'||#{keyword}||'%'</if>
-   		<if test="searchOption == 'resi_rname'.toString()">AND R.resi_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND R.member_rname LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'ideaContent'.toString()">AND (I.idea_title LIKE '%' || #{keyword} || '%' OR I.idea_content LIKE '%' || #{keyword} || '%')</if>
    	</if>
    </sql>

@@ -206,7 +206,7 @@
                      <div class="title">
                      </div><!-- /.title -->
                      <form action="${pageContext.request.contextPath }/center/review_write_process.jan" class="contact-form" novalidate="novalidate">
-                         ${sessionUser.resi_rname }
+                         ${sessionUser.member_rname }
                          <textarea name="review_comment"  placeholder="리뷰를 정성껏 작성해주시면 감사합니다."></textarea>
                          <input type="hidden" name="center_no" value=${center_no }>
                          <button type="submit" class="thm-btn yellow-bg">리뷰 작성하기 </button>

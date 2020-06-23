@@ -3,7 +3,7 @@ package com.jl3b.touche_nubes.ideavo;
 public class IdeaLikeVo {
 
 	private int idea_like_no;
-	private int resi_no;
+	private int member_no;
 	private int idea_no;
 	private String idea_like;
 
@@ -11,10 +11,10 @@ public class IdeaLikeVo {
 		super();
 	}
 
-	public IdeaLikeVo(int idea_like_no, int resi_no, int idea_no, String idea_like) {
+	public IdeaLikeVo(int idea_like_no, int member_no, int idea_no, String idea_like) {
 		super();
 		this.idea_like_no = idea_like_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.idea_no = idea_no;
 		this.idea_like = idea_like;
 	}
@@ -27,12 +27,12 @@ public class IdeaLikeVo {
 		this.idea_like_no = idea_like_no;
 	}
 
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
 
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 
 	public int getIdea_no() {

@@ -75,7 +75,7 @@
 										<td class="text-left pl-1"><a
 											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&currentPage=${currentPage }">
 											${noticeList.noticeVo.notice_title }</a></td>
-										<td>${noticeList.resiVo.resi_rname }</td>
+										<td>${noticeList.memberVo.member_rname }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
@@ -119,7 +119,7 @@
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2">
 			<c:set value="${sessionUser.npki_key }" var="key"></c:set>
-				<c:if test="${sessionUser.resi_grade>=2}">
+				<c:if test="${sessionUser.member_grade>=2}">
 					<a
 						href="${pageContext.request.contextPath }/board/notice_write.jan"
 						class="btn btn-primary btn-block">글쓰기</a>

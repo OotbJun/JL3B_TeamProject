@@ -19,7 +19,7 @@
 			INSERT INTO JL3B_CANDY 
 			VALUES(
 				#{candy_no},
-				#{resi_no},
+				#{member_no},
 				#{election_round},
 				#{candy_intro},
 				#{candy_content}
@@ -51,7 +51,7 @@
 			INSERT INTO JL3B_VOTE
 			VALUES(
 				JL3B_VOTE_SEQ.NEXTVAL,
-				#{resi_no},
+				#{member_no},
 				#{candy_no},
 				#{election_round}
 			)
@@ -85,7 +85,7 @@
 	<!-- 3. 당선인 등업(입주민 테이블)-->
 	<update id="updateGrade">
 		<![CDATA[
-			UPDATE JL3B_RESI SET RESI_GRADE = 2 WHERE RESI_NO = #{no}
+			UPDATE JL3B_member SET member_GRADE = 2 WHERE member_NO = #{no}
 		]]>
 	</update>
 	
@@ -154,7 +154,7 @@
 			SELECT * 
 			FROM 
 				JL3B_VOTE
-			WHERE resi_no = #{resi_no} AND ELECTION_ROUND = #{election_round}
+			WHERE member_no = #{member_no} AND ELECTION_ROUND = #{election_round}
 		]]>
 	</select>
 	
@@ -164,7 +164,7 @@
 			SELECT * 
 			FROM 
 				JL3B_CANDY 
-			WHERE resi_no = #{resi_no} 
+			WHERE member_no = #{member_no} 
 			AND election_round = #{election_round}
 		]]>
 	</select>
@@ -228,7 +228,7 @@
 			SELECT * 
 			FROM 
 				JL3B_CANDY 
-			WHERE resi_no = #{resi_no}
+			WHERE member_no = #{member_no}
 			AND election_round = #{round}
 		]]>
 	</select>

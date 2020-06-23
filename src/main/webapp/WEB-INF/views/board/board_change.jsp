@@ -48,8 +48,7 @@ footer {
       <h2 class="text-center" style="color: #28364a">게시글 수정</h2>
       
       <form
-         action="${pageContext.request.contextPath }/board/board_change_process.jan"
-         method="post" enctype="multipart/form-data">
+         action="${pageContext.request.contextPath }/board/board_change_process.jan" method="post" enctype="multipart/form-data">
          <div class="mb-3">
             <label for="title">제목</label> <input type="text"
                class="form-control" name="board_title" id="title"
@@ -74,6 +73,8 @@ footer {
                   <input type="submit" value="수정완료"
                      class="btn btn-primary btn-lg btn-block"> <input
                      type="hidden" name="board_no" value="${readBoard.boardVo.board_no }">
+                     <input
+                     type="hidden" name="member_no" value="${readBoard.boardVo.member_no }">
                </div>
 
                <div class="col">
@@ -82,9 +83,10 @@ footer {
                </div>
                </div>
             </div>
+            </form>
          </div>
-      </form>
-   </div>
+   
+   
    
    <jsp:include page="../commons/include_footer.jsp"></jsp:include>
    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

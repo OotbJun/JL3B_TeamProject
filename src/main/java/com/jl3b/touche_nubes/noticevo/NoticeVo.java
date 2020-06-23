@@ -5,7 +5,7 @@ import java.util.Date;
 public class NoticeVo {
 
 	private int notice_no;
-	private int resi_no;
+	private int member_no;
 	private String horsehead_sort;
 	private String notice_title;
 	private String notice_content;
@@ -16,11 +16,11 @@ public class NoticeVo {
 		super();
 	}
 
-	public NoticeVo(int notice_no, int resi_no, String horsehead_sort, String notice_title, String notice_content,
+	public NoticeVo(int notice_no, int member_no, String horsehead_sort, String notice_title, String notice_content,
 			int notice_hits, Date notice_wdate) {
 		super();
 		this.notice_no = notice_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.horsehead_sort = horsehead_sort;
 		this.notice_title = notice_title;
 		this.notice_content = notice_content;
@@ -36,12 +36,12 @@ public class NoticeVo {
 		this.notice_no = notice_no;
 	}
 
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
 
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 
 	public String getHorsehead_sort() {

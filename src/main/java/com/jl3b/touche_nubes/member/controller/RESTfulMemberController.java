@@ -18,8 +18,8 @@ public class RESTfulMemberController {
 
    // 아이디 중복검사
    @RequestMapping("/confirmId.jan")
-   public String confirmid(@RequestParam("resi_id") String resi_id) {
-      if (memberService.confrimId(resi_id)) {
+   public String confirmid(@RequestParam("member_id") String member_id) {
+      if (memberService.confrimId(member_id)) {
          return "true";
       } else {
          return "false";
@@ -43,9 +43,9 @@ public class RESTfulMemberController {
    
    //이메일 확인
    @RequestMapping("/confirmEmail.jan")
-   public String confirmEmail(@RequestParam("resi_mail") String resi_mail) {
-      if (memberService.confrimId(resi_mail)){
-         System.out.println(memberService.confirmEmail(resi_mail));
+   public String confirmEmail(@RequestParam("member_mail") String member_mail) {
+      if (memberService.confrimId(member_mail)){
+         System.out.println(memberService.confirmEmail(member_mail));
          return "true";
       } else {
          return "false";
@@ -53,11 +53,11 @@ public class RESTfulMemberController {
    }
    
    // 아이디 찾기
-   @RequestMapping("/find_resi_process.jan")
-   public String resiIdSearch(@RequestParam("resi_rname") String resi_rname,
+   @RequestMapping("/find_member_process.jan")
+   public String memberIdSearch(@RequestParam("member_rname") String member_rname,
          @RequestParam("npki_key") String npki_key) {
 	   
-      String result = memberService.get_searchId(resi_rname, npki_key);
+      String result = memberService.get_searchId(member_rname, npki_key);
       return result;
    }
    

@@ -48,33 +48,34 @@ footer {
 		<h1 class="my-4">
 			싸발적 동대표 투표 <small>후보자</small>
 		</h1>
-			<div class="row">
-		<c:forEach var="candyList" items="${candyList }">
+		<div class="row">
+			<c:forEach var="candyList" items="${candyList }">
 				<div class="col-lg-4 col-sm-6 mb-4">
 					<div class="card h-100">
 						<img class="card-img-top"
 							src="/upload/${candyList.candyImgList.candy_img_title}">
 						<div class="card-body">
 							<h4 class="card-title">
-								<a href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=${candyList.candyVo.candy_no }">${candyList.resiVo.resi_rname }</a>
+								<a
+									href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=${candyList.candyVo.candy_no }">${candyList.memberVo.member_rname }</a>
 							</h4>
 							<p class="card-text">${candyList.candyVo.candy_intro}</p>
 							<div>${candyList.ccc }</div>
-			
+
 						</div>
 					</div>
-					</div>
-		</c:forEach>
-		
-			<div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
-				
+				</div>
+			</c:forEach>
+		</div>
+		<div class="row text-center">
+				<div class="col"></div>
+				<div class="col-2 text-right">
+					<a href="${pageContext.request.contextPath }/vote/vote_choice.jan" >돌아가기</a>
+				</div>
 			</div>
 		
+	
 
-		<!-- /.row -->
-		<!-- Pagination -->
-
-	</div>
 	<!-- /.container -->
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

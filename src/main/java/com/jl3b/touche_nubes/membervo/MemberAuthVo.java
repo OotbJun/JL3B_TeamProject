@@ -1,18 +1,18 @@
 package com.jl3b.touche_nubes.membervo;
 
-public class ResiAuthVo {
+public class MemberAuthVo {
 	
 	private int auth_no;
-	private int resi_no;
+	private int member_no;
 	private String auth_certification;
 	private String auth_key;
-	public ResiAuthVo() {
+	public MemberAuthVo() {
 		super();
 	}
-	public ResiAuthVo(int auth_no, int resi_no, String auth_certification, String auth_key) {
+	public MemberAuthVo(int auth_no, int member_no, String auth_certification, String auth_key) {
 		super();
 		this.auth_no = auth_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.auth_certification = auth_certification;
 		this.auth_key = auth_key;
 	}
@@ -22,11 +22,11 @@ public class ResiAuthVo {
 	public void setAuth_no(int auth_no) {
 		this.auth_no = auth_no;
 	}
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 	public String getAuth_certification() {
 		return auth_certification;

@@ -33,21 +33,21 @@ footer {
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	   <div class="col mt-4">
-      <div class="row">
-         <div class="col"></div>
-         <div class="col">
-            <img
-               src="${pageContext.request.contextPath }/resources/img/candyfix.png">
-         </div>
-         <div class="col"></div>
-      </div>
-   </div>
+	<div class="col mt-4">
+		<div class="row">
+			<div class="col"></div>
+			<div class="col">
+				<img
+					src="${pageContext.request.contextPath }/resources/img/candyfix.png">
+			</div>
+			<div class="col"></div>
+		</div>
+	</div>
 	<!-- Page Content -->
 	<div class="container">
 		<!-- Page Heading -->
 		<h1 class="my-4">
-			싸발적 동대표 투표 <small>후보자</small>
+			${round }회차 입주민 선거 <small>후보자</small>
 		</h1>
 		<form
 			action="${pageContext.request.contextPath }/vote/vote_process.jan">
@@ -60,25 +60,33 @@ footer {
 							<div class="card-body">
 								<h4 class="card-title">
 									<a
-										href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=">${candyList.resiVo.resi_rname }</a>
+										href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=">${candyList.memberVo.member_rname }</a>
 								</h4>
 								<div class="card-text">${candyList.candyVo.candy_intro}</div>
 								<input type="radio" value="${candyList.candyVo.candy_no}"
 									name="candy_no" checked>
-								
+
 							</div>
 						</div>
 					</div>
 				</c:forEach>
-				
-			<c:if test="" ></c:if>	
-				<input type="submit" value="투표">
-				
-				<div><a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a></div>
-			
+			</div>
+
+			<c:if test=""></c:if>
+			<div class="row text-center">
+				<div class="col-5"></div>
+				<div class="col-1">
+					<input class="btn btn-outline-success" type="submit" value="투표">
+				</div>
+				<div class="col-4"></div>
+				<div class="col-2 text-right">
+					<a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a>
+				</div>
 			</div>
 		</form>
 	</div>
+
+
 
 	<!-- /.container -->
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>

@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>Insert title here</title>
+<title>인증 완료!</title>
 <style>
 footer {
 	margin: 0 auto;
@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("인증번호가 유효하지 않습니다."); location.href="join_member.jan";
+alert("인증이 완료되었습니다."); location.href="login.jan";
 
 </script>
 

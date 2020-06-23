@@ -24,7 +24,7 @@ var idV = "";
 var idSearch_click = function(){
    $.ajax({
       type:"post",
-      url:"${pageContext.request.contextPath}/member/find_resi_process.jan?resi_rname="+$('#resi_rname').val()+"&npki_key="+$('#npki_key').val(),   
+      url:"${pageContext.request.contextPath}/member/find_member_process.jan?member_rname="+$('#member_rname').val()+"&npki_key="+$('#npki_key').val(),   
       success:function(data){
          if(data == 0){
             $('#id_value').text("가입된 아이디가 없습니다.");   
@@ -60,7 +60,7 @@ $('#modal').modal("show");
             <div class="form-group">
                   <label class="font-weight-bold text-white" for="inputPhone_1">이름</label>
                   <div>
-                     <input type="text" class="form-control" id="resi_rname" name="resi_rname" placeholder="세대주 이름을 입력해주세요">
+                     <input type="text" class="form-control" id="member_rname" name="member_rname" placeholder="세대주 이름을 입력해주세요">
                   </div>
                </div>
                <div class="form-group">

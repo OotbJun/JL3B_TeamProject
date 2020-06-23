@@ -44,7 +44,7 @@ footer {
          action="${pageContext.request.contextPath }/vote/candy_write_process.jan"
          method="post" enctype="multipart/form-data">
          
-         <div class="mb-3">후 보 자 : ${sessionUser.resi_rname }</div>
+         <div class="mb-3">후 보 자 : ${sessionUser.member_rname }</div>
          <div class="mb-3">
             <label for="title">소개</label> <input type="text" class="form-control"
                name="candy_intro" id="title" placeholder="후보자 약력을 작성해주세요" maxlength="300">

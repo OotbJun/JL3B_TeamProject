@@ -8,20 +8,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
+import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 
 @Controller
 @RequestMapping("/member/*")
@@ -29,43 +37,63 @@ public class MemberController {
 	
 	@Autowired
 	private MemberService memberService;
+	@Autowired
+	private JavaMailSenderImpl mailSender;
 	
 	@RequestMapping("join_member_choice.jan")
 	public String joinMemberChoicePage() {
 		return "member/join_member_choice";
 	}
 	
-	@RequestMapping("join_resi.jan")
-	public String joinResiPage() {
+	@RequestMapping("join_member.jan")
+	public String joinMemberPage() {
 		
-		return "member/join_resi";
+		return "member/join_member";
 	}
-	
-	@RequestMapping("/join_resi_process.jan")
-	public String joinMemberProcess(ResiVo resiVo) { 
+	@RequestMapping("/join_member_process.jan")
+	public String joinMemberProcess(MemberVo memberVo) { 
 
-		if (memberService.checkNpki(resiVo.getNpki_key()) == null) { //인증키값이 null로 들어오면 Fail 
+		if (memberService.checkNpki(memberVo.getNpki_key()) == null) { //인증키값이 null로 들어오면 Fail 
 			return"/member/join_fail";
-		}else if(memberService.checkNpkiDupl(resiVo.getNpki_key()) != null) {
+		}else if(memberService.checkNpkiDupl(memberVo.getNpki_key()) != null) {
 			return"/member/join_fail";
 		}else {
-			memberService.joinResi(resiVo);
+			MemberAuthVo memberAuthVo = new MemberAuthVo();
+			
+			String authkey = UUID.randomUUID().toString();
+			
+			memberAuthVo.setAuth_key(authkey);
+			
+			memberService.joinMember(memberVo,memberAuthVo);	
+			
+			//메일을 보내는 쓰레드 
+			MemberSenderThread thread = new MemberSenderThread(memberVo.getmember_mail(),memberAuthVo.getAuth_key(), mailSender);
+			
+			thread.start();
+			
 			return "redirect:./login.jan";
-		}
+		}	
 	}
 	
+	//회원가입  인증 컨트롤러 
+	@RequestMapping("/certification_process.jan")
+	public String certificationProcess(String key) {
+		memberService.certification(key);
+		return "/member/certification_complete";
+			
+	}	
 	@RequestMapping("/login.jan")
 	public String login() {
 		return "member/login";
 	}
 	
 	@RequestMapping("/login_process.jan")
-	public String loginProcess(ResiVo resiVo, HttpSession session) {
-		ResiVo residata = memberService.loginResi(resiVo);
-		if (residata == null) {
+	public String loginProcess(MemberVo memberVo, HttpSession session) {
+		MemberVo memberdata = memberService.loginMember(memberVo);
+		if (memberdata == null) {
 			return "member/login_fail";
 		} else {
-			session.setAttribute("sessionUser", residata);
+			session.setAttribute("sessionUser", memberdata);
 			System.out.println("로그인성공 ");
 			return "redirect:/board/main.jan";
 		}
@@ -78,9 +106,9 @@ public class MemberController {
 	}
 	
 	//아이디 찾기
-	@RequestMapping("/find_resi.jan")
+	@RequestMapping("/find_member.jan")
     public String searchUser() {
-		return "member/find_resi";
+		return "member/find_member";
 	}
 	
 	/////////////////////////////센터
@@ -165,4 +193,51 @@ public class MemberController {
 		return "redirect:./login.jan";
 	}
 	
+	
+}
+
+//메일 쓰레드 
+class MemberSenderThread extends Thread{
+	private String email;
+	private String authKey;
+	private JavaMailSenderImpl MailSender;
+
+	public MemberSenderThread(String email, String authKey, JavaMailSenderImpl mailSender) {
+		super();
+		
+		this.email = email;
+		this.authKey = authKey;
+		MailSender = mailSender;
+	} 
+  
+	public void run() {
+		try {
+		  	 MimeMessage message = null;	
+		  	 MimeMessageHelper messageHelper = null ;
+		  	 message = MailSender.createMimeMessage();
+		  	 messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+		  	 messageHelper.setSubject("[TOUCHE NUBES] 이메일 인증입니다.");
+		
+		  	 String text = "";
+  	 
+	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
+	  	 String link ="http://localhost:8181/touche_nubes/member/certification_process.jan?key="+authKey;
+	  	 text += "Touche Nubes 입주민 가입을 환영합니다.<br>";
+	  	 text += "입주민 회원가입 완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
+	  	 text += "<a href='"+link+"'>";
+	  	 text += "Touche Nubes사이트로 이동하기";
+	  	 text += "</a>";
+  	 
+	  	 messageHelper.setText(text, true);								//내용
+	     messageHelper.setFrom("111", "Touche Nubes관리자입니다");						//보내는 사람
+	     messageHelper.setTo(email);
+
+       MailSender.send(message);
+  		
+  	}catch (Exception e) {
+  		e.printStackTrace();
+  	}
+  }
+  
+  
 }

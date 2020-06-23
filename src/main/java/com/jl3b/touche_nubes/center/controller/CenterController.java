@@ -23,7 +23,7 @@ import com.jl3b.touche_nubes.center.service.CenterService;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 
 @Controller
@@ -230,8 +230,8 @@ public class CenterController {
 	@RequestMapping("/review_write_process.jan")
 	public String writeReviewProcess(CenterReviewVo centerReviewVo, HttpSession session) {
 		
-		ResiVo resiVo = (ResiVo)session.getAttribute("sessionUser");
-		centerReviewVo.setResi_no(resiVo.getResi_no());
+		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+		centerReviewVo.setmember_no(memberVo.getmember_no());
 		centerService.writeReview(centerReviewVo);
 		
 		return "redirect:./center_read.jan?center_no="+centerReviewVo.getCenter_no();

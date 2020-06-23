@@ -15,7 +15,7 @@ import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.membervo.CenterVo;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 
 @Service
 public class CenterService {
@@ -75,12 +75,12 @@ public class CenterService {
 		
 		
 		for(CenterReviewVo centerReviewVo : reviewList) {
-			ResiVo resiVo = memberSQLMapper.selectResiByNo(centerReviewVo.getResi_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(centerReviewVo.getmember_no());
 			
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
-			map.put("resiVo", resiVo);
+			map.put("memberVo", memberVo);
 			map.put("centerReviewVo", centerReviewVo);
 			
 			list.add(map);

@@ -2,7 +2,7 @@ package com.jl3b.touche_nubes.member.service;
 
 import java.security.MessageDigest;
 
-public class ResiMessageDigest {
+public class MemberMessageDigest {
 	  
    public static String digest(String value) {
       

@@ -1,6 +1,6 @@
 package com.jl3b.touche_nubes.vote.mapper;
 
-import java.util.List;
+
 
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 

@@ -47,7 +47,7 @@ footer {
 						<img class="card-img-top"
 							src="/upload/${voteList.candyImgList.candy_img_title}">
 						<div class="card-body">
-							<h4 class="card-title">${voteList.resiVo.resi_rname }</h4>
+							<h4 class="card-title">${voteList.memberVo.member_rname }</h4>
 							<p class="card-text"> 선거회차 : ${voteList.candyVo.election_round}</p>
 							<p class="card-text">득표 수 : ${voteList.result}</p>
 

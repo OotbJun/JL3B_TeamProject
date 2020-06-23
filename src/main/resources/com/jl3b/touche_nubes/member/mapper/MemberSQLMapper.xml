@@ -9,15 +9,15 @@
 	
 	<!-- 입주민 -->
 	<!-- 입주민 가입 -->
-	<insert id="insertResi">
+	<insert id="insertMember">
 		<![CDATA[
-			INSERT INTO JL3B_RESI VALUES(
-				JL3B_RESI_SEQ.NEXTVAL,
+			INSERT INTO JL3B_member VALUES(
+				#{member_no},
 				#{npki_key},
-				#{resi_id},
-				#{resi_pw},
-				#{resi_rname},
-				#{resi_mail},
+				#{member_id},
+				#{member_pw},
+				#{member_rname},
+				#{member_mail},
 				1,
 				0,
 				SYSDATE)
@@ -25,46 +25,50 @@
 	</insert>
 	
 	<!-- 입주민 로그인 -->
-	<select id="selectResiByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+	<select id="selectMemberByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
 		<![CDATA[
 			SELECT * 
 			FROM 
-			JL3B_RESI 
+				JL3B_MEMBER r, JL3B_MEMBER_AUTH a 
 			WHERE 
-			resi_id = #{resi_id} 
+				r.member_no = a.member_no 
 			AND 
-			resi_pw = #{resi_pw}
+				r.member_id = #{member_id} 
+			AND 
+				r.member_pw = #{member_pw} 
+			AND 
+				a.auth_certification = 'Y'
 		]]>
 	</select>
 	
 	<!-- 입주민 확인 -->
-	<select id="selectResiByNo" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+	<select id="selectMemberByNo" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
 		<![CDATA[
 			SELECT * 
 			FROM 
-				JL3B_RESI 
+				JL3B_member 
 			WHERE 
-				resi_no = #{no}
+				member_no = #{no}
 		]]>
 	</select>
 	
 	<!-- 아이디 확인 -->
-	<select id="selectResiById" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+	<select id="selectMemberById" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
 		<![CDATA[
 			SELECT * 
 			FROM 
-				JL3B_RESI 
+				JL3B_member 
 			WHERE 
-				resi_id = #{id}
+				member_id = #{id}
 		]]>
 	</select>
 	
 	<!-- 입주민 인증번호 중복방지 -->
-	<select id="selectResiByNpki" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+	<select id="selectMemberByNpki" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
 		<![CDATA[
 			SELECT * 
 			FROM 
-				JL3B_RESI 
+				JL3B_member 
 			WHERE NPKI_KEY = #{key}
 		]]>	
 	</select>
@@ -80,47 +84,71 @@
    </select>
    
    <!-- 아이디 찾기 -->
-   <select id="searchResiId" resultType="String">
+   <select id="searchMemberId" resultType="String">
  		<![CDATA[
- 			SELECT NVL(resi_id,0) 
- 			FROM JL3B_RESI 
+ 			SELECT NVL(member_id,0) 
+ 			FROM JL3B_member 
  			WHERE 
  				NPKI_KEY = #{npki_key} 
  			AND 
- 				RESI_RNAME = #{resi_rname}
+ 				member_RNAME = #{member_rname}
  		]]>  
    </select>
    
    <!-- 비밀번호 변경 조건 -->
-   <select id="conditionResiPw" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+   <select id="conditionMemberPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
    		<![CDATA[
    			SELECT * 
    			FROM 
-   				JL3B_RESI 
+   				JL3B_member 
    			WHERE 
-   				RESI_ID = #{resi_id} 
+   				member_ID = #{member_id} 
    			AND 
-   				RESI_MAIL = #{resi_mail}
+   				member_MAIL = #{member_mail}
    		]]>
    </select>
 	
    <!-- 입주민 회원 비밀번호 변경 -->
-   <update id="updateResiPw">
+   <update id="updateMemberPw">
    		<![CDATA[
-   			UPDATE JL3B_RESI 
+   			UPDATE JL3B_member 
    			SET 
-   				RESI_PW = #{resi_pw} 
+   				member_PW = #{member_pw} 
    			WHERE 
-   				RESI_NO = #{resi_no}
+   				member_NO = #{member_no}
    		]]>
    </update>
    
    <!-- 인증 키 -->
    <select id="creatKey" resultType="int">
          <![CDATA[
-	      	SELECT JL3B_RESI_SEQ.nextval FROM DUAL
+	      	SELECT JL3B_member_SEQ.nextval FROM DUAL
 	     ]]>
    </select>
+   
+   <!-- 인증메일용 테이블 삽입  -->
+    <insert id="insertAuth">
+	     <![CDATA[
+	         INSERT INTO JL3B_MEMBER_AUTH
+	         VALUES(
+				 JL3B_MEMBER_AUTH_seq.NEXTVAL,
+				 #{member_no},
+				 'N',
+				 #{auth_key}
+			 )
+		]]>
+	 </insert>
+	 
+	 <!-- 메일로 넘어온 인증처리  -->
+	  <update id="updateAuth">
+		<![CDATA[
+		     UPDATE JL3B_MEMBER_AUTH
+		     SET 
+		     	auth_certification = 'Y'
+		     WHERE 
+		     	auth_key LIKE #{key}
+		 ]]>
+	  </update> 
    
 	
 	<!-- 센터 -->
@@ -179,9 +207,9 @@
       <![CDATA[
          SELECT * 
          FROM 
-         	JL3B_RESI 
+         	JL3B_member 
          WHERE 
-         	resi_mail = #{resi_mail}
+         	member_mail = #{member_mail}
       ]]>
    </select>
    
@@ -247,15 +275,15 @@
    
    <!-- 관리자 -->
    <!-- 전체 회원 목록 출력 -->
-   <select id="selectResiAll" resultType="com.jl3b.touche_nubes.membervo.ResiVo">
+   <select id="selectMemberAll" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
    		<![CDATA[
-   			SELECT * FROM JL3B_RESI ORDER BY RESI_GRADE DESC
+   			SELECT * FROM JL3B_member ORDER BY member_GRADE DESC
    		]]>
    </select>
    
-   <update id="updateResiGrade">
+   <update id="updateMemberGrade">
    		<![CDATA[
-   			UPDATE JL3B_RESI SET RESI_GRADE = #{resi_grade} WHERE RESI_NO = #{resi_no}
+   			UPDATE JL3B_member SET member_GRADE = #{member_grade} WHERE member_NO = #{member_no}
    		]]>
    </update>
 

@@ -46,10 +46,10 @@ footer {
    var isConfirmed4 =false;
    
    function toggleSubmitButton(){
-      if(         document.getElementById("resi_id").value == "" ||
-            (document.getElementById("resi_pw").value != document.getElementById("check_pw").value) ||
+      if(         document.getElementById("member_id").value == "" ||
+            (document.getElementById("member_pw").value != document.getElementById("check_pw").value) ||
             document.getElementById("npki_key").value == ""||
-            document.getElementById("resi_mail").value == "" || 
+            document.getElementById("member_mail").value == "" || 
             isConfirmed1 == false || isConfirmed2 == false ||isConfirmed3 == false ||isConfirmed4 == false
             ) 
             {
@@ -63,7 +63,7 @@ footer {
    
    function confirmId() {
       var submit1 =  document.getElementById("join_submit");
-      var resi_id = document.getElementById("resi_id").value;
+      var member_id = document.getElementById("member_id").value;
       var xmlhttp = new XMLHttpRequest;
 
       xmlhttp.onreadystatechange = function() {
@@ -95,13 +95,13 @@ footer {
       };
       xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmId.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("resi_id=" + resi_id);
+      xmlhttp.send("member_id=" + member_id);
    }
 
    //비밀번호 일치 확인 ajax
 
 function confirmPw(){
-      var pw = document.getElementById("resi_pw").value;
+      var pw = document.getElementById("member_pw").value;
       var check_pw = document.getElementById("check_pw").value
   
    if (pw==check_pw) {    
@@ -173,14 +173,14 @@ function check_npki() {
    //////////////////////////이메일 중복 체크
    function checkEmail() {
     
-      var resi_mail = document.getElementById("resi_mail").value;
+      var member_mail = document.getElementById("member_mail").value;
       var xmlhttp = new XMLHttpRequest;
 
       xmlhttp.onreadystatechange = function() {
 
    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       
-         if (xmlhttp.responseText == 'true' && resi_mail !="") {
+         if (xmlhttp.responseText == 'true' && member_mail !="") {
               document.getElementById("emailchecked").innerText = "등록 할 수 있는 E-mail 입니다."
               document.getElementById("emailchecked").style.color = "#11609c";
               document.getElementById("emailchecked").style.fontWeight = "bold";
@@ -189,7 +189,7 @@ function check_npki() {
              
               toggleSubmitButton();
                  
-           } else   if (xmlhttp.responseText == 'true' && resi_mail =="") {
+           } else   if (xmlhttp.responseText == 'true' && member_mail =="") {
                document.getElementById("emailchecked").innerText = "공백으로 둘 수 없습니다. 메일 주소를 입력해주세요"
                    document.getElementById("emailchecked").style.color = "#20604f";
                    document.getElementById("emailchecked").style.fontWeight = "bold";
@@ -214,7 +214,7 @@ function check_npki() {
       
       xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmEmail.jan",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("resi_mail=" + resi_mail);
+      xmlhttp.send("member_mail=" + member_mail);
    }
   
    
@@ -300,25 +300,25 @@ function check_npki() {
       <div class="row">
          <div class="col-2"></div>
          <div class="col">
-            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_resi_process.jan">
+            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_member_process.jan">
                <!-- 아이디 -->
                <div class="form-group">
-                  <label for="resi_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
-                     class="form-control" id="resi_id" name="resi_id"
+                  <label for="member_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
+                     class="form-control" id="member_id" name="member_id"
                      placeholder="시용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
                   <div class="check_font text-center" id="id_check"></div>
                </div>
                
                <div class="form-group">
-                  <label for="resi_rname">이름</label> <input onblur="toggleSubmitButton()" type="text"
-                     class="form-control" id="resi_rname" name="resi_rname" placeholder="이름" required maxlength="20">
+                  <label for="member_rname">이름</label> <input onblur="toggleSubmitButton()" type="text"
+                     class="form-control" id="member_rname" name="member_rname" placeholder="이름" required maxlength="20">
                </div>
          
                <!-- 비밀번호 -->
                <div class="form-group">
-                  <label for="resi_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
-                     class="form-control" id="resi_pw" name="resi_pw"
+                  <label for="member_pw">비밀번호</label> <input onblur="toggleSubmitButton()" type="password"
+                     class="form-control" id="member_pw" name="member_pw"
                      placeholder="사용할 비밀번호" required maxlength="20">
                   <div class="check_font" id="pw_check"></div>
 
@@ -326,7 +326,7 @@ function check_npki() {
 
                <!-- 비밀번호 재확인 -->
                <div class="form-group">
-                  <label for="resi_pw2">비밀번호 확인</label> <input type="password"
+                  <label for="member_pw2">비밀번호 확인</label> <input type="password"
                      class="form-control" id="check_pw" name="check_pw" onblur="toggleSubmitButton()"
                      placeholder="비밀번호를 한 번 더 입력해주세요" required onkeyup="confirmPw()" maxlength="20">
                   <div class="check_font" id="checked_pw"></div>
@@ -343,15 +343,15 @@ function check_npki() {
 
                <!-- 이메일 -->
                <div class="form-group">
-                  <label for="resi_mail">이메일</label> <input
+                  <label for="member_mail">이메일</label> <input
                      placeholder="메일 수신할 이메일 등록, ID 와 동일해도 됨" type="text" 
-                     name="resi_mail" onblur="checkEmail(); toggleSubmitButton()" id="resi_mail" class="form-control" required maxlength="50">
+                     name="member_mail" onblur="checkEmail(); toggleSubmitButton()" id="member_mail" class="form-control" required maxlength="50">
                    <div class="check_font" id="emailchecked"></div>
                </div>
 
                <div class="col-2">
-                  <input type="hidden" value="1" name="resi_grade"> <input
-                     type="hidden" value="0" name="resi_point">
+                  <input type="hidden" value="1" name="member_grade"> <input
+                     type="hidden" value="0" name="member_point">
                </div>
                <!-- 회원가입 버튼 -->
                <div class="col-3">

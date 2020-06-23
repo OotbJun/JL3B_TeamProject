@@ -5,7 +5,7 @@ import java.util.Date;
 public class BoardVo {
 	
 	private int board_no;
-	private int resi_no;
+	private int member_no;
 	private String horsehead_sort;
 	private String board_title;
 	private String board_content;
@@ -16,11 +16,11 @@ public class BoardVo {
 		super();
 	}
 	
-	public BoardVo(int board_no, int resi_no, String horsehead_sort, String board_title, String board_content,
+	public BoardVo(int board_no, int member_no, String horsehead_sort, String board_title, String board_content,
 			int board_hits, Date board_wdate) {
 		super();
 		this.board_no = board_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.horsehead_sort = horsehead_sort;
 		this.board_title = board_title;
 		this.board_content = board_content;
@@ -34,11 +34,11 @@ public class BoardVo {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 	public String getHorsehead_sort() {
 		return horsehead_sort;

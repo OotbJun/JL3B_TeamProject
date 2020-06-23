@@ -76,7 +76,7 @@
 			VALUES(
 				JL3B_CENTER_REVIEW_SEQ.NEXTVAL, 
 				#{center_no},
-				#{resi_no},
+				#{member_no},
 				#{review_comment}, 
 				SYSDATE
 			)
@@ -117,29 +117,29 @@
 	
 	<!-- 예약 -->
 	<!-- 프로그램 예약하기 -->
-	<insert id="insertBooking">
+	<insert id="insertReserve">
 		<![CDATA[
-			INSERT INTO JL3B_BOOKING VALUES(JL3B_BOOKING_SEQ.NEXTVAL, #{resi_no}, #{prog_no})
+			INSERT INTO JL3B_Reserve VALUES(JL3B_Reserve_SEQ.NEXTVAL, #{member_no}, #{prog_no})
 		]]>
 	</insert>
 	
-	<delete id="deleteBooking">
+	<delete id="deleteReserve">
 		<![CDATA[
-			DELETE FROM JL3B_BOOKING WHERE BOOKING_NO = #{booking_no}
+			DELETE FROM JL3B_Reserve WHERE Reserve_NO = #{reserve_no}
 		]]>
 	</delete>
 	
 	<!-- 예약 조회(본인 예약 내역) -->
-	<select id="selectBookingByResi" resultType="com.jl3b.touche_nubes.centervo.BookingVo">
+	<select id="selectReserveByMember" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
 		<![CDATA[
-			SELECT * FROM JL3B_BOOKING WHERE RESI_NO = #{resi_no}
+			SELECT * FROM JL3B_Reserve WHERE member_NO = #{member_no}
 		]]>
 	</select>
 	
 	<!-- 인원 수 조회(예약 마감 활성화) -->
-	<select id="selectBookingCount" resultType="int">
+	<select id="selectReserveCount" resultType="int">
 		<![CDATA[
-			SELECT COUNT(*) FROM JL3B_BOOKING WHERE PROG_NO = #{prog_no}
+			SELECT COUNT(*) FROM JL3B_Reserve WHERE PROG_NO = #{prog_no}
 		]]>
 	</select>
 	

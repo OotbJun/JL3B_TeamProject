@@ -6,13 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.vote.mapper.VoteImgSQLMapper;
 import com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
@@ -46,7 +48,6 @@ public class VoteService {
 		System.out.println("투표 상태 갱신 테스트");
 		
 		//////////
-		
 		try {
 			int round = voteSQLMapper.selectNewRound();						//최신 회차 담아주고
 			voteSQLMapper.updateVoteIng();									//투표기간으로 자동 갱신
@@ -66,7 +67,11 @@ public class VoteService {
 			if(voteSQLMapper.voteEnd() != null) {
 				
 				voteSQLMapper.updateWinner(electionVo);																//선거테이블 당선인 수정
-				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getResi_no());	//레지테이블 등급 변경
+				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getmember_no());	//레지테이블 등급 변경
+				
+//				ResiVo resiData = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
+//				System.out.println("레지넘버 : " + resiData.getResi_no());
+//				session.setAttribute("sessionUser", resiData);		//로그아웃 없이 등급 수정
 				
 			}
 		}catch(Exception e) {
@@ -121,15 +126,15 @@ public class VoteService {
 		
 		
 		for(CandyVo candyVo : candyList) {
-			ResiVo resiVo = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
 			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
 			
 			
 			
 			
-			Map<String, Object> map = new HashMap<String, Object>();
 			
-			map.put("resiVo", resiVo);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("memberVo", memberVo);
 			map.put("candyVo", candyVo);
 			map.put("candyImgList", candyImgList);
 			
@@ -150,11 +155,11 @@ public class VoteService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		CandyVo candyVo = voteSQLMapper.selectCandyByNo(candy_no);
-		ResiVo resiVo = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
+		MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
 		CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candy_no);
 		
 		map.put("candyVo", candyVo);
-		map.put("resiVo", resiVo);
+		map.put("memberVo", memberVo);
 		map.put("candyImgList", candyImgList);
 		
 		return map;
@@ -175,7 +180,7 @@ public class VoteService {
 		
 		
 		for(CandyVo candyVo : candyList) {
-			ResiVo resiVo = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
 			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
 			
 			int result = voteSQLMapper.selectEachNumberVote(candyVo.getCandy_no());
@@ -183,7 +188,7 @@ public class VoteService {
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
-			map.put("resiVo", resiVo);
+			map.put("memberVo", memberVo);
 			map.put("candyVo", candyVo);
 			map.put("candyImgList", candyImgList);
 			map.put("result", result);
@@ -214,8 +219,7 @@ public class VoteService {
 	
 	
 	//test
-	public CandyVo check(int resi_no, int election_round) {
-		return voteSQLMapper.check(resi_no, election_round);
+	public CandyVo check(int member_no, int election_round) {
+		return voteSQLMapper.check(member_no, election_round);
 	}
-	
 }

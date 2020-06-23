@@ -40,9 +40,9 @@
                   id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
                   aria-haspopup="true" aria-expanded="false">
                   
-                  <c:set var="resi" value="${sessionUser.npki_key }"></c:set>
-                  <c:if test="${fn:contains(resi,'admin') }">${sessionUser.resi_rname }님</c:if> 
-                  <c:if test="${fn:contains(resi,'nubes-1') }">${sessionUser.resi_rname }님</c:if>
+                  <c:set var="member" value="${sessionUser.npki_key }"></c:set>
+                  <c:if test="${fn:contains(member,'admin') }">${sessionUser.member_rname }님</c:if> 
+                  <c:if test="${fn:contains(member,'nubes-1') }">${sessionUser.member_rname }님</c:if>
           			
           			<c:set var="center" value="${sessionCenter.npki_key }"></c:set>
           			<c:if test="${fn:contains(center,'center') }">${sessionCenter.center_name }님</c:if>

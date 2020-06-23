@@ -19,7 +19,7 @@
 		     VALUES(
 			   JL3B_BOARD_RE_SEQ.NEXTVAL,
 			    #{board_no}, 
-			    #{resi_no},
+			    #{member_no},
 			    #{board_re_content},
 				SYSDATE
 		)
@@ -61,7 +61,7 @@
 	<!-- 테스트 -->
 	<select id="selectCheckReply" resultType="com.jl3b.touche_nubes.boardvo.BoardReVo">
 		<![CDATA[
-			SELECT * FROM JL3B_BOARD_RE WHERE RESI_NO = #{resi_no} AND BOARD_RE_NO = #{board_re_no}
+			SELECT * FROM JL3B_BOARD_RE WHERE member_NO = #{member_no} AND BOARD_RE_NO = #{board_re_no}
 		]]>
 	</select>
 

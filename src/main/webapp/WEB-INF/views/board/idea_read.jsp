@@ -113,7 +113,7 @@ footer {
       </div>
       <div class="row mt-1 mb-1">
          <div class="col-1 " style="font-size: small;">
-            ${readIdea.resiVo.resi_rname }</div>
+            ${readIdea.memberVo.member_rname }</div>
          <div class="col-1" style="font-size: small">
             <fmt:formatDate value="${readBoard.boardVo.board_wdate}"
                pattern="yyyy.MM.dd"></fmt:formatDate>
@@ -184,13 +184,13 @@ footer {
                <form action="${pageContext.request.contextPath }/board/idea_delete_process.jan" method="post">
 					      
 					      <input type="hidden" name="idea_no" value="${readIdea.ideaVo.idea_no}">
-					      <input type="hidden" name="resi_no" value="${readIdea.ideaVo.resi_no}">
+					      <input type="hidden" name="member_no" value="${readIdea.ideaVo.member_no}">
 					      <input class="btn btn-outline-danger" type="submit" value="삭제">
 					      
 					   </form>   
                   <form action="${pageContext.request.contextPath }/board/idea_change.jan" method="post">
 						<input type="hidden" name="idea_no" value="${readIdea.ideaVo.idea_no}">
-			      		<input type="hidden" name="resi_no" value="${readIdea.ideaVo.resi_no}">
+			      		<input type="hidden" name="member_no" value="${readIdea.ideaVo.member_no}">
 			      		<input type="hidden" name="currPage" value="${currPage }">
 			      		<input class="btn btn-outline-info" type="submit" value="수정">
 					</form>
@@ -205,7 +205,7 @@ footer {
 
       <c:forEach items="${boardReplList}" var="boardReplList">
          <div class="row">
-            <div class="col-2" style="font-size: large; font-weight: bold;">${boardReplList.resiVo.resi_rname }</div>
+            <div class="col-2" style="font-size: large; font-weight: bold;">${boardReplList.memberVo.member_rname }</div>
             <div class="col-8">${boardReplList.boardReVo.board_re_content }</div>
             <div class="col-2 text-right" style="font-size: small;">
                <fmt:formatDate value="${boardReplList.boardReVo.board_re_wdate }"
@@ -220,7 +220,7 @@ footer {
       <div class="row">
          <div class=col></div>
          
-         <c:if test="${sessionUser.resi_grade >= 2 }">
+         <c:if test="${sessionUser.member_grade >= 2 }">
          <div class="col-1">
            <a href="${pageContext.request.contextPath}/board/idea_answer.jan?idea_no=${readIdea.ideaVo.idea_no}"
                class="btn btn-light">답글달기</a>

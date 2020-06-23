@@ -47,5 +47,5 @@ public interface VoteSQLMapper {
 	public String electionStatus(int round);
 	
 	//test
-	public CandyVo check(@Param("resi_no") int resi_no, @Param("round") int round);
+	public CandyVo check(@Param("member_no") int member_no, @Param("round") int round);
 }

@@ -2,7 +2,7 @@ package com.jl3b.touche_nubes.center.mapper;
 
 import java.util.List;
 
-import com.jl3b.touche_nubes.centervo.BookingVo;
+import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.centervo.ProgTimeVo;
 import com.jl3b.touche_nubes.centervo.ProgVo;
@@ -26,10 +26,10 @@ public interface CenterSQLMapper {
 	public List<CenterReviewVo> selectCenterReviewAll(int center_no);	//클래스 리뷰 전체보기
 	
 	//예약
-	public void insertBooking(BookingVo bookingVo);					//프로그램 예약하기
-	public void deleteBooking(int booking_no);						//예약 취소
-	public BookingVo selectBookingByResi(int resi_no);				//예약 조회(본인이 예약했던 내역)			
-	public int selectBookingCount(int prog_no);						//인원 수 조회(예약 마감 활성화)
+	public void insertReserver(ReserveVo ReserverVo);					//프로그램 예약하기
+	public void deleteReserver(int reserver_no);						//예약 취소
+	public ReserveVo selectReserverByMember(int member_no);				//예약 조회(본인이 예약했던 내역)			
+	public int selectReserverCount(int prog_no);						//인원 수 조회(예약 마감 활성화)
 	
 	//프로그램
 	public void insertProg(ProgVo progVo);							//프로그램 등록

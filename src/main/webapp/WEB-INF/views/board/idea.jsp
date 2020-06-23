@@ -77,7 +77,7 @@
 										<td class="fix_horsehead" style="font-weight: bold">${ideaNoticeList.noticeVo.horsehead_sort}</td>
 										<td class="text-left pl-1"><a
 											href="${pageContext.request.contextPath}/board/notice_read.jan?notice_no=${ideaNoticeList.noticeVo.notice_no}">${ideaNoticeList.noticeVo.notice_title}</a></td>
-										<td>${ideaNoticeList.resiVonotice.resi_rname}</td>
+										<td>${ideaNoticeList.memberVonotice.member_rname}</td>
 										<td><fmt:formatDate
 												value="${ideaNoticeList.noticeVo.notice_wdate}"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
@@ -111,7 +111,7 @@
 												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
 												${ideaList.ideaVo.idea_title}</a></td>
 										</c:if>
-										<td>${ideaList.resiVo.resi_rname}</td>
+										<td>${ideaList.memberVo.member_rname}</td>
 										<td><fmt:formatDate value="${ideaList.ideaVo.idea_wdate}"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
 										<td>${ideaList.ideaVo.idea_hits}</td>
@@ -144,7 +144,7 @@
 					<select name="searchOption" class="ml-3">
 						<option value="idea_title" <c:if test="${searchOption.equals('idea_title') }">selected="selected"</c:if>>제목</option>
 						<option value="idea_content" <c:if test="${searchOption.equals('idea_content') }">selected="selected"</c:if>>내용</option>
-						<option value="resi_rname" <c:if test="${searchOption.equals('resi_rname') }">selected="selected"</c:if>>작성자</option>
+						<option value="member_rname" <c:if test="${searchOption.equals('member_rname') }">selected="selected"</c:if>>작성자</option>
 						<option value="ideaContent" <c:if test="${searchOption.equals('ideaContent') }">selected="selected"</c:if>>제목+내용</option> 
 					</select>
 						<div class="col-3" style="padding-right: 0px">

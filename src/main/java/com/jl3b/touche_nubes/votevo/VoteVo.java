@@ -3,7 +3,7 @@ package com.jl3b.touche_nubes.votevo;
 public class VoteVo {
 	
 	private int vote_no;
-	private int resi_no;
+	private int member_no;
 	private int candy_no;
 	private int election_round;
 	
@@ -11,10 +11,10 @@ public class VoteVo {
 		super();
 	}
 
-	public VoteVo(int vote_no, int resi_no, int candy_no, int election_round) {
+	public VoteVo(int vote_no, int member_no, int candy_no, int election_round) {
 		super();
 		this.vote_no = vote_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.candy_no = candy_no;
 		this.election_round = election_round;
 	}
@@ -27,12 +27,12 @@ public class VoteVo {
 		this.vote_no = vote_no;
 	}
 
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
 
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 
 	public int getCandy_no() {

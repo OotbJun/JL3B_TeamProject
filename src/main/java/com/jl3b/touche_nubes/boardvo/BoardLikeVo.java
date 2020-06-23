@@ -4,18 +4,18 @@ public class BoardLikeVo {
 	
 	private int board_like_no;
 	private int board_no;
-	private int resi_no;
+	private int member_no;
 	private String board_like;
 	
 	public BoardLikeVo() {
 		super();
 	}
 	
-	public BoardLikeVo(int board_like_no, int board_no, int resi_no, String board_like) {
+	public BoardLikeVo(int board_like_no, int board_no, int member_no, String board_like) {
 		super();
 		this.board_like_no = board_like_no;
 		this.board_no = board_no;
-		this.resi_no = resi_no;
+		this.member_no = member_no;
 		this.board_like = board_like;
 	}
 	public int getBoard_like_no() {
@@ -30,11 +30,11 @@ public class BoardLikeVo {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
-	public int getResi_no() {
-		return resi_no;
+	public int getmember_no() {
+		return member_no;
 	}
-	public void setResi_no(int resi_no) {
-		this.resi_no = resi_no;
+	public void setmember_no(int member_no) {
+		this.member_no = member_no;
 	}
 	public String getBoard_like() {
 		return board_like;

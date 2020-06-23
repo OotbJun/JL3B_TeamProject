@@ -38,7 +38,7 @@ footer {
           <div class="row">
          <form action="${pageContext.request.contextPath }/vote/candy_change_process.jan"
              method="post" enctype="multipart/form-data" >
-             <div class="col mt-3">후 보 자 : ${sessionUser.resi_rname }</div>
+             <div class="col mt-3">후 보 자 : ${sessionUser.member_rname }</div>
              <div class="col mt-4">
              <div>후 보 자 소 개 </div><br>
               <textarea rows="10" cols="40" name="candy_intro" maxlength="300">${readCandy.candyVo.candy_intro }</textarea>

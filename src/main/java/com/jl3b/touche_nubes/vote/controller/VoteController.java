@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.member.service.MemberService;
-import com.jl3b.touche_nubes.membervo.ResiVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.vote.service.VoteService;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.votevo.CandyVo;
@@ -41,11 +41,11 @@ public class VoteController {
 	@RequestMapping("vote_choice.jan")
 	public String choiceVote(Model model, HttpSession session) {
 		
-		//voteService.gang();						//매일 상태 업데이트
+		voteService.gang();							//매일 상태 업데이트
+		
 		if(session.getAttribute("sessionCenter") != null) {
 			return "./board/center_fail";
 		}
-		
 		
 		if(session.getAttribute("sessionUser") == null) {		//로그인 예외처리
 			return "./board/board_fail";
@@ -58,8 +58,8 @@ public class VoteController {
 			String status = voteService.checkStatus(round);
 			model.addAttribute("status", status);
 			
-			int resiNo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-			CandyVo candyVo = voteService.check(resiNo, round);
+			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
+			CandyVo candyVo = voteService.check(memberNo, round);
 			model.addAttribute("candyVo", candyVo);
 			
 		}catch(Exception e) {
@@ -122,8 +122,8 @@ public class VoteController {
         }
         
         candyVo.setElection_round(voteService.newRound());
-        int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
- 		candyVo.setResi_no(resiVo);
+        int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
+ 		candyVo.setmember_no(memberVo);
          
         CandyVo candyCheckData = voteService.checkCandy(candyVo); 
         
@@ -174,15 +174,17 @@ public class VoteController {
 	public String vote(VoteVo voteVo, Model model, int election_round) {
 		
 		List<Map<String, Object>> list = voteService.candyList(election_round);
-		model.addAttribute("candyList", list);
+		int round = voteService.newRound();
 		
+		model.addAttribute("candyList", list);
+		model.addAttribute("round", round);
 		return "vote/vote";
 	}
 	@RequestMapping("vote_process.jan")
 	public String voteProcess(VoteVo voteVo, HttpSession session) {
 		
-		int resiVo = ((ResiVo)session.getAttribute("sessionUser")).getResi_no();
-		voteVo.setResi_no(resiVo);										//로그인한 no값 담아주기.
+		int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
+		voteVo.setmember_no(memberVo);										//로그인한 no값 담아주기.
 
 		voteVo.setElection_round(voteService.newRound());				//election_round값도 담고
 		//voteVo.setElection_round(election_round);
