@@ -37,21 +37,21 @@
 		<h2 class="text-center" style="color: #28364a">자유 게시판 글쓰기</h2>
 
 		<form
-			action="${pageContext.request.contextPath }/board/board_write_process.jan"
+			action="${pageContext.request.contextPath }/board/board_write_process.do"
 			method="post" enctype="multipart/form-data">
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="board_title" id="title"
 					placeholder="제목을 입력해 주세요" maxlength="50">
 			</div>
-			
-			
-			
+
+
+
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
 				<label for="content">글내용</label>
-				<textarea class="form-control" rows="10" name="board_content"
+				<textarea class="form-control" rows="10" cols="40" name="board_content"
 					id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
 			</div>
 			<div class="mb-3">
@@ -62,12 +62,13 @@
 					</div>
 				</div>
 				<div class="row mb-3">
+					<div class="col-8"></div>
 
-					<div class="col-6">
-						<a href="${pageContext.request.contextPath }/board/board.jan"
+					<div class="col-2">
+						<a href="${pageContext.request.contextPath }/board/board.do"
 							class="btn btn-secondary btn-lg btn-block">목록으로</a>
 					</div>
-					<div class="col-6">
+					<div class="col-2">
 						<input type="submit" value="확인"
 							class="btn btn-primary btn-lg btn-block"> 
 					</div>

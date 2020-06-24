@@ -91,7 +91,7 @@ footer {
 
            
       };
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmCenterId.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmCenterId.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.send("center_id=" + center_id);
    }
@@ -160,7 +160,7 @@ function check_npki() {
       };       
    };
      
-      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkCenterNpkiKey.jan",true);
+      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkCenterNpkiKey.do",true);
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("npki_key="+ npki_key);
 };
@@ -204,7 +204,7 @@ function check_npki() {
          }
    };
       
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/checkCenterEmail.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/checkCenterEmail.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.send("center_mail=" + center_mail);
    }
@@ -291,7 +291,7 @@ function check_npki() {
          <div class="col-2"></div>
          <div class="col">
             <form method="post" class="text-left"
-               action="${pageContext.request.contextPath }/member/join_center_process.jan"
+               action="${pageContext.request.contextPath }/member/join_center_process.do"
                enctype="multipart/form-data">
                <!-- 아이디 -->
                <div class="form-group">

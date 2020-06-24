@@ -27,11 +27,11 @@ public class IdeaLikeVo {
 		this.idea_like_no = idea_like_no;
 	}
 
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
 
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 

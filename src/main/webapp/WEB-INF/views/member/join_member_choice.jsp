@@ -44,7 +44,7 @@ footer {
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<a
-									href="${pageContext.request.contextPath }/member/join_member.jan"><button
+									href="${pageContext.request.contextPath }/member/join_member.do"><button
 										class="btn btn btn-danger btn-round" style="width: 100%">입주민
 										가입</button></a>
 							</div>
@@ -54,7 +54,7 @@ footer {
 						<div class="row">
 							<div class="col-md-12 text-center">
 								<a
-									href="${pageContext.request.contextPath }/member/join_center.jan"><button
+									href="${pageContext.request.contextPath }/member/join_center.do"><button
 										class="btn btn btn-danger btn-round" style="width: 100%">센터
 										가입</button></a>
 							</div>

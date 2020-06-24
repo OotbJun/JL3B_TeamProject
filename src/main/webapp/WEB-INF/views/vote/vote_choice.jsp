@@ -81,7 +81,7 @@ footer {
             <div class="row">
                <div class="col text-center">
                   <div class="col-md-12 text-center">
-                     <a href="${pageContext.request.contextPath }/vote/vote_start.jan"><img
+                     <a href="${pageContext.request.contextPath }/vote/vote_start.do"><img
                         src="${pageContext.request.contextPath }/resources/img/newVote.png"
                         style="max-width: 800px; height: auto"></a>
                   </div>
@@ -96,7 +96,7 @@ footer {
                <div class="col text-center mt-5">
                   <div class="col-md-12 text-center">
                      <a
-                        href="${pageContext.request.contextPath }/vote/candy_write.jan">
+                        href="${pageContext.request.contextPath }/vote/candy_write.do">
 
                         <img
                         src="${pageContext.request.contextPath }/resources/img/resiCandy.png"
@@ -114,7 +114,7 @@ footer {
                      test="${!empty round && !empty sessionUser && !status.equals('E_END') }">
                      <!-- 회차 있어야 출력됨. -->
                      <a
-                        href="${pageContext.request.contextPath }/vote/candy.jan?election_round=${round}">
+                        href="${pageContext.request.contextPath }/vote/candy.do?election_round=${round}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/candyList.png"
                         style="max-width: 45%; height: auto">
@@ -130,7 +130,7 @@ footer {
                      test="${!empty round && !empty sessionUser && status.equals('V_ING') }">
                      <!-- 회차 있어야 출력됨. -->
                      <a
-                        href="${pageContext.request.contextPath }/vote/vote.jan?election_round=${round}">
+                        href="${pageContext.request.contextPath }/vote/vote.do?election_round=${round}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/Vote.png"
                         style="max-width: 45%; height: auto">
@@ -145,7 +145,7 @@ footer {
                   <c:if test="${!empty round && status.equals('E_END')}">
                      <!-- 회차 있어야 출력됨. -->
                      <a
-                        href="${pageContext.request.contextPath }/vote/vote_result.jan?election_round=${(round-1)+1}">
+                        href="${pageContext.request.contextPath }/vote/vote_result.do?election_round=${(round-1)+1}">
                         <img
                         src="${pageContext.request.contextPath }/resources/img/voteResult.png"
                         style="max-width: 45%; height: auto">

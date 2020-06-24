@@ -31,14 +31,14 @@ public class RESTfulBoardController {
 	private BoardService boardService;
 
 	// 댓글 등록
-	@RequestMapping("/write_reply_process.jan")
+	@RequestMapping("/write_reply_process.do")
 	@ResponseBody
 	public int writeReplyProcess(@RequestParam int board_no, @RequestParam String board_re_content,
 			HttpSession session) {
 
-		int member_no = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
+		int Member_no = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
 		BoardReVo boardrevo = new BoardReVo();
-		boardrevo.setmember_no(member_no);
+		boardrevo.setMember_no(Member_no);
 		boardrevo.setBoard_no(board_no);
 		boardrevo.setBoard_re_content(board_re_content);
 
@@ -47,7 +47,7 @@ public class RESTfulBoardController {
 
 	// 댓글 출력
 	@ResponseBody
-	@RequestMapping("/get_reply_list.jan")
+	@RequestMapping("/get_reply_list.do")
 	public List<Map<String, Object>> getReplyList(@RequestParam("board_no") int board_no, Model model) {
 
 		List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
@@ -56,7 +56,7 @@ public class RESTfulBoardController {
 	}
 
 	// 댓글 수정
-	@RequestMapping("/update_reply_process.jan")
+	@RequestMapping("/update_reply_process.do")
 	@ResponseBody
 	private int updateReplyList(@RequestParam int board_re_no, @RequestParam String board_re_content) {
 
@@ -68,7 +68,7 @@ public class RESTfulBoardController {
 	}
 
 	// 댓글 삭제
-	@RequestMapping("/delete_reply_process.jan/{board_re_no}") // 댓글 삭제
+	@RequestMapping("/delete_reply_process.do/{board_re_no}") // 댓글 삭제
 	@ResponseBody
 	private int deleteReplyList(BoardReVo boardReVo, HttpSession session) {
 		
@@ -76,8 +76,8 @@ public class RESTfulBoardController {
 		
 		System.out.println(boardReVo.getBoard_re_no());
 		
-		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
-		boardReVo.setmember_no(memberNo);
+		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
+		boardReVo.setMember_no(memberNo);
 		BoardReVo replyData = boardService.checkReply(boardReVo);
 		
 		if(replyData == null) {
@@ -91,7 +91,7 @@ public class RESTfulBoardController {
 	}
 
 	// 자게 추천!!
-	@RequestMapping("/choose_like_process.jan")
+	@RequestMapping("/choose_like_process.do")
 	public String chooseBoardLikeProcess(BoardLikeVo boardLikeVo, HttpSession session, Model model) {
 
 		if (session.getAttribute("sessionUser") == null) {
@@ -99,8 +99,8 @@ public class RESTfulBoardController {
 		}
 
 //		int currentPage = boardLikeVo.getBoard_no();
-		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
-		boardLikeVo.setmember_no(memberVo);
+		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
+		boardLikeVo.setMember_no(memberVo);
 
 		BoardLikeVo likeData = boardService.checkLike(boardLikeVo); // 중복방지 본인확인
 		
@@ -117,7 +117,7 @@ public class RESTfulBoardController {
 	}
 
 	// 자게 추천 출력
-	@RequestMapping("/get_likecount.jan")
+	@RequestMapping("/get_likecount.do")
 	public int getBoardLike(int board_no) {
 		int likeCount = boardService.upCount(board_no);
 
@@ -125,7 +125,7 @@ public class RESTfulBoardController {
 	}
 
 	// 자게 비추!!
-	@RequestMapping("/choose_dislike_process.jan")
+	@RequestMapping("/choose_dislike_process.do")
 	public String chooseDislikeProcess(BoardLikeVo boardLikeVo, HttpSession session) {
 
 		if (session.getAttribute("sessionUser") == null) {
@@ -133,8 +133,8 @@ public class RESTfulBoardController {
 		}
 		
 //			int currentPage = boardLikeVo.getBoard_no();
-		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
-		boardLikeVo.setmember_no(memberVo);
+		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
+		boardLikeVo.setMember_no(memberVo);
 
 		BoardLikeVo likeData = boardService.checkLike(boardLikeVo); // 중복방지 본인확인
 
@@ -148,7 +148,7 @@ public class RESTfulBoardController {
 	}
 
 	// 자게 비추천 출력
-	@RequestMapping("/get_dislikecount.jan")
+	@RequestMapping("/get_dislikecount.do")
 	public int getBoardDislike(int board_no) {
 		int dislikeCount = boardService.downCount(board_no);
 
@@ -157,15 +157,15 @@ public class RESTfulBoardController {
 
 	/////////////////////////////////////////////// 청원
 	// 청원 동의
-	@RequestMapping("/choose_idea_like_process.jan")
+	@RequestMapping("/choose_idea_like_process.do")
 	public String chooseIdeaLikeProcess(IdeaLikeVo ideaLikeVo, HttpSession session) {
 
 		if (session.getAttribute("sessionUser") == null) {
 			return "board/board_fail";
 		}
 
-		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getmember_no();
-		ideaLikeVo.setmember_no(memberNo);
+		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
+		ideaLikeVo.setMember_no(memberNo);
 		
 		IdeaLikeVo ideaData = boardService.checkLike(ideaLikeVo); // 중복방지 확인
 
@@ -179,7 +179,7 @@ public class RESTfulBoardController {
 	}
 
 	// 청원 동의 출력
-	@RequestMapping("get_idea_likecount.jan")
+	@RequestMapping("get_idea_likecount.do")
 	public int getIdeaLike(int idea_no) {
 		int ideaCount = boardService.recommendCount(idea_no);
 

@@ -50,7 +50,7 @@ footer {
 			${round }회차 입주민 선거 <small>후보자</small>
 		</h1>
 		<form
-			action="${pageContext.request.contextPath }/vote/vote_process.jan">
+			action="${pageContext.request.contextPath }/vote/vote_process.do">
 			<div class="row">
 				<c:forEach var="candyList" items="${candyList }">
 					<div class="col-lg-4 col-sm-6 mb-4">
@@ -60,7 +60,7 @@ footer {
 							<div class="card-body">
 								<h4 class="card-title">
 									<a
-										href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=">${candyList.memberVo.member_rname }</a>
+										href="${pageContext.request.contextPath }/vote/candy_read.do?candy_no=">${candyList.memberVo.member_rname }</a>
 								</h4>
 								<div class="card-text">${candyList.candyVo.candy_intro}</div>
 								<input type="radio" value="${candyList.candyVo.candy_no}"
@@ -80,7 +80,7 @@ footer {
 				</div>
 				<div class="col-4"></div>
 				<div class="col-2 text-right">
-					<a href="${pageContext.request.contextPath }/vote/vote_choice.jan">돌아가기</a>
+					<a href="${pageContext.request.contextPath }/vote/vote_choice.do">돌아가기</a>
 				</div>
 			</div>
 		</form>

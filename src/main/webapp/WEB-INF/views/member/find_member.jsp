@@ -24,7 +24,7 @@ var idV = "";
 var idSearch_click = function(){
    $.ajax({
       type:"post",
-      url:"${pageContext.request.contextPath}/member/find_member_process.jan?member_rname="+$('#member_rname').val()+"&npki_key="+$('#npki_key').val(),   
+      url:"${pageContext.request.contextPath}/member/find_member_process.do?member_rname="+$('#member_rname').val()+"&npki_key="+$('#npki_key').val(),   
       success:function(data){
          if(data == 0){
             $('#id_value').text("가입된 아이디가 없습니다.");   
@@ -35,6 +35,22 @@ var idSearch_click = function(){
       }
    });
 }
+
+var pwSearch_click = function(){
+	   $.ajax({
+	      type:"get",
+	      url:"${pageContext.request.contextPath}/member/find_password.do?member_id="+$('#member_id').val()+"&member_mail="+$('#member_mail').val(),   
+	      success:function(data){
+	         if(data == 0){
+	           alert("가입된 아이디가 없습니다.");   
+	         } else {
+	          alert("작성하신 메일로 비밀번호를 발송하였습니다.")
+	          location.href="login.do";
+	         }
+	      }
+	   });
+	}
+
 $('#modal').modal("hide");  
 $('#modal').modal("show");
 </script>
@@ -72,25 +88,25 @@ $('#modal').modal("show");
                
                <div class="form-group">
                <button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal" onclick="idSearch_click()">확인 </button>
-               <a class="btn btn-danger btn-block"   href="${pageContext.request.contextPath}/member/login.jan">취소</a>
+               <a class="btn btn-danger btn-block"   href="${pageContext.request.contextPath}/member/login.do">취소</a>
                </div>
             </div>
             <div id="searchP" style="display: none;">
                <div class="form-group">
-                  <label class="font-weight-bold text-white" for="inputId">아이디</label>
+                  <label class="font-weight-bold text-white" for="member_id">아이디</label>
                   <div>
-                     <input type="text" class="form-control" id="inputId" name="inputId_2" placeholder="ex) godmisu">
+                     <input type="text" class="form-control" id="member_id" name="member_id" placeholder="ex) godmisu">
                   </div>
                </div>
                <div class="form-group">
-                  <label class="font-weight-bold text-white" for="inputEmail_2">이메일</label>
+                  <label class="font-weight-bold text-white" for="member_mail">이메일</label>
                   <div>
-                     <input type="email" class="form-control" id="inputEmail_2"   name="inputEmail_2" placeholder="ex) E-mail@gmail.com">
+                     <input type="email" class="form-control" id="member_mail"   name="member_mail" placeholder="ex) E-mail@gmail.com">
                   </div>
                </div>
                <div class="form-group">
-                  <button id="searchBtn2" type="button" class="btn btn-primary btn-block">확인</button>
-               <a class="btn btn-danger btn-block"   href="${pageContext.request.contextPath}/member/login.jan">취소</a>
+                  <button id="searchBtn2" type="button" class="btn btn-primary btn-block" onclick="pwSearch_click()">확인</button>
+               <a class="btn btn-danger btn-block"   href="${pageContext.request.contextPath}/member/login.do">취소</a>
             </div>
             </div>
          </div>
@@ -109,8 +125,6 @@ $('#modal').modal("show");
       </h4><br>
          <h2 id="id_value"></h2>
       <br>
-      <button type="button" id="pwSearch_btn" class="btn peach-gradient btn-rounded waves-effect">
-      <i class="fa fa-envelope"></i>비밀번호 찾기</button>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
@@ -118,6 +132,5 @@ $('#modal').modal("show");
     </div>
   </div>
   </div>
-
 </body>
 </html>

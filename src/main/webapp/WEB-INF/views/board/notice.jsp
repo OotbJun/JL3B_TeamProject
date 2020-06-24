@@ -44,7 +44,8 @@
 			<div class="col-1"></div>
 			<div class="col text-center">
 				<img
-					src="${pageContext.request.contextPath }/resources/img/noticepage.png"  style="max-width: 75%; height: auto;">
+					src="${pageContext.request.contextPath }/resources/img/noticepage.png"
+					style="max-width: 75%; height: auto;">
 			</div>
 			<div class="col-1"></div>
 		</div>
@@ -72,9 +73,9 @@
 								<c:forEach items="${noticeList }" var="noticeList">
 									<tr class="text-center">
 										<td style="font-weight: bold">${noticeList.noticeVo.horsehead_sort }</td>
-										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath }/board/notice_read.jan?notice_no=${noticeList.noticeVo.notice_no}&currentPage=${currentPage }">
-											${noticeList.noticeVo.notice_title }</a></td>
+										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 500px"><a
+											href="${pageContext.request.contextPath }/board/notice_read.do?notice_no=${noticeList.noticeVo.notice_no}&currentPage=${currentPage }">
+												${noticeList.noticeVo.notice_title }</a></td>
 										<td>${noticeList.memberVo.member_rname }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"
@@ -100,35 +101,49 @@
 			<div class="col-1"></div>
 			<!--검색-->
 			<div class="col">
-				<form action="./notice.jan" method="get">
+				<form action="./notice.do" method="get">
 					<div class="row">
+
+						<!-- 검색 조건 -->
+						<select name="searchOption" class="ml-3">
+
+							<option value="notice_title"
+								<c:if test="${searchOption.equals('notice_title') }">selected="selected"</c:if>>제목</option>
+							<option value="notice_content"
+								<c:if test="${searchOption.equals('notice_content') }">selected="selected"</c:if>>내용</option>
+							<option value="member_rname"
+								<c:if test="${searchOption.equals('member_rname') }">selected="selected"</c:if>>작성자</option>
+							<option value="titleContent"
+								<c:if test="${searchOption.equals('titleContent') }">selected="selected"</c:if>>제목+내용</option>
+						</select>
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
-								class="form-control">
+								class="form-control form-control-sm" value="${searchWord }">
 						</div>
-						<!-- 게시글 검색어 입력-->
 						<div class="col-2">
-							<input type="submit" class="btn btn-primary btn-block" value="검색">
+							<input type="submit" class="btn btn-outline-primary btn-sm"
+								value="검색">
 						</div>
 					</div>
 				</form>
 			</div>
-			<div></div>
+
 
 
 			<!-- 글쓰기 버튼 -->
-			<div class="col-2">
-			<c:set value="${sessionUser.npki_key }" var="key"></c:set>
+			<div class="col-2 text-right">
+				<c:set value="${sessionUser.npki_key }" var="key"></c:set>
 				<c:if test="${sessionUser.member_grade>=2}">
 					<a
-						href="${pageContext.request.contextPath }/board/notice_write.jan"
-						class="btn btn-primary btn-block">글쓰기</a>
+						href="${pageContext.request.contextPath }/board/notice_write.do"
+						class="btn btn-outline-primary btn-sm">글쓰기</a>
 				</c:if>
 			</div>
 			<div class="col-1"></div>
 
 		</div>
-		
+	</div>
+	
 
 	<div class="row mt-3">
 		<div class="col-2"></div>
@@ -143,17 +158,17 @@
 							<li
 								class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
 								class="page-link"
-								href="./notice.jan?currentPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
+								href="./notice.do?currentPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
 							<c:forEach begin="${beginPage}" end="${endPage}" var="i">
 								<li
 									class="page-item<c:if test="${currentPage == i}"> active</c:if>"><a
 									class="page-link"
-									href="./notice.jan?currentPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
+									href="./notice.do?currentPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
 							</c:forEach>
 							<li
 								class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1}"> disabled</c:if>"><a
 								class="page-link"
-								href="./notice.jan?currentPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
+								href="./notice.do?currentPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
 						</ul>
 					</nav>
 
@@ -165,17 +180,17 @@
 		<div class="col-2"></div>
 	</div>
 
-		<jsp:include page="../commons/include_footer.jsp"></jsp:include>
-		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-			crossorigin="anonymous"></script>
-		<script
-			src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
-			integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
-			crossorigin="anonymous"></script>
+	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
 </body>
 </html>

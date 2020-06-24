@@ -22,8 +22,11 @@ public interface BoardSQLMapper {
 	public void updateNoticeByNo(NoticeVo noticeVo);	//글수정
 	public void updateNoticeReadCount(int no);			//조회수
 	public List<NoticeVo> selectNoticeAll(int currentPage);		//전체 글 리스트
-	public List<NoticeVo> selectNoticeByTitle(@Param("title") String title, @Param("currentPage") int currentPage);		//제목 검색(매개변수는 무조건 하나 밖에 못 받는다. 따라서 @param 써줘야함!)
-	public int selectNoticeByTitleCount(String title);	//검색 개수
+	public List<NoticeVo> selectNoticeByKeyword(@Param("searchOption") String searchOption, 
+			@Param("keyword") String keyword, @Param("currentPage") int currentPage);		//옵션별 검색
+	public int selectNoticeByKeywordCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);//검색 시 게시글 수
+//	public List<NoticeVo> selectNoticeByTitle(@Param("title") String title, @Param("currentPage") int currentPage);		//제목 검색(매개변수는 무조건 하나 밖에 못 받는다. 따라서 @param 써줘야함!)
+//	public int selectNoticeByTitleCount(String title);	//검색 개수	=> 이거 안쓰고 옵션 달린 검색으로 수정
 	
 	
 	//////////////////////////자게
@@ -35,8 +38,9 @@ public interface BoardSQLMapper {
     public void updateBoard(BoardVo boardVo);	
     public void updateBoardReadCount(int no);
     public int selectBoardAllCount(); 
-    public int selectBoardByTitleCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
-    public List<BoardVo> selectBoardByKeyword(@Param("searchOption") String searchOption, @Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
+    public int selectBoardByKeywordCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
+    public List<BoardVo> selectBoardByKeyword(@Param("searchOption") String searchOption, 
+    		@Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
     public List<NoticeVo> selectNoticeFix();					//상단 고정 공지
     public void updateHot();									//인기글로~
     public List<BoardVo> selectHotFix();						//인기글 출력 
@@ -69,11 +73,12 @@ public interface BoardSQLMapper {
 	public void deleteIdeaByNo(int idea_no);			//글삭제
 	public void updateIdea(IdeaVo ideaVo);				//글수정
 	public void updateHorsehead();						//답변 달리면 말머리 수정
+	public List<IdeaVo> selectIdeaByKeyword(@Param("searchOption") String searchOption, 
+			@Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
+	public int selectIdeaByKeywordCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
 	//추천
 	public void insertIdeaLike(IdeaLikeVo ideaLikeVo); // 추천, 비추
 	public IdeaLikeVo selectIdeaLikeByNo(IdeaLikeVo ideaLikeVo); // 중복방지 본인확인
 	public int selectIdeaLikeUpCount(int idea_no); // 좋아요 개수
-	public List<IdeaVo> selectIdeaByKeyword(@Param("searchOption") String searchOption, @Param("keyword") String keyword, @Param("currentPage") int currentPage);	//검색
-	public int selectIdeaByTitleCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);	//검색 시 게시글 수
 	public void deleteIdeaLike(IdeaLikeVo ideaLikeVo);	//추천 취소
 }

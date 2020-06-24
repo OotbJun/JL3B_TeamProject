@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("이미 등록된 후보자입니다."); location.href="vote_choice.jan";
+alert("이미 등록된 후보자입니다."); location.href="vote_choice.do";
 
 </script>
 

@@ -42,7 +42,7 @@ footer {
       <div class="row">
          <div class="col text-center">
             <div class="col-md-12 text-center">
-               <a href="${pageContext.request.contextPath }/center/center.jan"><button
+               <a href="${pageContext.request.contextPath }/center/center.do"><button
                      class="btn btn btn-danger btn-round" style="width: 100%">클래스 리스트</button></a>
             </div>
          </div>
@@ -52,7 +52,7 @@ footer {
             <div class="col-md-12 text-center">
             
             <c:if test="${!empty sessionCenter && sessionCenter.center_no != centerInfoVo.center_no }">
-               <a href="${pageContext.request.contextPath }/center/center_write.jan">
+               <a href="${pageContext.request.contextPath }/center/center_write.do">
                <button class="btn btn btn-danger btn-round" style="width: 100%">클래스 등록</button></a>
             </c:if>
             
@@ -63,7 +63,7 @@ footer {
             <div class="col-md-12 text-center">
 
             <c:if test="${!empty sessionCenter }">
-               <a href="${pageContext.request.contextPath }/center/center_modify.jan?info_no=${info_no}">
+               <a href="${pageContext.request.contextPath }/center/center_modify.do?info_no=${info_no}">
                <button class="btn btn btn-danger btn-round" style="width: 100%">클래스 수정</button></a>
             </c:if>   
 

@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("로그인 후  이용을 부탁드립니다."); location.href="../member/login.jan";
+alert("로그인 후  이용을 부탁드립니다."); location.href="../member/login.do";
 
 </script>
 

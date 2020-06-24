@@ -22,10 +22,10 @@ public class MemberAuthVo {
 	public void setAuth_no(int auth_no) {
 		this.auth_no = auth_no;
 	}
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 	public String getAuth_certification() {

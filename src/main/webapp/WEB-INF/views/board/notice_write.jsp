@@ -24,9 +24,9 @@
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-   <div class="container" role="main" style="margin-top:5%;" >
-    <h2>공지 게시판 글쓰기</h2>
-    <form action="${pageContext.request.contextPath }/board/notice_write_process.jan" method="post" enctype="multipart/form-data">
+   <div class="container text-center" role="main" style="margin-top:5%;" >
+    <h2 class="mb-5">공지 게시판 글쓰기</h2>
+    <form class="text-left" action="${pageContext.request.contextPath }/board/notice_write_process.do" method="post" enctype="multipart/form-data">
     <div class="mb-3">
         <label for="title">제목</label>
         <input type="text" class="form-control" name="notice_title" id="title" placeholder="제목을 입력해 주세요" maxlength="50">
@@ -37,7 +37,7 @@
     </div>
      <div class="mb-3">
        <label for="content">글내용</label>
-         <textarea class="form-control" rows="10"  name="notice_content" id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
+         <textarea class="form-control" rows="10" cols="40" name="notice_content" id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
     </div>
     <div class="mb-3">
         <div class="row mb-5">
@@ -46,13 +46,12 @@
         </div>
          </div>
          <div class="row mb-3">
-        <div class="col">
-          <input type="submit" value="확인" class="btn btn-primary btn-lg btn-block">
+        <div class="col-8"></div>
+        <div class="col-2">
+          <a href="${pageContext.request.contextPath }/board/notice.do" class="btn btn-secondary btn-lg btn-block">목록으로</a>
         </div>
-       </div>
-          <div class="row">
-        <div class="col">
-          <a href="${pageContext.request.contextPath }/board/notice.jan" class="btn btn-primary btn-lg btn-block">목록으로</a>
+        <div class="col-2">
+          <input type="submit" value="확인" class="btn btn-primary btn-lg btn-block">
         </div>
        </div>
     </div>

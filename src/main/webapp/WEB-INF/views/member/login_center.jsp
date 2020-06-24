@@ -44,13 +44,13 @@ body {
       <img src="${pageContext.request.contextPath }/resources/img/navi-logo.png" id="icon" alt="User Icon" />
     </div>
     <!-- Login Form -->
-   <form action="./login_center_process.jan" method="post" >
+   <form action="./login_center_process.do" method="post" >
       <input type="text" id="login" class="fadeIn second" name="center_id" placeholder="아이디 ">
       <input type="password" id="password" class="fadeIn third" name="center_pw" placeholder="비밀번호">
       <input type="submit" class="fadeIn fourth" value="Log In" style="margin: 24px 20px 24px 20px">
     </form>
      <div id="formFooter">
-      <a class="underlineHover" href="./join_member_choice.jan" style="text-decoration: none; color: #56baed" >회원 가입</a>
+      <a class="underlineHover" href="./join_member_choice.do" style="text-decoration: none; color: #56baed" >회원 가입</a>
     </div>
   </div>
 </div>

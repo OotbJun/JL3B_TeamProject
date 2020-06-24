@@ -23,12 +23,14 @@
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-   <div class="container" role="main" style="margin-top:5%;" >
-    <h2>청원 답변 </h2>
-    <form action="${pageContext.request.contextPath }/board/idea_answer_process.jan" method="post">
+  <div class="container text-center" role="main" style="margin-top:5%;" >
+    <h2 class="mb-5">청원 답변 </h2>
+    <form  class="text-left"
+    action="${pageContext.request.contextPath }/board/idea_answer_process.do" method="post">
     <div class="mb-3">
         <label for="title">제목</label>
-        <input type="text" class="form-control" name="idea_title" id="title" value="답변 : ${readIdea.ideaVo.idea_title }" maxlength="50">
+        <input type="text" class="form-control" name="idea_title" id="title" value="답변 : ${readIdea.ideaVo.idea_title }" maxlength="50"
+        >
     </div>
     <div class="mb-3">
     </div>
@@ -40,19 +42,20 @@
     </div>
     <div class="mb-3">
          <div class="row mb-3">
-        <div class="col">
+         <div class="col-8"></div>
+        <div class="col-2">
+          <a href="${pageContext.request.contextPath }/board/idea.do" class="btn btn-secondary btn-lg btn-block">목록으로</a>
+        </div>
+        <div class="col-2">
           <input type="submit" value="확인" class="btn btn-primary btn-lg btn-block">
           <input type="hidden" name="idea_gr_no" value="${readIdea.ideaVo.idea_gr_no}">
         </div>
-       </div>
-          <div class="row">
-        <div class="col">
-          <a href="${pageContext.request.contextPath }/board/idea.jan" class="btn btn-primary btn-lg btn-block">목록으로</a>
-        </div>
+        
        </div>
     </div>
    </form>
    </div>
+   	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>

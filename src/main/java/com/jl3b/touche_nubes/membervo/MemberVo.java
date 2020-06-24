@@ -32,11 +32,11 @@ public class MemberVo {
 		this.member_jdate = member_jdate;
 	}
 
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
 
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 
@@ -48,59 +48,59 @@ public class MemberVo {
 		this.npki_key = npki_key;
 	}
 
-	public String getmember_id() {
+	public String getMember_id() {
 		return member_id;
 	}
 
-	public void setmember_id(String member_id) {
+	public void setMember_id(String member_id) {
 		this.member_id = member_id;
 	}
 
-	public String getmember_pw() {
+	public String getMember_pw() {
 		return member_pw;
 	}
 
-	public void setmember_pw(String member_pw) {
+	public void setMember_pw(String member_pw) {
 		this.member_pw = member_pw;
 	}
 
-	public String getmember_rname() {
+	public String getMember_rname() {
 		return member_rname;
 	}
 
-	public void setmember_rname(String member_rname) {
+	public void setMember_rname(String member_rname) {
 		this.member_rname = member_rname;
 	}
 
-	public String getmember_mail() {
+	public String getMember_mail() {
 		return member_mail;
 	}
 
-	public void setmember_mail(String member_mail) {
+	public void setMember_mail(String member_mail) {
 		this.member_mail = member_mail;
 	}
 
-	public int getmember_grade() {
+	public int getMember_grade() {
 		return member_grade;
 	}
 
-	public void setmember_grade(int member_grade) {
+	public void setMember_grade(int member_grade) {
 		this.member_grade = member_grade;
 	}
 
-	public int getmember_point() {
+	public int getMember_point() {
 		return member_point;
 	}
 
-	public void setmember_point(int member_point) {
+	public void setMember_point(int member_point) {
 		this.member_point = member_point;
 	}
 
-	public Date getmember_jdate() {
+	public Date getMember_jdate() {
 		return member_jdate;
 	}
 
-	public void setmember_jdate(Date member_jdate) {
+	public void setMember_jdate(Date member_jdate) {
 		this.member_jdate = member_jdate;
 	}
 	

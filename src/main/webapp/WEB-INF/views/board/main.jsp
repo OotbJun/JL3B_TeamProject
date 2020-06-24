@@ -44,7 +44,7 @@ footer {
 		<!-- 개별 메뉴 -->
 		<div class="row mt-1">
 			<div class="col-8" style="width: 100%">
-				<a href="${pageContext.request.contextPath }/board/notice.jan"><img
+				<a href="${pageContext.request.contextPath }/board/notice.do"><img
 					src="${pageContext.request.contextPath }/resources/img/noticepage.png"
 					style="max-width: 100%; height: auto"></a>
 			</div>
@@ -55,7 +55,7 @@ footer {
 		<div class="row mt-1">
 			<div class="col"></div>
 			<div class="col-8">
-				<a href="${pageContext.request.contextPath }/board/board.jan"><img
+				<a href="${pageContext.request.contextPath }/board/board.do"><img
 					src="${pageContext.request.contextPath }/resources/img/boardpage.png"
 					style="max-width: 100%; height: auto"></a>
 			</div>
@@ -63,7 +63,7 @@ footer {
 		<div class="mt-2">
 			<div class="row mt-1">
 				<div class="col-8">
-					<a href="${pageContext.request.contextPath }/board/idea.jan"><img
+					<a href="${pageContext.request.contextPath }/board/idea.do"><img
 						src="${pageContext.request.contextPath }/resources/img/ideapage.png"
 						style="max-width: 100%; height: auto"></a>
 				</div>
@@ -74,7 +74,7 @@ footer {
 		<div class="row mt-1">
 			<div class="col"></div>
 			<div class="col-8">
-				<a href="${pageContext.request.contextPath }/vote/vote_choice.jan"><img
+				<a href="${pageContext.request.contextPath }/vote/vote_choice.do"><img
 					src="${pageContext.request.contextPath }/resources/img/votepage.png"
 					style="max-width: 100%; height: auto"></a>
 			</div>

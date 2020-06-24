@@ -37,16 +37,16 @@ public class MemberService {
 	         return;
 	    }else {
 	    	 //비밀번호 암호화 
-	    	 String hashCode = MemberMessageDigest.digest(memberVo.getmember_pw());
-	         memberVo.setmember_pw(hashCode);
+	    	 String hashCode = MemberMessageDigest.digest(memberVo.getMember_pw());
+	         memberVo.setMember_pw(hashCode);
 	         
 	         int member_key = memberSQLMapper.creatKey();   
 	         
-	         memberVo.setmember_no(member_key);
+	         memberVo.setMember_no(member_key);
 	         
 	         memberSQLMapper.insertMember(memberVo);    
 	         //인증
-	         memberAuthVo.setmember_no(member_key);
+	         memberAuthVo.setMember_no(member_key);
 	         memberSQLMapper.insertAuth(memberAuthVo);
 	      }
 	}
@@ -65,8 +65,8 @@ public class MemberService {
 	//입주민 로그인
 	public MemberVo loginMember(MemberVo memberVo) {   
 		
-       String hashCode = MemberMessageDigest.digest(memberVo.getmember_pw());
-       memberVo.setmember_pw(hashCode);
+       String hashCode = MemberMessageDigest.digest(memberVo.getMember_pw());
+       memberVo.setMember_pw(hashCode);
        
        return memberSQLMapper.selectMemberByIdAndPw(memberVo);
 	}
@@ -79,6 +79,41 @@ public class MemberService {
 	public void certification(String key) {
 	       memberSQLMapper.updateAuth(key);	
 	}
+	
+	//마이페이지 비밀번호 확인
+	public MemberVo confirmPw(MemberVo membervo) {
+      
+		String hashCode = MemberMessageDigest.digest(membervo.getMember_pw());
+		membervo.setMember_pw(hashCode);
+      
+		return memberSQLMapper.confirmPw(membervo);
+    }
+	   
+	//마이페이지 정보 수정
+	public void updateMypageProcess(MemberVo membervo) {
+		memberSQLMapper.updateMypage(membervo);
+	}
+	
+	//멤버no 받아오는거
+	public MemberVo updateSession(int member_no) {
+		return memberSQLMapper.selectMemberByNo(member_no);
+	}
+   
+	//비밀번호 변경 
+	public void updatePw(MemberVo membervo) {
+		memberSQLMapper.updatePw(membervo);
+	}
+	
+	//비밀번호 찾기
+	public String get_searchPw(String member_id,String member_mail) {
+		return memberSQLMapper.conditionMemberPw(member_id, member_mail);
+	}
+	//비밀번호 변경 
+	public void get_changePw(String member_pw,String member_id, String member_mail) {
+	    String hashCode = MemberMessageDigest.digest(member_pw);
+		memberSQLMapper.updateMemberPw(hashCode, member_id, member_mail);
+	}
+	
 	
 	
 	////////////////////////////////////////////////센터
@@ -136,7 +171,7 @@ public class MemberService {
    
    //이메일 확인
    public boolean confirmEmail(String member_mail) {
-      if(memberSQLMapper.existEmail(member_mail)!= null) {
+      if(memberSQLMapper.existEmail(member_mail)== null) {
          return true;
       } else {
          return false;

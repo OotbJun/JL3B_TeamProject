@@ -41,7 +41,7 @@
    <div class="container" role="main" style="margin-top: 5%;">
       <h2 class="text-center" style="color: #28364a">센터등록 수정</h2>
       <form
-         action="${pageContext.request.contextPath }/center/center_modify_process.jan"
+         action="${pageContext.request.contextPath }/center/center_modify_process.do"
          method="post" enctype="multipart/form-data">
          <div class="mb-3">
             <label for="title">수강제목</label> <input type="text"
@@ -66,7 +66,7 @@
             </div>
             <div class="row mb-3">
                <div class="col-6">
-                  <a href="${pageContext.request.contextPath }/center/center_choice.jan"
+                  <a href="${pageContext.request.contextPath }/center/center_choice.do"
                      class="btn btn-secondary btn-lg btn-block">목록으로</a>
                </div>
                <div class="col-6">

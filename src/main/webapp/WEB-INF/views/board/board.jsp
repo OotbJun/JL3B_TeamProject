@@ -56,8 +56,8 @@
 									begin="0" end="2">
 									<tr class="text-center">
 										<td class="fix_horsehead" style="font-weight: bold">${boardNoticeList.noticeVo.horsehead_sort}</td>
-										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath}/board/notice_read.jan?notice_no=${boardNoticeList.noticeVo.notice_no}">${boardNoticeList.noticeVo.notice_title}</a></td>
+										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+											href="${pageContext.request.contextPath}/board/notice_read.do?notice_no=${boardNoticeList.noticeVo.notice_no}">${boardNoticeList.noticeVo.notice_title}</a></td>
 										<td>${boardNoticeList.memberVonotice.member_rname}</td>
 										<td><fmt:formatDate
 												value="${boardNoticeList.noticeVo.notice_wdate}"
@@ -72,8 +72,8 @@
 									end="3">
 									<tr class="text-center">
 										<td style="font-weight: bold">${boardHotList.boardVo.horsehead_sort}</td>
-										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardHotList.boardVo.board_no}">${boardHotList.boardVo.board_title}
+										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+											href="${pageContext.request.contextPath}/board/board_read.do?board_no=${boardHotList.boardVo.board_no}">${boardHotList.boardVo.board_title}
 												(${boardHotList.replyCount })</a></td>
 										<td>${boardHotList.memberVoHot.member_rname}</td>
 										<td><fmt:formatDate
@@ -91,8 +91,8 @@
 								<c:forEach items="${boardList}" var="boardList">
 									<tr class="text-center">
 										<td>${boardList.boardVo.board_no}</td>
-										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath}/board/board_read.jan?board_no=${boardList.boardVo.board_no}&currPage=${currPage }">${boardList.boardVo.board_title}
+										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+											href="${pageContext.request.contextPath}/board/board_read.do?board_no=${boardList.boardVo.board_no}&currPage=${currPage }">${boardList.boardVo.board_title}
 												<c:if test="${boardList.replyCount > 0 }">
 												(${boardList.replyCount })</c:if>
 										</a></td>
@@ -119,11 +119,9 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-1"></div>
-
-
 			<!--검색-->
 			<div class="col">
-				<form action="./board.jan" method="get">
+				<form action="./board.do" method="get">
 					<div class="row">
 
 						<!-- 검색 조건 -->
@@ -141,11 +139,11 @@
 
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
-								class="form-control" value="${searchWord }">
+								class="form-control form-control-sm" value="${searchWord }">
 						</div>
 						<!-- 게시글 검색어 입력-->
 						<div class="col-2">
-							<input type="submit" class="btn btn-primary btn-block" value="검색">
+							<input type="submit" class="btn btn-outline-primary btn-sm" value="검색">
 						</div>
 					</div>
 				</form>
@@ -154,10 +152,10 @@
 
 			<div></div>
 			<!-- 글쓰기 버튼 -->
-			<div class="col-2">
+			<div class="col-2 text-right">
 				<c:if test="${!empty sessionUser }">
-					<a class="btn btn-primary btn-block"
-						href="${pageContext.request.contextPath}/board/board_write.jan">글쓰기</a>
+					<a class="btn btn-outline-primary btn-sm"
+						href="${pageContext.request.contextPath}/board/board_write.do">글쓰기</a>
 				</c:if>
 			</div>
 			<div class="col-1"></div>
@@ -177,17 +175,17 @@
 							<li
 								class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
 								class="page-link"
-								href="./board.jan?currPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
+								href="./board.do?currPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
 							<c:forEach begin="${beginPage}" end="${endPage}" var="i">
 								<li
 									class="page-item<c:if test="${currPage == i}"> active</c:if>"><a
 									class="page-link"
-									href="./board.jan?currPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
+									href="./board.do?currPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
 							</c:forEach>
 							<li
 								class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1}"> disabled</c:if>"><a
 								class="page-link"
-								href="./board.jan?currPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
+								href="./board.do?currPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
 						</ul>
 					</nav>
 

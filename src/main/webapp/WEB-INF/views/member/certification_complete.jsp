@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("인증이 완료되었습니다."); location.href="login.jan";
+alert("인증이 완료되었습니다."); location.href="login.do";
 
 </script>
 

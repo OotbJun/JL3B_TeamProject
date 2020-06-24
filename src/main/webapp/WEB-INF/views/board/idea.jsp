@@ -75,8 +75,8 @@
 									begin="0" end="2">
 									<tr class="fix_notice">
 										<td class="fix_horsehead" style="font-weight: bold">${ideaNoticeList.noticeVo.horsehead_sort}</td>
-										<td class="text-left pl-1"><a
-											href="${pageContext.request.contextPath}/board/notice_read.jan?notice_no=${ideaNoticeList.noticeVo.notice_no}">${ideaNoticeList.noticeVo.notice_title}</a></td>
+										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+											href="${pageContext.request.contextPath}/board/notice_read.do?notice_no=${ideaNoticeList.noticeVo.notice_no}">${ideaNoticeList.noticeVo.notice_title}</a></td>
 										<td>${ideaNoticeList.memberVonotice.member_rname}</td>
 										<td><fmt:formatDate
 												value="${ideaNoticeList.noticeVo.notice_wdate}"
@@ -89,7 +89,7 @@
 							<!-- 청원 리스트 -->	
 							<tbody>
 								<c:forEach items="${ideaList}" var="ideaList">
-									<tr class="text-center">
+									<tr class="text-center" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px">
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${!fn:contains(answer,'답변')}">
 										<td>${ideaList.ideaVo.horsehead_sort }</td>
@@ -100,15 +100,15 @@
 										
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${fn:contains(answer,'답변')}">
-											<td class="text-left pl-5"><a
-												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
+											<td class="text-left pl-5" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+												href="${pageContext.request.contextPath}/board/idea_read.do?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
 												${ideaList.ideaVo.idea_title}</a>
 											</td>
 										</c:if>
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${!fn:contains(answer,'답변')}">
-											<td class="text-left pl-2"><a
-												href="${pageContext.request.contextPath}/board/idea_read.jan?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
+											<td class="text-left pl-2" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+												href="${pageContext.request.contextPath}/board/idea_read.do?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
 												${ideaList.ideaVo.idea_title}</a></td>
 										</c:if>
 										<td>${ideaList.memberVo.member_rname}</td>
@@ -138,7 +138,7 @@
 			
 			<!--검색-->
 			<div class="col">
-				<form action="./idea.jan" method="get">
+				<form action="./idea.do" method="get">
 					<div class="row">
 					<!-- 검색 조건 -->
 					<select name="searchOption" class="ml-3">
@@ -149,11 +149,11 @@
 					</select>
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
-								class="form-control" value="${searchWord }">
+								class="form-control form-control-sm" value="${searchWord }">
 						</div>
 						<!-- 게시글 검색어 입력-->
 						<div class="col-2">
-							<input type="submit" class="btn btn-primary btn-block" value="검색">
+							<input type="submit" class="btn btn-outline-primary btn-sm" value="검색">
 						</div>
 					</div>
 				</form>
@@ -163,11 +163,11 @@
 			
 			
 			<!-- 글쓰기 버튼 -->
-			<div class="col-2">
+			<div class="col-2 text-right">
 			
 			<c:if test="${!empty sessionUser }">
-				<a class="btn btn-primary btn-block"
-					href="${pageContext.request.contextPath}/board/idea_write.jan">청원하기</a>
+				<a class="btn btn-outline-primary btn-sm"
+					href="${pageContext.request.contextPath}/board/idea_write.do">청원하기</a>
 			</c:if>
 			</div>
 			<div class="col-1"></div>
@@ -188,17 +188,17 @@
 							<li
 								class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
 								class="page-link"
-								href="./idea.jan?currPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
+								href="./idea.do?currPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
 							<c:forEach begin="${beginPage}" end="${endPage}" var="i">
 								<li
 									class="page-item<c:if test="${currPage == i}"> active</c:if>"><a
 									class="page-link"
-									href="./idea.jan?currPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
+									href="./idea.do?currPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
 							</c:forEach>
 							<li
 								class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1}"> disabled</c:if>"><a
 								class="page-link"
-								href="./idea.jan?currPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
+								href="./idea.do?currPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
 						</ul>
 					</nav>
 

@@ -14,6 +14,7 @@
 		INSERT INTO JL3B_NOTICE
 		VALUES(
 			JL3B_NOTICE_SEQ.NEXTVAL,
+			#{admin_no},
 			#{member_no},
 			'공지',
 			#{notice_title},
@@ -101,9 +102,9 @@
 	
 	
 	<!-- 검색시 게시글 개수 -->
-	<select id="selectNoticeByTitleCount" resultType="int">
+	<select id="selectNoticeByKeywordCount" resultType="int">
 	<![CDATA[
-		SELECT COUNT(*) FROM JL3B_NOTICE WHERE notice_title LIKE '%'|| #{title} ||'%'
+		SELECT COUNT(*) FROM JL3B_NOTICE WHERE #{searchOption} LIKE '%'||#{keyword}||'%'
 	]]>
 	</select>
 	
@@ -118,14 +119,18 @@
 	
 	<insert id="insertBoard">
 	    <![CDATA[
-		INSERT INTO JL3B_BOARD
-		VALUES(#{board_no},
-		#{member_no},
-		NULL,
-		#{board_title},
-		#{board_content},
-		0,
-		SYSDATE)
+		INSERT INTO 
+			JL3B_BOARD
+		VALUES(
+				#{board_no},
+				#{admin_no},
+				#{member_no},
+				NULL,
+				#{board_title},
+				#{board_content},
+				0,
+				SYSDATE
+		)
 		]]>
 	</insert>
 
@@ -193,7 +198,7 @@
 	
 	
 	<!-- 테스트!!!!!!!!!!!!!!!!!! 검색 수  -->
-	 <select id="selectBoardByTitleCount" resultType="int">
+	 <select id="selectBoardByKeywordCount" resultType="int">
 	    <![CDATA[
 			SELECT COUNT(*) FROM JL3B_BOARD WHERE #{searchOption} LIKE '%'||#{keyword}||'%'			
 		]]>
@@ -302,15 +307,19 @@
 	<!-- 글쓰기 -->
 	<insert id="insertIdea">
 	    <![CDATA[
-		INSERT INTO JL3B_IDEA
-		VALUES(#{idea_no},
-		#{member_no},
-		(JL3B_IDEA_SEQ.nextval-1)+1,
-		'미답변',
-		#{idea_title},
-		#{idea_content},
-		0,
-		SYSDATE)
+		INSERT INTO 
+			JL3B_IDEA
+		VALUES(
+				#{idea_no},
+				#{admin_no},
+				#{member_no},
+				(JL3B_IDEA_SEQ.nextval-1)+1,
+				'미답변',
+				#{idea_title},
+				#{idea_content},
+				0,
+				SYSDATE
+		)
 		]]>
 	</insert>
 	
@@ -365,6 +374,7 @@
 	    <![CDATA[
 		INSERT INTO JL3B_IDEA
 		VALUES(JL3B_IDEA_SEQ.nextval,
+		#{admin_no},
 		#{member_no},
 		#{idea_gr_no},
 		NULL,
@@ -462,60 +472,86 @@
          SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_no = #{idea_no}
       ]]>
    </select>
-   	 <select id="selectIdeaByTitleCount" resultType="int">
+   	 <select id="selectIdeaByKeywordCount" resultType="int">
 	    <![CDATA[
 		SELECT COUNT(*) FROM JL3B_IDEA WHERE #{searchOption} LIKE '%'||#{keyword}||'%'
 		]]>
 	</select>
 	
-   <!-- 테스트 -->
+   <!-- 자게 옵션에 맞게 검색 -->
    <select id="selectBoardByKeyword" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
    	<![CDATA[
    		SELECT * 
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT B.board_no, B.board_title, R.member_rname, B.board_wdate, B.board_hits, R.member_no FROM JL3B_BOARD B, JL3B_member R 
-                     WHERE B.member_NO = R.member_NO ]]>  
-                     <include refid="search"></include>
-    <![CDATA[        ORDER BY board_no DESC) t1
+                     SELECT B.board_no, B.board_title, M.member_rname, B.board_wdate, B.board_hits, M.member_no FROM JL3B_BOARD B, JL3B_MEMBER M 
+                     WHERE B.member_NO = M.member_NO ]]>  
+                     <include refid="searchBoard"></include>
+    <![CDATA[        ORDER BY B.board_no DESC) t1
                 )t2  
     		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10
     		       ]]>
    	
    </select>
    
-   <sql id="search">
+   <sql id="searchBoard">
    	<if test="searchOption != null">
    		<if test="searchOption == 'board_title'.toString()">AND B.board_title LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'board_content'.toString()">AND B.board_content LIKE '%'||#{keyword}||'%'</if>
-   		<if test="searchOption == 'member_rname'.toString()">AND R.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'titleContent'.toString()">AND (B.board_title LIKE '%' || #{keyword} || '%' OR B.board_content LIKE '%' || #{keyword} || '%')</if>
    	</if>
    </sql>
   
   
-   <!-- 테스트 -->
+   <!-- 청원 옵션에 맞게 검색 -->
    <select id="selectIdeaByKeyword" resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
    	<![CDATA[
    		SELECT * 
 		FROM (
                SELECT ROWNUM rnum, t1.*
                FROM(
-                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, R.member_RNAME, I.IDEA_WDATE, I.IDEA_HITS, R.member_NO FROM JL3B_Idea I, JL3B_member R 
-                     WHERE I.member_NO = R.member_NO ]]>  
-                     <include refid="search2"></include>
+                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, M.member_RNAME, I.IDEA_WDATE, I.IDEA_HITS, M.member_NO FROM JL3B_IDEA I, JL3B_MEMBER M 
+                     WHERE I.member_NO = M.member_NO ]]>  
+                     <include refid="searchIdea"></include>
     <![CDATA[        ORDER BY I.idea_gr_no desc, I.idea_no asc) t1
                 )t2  
     		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10]]>
    	
    </select>
-   <sql id="search2">
+   <sql id="searchIdea">
    	<if test="searchOption != null">
    		<if test="searchOption == 'idea_title'.toString()">AND I.idea_title LIKE '%'||#{keyword}||'%'</if>
    		<if test="searchOption == 'idea_content'.toString()">AND I.idea_content LIKE '%'||#{keyword}||'%'</if>
-   		<if test="searchOption == 'member_rname'.toString()">AND R.member_rname LIKE '%'||#{keyword}||'%'</if>
-   		<if test="searchOption == 'ideaContent'.toString()">AND (I.idea_title LIKE '%' || #{keyword} || '%' OR I.idea_content LIKE '%' || #{keyword} || '%')</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (I.idea_title LIKE '%' || #{keyword} || '%' OR I.idea_content LIKE '%' || #{keyword} || '%')</if>
    	</if>
    </sql>
+   
+   
+   <!-- 공지 옵션에 맞게 검색 -->
+   <select id="selectNoticeByKeyword" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+   		<![CDATA[
+   		SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*
+               FROM(
+                     SELECT N.notice_no, N.notice_title, M.member_rname, N.notice_wdate, N.notice_hits, N.horsehead_sort, M.member_no FROM JL3B_NOTICE N, JL3B_MEMBER M 
+                     WHERE N.member_no = M.member_NO ]]>  
+                     <include refid="searchNotice"></include>
+    <![CDATA[        ORDER BY N.notice_no DESC) t1
+                )t2  
+    		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10
+    		       ]]>
+   </select>
+   <sql id="searchNotice">
+   	<if test="searchOption != null">
+   		<if test="searchOption == 'notice_title'.toString()">AND N.notice_title LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'notice_content'.toString()">AND N.notice_content LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (N.notice_title LIKE '%' || #{keyword} || '%' OR N.notice_content LIKE '%' || #{keyword} || '%')</if>
+   	</if>
+   </sql>
+   
 </mapper>

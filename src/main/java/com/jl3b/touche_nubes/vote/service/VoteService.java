@@ -67,7 +67,7 @@ public class VoteService {
 			if(voteSQLMapper.voteEnd() != null) {
 				
 				voteSQLMapper.updateWinner(electionVo);																//선거테이블 당선인 수정
-				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getmember_no());	//레지테이블 등급 변경
+				voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getMember_no());	//레지테이블 등급 변경
 				
 //				ResiVo resiData = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
 //				System.out.println("레지넘버 : " + resiData.getResi_no());
@@ -126,7 +126,7 @@ public class VoteService {
 		
 		
 		for(CandyVo candyVo : candyList) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getMember_no());
 			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
 			
 			
@@ -155,8 +155,9 @@ public class VoteService {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		CandyVo candyVo = voteSQLMapper.selectCandyByNo(candy_no);
-		MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
+		MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getMember_no());
 		CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candy_no);
+		candyVo.setCandy_content(candyVo.getCandy_content().replaceAll("\n","<br>"));
 		
 		map.put("candyVo", candyVo);
 		map.put("memberVo", memberVo);
@@ -180,7 +181,7 @@ public class VoteService {
 		
 		
 		for(CandyVo candyVo : candyList) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getMember_no());
 			CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());	//리스트에 이미지 출력
 			
 			int result = voteSQLMapper.selectEachNumberVote(candyVo.getCandy_no());

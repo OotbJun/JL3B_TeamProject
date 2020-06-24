@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("인증번호가 유효하지 않습니다."); location.href="join_member.jan";
+alert("인증번호가 유효하지 않습니다."); location.href="join_member.do";
 
 </script>
 

@@ -205,7 +205,7 @@
                  <div class="contact-form-content">
                      <div class="title">
                      </div><!-- /.title -->
-                     <form action="${pageContext.request.contextPath }/center/review_write_process.jan" class="contact-form" novalidate="novalidate">
+                     <form action="${pageContext.request.contextPath }/center/review_write_process.do" class="contact-form" novalidate="novalidate">
                          ${sessionUser.member_rname }
                          <textarea name="review_comment"  placeholder="리뷰를 정성껏 작성해주시면 감사합니다."></textarea>
                          <input type="hidden" name="center_no" value=${center_no }>
@@ -227,7 +227,7 @@
 	        	<div class="row">
 	        		
                     <div class="col">
-                    	&copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.jan">Touch Nubes</a>.
+                    	&copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
                     </div>
                     
                 </div>

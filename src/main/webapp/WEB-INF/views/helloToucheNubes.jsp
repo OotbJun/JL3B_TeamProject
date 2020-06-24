@@ -29,13 +29,13 @@ body {
    <div class="row mt-5 text-center">
       <div class="col mt-5" style="size: max-width">
          <div class="col">
-            <img style="margin: 100px auto; max-width: 75%; height: auto"
+            <img style="max-width: 75%; height: auto"
                src="${pageContext.request.contextPath }/resources/img/welcometext.png">
          </div>
       </div>
    </div>
 
-   <div class="container text-center" style="margin-top: 50px; margin-bottom: 50px;">
+   <div class="container text-center" style="margin-top: 20px; margin-bottom: 50px;">
       <c:choose>
          <c:when test="${empty sessionUser }">
             <div class="row mt-4">
@@ -45,7 +45,7 @@ body {
                      <div class="col">
                         <div class="row">
                            <div class="col-md-12 text-center">
-                              <a href="${pageContext.request.contextPath }/member/login.jan"><button
+                              <a href="${pageContext.request.contextPath }/member/login.do"><button
                                     class="btn btn-outline-secondary" style="width: 100%">로그인</button></a>
                            </div>
                         </div>
@@ -54,7 +54,7 @@ body {
                         <div class="row">
                            <div class="col-md-12 text-center">
                               <a
-                                 href="${pageContext.request.contextPath }/member/join_member_choice.jan"><button
+                                 href="${pageContext.request.contextPath }/member/join_member_choice.do"><button
                                     class="btn btn-outline-secondary" style="width: 100%">회원가입</button></a>
                            </div>
                         </div>
@@ -74,7 +74,7 @@ body {
                      <div class="col">
                         <div class="row">
                            <div class="col-md-12 text-center">
-                              <a href="${pageContext.request.contextPath }/board/main.jan"><button
+                              <a href="${pageContext.request.contextPath }/board/main.do"><button
                                     class="btn btn-outline-secondary" style="width: 50%">Main
                                     Page</button></a>
                            </div>

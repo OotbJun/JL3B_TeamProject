@@ -75,7 +75,7 @@ public class CenterService {
 		
 		
 		for(CenterReviewVo centerReviewVo : reviewList) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(centerReviewVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(centerReviewVo.getMember_no());
 			
 			
 			Map<String, Object> map = new HashMap<String, Object>();

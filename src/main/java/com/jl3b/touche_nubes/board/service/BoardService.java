@@ -59,7 +59,7 @@ public class BoardService {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		
-		if(memberVo.getmember_no() == noticeVo.getmember_no() && memberVo != null || memberVo.getmember_grade() >= 2) {		//예외처리
+		if(memberVo.getMember_no() == noticeVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {		//예외처리
 			boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());				//권한 없이 주소창으로 입력시 삭제되는 거 막음.
 		}
 	}
@@ -69,39 +69,38 @@ public class BoardService {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		
-		if(memberVo.getmember_no() == noticeVo.getmember_no() && memberVo != null || memberVo.getmember_grade() >= 2) {		//예외처리
+		if(memberVo.getMember_no() == noticeVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {		//예외처리
 			boardSQLMapper.updateNoticeByNo(noticeVo);
 		}
 	}
 
 	// 검색
-	public int noticeSearchCount(String searchWord) {
+	public int noticeSearchCount(String searchOption, String searchWord) {
 		if (searchWord == null) {
 			return boardSQLMapper.selectNoticeAllCount();
 		} else {
-			return boardSQLMapper.selectNoticeByTitleCount(searchWord);
+			return boardSQLMapper.selectNoticeByKeywordCount(searchOption, searchWord);
 		}
 	}
 
 	// 공지 리스트
-	public List<Map<String, Object>> noticeList(String searchWord, int currentPage) {
+	public List<Map<String, Object>> noticeList(String searchOption, String keyword, int currentPage) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		List<NoticeVo> noticeList = null;
 
 		// 페이징 + 검색
-		if (searchWord == null) {
+		if (keyword == null) {
 			noticeList = boardSQLMapper.selectNoticeAll(currentPage);
 		} else {
-			noticeList = boardSQLMapper.selectNoticeByTitle(searchWord, currentPage);
+			noticeList = boardSQLMapper.selectNoticeByKeyword(searchOption, keyword, currentPage);
 		}
 
 		// 담기
 		for (NoticeVo noticeVo : noticeList) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
 
 			Map<String, Object> map = new HashMap<String, Object>();
 
-			
 			map.put("memberVo", memberVo);
 			map.put("noticeVo", noticeVo);
 
@@ -115,7 +114,8 @@ public class BoardService {
 		Map<String, Object> map = new HashMap<String, Object>();
 //		boardSQLMapper.updateNoticeReadCount(notice_no); // 조회수 -> 쿠키 사용해서 쓸 거야~
 		NoticeVo noticeVo = boardSQLMapper.selectNoticeByNo(notice_no);
-		MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getmember_no());
+		MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
+		noticeVo.setNotice_content(noticeVo.getNotice_content().replaceAll("\n","<br>"));
 
 		// 말머리 출력
 //		HorseheadVo horseheadVo = boardSQLMapper.selectNoticeHorsehead(noticeVo.getHorsehead_sort());
@@ -129,7 +129,7 @@ public class BoardService {
 	
 	//등업되면 로그아웃 없이 바로 글 쓸 수 있게
 	public MemberVo updateSession(MemberVo memberVo) {
-		return memberSQLMapper.selectMemberByNo(memberVo.getmember_no());
+		return memberSQLMapper.selectMemberByNo(memberVo.getMember_no());
 	}
 
 	//////////////////////////////////////////////// 자게
@@ -165,8 +165,9 @@ public class BoardService {
 
 		for (BoardVo boardVo : boardlist) {
 
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
 
+			
 			int like = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
 			int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 
@@ -193,7 +194,7 @@ public class BoardService {
 		}
 
 		for (NoticeVo noticeVo : noticelist) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
 			Map<String, Object> map2 = new HashMap<String, Object>();
 
 			map2.put("memberVonotice", memberVo);
@@ -215,7 +216,7 @@ public class BoardService {
 		}
 
 		for (BoardVo boardVo : hotList) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
 			Map<String, Object> map = new HashMap<String, Object>();
 			int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 
@@ -238,7 +239,8 @@ public class BoardService {
 		
 		
 		BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
-		MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getmember_no());
+		MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
+		boardVo.setBoard_content(boardVo.getBoard_content().replaceAll("\n","<br>"));	//줄바꿈
 		List<BoardImgVo> boardImgList = boardImgSQLMapper.selectBoardByNo(board_no);
 		int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
 		int upCount = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
@@ -260,7 +262,7 @@ public class BoardService {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		
-		if(memberVo.getmember_no() == boardVo.getmember_no() && memberVo != null || memberVo.getmember_grade() >= 2) {		//예외처리
+		if(memberVo.getMember_no() == boardVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {		//예외처리
 			boardSQLMapper.deleteBoardByNo(boardVo.getBoard_no());								//권한 없이 주소창으로 입력시 삭제되는 거 막음.
 		}
 	}
@@ -270,11 +272,11 @@ public class BoardService {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		
-		System.out.println("멤버 넘버 : "+memberVo.getmember_no());
-		System.out.println("보드 멤버 넘버 : "+boardVo.getmember_no());
+		System.out.println("멤버 넘버 : "+memberVo.getMember_no());
+		System.out.println("보드 멤버 넘버 : "+boardVo.getMember_no());
 		
 		
-		if(memberVo.getmember_no() == boardVo.getmember_no() && memberVo != null) {
+		if(memberVo.getMember_no() == boardVo.getMember_no() && memberVo != null) {
 			boardSQLMapper.updateBoard(boardVo);
 		}
 	}
@@ -285,7 +287,7 @@ public class BoardService {
 		if (searchWord == null) {
 			return boardSQLMapper.selectBoardAllCount();
 		} else {
-			return boardSQLMapper.selectBoardByTitleCount(searchOption, searchWord);
+			return boardSQLMapper.selectBoardByKeywordCount(searchOption, searchWord);
 		}
 	}
 
@@ -320,7 +322,7 @@ public class BoardService {
 		
 		for (BoardReVo boardReVo : boardReplyList) {
 
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardReVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardReVo.getMember_no());
 			Map<String, Object> map = new HashMap<String, Object>();
 
 			map.put("boardReVo", boardReVo);
@@ -386,7 +388,7 @@ public class BoardService {
 		}
 
 		for (NoticeVo noticeVo : noticelist) {
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
 			Map<String, Object> map2 = new HashMap<String, Object>();
 
 			map2.put("memberVonotice", memberVo);
@@ -411,7 +413,7 @@ public class BoardService {
 
 		for (IdeaVo ideaVo : idealist) {
 
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getmember_no());
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getMember_no());
 
 			int ideaLike = boardSQLMapper.selectIdeaLikeUpCount(ideaVo.getIdea_no());
 
@@ -433,7 +435,8 @@ public class BoardService {
 
 //		boardSQLMapper.updateIdeaReadCount(idea_no); 					// 조회수 -> 쿠키 사용해서 쓸 거야~
 		IdeaVo ideaVo = boardSQLMapper.selectIdeaByNo(idea_no);
-		MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getmember_no());
+		MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getMember_no());
+		ideaVo.setIdea_content(ideaVo.getIdea_content().replaceAll("\n","<br>"));		//줄바꿈
 		int upCount = boardSQLMapper.selectIdeaLikeUpCount(ideaVo.getIdea_no()); // 좋아요 개수
 
 		List<IdeaImgVo> ideaImgList = boardImgSQLMapper.selectIdeaByNo(idea_no);
@@ -461,7 +464,7 @@ public class BoardService {
 		if (searchWord == null) {
 			return boardSQLMapper.selectIdeaAllCount();
 		} else {
-			return boardSQLMapper.selectIdeaByTitleCount(searchOption, searchWord);
+			return boardSQLMapper.selectIdeaByKeywordCount(searchOption, searchWord);
 		}
 	}
 

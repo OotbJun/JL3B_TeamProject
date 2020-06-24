@@ -30,10 +30,10 @@ public class BoardReLikeVo {
 	public void setBoard_re_no(int board_re_no) {
 		this.board_re_no = board_re_no;
 	}
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 	public String getRe_like() {

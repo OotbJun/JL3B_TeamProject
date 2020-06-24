@@ -24,10 +24,10 @@ public class LogVo {
 	public void setLog_no(int log_no) {
 		this.log_no = log_no;
 	}
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 	public Date getLog_ldate() {

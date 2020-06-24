@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("선거가 시작되었습니다."); location.href="vote_choice.jan";
+alert("선거가 시작되었습니다."); location.href="vote_choice.do";
 
 </script>
 

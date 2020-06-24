@@ -207,7 +207,7 @@
                  <div class="contact-form-content">
                      <div class="title">
                      </div><!-- /.title -->
-                     <form action="${pageContext.request.contextPath }/center/center_img_process.jan" class="" novalidate="novalidate" method="post" enctype="multipart/form-data">
+                     <form action="${pageContext.request.contextPath }/center/center_img_process.do" class="" novalidate="novalidate" method="post" enctype="multipart/form-data">
                   <label for="tag">이미지 올리기</label> <input type="file"
                      name="centerImgFile" multiple accept="image/*"><br>
                          <button type="submit" class="thm-btn yellow-bg">이미지 올리기 </button>
@@ -228,7 +228,7 @@
               <div class="row">
                  
                     <div class="col">
-                       &copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.jan">Touch Nubes</a>.
+                       &copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
                     </div>
                     
                 </div>

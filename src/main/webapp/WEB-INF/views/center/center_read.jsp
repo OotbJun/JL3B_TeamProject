@@ -112,7 +112,7 @@
          <div class="row mt-3">
             <div class="col"></div>
             <div class="col-2">
-               <a href="${pageContext.request.contextPath }/center/center_img.jan"><button
+               <a href="${pageContext.request.contextPath }/center/center_img.do"><button
                      type="button" class="btn btn-primary btn-sm btn-block">대표이미지
                      올리기</button></a>
             </div>
@@ -271,7 +271,7 @@
 	           
 	        </div>
 	         <div class="row">
-	                     <a href="${pageContext.request.contextPath }/center/review_write.jan?center_no=${readCenter.centerVo.center_no }"><button type="button" class="btn btn-primary btn-lg btn-block">리뷰작성하러가기</button></a> 
+	                     <a href="${pageContext.request.contextPath }/center/review_write.do?center_no=${readCenter.centerVo.center_no }"><button type="button" class="btn btn-primary btn-lg btn-block">리뷰작성하러가기</button></a> 
 	                     </div>
         </div>
         </div>
@@ -282,7 +282,7 @@
 	        	<div class="row">
 	        		
                     <div class="col">
-                    	&copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.jan">Touch Nubes</a>.
+                    	&copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
                     </div>
                     
                 </div>

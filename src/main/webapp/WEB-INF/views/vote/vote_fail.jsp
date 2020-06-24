@@ -32,7 +32,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("이미 투표되었습니다."); location.href="vote_choice.jan";
+alert("이미 투표되었습니다."); location.href="vote_choice.do";
 
 </script>
 

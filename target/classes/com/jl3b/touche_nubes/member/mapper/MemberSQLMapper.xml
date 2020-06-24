@@ -96,9 +96,9 @@
    </select>
    
    <!-- 비밀번호 변경 조건 -->
-   <select id="conditionMemberPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+   <select id="conditionMemberPw" resultType="String">
    		<![CDATA[
-   			SELECT * 
+   			SELECT MEMBER_PW
    			FROM 
    				JL3B_member 
    			WHERE 
@@ -112,10 +112,12 @@
    <update id="updateMemberPw">
    		<![CDATA[
    			UPDATE JL3B_member 
-   			SET 
-   				member_PW = #{member_pw} 
+   			Set 
+   				member_pw = #{member_pw} 
    			WHERE 
-   				member_NO = #{member_no}
+   				member_id = #{member_id} 
+   			AND 
+   				member_mail = #{member_mail}
    		]]>
    </update>
    
@@ -149,6 +151,30 @@
 		     	auth_key LIKE #{key}
 		 ]]>
 	  </update> 
+	  
+	  
+	  <!-- 비밀번호 확인 -->
+   	<select id="confirmPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+         <![CDATA[
+            SELECT * FROM JL3B_member WHERE Member_ID=#{member_id} AND Member_PW=#{member_pw}
+         ]]>
+   	</select>
+   	
+   	<!-- 마이페이지 정보변경 -->
+   <update id="updateMypage">
+	   <![CDATA[
+	         UPDATE JL3B_member SET member_rname= #{member_rname} WHERE member_id=#{member_id}
+	   ]]>
+   </update>
+   
+   <!-- 비밀번호 변경 -->
+   <update id="updatePw">
+      <![CDATA[
+      	UPDATE HN_MEMBER SET member_pw =#{member_pw} where member_no = #{member_no}   
+   	  ]]>
+   </update>
+   	
+	  
    
 	
 	<!-- 센터 -->

@@ -17,7 +17,7 @@ public class RESTfulMemberController {
    private MemberService memberService;
 
    // 아이디 중복검사
-   @RequestMapping("/confirmId.jan")
+   @RequestMapping("/confirmId.do")
    public String confirmid(@RequestParam("member_id") String member_id) {
       if (memberService.confrimId(member_id)) {
          return "true";
@@ -27,7 +27,7 @@ public class RESTfulMemberController {
    }
    
    //인증키 확인
-   @RequestMapping("/checkNpkiKey.jan")
+   @RequestMapping("/checkNpkiKey.do")
    public String checkNpkiKey(@RequestParam("npki_key") String npki_key) {
       System.out.println("컨트롤러 진입");
       if (memberService.onlyNpki(npki_key)) {               //사용 가능한 인증번호
@@ -42,9 +42,9 @@ public class RESTfulMemberController {
    }
    
    //이메일 확인
-   @RequestMapping("/confirmEmail.jan")
+   @RequestMapping("/confirmEmail.do")
    public String confirmEmail(@RequestParam("member_mail") String member_mail) {
-      if (memberService.confrimId(member_mail)){
+      if (memberService.confirmEmail(member_mail)){
          System.out.println(memberService.confirmEmail(member_mail));
          return "true";
       } else {
@@ -53,7 +53,7 @@ public class RESTfulMemberController {
    }
    
    // 아이디 찾기
-   @RequestMapping("/find_member_process.jan")
+   @RequestMapping("/find_member_process.do")
    public String memberIdSearch(@RequestParam("member_rname") String member_rname,
          @RequestParam("npki_key") String npki_key) {
 	   
@@ -65,7 +65,7 @@ public class RESTfulMemberController {
    
    ////센터
    // 센터 아이디 확인
-   @RequestMapping("/confirmCenterId.jan")
+   @RequestMapping("/confirmCenterId.do")
    public String confirmCenterId(@RequestParam("center_id") String center_id) {
       if (memberService.confirmCenterId(center_id)) {
          return "true";
@@ -75,7 +75,7 @@ public class RESTfulMemberController {
    }
    
    // 센터 인증번호 확인
-   @RequestMapping("/checkCenterNpkiKey.jan")
+   @RequestMapping("/checkCenterNpkiKey.do")
    public String checkCenterNpkiKey(@RequestParam("npki_key") String npki_key) {
    
       if (memberService.onlyNpki(npki_key)) { // 사용 가능한 인증번호
@@ -90,7 +90,7 @@ public class RESTfulMemberController {
    }
    
    // 센터이메일확인
-   @RequestMapping("/checkCenterEmail.jan")
+   @RequestMapping("/checkCenterEmail.do")
    public String confirmCenterEmail(@RequestParam("center_mail") String center_mail) {
       if (memberService.confirmCenterEmail(center_mail)) {
          return "true";

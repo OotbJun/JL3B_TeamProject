@@ -93,7 +93,7 @@ footer {
 
            
       };
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmId.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmId.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.send("member_id=" + member_id);
    }
@@ -164,7 +164,7 @@ function check_npki() {
         
       };
      
-      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkNpkiKey.jan",true);
+      xmlhttp.open("post", "${pageContext.request.contextPath}/member/checkNpkiKey.do",true);
       xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       xmlhttp.send("npki_key="+ npki_key);
    };
@@ -212,7 +212,7 @@ function check_npki() {
    
       };
       
-      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmEmail.jan",true);
+      xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmEmail.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.send("member_mail=" + member_mail);
    }
@@ -300,7 +300,7 @@ function check_npki() {
       <div class="row">
          <div class="col-2"></div>
          <div class="col">
-            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_member_process.jan">
+            <form method="post" class="text-left" action="${pageContext.request.contextPath }/member/join_member_process.do">
                <!-- 아이디 -->
                <div class="form-group">
                   <label for="member_id">ID</label> <input onblur="toggleSubmitButton()" type="text"

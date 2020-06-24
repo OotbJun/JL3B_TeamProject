@@ -149,7 +149,7 @@ body {
 
          <!-- Tab content -->
          <div id="member" class="tabcontent fadeIn !important">
-            <form action="./login_process.jan" method="post">
+            <form action="./login_process.do" method="post">
                <input type="text" id="login" class="second" name="member_id"
                   placeholder="아이디"> <input type="password" id="password"
                   class="third" name="member_pw" placeholder="비밀번호"> <input
@@ -159,7 +159,7 @@ body {
          </div>
 
          <div id="center" class="fadeIn tabcontent">
-            <form action="./login_center_process.jan" method="post">
+            <form action="./login_center_process.do" method="post">
                <input type="text" id="login" class="second"
                   name="center_id" placeholder="아이디 "> <input
                   type="password" id="password" class="third"
@@ -175,12 +175,12 @@ body {
 
          <div id="formFooter">
            <div>
-            <a class="underlineHover" href="./join_member_choice.jan"
+            <a class="underlineHover" href="./join_member_choice.do"
                style="text-decoration: none; color: #56baed">회원 가입</a>
                </div>
                  <div>
-                 <a class="underlineHover" href="./find_member.jan"
-                 style="text-decoration: none; color: #56baed">아이디 비밀번호 찾기</a>
+                 <a class="underlineHover" href="./find_member.do"
+                 style="text-decoration: none; color: #ae0e36">아이디 비밀번호 찾기</a>
                </div>
          </div>
 

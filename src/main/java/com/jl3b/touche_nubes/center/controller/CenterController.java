@@ -34,7 +34,7 @@ public class CenterController {
 	private CenterService centerService;
 	
 	//센터 초이스(등록, 리스트출력 등) 나중에 따로 빼야될 듯
-//	@RequestMapping("/center_choice.jan")
+//	@RequestMapping("/center_choice.do")
 //	public String centerChoice(Model model, HttpSession session) {
 //		
 //		int info_no = centerService.getInfoNo();
@@ -48,7 +48,7 @@ public class CenterController {
 //	}
 	
 	//센터 정보 등록
-//	@RequestMapping("/center_write.jan")
+//	@RequestMapping("/center_write.do")
 //	public String writeCenter(HttpSession session) {
 //		
 //		CenterInfoVo centerInfoData = centerService.checkCenterInfo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());
@@ -60,7 +60,7 @@ public class CenterController {
 //		}
 //		return "center/center_write";
 //	}
-//	@RequestMapping("/center_write_process.jan")
+//	@RequestMapping("/center_write_process.do")
 //	public String writeCenterProcess(CenterInfoVo centerInfoVo, HttpSession session, MultipartFile [] centerFile) {
 //		//파일업로드
 //		String rootFolderName = "C:/upload/";
@@ -112,11 +112,11 @@ public class CenterController {
 //		centerInfoVo.setCenter_no(centerVo.getCenter_no());
 //		CenterInfoVo centerInfoData = centerService.checkCenterInfo(centerInfoVo.getCenter_no());
 //		
-//		return "redirect:./center.jan";
+//		return "redirect:./center.do";
 //	}
 	
 	//센터 리스트
-	@RequestMapping("/center.jan")
+	@RequestMapping("/center.do")
 	public String center(Model model) {
 		
 		List<Map<String, Object>> centerList = centerService.centerList();
@@ -127,7 +127,7 @@ public class CenterController {
 	}
 	
 	//센터 정보 보기
-	@RequestMapping("/center_read.jan")
+	@RequestMapping("/center_read.do")
 	public String readCenter(int center_no, Model model) {
 		
 		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);
@@ -140,11 +140,11 @@ public class CenterController {
 	}
 	
 	//센터 이미지 업로드
-	@RequestMapping("/center_img.jan")
+	@RequestMapping("/center_img.do")
 	public String uploadImgCenter() {
 		return "center/center_img";
 	}
-	@RequestMapping("/center_img_process.jan")
+	@RequestMapping("/center_img_process.do")
 	public String uploadImgCenterProcess(MultipartFile [] centerImgFile, CenterVo centerVo, HttpSession session) {
 		
 		String RootFolderName = "C:/upload/";
@@ -189,51 +189,51 @@ public class CenterController {
 		
 	    centerService.uploadCenterImg(centerImgList);
 	    
-	    return "redirect:./center_read.jan?center_no="+centerVo.getCenter_no();
+	    return "redirect:./center_read.do?center_no="+centerVo.getCenter_no();
 	}
 	
 	//센터 정보 수정
-//	@RequestMapping("/center_modify.jan")
+//	@RequestMapping("/center_modify.do")
 //	public String modifyCenter(int info_no, Model model) {
 //
 //		model.addAttribute("readCenter", centerService.viewCenterInfo(info_no));
 //		
 //		return "center/center_modify";
 //	}
-//	@RequestMapping("/center_modify_process.jan")
+//	@RequestMapping("/center_modify_process.do")
 //	public String modifyCenterProcess(CenterInfoVo centerInfoVo) {
 //		
 //		centerService.modifyCenterInfo(centerInfoVo);
 //		
-//		return "redirect:./center.jan";
+//		return "redirect:./center.do";
 //	}
 	
 	//센터 정보 삭제
-//	@RequestMapping("/center_erase_process.jan")
+//	@RequestMapping("/center_erase_process.do")
 //	public String eraseCenterProcess(int info_no) {
 //
 //		centerService.eraseCenterInfo(info_no);
 //		
-//		return "redirect:./center.jan";
+//		return "redirect:./center.do";
 //	}
 	
 	
 	///////////////////////////////////////////////리뷰
 	//리뷰 등록
-	@RequestMapping("/review_write.jan")
+	@RequestMapping("/review_write.do")
 	public String writeReview(Model model, int center_no) {
 		
 		model.addAttribute("center_no", center_no);
 		
 		return "center/review_write";
 	}
-	@RequestMapping("/review_write_process.jan")
+	@RequestMapping("/review_write_process.do")
 	public String writeReviewProcess(CenterReviewVo centerReviewVo, HttpSession session) {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
-		centerReviewVo.setmember_no(memberVo.getmember_no());
+		centerReviewVo.setMember_no(memberVo.getMember_no());
 		centerService.writeReview(centerReviewVo);
 		
-		return "redirect:./center_read.jan?center_no="+centerReviewVo.getCenter_no();
+		return "redirect:./center_read.do?center_no="+centerReviewVo.getCenter_no();
 	}
 }

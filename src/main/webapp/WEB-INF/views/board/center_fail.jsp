@@ -31,7 +31,7 @@ footer {
 
 <script type="text/javascript">
 
-alert("이용권한이 없는 회원입니다."); location.href="../board/main.jan";
+alert("이용권한이 없는 회원입니다."); location.href="../board/main.do";
 
 </script>
 

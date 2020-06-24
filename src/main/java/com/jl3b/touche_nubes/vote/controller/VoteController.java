@@ -38,7 +38,7 @@ public class VoteController {
 	
 	
 	//선거 메인
-	@RequestMapping("vote_choice.jan")
+	@RequestMapping("vote_choice.do")
 	public String choiceVote(Model model, HttpSession session) {
 		
 		voteService.gang();							//매일 상태 업데이트
@@ -58,7 +58,7 @@ public class VoteController {
 			String status = voteService.checkStatus(round);
 			model.addAttribute("status", status);
 			
-			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
+			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
 			CandyVo candyVo = voteService.check(memberNo, round);
 			model.addAttribute("candyVo", candyVo);
 			
@@ -74,11 +74,11 @@ public class VoteController {
 	}
 	
 	//후보등록 글쓰기 페이지
-	@RequestMapping("candy_write.jan")
+	@RequestMapping("candy_write.do")
 	public String writeCandy() {
 		return "vote/candy_write";
 	}
-	@RequestMapping("candy_write_process.jan")
+	@RequestMapping("candy_write_process.do")
 	public String writeCandyProcess(MultipartFile [] candyFile, CandyVo candyVo, HttpSession session) {
 		
 		
@@ -122,8 +122,8 @@ public class VoteController {
         }
         
         candyVo.setElection_round(voteService.newRound());
-        int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
- 		candyVo.setmember_no(memberVo);
+        int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
+ 		candyVo.setMember_no(memberVo);
          
         CandyVo candyCheckData = voteService.checkCandy(candyVo); 
         
@@ -134,33 +134,33 @@ public class VoteController {
         	return "vote/candy_fail";
         }
 		
-		return "redirect:./candy.jan?election_round="+voteService.newRound();
+		return "redirect:./candy.do?election_round="+voteService.newRound();
 	}
 	
 	//후보 삭제
-	@RequestMapping("candy_delete_process.jan")
+	@RequestMapping("candy_delete_process.do")
 	public String deleteCandy(int candy_no) {
 		voteService.deleteCandy(candy_no);
-		return "redirect:./candy.jan";
+		return "redirect:./candy.do";
 	}
 	
 	//후보 수정
-	@RequestMapping("candy_change.jan")
+	@RequestMapping("candy_change.do")
 	public String changeCandy(int candy_no, Model model) {
 		model.addAttribute("readCandy", voteService.viewCandy(candy_no));
 		return "vote/candy_change";
 	}
-	@RequestMapping("candy_change_process.jan")
+	@RequestMapping("candy_change_process.do")
 	public String changeCandyProcess(CandyVo candyVo) {
 		
 		voteService.changeCandy(candyVo);
 		
-		return "redirect:./vote_choice.jan";
+		return "redirect:./vote_choice.do";
 	}
 	
 	
 	//후보 리스트 출력
-	@RequestMapping("candy.jan")
+	@RequestMapping("candy.do")
 	public String candy(Model model, int election_round) {
 		
 		List<Map<String, Object>> list = voteService.candyList(election_round);
@@ -170,7 +170,7 @@ public class VoteController {
 	}
 	
 	//투표
-	@RequestMapping("vote.jan")
+	@RequestMapping("vote.do")
 	public String vote(VoteVo voteVo, Model model, int election_round) {
 		
 		List<Map<String, Object>> list = voteService.candyList(election_round);
@@ -180,11 +180,11 @@ public class VoteController {
 		model.addAttribute("round", round);
 		return "vote/vote";
 	}
-	@RequestMapping("vote_process.jan")
+	@RequestMapping("vote_process.do")
 	public String voteProcess(VoteVo voteVo, HttpSession session) {
 		
-		int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getmember_no();
-		voteVo.setmember_no(memberVo);										//로그인한 no값 담아주기.
+		int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
+		voteVo.setMember_no(memberVo);										//로그인한 no값 담아주기.
 
 		voteVo.setElection_round(voteService.newRound());				//election_round값도 담고
 		//voteVo.setElection_round(election_round);
@@ -194,14 +194,14 @@ public class VoteController {
 		//투표 중복방지
 		if(voteData == null) {											
 			voteService.takeVote(voteVo);								//중복 아니라면 투표 실행
-			return "redirect:./vote_choice.jan";
+			return "redirect:./vote_choice.do";
 		}else {
 			return "vote/vote_fail";
 		}
 	}
 	
 	//후보자 상세 페이지
-	@RequestMapping("candy_read.jan")
+	@RequestMapping("candy_read.do")
 	public String readCandy(int candy_no, Model model) {
 		Map<String, Object> map = voteService.viewCandy(candy_no);
 		int round = voteService.newRound();
@@ -213,7 +213,7 @@ public class VoteController {
 	}
 	
 	//선거 개시 -> 테이블에 새로운 회차 등록됨
-	@RequestMapping("vote_start.jan")
+	@RequestMapping("vote_start.do")
 	public String voteStart() {
 		voteService.startElection();
 		
@@ -221,7 +221,7 @@ public class VoteController {
 	}
 	
 	//선거 득표수 보기
-	@RequestMapping("vote_result.jan")
+	@RequestMapping("vote_result.do")
 	public String resultVote(Model model, int election_round) {
 		List<Map<String, Object>> list = voteService.resultVote(election_round);
 		model.addAttribute("voteList", list);

@@ -35,10 +35,10 @@ public class BoardReVo {
 	public void setBoard_no(int board_no) {
 		this.board_no = board_no;
 	}
-	public int getmember_no() {
+	public int getMember_no() {
 		return member_no;
 	}
-	public void setmember_no(int member_no) {
+	public void setMember_no(int member_no) {
 		this.member_no = member_no;
 	}
 	public String getBoard_re_content() {

@@ -18,8 +18,8 @@ public interface MemberSQLMapper {
 	public String existNpki(String key);							//인증키 확인
 	public String existEmail(String member_mail);					//이메일 확인
 	public String searchMemberId(@Param("member_rname") String member_rname,@Param("npki_key") String npki_key);	//아이디 찾기
-	public MemberVo conditionMemberPw(MemberVo memberVo);			//비밀번호 변경 조건
-	public void updateMemberPw(MemberVo memberVo);					//입주민 회원 비밀번호 변경
+	public String conditionMemberPw(@Param("member_id") String member_id,@Param("member_mail") String member_mail);//비밀번호 변경 조건
+	public void updateMemberPw(@Param("member_pw")String member_pw ,@Param("member_id") String member_id,@Param("member_mail") String member_mail);//입주민 회원 비밀번호 변경
 	public int creatKey();											//인증키
 	public void insertAuth(MemberAuthVo memberAuthVo);  	        //인증 시작 
 	public void updateAuth(String key);         		            //인증 완료 
@@ -36,12 +36,16 @@ public interface MemberSQLMapper {
     public String findCenterId(CenterVo centerVo);					//센터 아이디 찾기
     public CenterVo conditionCenterPw(CenterVo centerVo);			//센터 비밀번호 변경 조건
     public void updateCenterPw(CenterVo centerVo);					//센터 회원 비밀번호 변경
-	
     
 	
 	//관리자
-	public MemberVo selectMemberAll();							//전체 회원 목록 출력
+	public MemberVo selectMemberAll();								//전체 회원 목록 출력
 	public void updateMemberGrade(MemberVo memberVo);				//등급변경(등업, 블랙리스트 등)
+	
+	//마이페이지
+    public MemberVo confirmPw(MemberVo membervo);                   //비밀번호 확인
+    public void updateMypage(MemberVo membervo);                    //내 정보 수정(이름수정)
+    public void updatePw(MemberVo membervo);                        //비밀번호 변경
 	
 
 }

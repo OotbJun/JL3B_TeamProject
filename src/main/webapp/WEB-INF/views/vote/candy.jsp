@@ -57,7 +57,7 @@ footer {
 						<div class="card-body">
 							<h4 class="card-title">
 								<a
-									href="${pageContext.request.contextPath }/vote/candy_read.jan?candy_no=${candyList.candyVo.candy_no }">${candyList.memberVo.member_rname }</a>
+									href="${pageContext.request.contextPath }/vote/candy_read.do?candy_no=${candyList.candyVo.candy_no }">${candyList.memberVo.member_rname }</a>
 							</h4>
 							<p class="card-text">${candyList.candyVo.candy_intro}</p>
 							<div>${candyList.ccc }</div>
@@ -70,7 +70,7 @@ footer {
 		<div class="row text-center">
 				<div class="col"></div>
 				<div class="col-2 text-right">
-					<a href="${pageContext.request.contextPath }/vote/vote_choice.jan" >돌아가기</a>
+					<a href="${pageContext.request.contextPath }/vote/vote_choice.do" >돌아가기</a>
 				</div>
 			</div>
 		
