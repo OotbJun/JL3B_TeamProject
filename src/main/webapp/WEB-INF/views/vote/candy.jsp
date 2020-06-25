@@ -34,7 +34,7 @@ footer {
 	   <div class="col mt-4">
       <div class="row">
          <div class="col"></div>
-         <div class="col">
+         <div class="col" style="margin-top:4%">
             <img
                src="${pageContext.request.contextPath }/resources/img/candyfix.png">
          </div>
@@ -46,7 +46,7 @@ footer {
 
 		<!-- Page Heading -->
 		<h1 class="my-4">
-			싸발적 동대표 투표 <small>후보자</small>
+			 입주민 대표 <small>후보자</small>
 		</h1>
 		<div class="row">
 			<c:forEach var="candyList" items="${candyList }">
@@ -75,7 +75,7 @@ footer {
 			</div>
 		
 	
-
+</div>
 	<!-- /.container -->
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

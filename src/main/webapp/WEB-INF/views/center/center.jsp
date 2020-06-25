@@ -206,11 +206,24 @@ body {
 <body>
 <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 <div class="container">
+<header class="business-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12  text-center">
+                    <br><br><br><br><br><br>
+                    <hr>
+                    <h1 class="tagline">TOUCH NUBES 클래스에 오신 여러분을 환영합니다.</h1>
+                    <hr>
+                    <p> 데이클래스를 진행함으로서 아파트 단지 안에서 즐거운 수업을 체험하세요 </p>
+                    <p> Experience a fun class in the apartment  by conducting day classes</p>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </header>
         <!-- Top Navigation -->
         <div class="content">
             <div class="grid">
-            
-            
             <c:forEach var="centerList" items="${centerList }">
                 <figure class="effect-ravi">
                     <img src="/upload/${centerList.centerImgList.center_img_title}" alt="img12" />

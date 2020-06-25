@@ -282,7 +282,7 @@ function check_npki() {
 <body onload="timer(); pageMove();">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-   <div class="container text-center" style="margin-top: 50px">
+   <div class="container text-center" style="margin-top: 6%">
       <div class="row">
          <div class="col-2"></div>
          <div class="col">
@@ -363,7 +363,7 @@ function check_npki() {
       </div>
      
    </div>
-
+	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 
    <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

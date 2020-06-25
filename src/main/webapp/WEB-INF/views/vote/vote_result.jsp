@@ -34,11 +34,11 @@ footer {
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 	<!-- Page Content -->
-	<div class="container">
+	<div class="container" style="margin-top:5%">
 
 		<!-- Page Heading -->
 		<h1 class="my-4">
-			싸발적 동대표 투표 <small>후보자</small>
+			입주민 대표 <small>선거 결과</small>
 		</h1>
 		<div class="row">
 			<c:forEach var="voteList" items="${voteList }">

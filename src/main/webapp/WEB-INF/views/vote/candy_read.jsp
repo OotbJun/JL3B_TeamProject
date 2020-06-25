@@ -25,7 +25,7 @@
 	<div class="col mt-4">
 		<div class="row">
 			<div class="col"></div>
-			<div class="col">
+			<div class="col" style="margin-top:4%">
 				<img
 					src="${pageContext.request.contextPath }/resources/img/candyfix.png">
 			</div>
@@ -84,6 +84,7 @@
 					</div>
 				</div>
 			</div>
+		</div>
 		</div>
 		<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 		<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"

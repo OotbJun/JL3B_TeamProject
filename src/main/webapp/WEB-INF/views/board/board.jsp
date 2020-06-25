@@ -20,7 +20,7 @@
 <body>
 
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col mt-4">
+	<div class="col" style="margin-top:5%">
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col text-center">

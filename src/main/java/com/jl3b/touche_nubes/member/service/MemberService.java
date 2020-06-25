@@ -101,14 +101,17 @@ public class MemberService {
    
 	//비밀번호 변경 
 	public void updatePw(MemberVo membervo) {
-		memberSQLMapper.updatePw(membervo);
+        String hashCode = MemberMessageDigest.digest(membervo.getMember_pw());
+        membervo.setMember_pw(hashCode);
+        memberSQLMapper.updatePw(membervo);
 	}
 	
 	//비밀번호 찾기
 	public String get_searchPw(String member_id,String member_mail) {
 		return memberSQLMapper.conditionMemberPw(member_id, member_mail);
 	}
-	//비밀번호 변경 
+	
+	//임시 비밀번호 생성 
 	public void get_changePw(String member_pw,String member_id, String member_mail) {
 	    String hashCode = MemberMessageDigest.digest(member_pw);
 		memberSQLMapper.updateMemberPw(hashCode, member_id, member_mail);

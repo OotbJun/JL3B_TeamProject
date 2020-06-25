@@ -20,6 +20,56 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+	
+<script type="text/javascript">
+
+   var titlefill = false;
+   var contentfill = false;
+   
+   function submitActive() {
+      if(   titlefill == false || contentfill == false) {
+      document.getElementById("able").setAttribute("disabled","true");
+      } else {
+      document.getElementById("able").removeAttribute("disabled");
+      }
+   }
+   
+   function minlength1() {
+      var title = document.getElementById("title").value;
+      if(title.length >= 3 ){
+         titlefill = true;
+         submitActive();
+      }else{
+         titlefill = false;
+         submitActive();
+      }
+      
+   }
+   
+   function minlength2() {
+      var content = document.getElementById("content").value;
+      if(content.length >= 3 ){
+         contentfill = true;
+         submitActive();
+      }else{
+         contentfill = false;
+         submitActive();
+      }
+      
+   }
+
+
+   function submit_btn(){
+         
+         if(confirm("게시물을 등록하시겠습니까?")== true){
+            document.getElementById("submit").submit();
+            
+         }
+      }
+
+   
+
+</script>  	
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
@@ -28,17 +78,17 @@
     <h2 class="mb-5">청원 게시판 글쓰기</h2>
 		<form class="text-left"
 			action="${pageContext.request.contextPath }/board/idea_write_process.do"
-			method="post" enctype="multipart/form-data">
+			method="post" enctype="multipart/form-data" id="submit">
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="idea_title" id="title"
-					placeholder="제목을 입력해 주세요" maxlength="50">
+					placeholder="제목을 입력해 주세요" maxlength="50" onkeyup="minlength1()">
 			</div>
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
 				<label for="content">글내용</label>
-				<textarea class="form-control" rows="10" cols="40" name="idea_content"
+				<textarea class="form-control" rows="10" cols="40" name="idea_content" onkeyup="minlength2()"
 					id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
 			</div>
 			<div class="mb-3">
@@ -55,8 +105,8 @@
 							class="btn btn-secondary btn-lg btn-block">목록으로</a>
 					</div>
 					<div class="col-2">
-						<input type="submit" value="확인"
-							class="btn btn-primary btn-lg btn-block">
+						<input type="button" value="확인" disabled="disabled" id="able"
+							class="btn btn-primary btn-lg btn-block" onclick="submit_btn()">
 					</div>
 				</div>
 			</div>

@@ -24,6 +24,19 @@ footer {
 }
 </style>
 
+
+<script type="text/javascript">
+
+//자게 게시물 수정 컨펌
+function submit_btn(){
+   
+   if(confirm("게시물을 수정하시겠습니까?")== true){
+      document.getElementById("change").submit();
+      
+   }
+}
+
+</script>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
@@ -36,20 +49,16 @@ footer {
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col text-center">
-				<img
-					src="${pageContext.request.contextPath }/resources/img/boardfix.png"
-					style="max-width: 75%; height: auto;">
 			</div>
 			<div class="col-1"></div>
 		</div>
 	</div>
-
 	<div class="container" role="main" style="margin-top: 5%;">
 		<h2 class="text-center" style="color: #28364a">게시글 수정</h2>
 
 		<form
 			action="${pageContext.request.contextPath }/board/board_change_process.do"
-			method="post" enctype="multipart/form-data">
+			method="post" enctype="multipart/form-data" id="change">
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="board_title" id="title"
@@ -77,8 +86,8 @@ footer {
 							class="btn btn-secondary btn-sm btn-block">목록</a>
 					</div>
 					<div class="col-2">
-						<input type="submit" value="수정완료"
-							class="btn btn-primary btn-sm btn-block"> <input
+						<input type="button" value="수정완료"
+							class="btn btn-primary btn-sm btn-block" onclick="submit_btn()"> <input
 							type="hidden" name="board_no"
 							value="${readBoard.boardVo.board_no }"> <input
 							type="hidden" name="member_no"
@@ -89,9 +98,6 @@ footer {
 			</div>
 		</form>
 	</div>
-
-
-
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"

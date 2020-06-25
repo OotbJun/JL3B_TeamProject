@@ -41,13 +41,13 @@ li {
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col mt-4">
+	<div class="col mt-4" > 
 		<div class="row">
 			<div class="col-1"></div>
-			<div class="col text-center">
+			<div class="col text-center" style="margin-top: 4% ">
 				<img
 					src="${pageContext.request.contextPath }/resources/img/noticefix.png"
-					style="max-width: 100%; height: auto;">
+					style="max-width: 75%; height: auto;">
 			</div>
 			<div class="col-1"></div>
 		</div>

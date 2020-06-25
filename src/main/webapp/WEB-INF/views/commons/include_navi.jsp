@@ -3,14 +3,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<nav id="xxx" class="navbar navbar-expand-lg navbar-light pl-5">
-
-   <div class="container">
-      <a class="navbar-brand" style="margin-right: -3%" 
-         href="${pageContext.request.contextPath }/board/main.do"> <img
-         src="${pageContext.request.contextPath }/resources/img/navi-logo.png"
-         style="max-width: 75%; height: auto; margin: 0">
-      </a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+		 <a class="navbar-brand" href="${pageContext.request.contextPath }/board/main.do">Touch Nubes</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
          data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
          aria-expanded="false" aria-label="Toggle navigation">
@@ -31,7 +26,7 @@
                href="${pageContext.request.contextPath }/vote/vote_choice.do">선거
             </a></li>
             <li class="nav-item"><a class="nav-link"
-               href="${pageContext.request.contextPath }/center/center.do">센터
+               href="${pageContext.request.contextPath }/center/center.do">클래스
             </a></li>
          </ul>
          <c:choose>
@@ -53,8 +48,8 @@
                         aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item"
                            href="${pageContext.request.contextPath }/member/logout_process.do">로그아웃</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath }/member/mypage.do">마이페이지</a> <a
-                           class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath }/member/mypage.do">마이페이지</a> 
+                        <a class="dropdown-item" href="${pageContext.request.contextPath }/member/mypage.do">Something else here</a>
                      </div></li>
                </ul>
             </c:when>

@@ -93,7 +93,7 @@ footer {
 	<div class="col mt-4">
 		<div class="row">
 			<div class="col-1"></div>
-			<div class="col text-center">
+			<div class="col text-center" style="margin-top: 4%">
 				<img
 					src="${pageContext.request.contextPath }/resources/img/ideafix.png"
 					style="max-width: 75%; height: auto;">
@@ -211,7 +211,8 @@ footer {
 					</div>
 			<div class="col"></div>
 			<div class="col-2 text-right" style="padding-right: 0px">
-						<c:if test="${sessionUser.member_grade >= 2 }">
+						<c:set value="${readIdea.ideaVo.idea_title}" var="title"></c:set>
+						<c:if test="${sessionUser.member_grade >= 2 && !fn:contains(title, '답변') }">
 							<a
 								href="${pageContext.request.contextPath}/board/idea_answer.do?idea_no=${readIdea.ideaVo.idea_no}"
 								class="btn btn-light btn-sm">답글달기</a>

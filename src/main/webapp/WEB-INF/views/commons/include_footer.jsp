@@ -1,19 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark" style="margin-top:14%;"> 
+    <div class="container">
+      <p class="m-0 text-center text-white">Copyright &copy; Touch_nubes 2020</p>
+    </div>
+    <!-- /.container -->
+  </footer>
 
 
-
-<footer>
-   <div class="col">
-      <div class="row align-center mt-5">
-         <div class="col"></div>
-         <div class="col" style="text-align: center;">
-            <img
-               src="${pageContext.request.contextPath }/resources/img/footer-logo.png">
-         </div>
-         <div class="col"></div>
-
-      </div>
-   </div>
-</footer>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -9,14 +9,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
 
-		<!-- Required meta tags -->
+      <!-- Required meta tags -->
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         
         <title>Touche 센터 상세페이지</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,600">
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
         <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/animate.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/style.css">
@@ -65,11 +65,10 @@
     </head>
 
     <body>
-	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	
+         <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+   
         <!-- Top content -->
            <div class="top-content">
-
       <div class="container-fluid">
          <div id="carousel-example" class="carousel slide"
             data-ride="carousel">
@@ -112,39 +111,39 @@
          <div class="row mt-3">
             <div class="col"></div>
             <div class="col-2">
+            <c:if test="${!empty sessionCenter}">
                <a href="${pageContext.request.contextPath }/center/center_img.do"><button
-                     type="button" class="btn btn-primary btn-sm btn-block">대표이미지
-                     올리기</button></a>
+                     type="button" class="btn btn-primary btn-sm btn-block">대표이미지  올리기</button></a>
+                     </c:if>
             </div>
-
          </div>
       </div>
    </div>
 
         <!-- Section 1 -->
         <div class="section-1-container section-container text-center">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col section-1 section-description wow fadeIn">
-	                    <h1>${readCenter.centerVo.center_name }에 오신걸 환영합니다!</h1>
-	                    <div class="divider-1 wow fadeInUp"><span></span></div>
-	                    <p>
-	                    	${readCenter.centerVo.center_pr }
-	                    </p>
-	                </div>
-	            </div>
-	        </div>
+           <div class="container">
+               <div class="row">
+                   <div class="col section-1 section-description wow fadeIn">
+                       <h1>${readCenter.centerVo.center_name }에 오신걸 환영합니다!</h1>
+                       <div class="divider-1 wow fadeInUp"><span></span></div>
+                       <p>
+                          ${readCenter.centerVo.center_pr }
+                       </p>
+                   </div>
+               </div>
+           </div>
         </div>
 
         <!-- Section 2 -->
         <div class="section-2-container section-container section-container-gray-bg text-center">
-	        <div class="container">
-	            <div class="row">
-	                <div class="col section-2 section-description wow fadeIn">
-	                </div>
-	            </div>
-	            <div class="row">
-	            	<div class="container">
+           <div class="container">
+               <div class="row">
+                   <div class="col section-2 section-description wow fadeIn">
+                   </div>
+               </div>
+               <div class="row">
+                  <div class="container">
   <!-- For demo purpose -->
   <div class="row py-5">
       <div class="col section-2 section-description wow fadeIn text-center">
@@ -175,8 +174,8 @@
           <div id="collapseTwo" aria-labelledby="headingTwo" data-parent="#accordionExample" class="collapse">
             <div class="card-body p-5">
            <div class="container">
-	<div class="row">
-		<div class="table-responsive table-bordered movie-table">
+   <div class="row">
+      <div class="table-responsive table-bordered movie-table">
             <table class="table movie-table">
                   <thead>
                   <tr class= "movie-table-head">
@@ -225,7 +224,7 @@
               </tbody>
             </table>
             </div>
-	      </div>
+         </div>
          </div>
             </div>
           </div>
@@ -237,64 +236,66 @@
  </div>
  </div>
  </div>
-		<!-- Section 3 -->
+      <!-- Section 3 -->
         <div class="section-3-container section-container text-center">
-	        <div class="container">
-	        	
-	            <div class="row">
-	                <div class="col section-3 section-description wow fadeIn">
-	                    <h2>클래스 후기</h2>
-	                    <div class="divider-1 wow fadeInUp"><span></span></div>
-	                </div>
-	            </div>
-	            <div class="row">
-	            <!-- c:foreach -->
-	            <c:forEach items="${readReview }" var="readReview">
-	                <div class="col-md-6 section-3-box wow fadeInLeft">
-	                	<div class="row">
-	                		<div class="col-md-3">
-	                			<div class="section-3-box-icon">
-	                				<i class="fas fa-paperclip"></i>
-	                			</div>
-	                		</div>
-	                		<div class="col-md-9">
-	                			<h3>${readReview.centerReviewVo.review_comment }</h3>
-		                    	<p>
-		                    		${readReview.centerReviewVo.member_no}
-		                    	</p>
-	                		</div>
-	                	</div>
-	                </div>
-	             </c:forEach>
-	                 <!-- c:foreach -->
-	                 
-	           
-	        </div>
-	         <div class="row">
-	                     <a href="${pageContext.request.contextPath }/center/review_write.do?center_no=${readCenter.centerVo.center_no }"><button type="button" class="btn btn-primary btn-lg btn-block">리뷰작성하러가기</button></a> 
-	                     </div>
+           <div class="container">
+              
+               <div class="row">
+                   <div class="col section-3 section-description wow fadeIn">
+                       <h2>클래스 후기</h2>
+                       <div class="divider-1 wow fadeInUp"><span></span></div>
+                   </div>
+               </div>
+               <div class="row">
+               <!-- c:foreach -->
+               <c:forEach items="${readReview }" var="readReview">
+                   <div class="col-md-6 section-3-box wow fadeInLeft">
+                      <div class="row">
+                         <div class="col-md-3">
+                            <div class="section-3-box-icon">
+                               <i class="fas fa-paperclip"></i>
+                            </div>
+                         </div>
+                         <div class="col-md-9">
+                            <h3>${readReview.centerReviewVo.review_comment }</h3>
+                             <p>
+                                ${readReview.memberVo.member_rname}
+                             </p>
+                         </div>
+                      </div>
+                   </div>
+                </c:forEach>
+                    <!-- c:foreach -->
+                    
+              
+           </div>
+            <c:if test="${!empty sessionUser}">
+            <div class="row">
+                        <a href="${pageContext.request.contextPath }/center/review_write.do?center_no=${readCenter.centerVo.center_no }"><button type="button" class="btn btn-primary btn-lg btn-block">리뷰작성하러가기</button></a> 
+                        </div>
+                        </c:if>
         </div>
         </div>
         <!-- Footer -->
         <footer class="footer-container">
         
-	        <div class="container">
-	        	<div class="row">
-	        		
+           <div class="container">
+              <div class="row">
+                 
                     <div class="col">
-                    	&copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
+                       &copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
                     </div>
                     
                 </div>
-	        </div>
-                	
+           </div>
+                   
         </footer>
 
         <!-- Javascript -->
-		<script src="${pageContext.request.contextPath }/resources/assets/js/jquery-3.3.1.min.js"></script>
-		<script src="${pageContext.request.contextPath }/resources/assets/js/jquery-migrate-3.0.0.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+      <script src="${pageContext.request.contextPath }/resources/assets/js/jquery-3.3.1.min.js"></script>
+      <script src="${pageContext.request.contextPath }/resources/assets/js/jquery-migrate-3.0.0.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath }/resources/assets/js/jquery.backstretch.min.js"></script>
         <script src="${pageContext.request.contextPath }/resources/assets/js/wow.min.js"></script>
         <script src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>

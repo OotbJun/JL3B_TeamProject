@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>자게 글쓰기</title>
+<title>청원 글쓰기</title>
 <style>
 #xxx * {
    background-color: rgba(255, 255, 255, 0.0);
@@ -20,109 +20,65 @@
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
    crossorigin="anonymous">
+   
 <script type="text/javascript">
 
-var titlefill = false;
-var contentfill = false;
-
-function submitActive() {
-   if(   titlefill == false || contentfill == false) {
-   document.getElementById("able").setAttribute("disabled","true");
-   } else {
-   document.getElementById("able").removeAttribute("disabled");
-   }
-}
-
-function minlength1() {
-   var title = document.getElementById("title").value;
-   if(title.length >= 3 ){
-      titlefill = true;
-      submitActive();
-   }else{
-      titlefill = false;
-      submitActive();
-   }
-   
-}
-
-function minlength2() {
-   var content = document.getElementById("content").value;
-   if(content.length >= 3 ){
-      contentfill = true;
-      submitActive();
-   }else{
-      contentfill = false;
-      submitActive();
-   }
-   
-}
-
-   function submit_btn(){
+function submit_btn(){
+      
+      if(confirm("청원 등록을 하시겠습니까? 등록시 삭제가 불가능합니다")== true){
+         document.getElementById("idea_submit").submit();
          
-         if(confirm("게시물을 등록하시겠습니까?")== true){
-            document.getElementById("submit").submit();
-         }
+      }else 
+         false;
+   }
 
-   }   
 
-</script>   
+
+</script>       
+   
 </head>
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
-   <div class="col mt-4">
-      <div class="row">
-         <div class="col"></div>
-         <div class="col"></div>
-         <div class="col"></div>>
-      </div>
-   </div>
-   <div class="container" role="main" style="margin-top: 5%;">
-      <h2 class="text-center" style="color: #28364a">자유 게시판 글쓰기</h2>
 
-      <form
-         action="${pageContext.request.contextPath }/board/board_write_process.do"
-         method="post" enctype="multipart/form-data" id="submit">
+   <div class="container text-center" role="main" style="margin-top:5%;" >
+    <h2 class="mb-5">청원 게시판 글쓰기</h2>
+      <form id="idea_submit" class="text-left"
+         action="${pageContext.request.contextPath }/board/idea_write_process.do"
+         method="post" enctype="multipart/form-data">
          <div class="mb-3">
             <label for="title">제목</label> <input type="text"
-               class="form-control" name="board_title" id="title" onkeyup="minlength1()"
+               class="form-control" name="idea_title" id="title"
                placeholder="제목을 입력해 주세요" maxlength="50">
          </div>
-
-
-
          <div class="mb-3"></div>
          <div class="mb-3"></div>
          <div class="mb-3">
             <label for="content">글내용</label>
-            <textarea class="form-control" rows="10" cols="40" name="board_content" onkeyup="minlength2()"
+            <textarea class="form-control" rows="10" cols="40" name="idea_content"
                id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
          </div>
          <div class="mb-3">
             <div class="row mb-5">
                <div class="col">
                   <label for="tag">파일첨부</label> <input type="file"
-                     name="boardImgList" multiple accept="image/*"><br>
+                     name="ideaImgList" multiple accept="image/*"><br>
                </div>
             </div>
             <div class="row mb-3">
                <div class="col-8"></div>
-
                <div class="col-2">
-                  <a href="${pageContext.request.contextPath }/board/board.do"
+                  <a href="${pageContext.request.contextPath }/board/idea.do"
                      class="btn btn-secondary btn-lg btn-block">목록으로</a>
                </div>
                <div class="col-2">
-                  <input type="button" value="확인" id="able"
-                     class="btn btn-primary btn-lg btn-block" onclick="submit_btn()"> 
+                  <input type="button" value="확인"
+                     class="btn btn-primary btn-lg btn-block" onclick="submit_btn()">
                </div>
-            
-   
             </div>
          </div>
       </form>
    </div>
-   
-   <jsp:include page="../commons/include_footer.jsp"></jsp:include>
+      <jsp:include page="../commons/include_footer.jsp"></jsp:include>
    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"></script>

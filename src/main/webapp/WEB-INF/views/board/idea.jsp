@@ -39,7 +39,7 @@
 <body>
 
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
-	<div class="col mt-4">
+   <div class="col" style="margin-top:5%">
 		<div class="row">
 			<div class="col-1"></div>
 			<div class="col text-center" style="max-width: 100%; height: auto">
@@ -145,7 +145,7 @@
 						<option value="idea_title" <c:if test="${searchOption.equals('idea_title') }">selected="selected"</c:if>>제목</option>
 						<option value="idea_content" <c:if test="${searchOption.equals('idea_content') }">selected="selected"</c:if>>내용</option>
 						<option value="member_rname" <c:if test="${searchOption.equals('member_rname') }">selected="selected"</c:if>>작성자</option>
-						<option value="ideaContent" <c:if test="${searchOption.equals('ideaContent') }">selected="selected"</c:if>>제목+내용</option> 
+						<option value="titleContent" <c:if test="${searchOption.equals('titleContent') }">selected="selected"</c:if>>제목+내용</option> 
 					</select>
 						<div class="col-3" style="padding-right: 0px">
 							<input placeholder="검색어를 입력하세요" name="searchWord" type="text"
