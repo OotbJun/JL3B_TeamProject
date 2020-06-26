@@ -52,6 +52,7 @@
 
 							<!-- 공지사항 리스트 -->
 							<tbody>
+							<c:if test="${currPage == 1 }">	
 								<c:forEach items="${boardNoticeList}" var="boardNoticeList"
 									begin="0" end="2">
 									<tr class="text-center">
@@ -66,8 +67,10 @@
 										<td>${boardNoticeList.like}</td>
 									</tr>
 								</c:forEach>
+							</c:if>
 
 								<!-- 인기글 리스트 -->
+							<c:if test="${currPage == 1 }">	
 								<c:forEach items="${boardHotList}" var="boardHotList" begin="0"
 									end="3">
 									<tr class="text-center">
@@ -83,7 +86,9 @@
 										<td>${boardHotList.like}</td>
 									</tr>
 								</c:forEach>
+								</c:if>
 							</tbody>
+							
 
 
 							<!-- 자유게시판 리스트 -->

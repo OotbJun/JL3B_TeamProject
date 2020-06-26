@@ -305,7 +305,7 @@ function check_npki() {
                <div class="form-group">
                   <label for="member_id">ID</label> <input onblur="toggleSubmitButton()" type="text"
                      class="form-control" id="member_id" name="member_id"
-                     placeholder="시용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
+                     placeholder="사용할 ID 입력" required onkeyup="confirmId()" maxlength="20">
                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
                   <div class="check_font text-center" id="id_check"></div>
                </div>
@@ -354,10 +354,14 @@ function check_npki() {
                      type="hidden" value="0" name="member_point">
                </div>
                <!-- 회원가입 버튼 -->
-               <div class="col-3">
+               <div class="row">
+               <div class="col-10"></div>
+               <div class="col-2">
                   <input id="join_submit" type="submit" value="회원가입" disabled="disabled"
-                     class="btn btn-primary btn-block">
+                     class="btn btn-primary btn-block btn-sm">
                </div>
+               </div> 
+               
           </form></div>
          <div class="col-2"></div>
       </div>

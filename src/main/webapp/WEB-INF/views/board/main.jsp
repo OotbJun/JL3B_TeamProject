@@ -16,7 +16,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-<title>송히 하트 수진</title>
+<title>Touche Nubes</title>
 <script src="${path}/resources/js/bootstrap.bundle.min.js"></script>
 <script src="${path}/resources/js/jquery.slim.min.js"></script>
 
@@ -83,9 +83,9 @@
 			<!-- Page Content -->
 			<section class="py-5">
 				<div class="container">
-					<h1 class="font-weight-light">Touch Nubes 입주를 환영합니다</h1>
+					<h1 class="font-weight-light">Touche Nubes 입주를 환영합니다</h1>
 					<p class="lead">
-						삶을 완성하는 품격,Touch Nubes 가치를 느껴보세요						
+						삶을 완성하는 품격,Touche Nubes 가치를 느껴보세요						
 					</p>
 					<br><br><br>
 				</div>

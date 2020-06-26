@@ -19,18 +19,67 @@
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
    crossorigin="anonymous">
+   
+<script type="text/javascript">
+
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	
+	function submit_btn(){
+	      
+	      if(confirm("게시물을 등록하시겠습니까?")== true){
+	         document.getElementById("submit").submit();
+	         
+	      }
+ 	}
+
+</script>   
+   
 </head>
 <body>
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
   <div class="container text-center" role="main" style="margin-top:5%;" >
     <h2 class="mb-5">청원 답변 </h2>
-    <form  class="text-left"
+    <form  class="text-left" id="submit"
     action="${pageContext.request.contextPath }/board/idea_answer_process.do" method="post">
     <div class="mb-3">
         <label for="title">제목</label>
-        <input type="text" class="form-control" name="idea_title" id="title" value="답변 : ${readIdea.ideaVo.idea_title }" maxlength="50"
-        >
+        <input type="text" class="form-control" name="idea_title" id="title" 
+        value="답변 : ${readIdea.ideaVo.idea_title }" maxlength="50" onkeyup="minlength1()">
     </div>
     <div class="mb-3">
     </div>
@@ -38,7 +87,8 @@
     </div>
      <div class="mb-3">
        <label for="content">글내용</label>
-         <textarea class="form-control" rows="10"  name="idea_content" id="content" placeholder="답변을 입력해주세요" maxlength="4000"></textarea>
+         <textarea class="form-control" rows="10"  name="idea_content" id="content" 
+         placeholder="답변을 입력해주세요(최소 3글자)" maxlength="4000" onkeyup="minlength2()"></textarea>
     </div>
     <div class="mb-3">
          <div class="row mb-3">
@@ -47,7 +97,7 @@
           <a href="${pageContext.request.contextPath }/board/idea.do" class="btn btn-secondary btn-lg btn-block">목록으로</a>
         </div>
         <div class="col-2">
-          <input type="submit" value="확인" class="btn btn-primary btn-lg btn-block">
+          <input type="button" value="확인" class="btn btn-primary btn-lg btn-block" disabled="disabled" id="able" onclick="submit_btn()">
           <input type="hidden" name="idea_gr_no" value="${readIdea.ideaVo.idea_gr_no}">
         </div>
         

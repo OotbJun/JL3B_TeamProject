@@ -24,6 +24,55 @@ footer {
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+	
+<script type="text/javascript">
+
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	
+	function submit_btn(){
+	      
+	      if(confirm("게시물을 등록하시겠습니까?")== true){
+	         document.getElementById("submit").submit();
+	         
+	      }
+	}
+
+</script>	
+	
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
@@ -46,7 +95,7 @@ footer {
 
 		<form
 			action="${pageContext.request.contextPath }/vote/candy_change_process.do"
-			method="post" enctype="multipart/form-data">
+			method="post" enctype="multipart/form-data" id="submit">
 			<div class="mb-3 text-right">
 				<label for="rname" style="font-weight: bold;">후 보 자 : ${sessionUser.member_rname }</label>
 			</div>
@@ -54,13 +103,13 @@ footer {
 			<div class="mb-3">
 				<label for="title">후 보 자 소 개 </label>
 				<textarea class="form-control" name="candy_intro" rows="5" cols="10"
-					maxlength="300">${readBoard.boardVo.board_title }</textarea>
+					maxlength="300" id="title" onkeyup="minlength1()">${readCandy.candyVo.candy_intro }</textarea>
 
 			</div>
 			<div class="mb-3">
 				<label for="content">공 약 내 용</label>
 				<textarea class="form-control" rows="10" cols="40"
-					name="candy_content" maxlength="1000">${readCandy.candyVo.candy_content }</textarea>
+					name="candy_content" maxlength="1000" id="content" onkeyup="minlength2()">${readCandy.candyVo.candy_content }</textarea>
 			</div>
 
 			<div class="mb-3">
@@ -71,7 +120,7 @@ footer {
 							name="candy_no" value="${readCandy.candyVo.candy_no }">
 					</div>
 					<div class="col-6 text-right">
-					<input type="submit" class="btn btn-outline-info btn-sm" value="수정">
+					<input type="button" class="btn btn-outline-info btn-sm" value="수정" id="able" disabled="disabled" onclick="submit_btn()">
 					</div>
 				</div>
 			</div>

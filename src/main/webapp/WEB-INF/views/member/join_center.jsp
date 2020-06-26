@@ -265,8 +265,22 @@ function check_npki() {
                   
            setTime--;               // 1초씩 감소
 }
-
-    
+	
+   
+   ///////////////
+   function check(){
+   
+	   var fileCheck = document.getElementById("file").value;
+	   
+	   if(!fileCheck){
+		   alert("이미지는 반드시 첨부하셔야 합니다.");
+		   return false;
+	   }else{
+		   document.getElementById("submit").submit();
+	   }
+   }  
+   
+   
     </script>
 </head>
 <body onload="timer(); pageMove();">
@@ -290,7 +304,7 @@ function check_npki() {
       <div class="row">
          <div class="col-2"></div>
          <div class="col">
-            <form method="post" class="text-left"
+            <form method="post" class="text-left" id="submit"
                action="${pageContext.request.contextPath }/member/join_center_process.do"
                enctype="multipart/form-data">
                <!-- 아이디 -->
@@ -371,14 +385,18 @@ function check_npki() {
                <!-- 센터이미지 첨부-->
                <div class="form-group">
                   <label for="tag">파일첨부</label> <input type="file" name="centerFile"
-                     multiple accept="image/*"><br>
+                     accept="image/*" id="file"><br>
                </div>
 
                <!-- 회원가입 버튼 -->
-               <div class="col-3">
-                  <input id="join_submit" type="submit" value="회원가입"
-                     disabled="disabled" class="btn btn-primary btn-block">
+               <div class="row">
+               <div class="col-10"></div>
+               <div class="col-2">
+                  <input id="join_submit" type="button" value="회원가입" disabled="disabled"
+                     class="btn btn-primary btn-block btn-sm" onclick="check()">
                </div>
+               </div> 
+               
             </form>
          </div>
          <div class="col-2"></div>

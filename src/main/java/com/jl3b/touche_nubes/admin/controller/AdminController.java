@@ -53,6 +53,8 @@ public class AdminController {
       
       AdminVo adminData = adminService.login(adminVo);
       
+      System.out.println("관리자 로그인 " + adminData.getAdmin_name());
+      
       if(adminData == null) {
          return "./member/login_fail";
       }else {
@@ -177,7 +179,7 @@ public class AdminController {
       model.addAttribute("readNotice", boardService.viewNotice(notice_no, y));
       model.addAttribute("currentPage", currentPage);
       
-      return "board/notice_change";
+      return "admin/notice_change";
    }
    @RequestMapping("/notice_change_process.do")
    public String changeNoticeProcess(NoticeVo noticeVo, HttpSession session,
@@ -185,7 +187,7 @@ public class AdminController {
       
       boardService.changeNotice(noticeVo, session);
       
-      return "redirect:./notice_read.do?notice_no="+noticeVo.getNotice_no()+"&currentPage="+currentPage;
+      return "redirect:/admin/notice_read.do?notice_no="+noticeVo.getNotice_no()+"&currentPage="+currentPage;
    }
    
    
@@ -464,9 +466,9 @@ public class AdminController {
 
    //건의사항 글삭제
    @RequestMapping("/idea_delete_process.do")
-   public String deleteIdea(int idea_no) {
+   public String deleteIdea(IdeaVo ideaVo, HttpSession session) {
 
-      boardService.deleteIdea(idea_no);
+      boardService.deleteIdea(ideaVo, session);
 
       return "redirect:./idea.do";
    }
@@ -504,7 +506,7 @@ public class AdminController {
       
       AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
       ideaVo.setMember_no(adminVo.getAdmin_no());
-      boardService.answerIdea(ideaVo);
+      boardService.answerIdea(ideaVo, session);
 
       return "redirect:./idea.do";
    }

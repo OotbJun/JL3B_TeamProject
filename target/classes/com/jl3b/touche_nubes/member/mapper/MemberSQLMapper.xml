@@ -298,6 +298,13 @@
    		]]>
    </update>
    
+   <!-- 관리자 권한 센터 삭제 -->
+   <delete id="deleteCenter">
+   		<![CDATA[
+   			DELETE FROM JL3B_CENTER WHERE CENTER_NO = #{center_no}
+   		]]>
+   </delete>
+   
    
    <!-- 관리자 -->
    <!-- 전체 회원 목록 출력 -->

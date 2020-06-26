@@ -20,6 +20,7 @@ import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardReVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
+import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 
 @Controller
@@ -77,10 +78,11 @@ public class RESTfulBoardController {
 		System.out.println(boardReVo.getBoard_re_no());
 		
 		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
+		AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
 		boardReVo.setMember_no(memberNo);
 		BoardReVo replyData = boardService.checkReply(boardReVo);
 		
-		if(replyData == null) {
+		if(replyData == null || adminVo == null) {
 			return 0;
 		}else {
 			System.out.println("리턴 값 : " + boardService.deleteRepl(boardReVo.getBoard_re_no()));

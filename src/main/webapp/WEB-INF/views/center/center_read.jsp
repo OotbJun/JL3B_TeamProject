@@ -78,29 +78,31 @@
                
                <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3 active">
                   <img src="/upload/${readCenter.centerImgVo.center_img_title }"
-                     class="img-fluid mx-auto d-block" style="max-height: 300px; width: auto;">
+                     class="img-fluid mx-auto d-block" style="max-height: 256px; width: auto;">
                </div>
-               <c:forEach items="${readCenter.centerImgList}" var="centerImgVo">
+               
+               <c:forEach items="${readCenter.centerImgList}" var="centerImgVo" begin="1">
                   <div class="carousel-item col-12 col-sm-6 col-md-4 col-lg-3">
                      <img src="/upload/${centerImgVo.center_img_title}"
                         class="img-fluid mx-auto d-block"
-                        style="max-height: 300px; max-width: 300;">
+                        style="max-height: 256px; max-width: 300;">
                   </div>
                </c:forEach>
+               
             </div>
 
          </div>
          
          <a class="carousel-control-prev" href="#carousel-example"
             role="button" data-slide="prev"
-            style="height: 50%; width: 90px; margin-top: 7%;"> 
+            style="height: 30%; width: 90px; margin-top: 7%;"> 
          <span
             class="carousel-control-prev-icon" aria-hidden="true"></span> 
          <span
             class="sr-only">Previous</span>
          </a> <a class="carousel-control-next" href="#carousel-example"
             role="button" data-slide="next"
-            style="height: 50%; width: 90px; margin-top: 7%;"> 
+            style="height: 30%; width: 90px; margin-top: 7%;"> 
          <span
             class="carousel-control-next-icon" aria-hidden="true"></span> 
          <span
@@ -111,7 +113,7 @@
          <div class="row mt-3">
             <div class="col"></div>
             <div class="col-2">
-            <c:if test="${!empty sessionCenter}">
+            <c:if test="${!empty sessionCenter && sessionCenter.center_no == readCenter.centerVo.center_no }">
                <a href="${pageContext.request.contextPath }/center/center_img.do"><button
                      type="button" class="btn btn-primary btn-sm btn-block">대표이미지  올리기</button></a>
                      </c:if>
@@ -147,7 +149,7 @@
   <!-- For demo purpose -->
   <div class="row py-5">
       <div class="col section-2 section-description wow fadeIn text-center">
-        <h1>요가 클래스 예약 </h1>
+        <h1>${readCenter.centerVo.center_name } 클래스 예약 </h1>
      <div class="divider-1 wow fadeInUp"><span></span></div>
     </div>
   </div>

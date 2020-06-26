@@ -74,6 +74,8 @@ public class MemberController {
 			
 			thread.start();
 			
+			System.out.println("회원가입 성공 " + memberVo.getMember_rname());
+			
 			return "redirect:./login.do";
 		}	
 	}
@@ -97,7 +99,7 @@ public class MemberController {
 			return "member/login_fail";
 		} else {
 			session.setAttribute("sessionUser", memberdata);
-			System.out.println("로그인성공 ");
+			System.out.println("로그인성공 " + memberdata.getMember_rname());
 			return "redirect:/board/main.do";
 		}
 	}
@@ -312,7 +314,7 @@ class MemberSenderThread extends Thread{
 		  	 String text = "";
   	 
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
-	  	 String link ="http://localhost:8181/touche_nubes/member/certification_process.do?key="+authKey;
+	  	 String link ="http://172.30.1.8:8181/touche_nubes/member/certification_process.do?key="+authKey;
 	  	 text += "Touche Nubes 입주민 가입을 환영합니다.<br>";
 	  	 text += "입주민 회원가입 완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
 	  	 text += "<a href='"+link+"'>";
@@ -356,7 +358,7 @@ class PasswordSenderThread extends Thread{
 		 String text = "";
   	 
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
-	  	 String link ="http://localhost:8181/touche_nubes/member/login.do";
+	  	 String link ="http://172.30.1.8:8181/touche_nubes/member/login.do";
 	  	 text += "Touche Nubes 비밀번호를 알려드립니다.<br>";
 	  	 text += "비밀번호는 "+password+" 입니다.<br>";
 	  	 text += "비밀번호를 입력하여 재 로그인을 부탁드립니다.";

@@ -22,40 +22,40 @@
    crossorigin="anonymous">
 <script type="text/javascript">
 
-var titlefill = false;
-var contentfill = false;
-
-function submitActive() {
-   if(   titlefill == false || contentfill == false) {
-   document.getElementById("able").setAttribute("disabled","true");
-   } else {
-   document.getElementById("able").removeAttribute("disabled");
-   }
-}
-
-function minlength1() {
-   var title = document.getElementById("title").value;
-   if(title.length >= 3 ){
-      titlefill = true;
-      submitActive();
-   }else{
-      titlefill = false;
-      submitActive();
-   }
-   
-}
-
-function minlength2() {
-   var content = document.getElementById("content").value;
-   if(content.length >= 3 ){
-      contentfill = true;
-      submitActive();
-   }else{
-      contentfill = false;
-      submitActive();
-   }
-   
-}
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
 
    function submit_btn(){
          
@@ -85,7 +85,7 @@ function minlength2() {
          <div class="mb-3">
             <label for="title">제목</label> <input type="text"
                class="form-control" name="board_title" id="title" onkeyup="minlength1()"
-               placeholder="제목을 입력해 주세요" maxlength="50">
+               placeholder="제목을 입력해 주세요(최소 3글자)" maxlength="50">
          </div>
 
 
@@ -95,7 +95,7 @@ function minlength2() {
          <div class="mb-3">
             <label for="content">글내용</label>
             <textarea class="form-control" rows="10" cols="40" name="board_content" onkeyup="minlength2()"
-               id="content" placeholder="내용을 입력해 주세요" maxlength="4000"></textarea>
+               id="content" placeholder="내용을 입력해 주세요(최소 3글자)" maxlength="4000"></textarea>
          </div>
          <div class="mb-3">
             <div class="row mb-5">

@@ -212,7 +212,7 @@ body {
                 <div class="col-lg-12  text-center">
                     <br><br><br><br><br><br>
                     <hr>
-                    <h1 class="tagline">TOUCH NUBES 클래스에 오신 여러분을 환영합니다.</h1>
+                    <h1 class="tagline">TOUCHE NUBES 클래스에 오신 여러분을 환영합니다.</h1>
                     <hr>
                     <p> 데이클래스를 진행함으로서 아파트 단지 안에서 즐거운 수업을 체험하세요 </p>
                     <p> Experience a fun class in the apartment  by conducting day classes</p>

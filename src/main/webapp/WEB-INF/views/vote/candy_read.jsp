@@ -67,7 +67,7 @@
 			</div>
 
 			<!-- 메뉴 버튼 -->
-			<div class="container mt-5" style="border-top: solid thick; border-top-color: #f4f4f4">
+			<div class="container mt-5" style="border-top: solid thick; border-top-color: navy">
 				<div class="row mt-3">
 					<div class="col-1 text-left">
 						<a class="btn btn-sm btn-light" type="submit"

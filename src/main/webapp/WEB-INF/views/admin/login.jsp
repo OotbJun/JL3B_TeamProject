@@ -7,7 +7,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>Touche 관리자 로그인</title>
+<title>Touche 로그인</title>
 <style>
 footer {
    margin: 0 auto;

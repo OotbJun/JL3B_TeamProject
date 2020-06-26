@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,7 @@ import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
+import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 
@@ -124,5 +127,15 @@ public class CenterService {
 	///////////////////리뷰
 	public void writeReview(CenterReviewVo centerReviewVo) {
 		centerSQLMapper.insertCenterReview(centerReviewVo);
+	}
+	
+	//관리자 권한 센터 삭제
+	public void deleteCenter(int center_no, HttpSession session) {
+		
+		AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
+		
+		if(adminVo != null) {
+			memberSQLMapper.deleteCenter(center_no);
+		}
 	}
 }

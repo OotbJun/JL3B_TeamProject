@@ -36,6 +36,7 @@ public interface MemberSQLMapper {
     public String findCenterId(CenterVo centerVo);					//센터 아이디 찾기
     public CenterVo conditionCenterPw(CenterVo centerVo);			//센터 비밀번호 변경 조건
     public void updateCenterPw(CenterVo centerVo);					//센터 회원 비밀번호 변경
+    public void deleteCenter(int center_no);						//관리자 권한 센터 삭제
     
 	
 	//관리자

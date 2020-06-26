@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jl3b.touche_nubes.admin.mapper.AdminSQLMapper;
 import com.jl3b.touche_nubes.board.mapper.BoardImgSQLMapper;
 import com.jl3b.touche_nubes.board.mapper.BoardReplSQLMapper;
 import com.jl3b.touche_nubes.board.mapper.BoardSQLMapper;
@@ -27,6 +28,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
+import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
@@ -42,6 +44,8 @@ public class BoardService {
    private BoardImgSQLMapper boardImgSQLMapper;
    @Autowired
    private BoardReplSQLMapper boardReplSQLMapper;
+   @Autowired
+   private AdminSQLMapper adminSQLMapper;
 
    // 말머리 선택
 //   public HorseheadVo chooseHorsehead(String sort) {
@@ -58,8 +62,9 @@ public class BoardService {
    public void deleteNotice(NoticeVo noticeVo, HttpSession session) {
       
       MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+      AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
       
-      if(memberVo.getMember_no() == noticeVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {      //예외처리
+      if(adminVo.getAdmin_no() == noticeVo.getAdmin_no() && adminVo != null || memberVo.getMember_grade() >= 2) {      //예외처리
          boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());            //권한 없이 주소창으로 입력시 삭제되는 거 막음.
       }
    }
@@ -68,8 +73,9 @@ public class BoardService {
    public void changeNotice(NoticeVo noticeVo, HttpSession session) {
       
       MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+      AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
       
-      if(memberVo.getMember_no() == noticeVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {      //예외처리
+      if(adminVo.getAdmin_no() == noticeVo.getAdmin_no() && adminVo != null || memberVo.getMember_grade() >= 2) {      //예외처리
          boardSQLMapper.updateNoticeByNo(noticeVo);
       }
    }
@@ -98,11 +104,13 @@ public class BoardService {
       // 담기
       for (NoticeVo noticeVo : noticeList) {
          MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
+         AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
 
          Map<String, Object> map = new HashMap<String, Object>();
 
          map.put("memberVo", memberVo);
          map.put("noticeVo", noticeVo);
+         map.put("adminVo", adminVo);
 
          list.add(map);
       }
@@ -115,6 +123,7 @@ public class BoardService {
 //      boardSQLMapper.updateNoticeReadCount(notice_no); // 조회수 -> 쿠키 사용해서 쓸 거야~
       NoticeVo noticeVo = boardSQLMapper.selectNoticeByNo(notice_no);
       MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
+      AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
       if(y!=null) {
          noticeVo.setNotice_content(noticeVo.getNotice_content().replaceAll("\n","<br>"));   
       }else {
@@ -127,6 +136,7 @@ public class BoardService {
 
       map.put("noticeVo", noticeVo);
       map.put("memberVo", memberVo);
+      map.put("adminVo", adminVo);
 
       return map;
    }
@@ -199,10 +209,13 @@ public class BoardService {
 
       for (NoticeVo noticeVo : noticelist) {
          MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
+         AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
          Map<String, Object> map2 = new HashMap<String, Object>();
 
          map2.put("memberVonotice", memberVo);
          map2.put("noticeVo", noticeVo);
+         map2.put("adminVo", adminVo);
+         
          list2.add(map2);
       }
 
@@ -223,10 +236,12 @@ public class BoardService {
          MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
          Map<String, Object> map = new HashMap<String, Object>();
          int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
+         int like = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
 
          map.put("memberVoHot", memberVo);
          map.put("boardVo", boardVo);
          map.put("replyCount", replyCount);
+         map.put("like", like);
 
          list.add(map);
       }
@@ -244,6 +259,7 @@ public class BoardService {
       
       BoardVo boardVo = boardSQLMapper.selectBoardByNo(board_no);
       MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
+      
       
       if(y!=null) {
          boardVo.setBoard_content(boardVo.getBoard_content().replaceAll("\n","<br>"));   //줄바꿈
@@ -272,6 +288,11 @@ public class BoardService {
    public void deleteBoard(BoardVo boardVo, HttpSession session) {
       
       MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+      AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
+      
+      if(adminVo != null) {
+    	  boardSQLMapper.deleteBoardByNo(boardVo.getBoard_no());
+      }
       
       if(memberVo.getMember_no() == boardVo.getMember_no() && memberVo != null || memberVo.getMember_grade() >= 2) {      //예외처리
          boardSQLMapper.deleteBoardByNo(boardVo.getBoard_no());                        //권한 없이 주소창으로 입력시 삭제되는 거 막음.
@@ -282,10 +303,6 @@ public class BoardService {
    public void changeBoard(BoardVo boardVo, HttpSession session) {
       
       MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
-      
-      System.out.println("멤버 넘버 : "+memberVo.getMember_no());
-      System.out.println("보드 멤버 넘버 : "+boardVo.getMember_no());
-      
       
       if(memberVo.getMember_no() == boardVo.getMember_no() && memberVo != null) {
          boardSQLMapper.updateBoard(boardVo);
@@ -400,10 +417,12 @@ public class BoardService {
 
       for (NoticeVo noticeVo : noticelist) {
          MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
+         AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
          Map<String, Object> map2 = new HashMap<String, Object>();
 
          map2.put("memberVonotice", memberVo);
          map2.put("noticeVo", noticeVo);
+         map2.put("adminVo", adminVo);
          list2.add(map2);
       }
 
@@ -425,6 +444,7 @@ public class BoardService {
       for (IdeaVo ideaVo : idealist) {
 
          MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getMember_no());
+         AdminVo adminVo = adminSQLMapper.selectAdminNo(ideaVo.getAdmin_no());
 
          int ideaLike = boardSQLMapper.selectIdeaLikeUpCount(ideaVo.getIdea_no());
 
@@ -433,6 +453,7 @@ public class BoardService {
          map.put("memberVo", memberVo);
          map.put("ideaVo", ideaVo);
          map.put("ideaLike", ideaLike);
+         map.put("adminVo", adminVo);
 
          list.add(map);
       }
@@ -447,6 +468,8 @@ public class BoardService {
 //      boardSQLMapper.updateIdeaReadCount(idea_no);                // 조회수 -> 쿠키 사용해서 쓸 거야~
       IdeaVo ideaVo = boardSQLMapper.selectIdeaByNo(idea_no);
       MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getMember_no());
+      AdminVo adminVo = adminSQLMapper.selectAdminNo(ideaVo.getAdmin_no());
+      
       if (y!=null) {
          ideaVo.setIdea_content(ideaVo.getIdea_content().replaceAll("\n","<br>"));      //줄바꿈   
       } else {
@@ -461,13 +484,20 @@ public class BoardService {
       map.put("ideaImgList", ideaImgList);
       map.put("ideaVo", ideaVo);
       map.put("upCount", upCount);
+      map.put("adminVo", adminVo);
 
       return map;
    }
 
    // 글삭제
-   public void deleteIdea(int idea_no) {
-      boardSQLMapper.deleteIdeaByNo(idea_no);
+   public void deleteIdea(IdeaVo ideaVo, HttpSession session) {
+	  
+	   AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
+	  
+	   if(adminVo != null) {
+		   boardSQLMapper.deleteIdeaByNo(ideaVo.getIdea_no());
+	   }
+	   
    }
 
    // 글수정
@@ -499,9 +529,15 @@ public class BoardService {
    }
 
    // 답글쓰기
-   public void answerIdea(IdeaVo ideaVo) {
-      boardSQLMapper.insertIdeaAnswer(ideaVo);
-      boardSQLMapper.updateHorsehead();
+   public void answerIdea(IdeaVo ideaVo, HttpSession session) {
+	   
+	   AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
+	   
+	   if(adminVo != null) {
+		   boardSQLMapper.insertIdeaAnswer(ideaVo);
+		   boardSQLMapper.updateHorsehead();
+	   }
+	   
    }
    
    

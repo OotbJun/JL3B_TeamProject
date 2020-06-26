@@ -370,23 +370,25 @@ li {
                   <!--  -->
 
 
-                  <button type="button" onclick="like()" class="btn btn-group"
+                  <button type="button" onclick="like()" class="btn btn-group text-center"
                      id="board_like"
-                     style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;"
+                     style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;
+                      padding-bottom: 0px;"
                      value="Y">
                      <img class="btn-img"
-                        src="${pageContext.request.contextPath }/resources/img/heart.ico"
-                        style="max-width: 100%">
+                        src="${pageContext.request.contextPath }/resources/img/starlike.png"
+                        style="max-width: 70%">
                   </button>
 
 
                   <button type="button" onclick="dislike()" class="btn btn-group"
                      id="board_dislike"
-                     style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;"
+                    style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;
+                     margin: 0px; margin-right:-10px; padding-bottom: 0px;"
                      value="N">
                      <img class="btn-img"
-                        src="${pageContext.request.contextPath }/resources/img/sad.png"
-                        style="max-width: 40%">
+                        src="${pageContext.request.contextPath }/resources/img/stardislike.png"
+                        style="max-width: 70%">
                   </button>
                   <span style="color: red" id="dislike_count"></span>
 
@@ -394,6 +396,7 @@ li {
                <div class="col-4"></div>
             </div>
          </div>
+
 
 
          <!-- 글 관리 버튼 -->
@@ -420,9 +423,9 @@ li {
 
                </div>
                <div class="col-2">
-                  <c:set var="admin" value="${sessionUser.npki_key}"></c:set>
+                  
                   <c:if
-                     test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || fn:contains(admin, 'admin') }">
+                     test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || !empty sessionAdmin}">
                      <!-- 마우스 올리면 주소창 뜨는 거 막음 -->
                      <form id ="board_del"
                         action="${pageContext.request.contextPath }/board/board_delete_process.do"

@@ -1,77 +1,46 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="path" value="${pageContext.request.contextPath}" />
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<c:set var="path" value="${pageContext.request.contextPath}" />    
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <meta name="description" content="">
+ <meta name="author" content="">
+<title>Insert title here</title>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
+ <!-- Custom fonts for this template-->
+  <link href="${path }/resources/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-  <title>관리자 모드</title>
-
-  <!-- Bootstrap core CSS -->
-  <link href="${path}/resources/css/bootstrap.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this template -->
-  <link href="${path}/resources/css/simple-sidebar.css" rel="stylesheet">
-
-   
+  <!-- Custom styles for this template-->
+  <link href="${path }/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
+<body id="page-top">
+<!-- Page Wrapper -->
+  <div id="wrapper">
+   
+   <jsp:include page="../commons/admin_sidebar.jsp"></jsp:include>
 
-<body>
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
 
-  <div class="d-flex" id="wrapper">
+      <!-- Main Content -->
+      <div id="content">
 
-    <!-- Sidebar -->
-    <div class="bg-light border-right" id="sidebar-wrapper">
-      <div class="sidebar-heading"> 관리자 모드 </div>
-      <div class="list-group list-group-flush">
-        <a href="${path}/admin/notice.do" class="list-group-item list-group-item-action bg-light">공지사항</a>
-        <a href="${path }/admin/gun.do" class="list-group-item list-group-item-action bg-light">자유게시판</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">주민청원</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">선거</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">센터</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">회원관리</a>
-      </div>
-    </div>
-    <!-- /#sidebar-wrapper -->
+    <jsp:include page="../commons/admin_navi.jsp"></jsp:include>
 
-    <!-- Page Content -->
-    <div id="page-content-wrapper">     
-    
-    
-      <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-       
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-            <li class="nav-item active">
-              <a class="nav-link" href="${path}/admin/main.do">Home <span class="sr-only">(current)</span></a>
-            </li>
-            
-            <c:choose>
-               <c:when test="${!empty sessionAdmin }">
-                  <a class="nav-link" href="${path}/admin/logout_process.do">로그아웃</a>
-               </c:when>
-            
-               <c:otherwise>
-                  <li class="nav-item">
-                    <a class="nav-link" href="${path}/admin/login.do">로그인</a>
-                  </li>
-               </c:otherwise>
-            </c:choose>
-                      
-          </ul>
-        </div>
-      </nav>
-      
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
 
-      <div class="container-fluid">
-           <h1 class="mt-4">공지사항</h1>
+          <!-- Page Heading -->
+          <h1 class="h3 mb-4 text-gray-800">main</h1>
            <div class="card border-0 shadow my-5">
               <div class="card-body p-5">
                  
@@ -101,32 +70,59 @@
                      <div class="col"></div>
                      <div class="col">
                         <a href="${path}/admin/notice.do?currentPage=${currentPage}"><input type="submit" class="btn btn-secondary btn-xs" value="목록"></a>
-                        <a href="${path}/admin/notice_update.do?notice_no=${readNotice.noticeVo.notice_no}&currentPage=${currentPage}"><input type="submit" class="btn btn-light btn-xs" value="수정"></a>
-                        <a href="${path}/admin/notice_delete_process.do?notice_no=${readNotice.noticeVo.notice_no}"><input type="submit" class="btn btn-light btn-xs" value="삭제"></a>
+                        <a href="${path}/admin/notice_change.do?notice_no=${readNotice.noticeVo.notice_no}&currentPage=${currentPage}"><input type="submit" class="btn btn-light btn-xs" value="수정"></a>
+                        <a href="${path}/admin/notice_delete_process.do?notice_no=${readNotice.noticeVo.notice_no}"><input type="submit" class="btn btn-light btn-xs" value="삭제"
+                        onclick="return confirm('삭제하시겠습니까?');"></a>
                         
                      </div>
                   </div>
                                 
               </div>
  
-           </div>
+           </div>                     
+           
         </div>
-        
+            
+        <!-- /.container-fluid -->
 
-         </div>
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
     </div>
-    <!-- /#page-content-wrapper -->
+    <!-- End of Content Wrapper -->
 
-  
-  <!-- /#wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
 
-  <!-- Bootstrap core JavaScript -->
-  <script src="${path}/resources/js/jquery/jquery.min.js"></script>
-  <script src="${path}/resources/js/bootstrap.bundle.min.js"></script>
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
 
 
-  
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="${path }/resources/js/jquery.min.js"></script>
+  <script src="${path }/resources/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="${path }/resources/js/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="${path }/resources/js/sb-admin-2.min.js"></script>
+
+
+
 
 </body>
-
 </html>

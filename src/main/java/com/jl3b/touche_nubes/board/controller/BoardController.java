@@ -514,9 +514,9 @@ public class BoardController {
    
    //글삭제
    @RequestMapping("/idea_delete_process.do")
-   public String deleteIdea(int idea_no) {
+   public String deleteIdea(IdeaVo ideaVo, HttpSession session) {
 
-      boardService.deleteIdea(idea_no);
+      boardService.deleteIdea(ideaVo, session);
 
       return "redirect:./idea.do";
    }
@@ -575,7 +575,7 @@ public class BoardController {
       
       MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
       ideaVo.setMember_no(memberVo.getMember_no());
-      boardService.answerIdea(ideaVo);
+      boardService.answerIdea(ideaVo, session);
 
       return "redirect:./idea.do";
    }

@@ -216,9 +216,21 @@
 	<!-- 인기글 업데이트 -->
 	<update id="updateHot">
 		<![CDATA[
-			UPDATE JL3B_BOARD SET HORSEHEAD_SORT = '인기글' WHERE BOARD_HITS > 100
+			UPDATE JL3B_BOARD B1 
+			SET 
+				HORSEHEAD_SORT = '인기글'
+			WHERE (
+				SELECT COUNT(CASE WHEN BOARD_LIKE='Y' THEN 1 END)
+				FROM(
+					SELECT B.BOARD_NO, B.MEMBER_NO, B.BOARD_TITLE, B.HORSEHEAD_SORT, B.BOARD_HITS, B.BOARD_WDATE, L.BOARD_LIKE
+					FROM JL3B_BOARD B, JL3B_BOARD_LIKE L WHERE B.BOARD_NO = L.BOARD_NO) 
+					GROUP BY 
+						BOARD_NO 
+					HAVING 
+					BOARD_NO=B1.BOARD_NO    
+				) >= 5
 		]]>
-	</update>		
+	</update>
 	
 	<!-- 인기글 상단 출력 -->
 	<select id="selectHotFix" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">

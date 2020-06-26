@@ -61,7 +61,7 @@ function submit_btn(){
 <body>
 <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
-<div class="container">
+<div class="container" style="margin-top:5%">
    
    <h2 class="mt-4 mb-3">비밀번호 확인
    <small></small>

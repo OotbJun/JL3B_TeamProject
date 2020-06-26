@@ -144,7 +144,44 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/media-queries.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/assets/css/carousel.css">
-    </head>
+        
+<script type="text/javascript">
+
+
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	
+	function submit_btn(){
+	      
+	      if(confirm("게시물을 등록하시겠습니까?")== true){
+	         document.getElementById("submit").submit();
+	         
+	      }
+	}
+
+</script>        
+        
+</head>
 
     <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
@@ -205,11 +242,13 @@
                  <div class="contact-form-content">
                      <div class="title">
                      </div><!-- /.title -->
-                     <form action="${pageContext.request.contextPath }/center/review_write_process.do" class="contact-form" novalidate="novalidate">
+                     <form action="${pageContext.request.contextPath }/center/review_write_process.do" 
+                     	class="contact-form" novalidate="novalidate" id="submit">
                          ${sessionUser.member_rname }
-                         <textarea name="review_comment"  placeholder="리뷰를 정성껏 작성해주시면 감사합니다."></textarea>
+                         <textarea name="review_comment"  placeholder="리뷰를 정성껏 작성해주시면 감사합니다." 
+                         	id="content" onkeyup="minlength2()"></textarea>
                          <input type="hidden" name="center_no" value=${center_no }>
-                         <button type="submit" class="thm-btn yellow-bg">리뷰 작성하기 </button>
+                         <button type="button" class="thm-btn yellow-bg" id="able" onclick="submit_btn()" disabled="disabled">리뷰 작성하기 </button>
                          <div class="form-result"></div><!-- /.form-result -->
                       </form>
                     </div>

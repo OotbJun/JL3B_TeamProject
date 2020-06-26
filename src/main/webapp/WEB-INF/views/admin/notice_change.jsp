@@ -24,8 +24,8 @@
 
 function submit_btn(){
       
-      if(confirm("게시물을 등록하시겠습니까?")== true){
-         document.getElementById("notice_submit").submit();
+      if(confirm("게시물을 수정하시겠습니까?")== true){
+         document.getElementById("notice_update").submit();
          
       }else 
          false;
@@ -59,7 +59,7 @@ function submit_btn(){
               
               <h1 class="font-weight-light"></h1>
                   <p class="lead">공지사항 글쓰기</p>
-                     <form id="notice_submit" action="${path}/admin/notice_write_process.do" method="post">
+                     <form id="notice_update" action="${path}/admin/notice_change_process.do" method="post">
                      
                      <!-- 말머리 -->
                      <!--  <div class="row">
@@ -76,7 +76,7 @@ function submit_btn(){
                      <div class="col">
                         <div class="form-group">
                            <label for="title">제목</label>
-                           <input type="text" class="form-control" id="notice_title" placeholder="제목을 입력해주세요" name="notice_title">                           
+                           <input type="text" class="form-control" id="notice_title" placeholder="${readNotice.noticeVo.notice_title }" name="notice_title">                           
                            </div> 
                         </div>
                         <div class="col"></div>
@@ -98,14 +98,15 @@ function submit_btn(){
                         <!-- 내용 -->
                         <div class="form-group">
                            <label for="content">내용</label>
-                           <textarea class="form-control" id="notice_content"  placeholder="내용을 입력해주세요" rows="8" name="notice_content"></textarea>                           
+                           <textarea class="form-control" id="notice_content"  placeholder="${readNotice.noticeVo.notice_content}" rows="8" name="notice_content"></textarea>                           
                         </div>
                         
                         <div>
-                        <input type="button" class="btn btn-secondary btn-xs" value="등록" onclick="submit_btn()">                
+                        <input type="button" class="btn btn-secondary btn-xs" value="수정" onclick="submit_btn()">
+                        <input type="hidden" name="notice_no" value="${readNotice.noticeVo.notice_no}">                
                         </div>                        
-                     </form>         
- 
+                     </form>   
+                     
  
  
      <!-- 밑에 부분 -->   

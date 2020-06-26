@@ -20,6 +20,55 @@
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+
+<script type="text/javascript">
+
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	
+	function submit_btn(){
+	      
+	      if(confirm("게시물을 등록하시겠습니까?")== true){
+	         document.getElementById("submit").submit();
+	         
+	      }
+	}
+
+</script>	
+	
 </head>
 <body>
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
@@ -28,18 +77,18 @@
 		<h2>공지 게시판 글 수정</h2>
 		<form
 			action="${pageContext.request.contextPath }/board/notice_change_process.do"
-			method="post" enctype="multipart/form-data">
+			method="post" enctype="multipart/form-data" id="submit">
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="notice_title"
-					value="${readNotice.noticeVo.notice_title }" maxlength="50">
+					value="${readNotice.noticeVo.notice_title }" maxlength="50" id="title" onkeyup="minlength1()">
 			</div>
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
 				<label for="content">글내용</label>
 				<textarea class="form-control" rows="10" cols="40"
-					name="notice_content" maxlength="4000">${readNotice.noticeVo.notice_content }</textarea>
+					name="notice_content" maxlength="4000" id="content" onkeyup="minlength2()">${readNotice.noticeVo.notice_content }</textarea>
 				<input type="hidden" name="currentPage" value="${currentPage }">
 			</div>
 			<div class="mb-3">
@@ -54,16 +103,18 @@
 							class="btn btn-secondary btn-sm btn-block">목록</a>
 					</div>
 					<div class="col">
-						<input type="submit" value="수정완료"
-							class="btn btn-primary btn-sm btn-block"> <input
+						<input type="button" value="수정완료"
+							class="btn btn-primary btn-sm btn-block"  id="able" disabled="disabled" onclick="submit_btn()"> 
+						<input
 							type="hidden" name="notice_no"
 							value="${readNotice.noticeVo.notice_no}">
 					</div>
 				</div>
 			</div>
+			</form>
 	</div>
-	</form>
-	</div>
+	
+	
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
 		crossorigin="anonymous"></script>

@@ -27,48 +27,61 @@ footer {
 	
 <script type="text/javascript">
 	
-var titlefill = false;
-var contentfill = false;
-
-function submitActive() {
-   if(   titlefill == false || contentfill == false) {
-   document.getElementById("able").setAttribute("disabled","true");
-   } else {
-   document.getElementById("able").removeAttribute("disabled");
-   }
-}
-
-function minlength1() {
-   var title = document.getElementById("title").value;
-   if(title.length >= 3 ){
-      titlefill = true;
-      submitActive();
-   }else{
-      titlefill = false;
-      submitActive();
-   }
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function submit_btn(){
+	    
+	    if(confirm("게시물을 등록하시겠습니까?")== true){
+	       document.getElementById("submit").submit();
+	       
+	    }
+	 }
+	
+	/////이미지
+	function check(){
    
-}
-
-function minlength2() {
-   var content = document.getElementById("content").value;
-   if(content.length >= 3 ){
-      contentfill = true;
-      submitActive();
-   }else{
-      contentfill = false;
-      submitActive();
-   }
-   
-}
-
-function submit_btn(){
-    
-    if(confirm("게시물을 등록하시겠습니까?")== true){
-       document.getElementById("submit").submit();
-       
-    }
- }
+	   var fileCheck = document.getElementById("file").value;
+	   
+	   if(!fileCheck){
+		   alert("이미지는 반드시 첨부하셔야 합니다.");
+		   return false;
+	   }else{
+		   document.getElementById("submit").submit();
+	   }
+   	} 
 	
 </script>	
 	
@@ -109,7 +122,7 @@ function submit_btn(){
 			<div class="mb-3">
 				<div class="row mb-5">
 					<div class="col">
-						<label for="tag">파일첨부</label> <input type="file" name="candyFile"
+						<label for="tag">파일첨부</label> <input type="file" name="candyFile" id="file"
 							accept="image/*"><br>
 					</div>
 				</div>
@@ -121,7 +134,7 @@ function submit_btn(){
 					</div>
 					<div class="col-2">
 						<input type="button" value="확인" id="able" disabled="disabled"
-							class="btn btn-primary btn-sm btn-block" onclick="submit_btn()">
+							class="btn btn-primary btn-sm btn-block" onclick="check();">
 					</div>
 				</div>
 			</div>

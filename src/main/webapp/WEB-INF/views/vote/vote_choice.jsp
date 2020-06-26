@@ -75,9 +75,9 @@ footer {
       </div>
       <div class="col">
 
-         <c:set var="admin" value="${sessionUser.npki_key}"></c:set>
+         
          <!-- admin만 가능 -->
-         <c:if test="${fn:contains(admin, 'admin') && !status.equals('C_ING') && !status.equals('V_ING') }">
+         <c:if test="${!empty sessionAdmin && !status.equals('C_ING') && !status.equals('V_ING') }">
             <div class="row">
                <div class="col text-center">
                   <div class="col-md-12 text-center">

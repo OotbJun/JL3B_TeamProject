@@ -27,7 +27,7 @@
            	WHERE 
            		center_no = #{center_no}
            	AND 
-           		ROWNUM <= 8 
+           		ROWNUM <= 7 
            	ORDER BY 
            		CENTER_IMG_NO DESC
 		]]>	

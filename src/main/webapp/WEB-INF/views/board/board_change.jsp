@@ -27,14 +27,51 @@ footer {
 
 <script type="text/javascript">
 
-//자게 게시물 수정 컨펌
-function submit_btn(){
-   
-   if(confirm("게시물을 수정하시겠습니까?")== true){
-      document.getElementById("change").submit();
-      
-   }
-}
+	//최소 글자수
+	var titlefill = false;
+	var contentfill = false;
+	
+	function submitActive() {
+	   if(   titlefill == false || contentfill == false) {
+	   document.getElementById("able").setAttribute("disabled","true");
+	   } else {
+	   document.getElementById("able").removeAttribute("disabled");
+	   }
+	}
+	
+	function minlength1() {
+	   var title = document.getElementById("title").value;
+	   if(title.length >= 3 ){
+	      titlefill = true;
+	      submitActive();
+	   }else{
+	      titlefill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+	function minlength2() {
+	   var content = document.getElementById("content").value;
+	   if(content.length >= 3 ){
+	      contentfill = true;
+	      submitActive();
+	   }else{
+	      contentfill = false;
+	      submitActive();
+	   }
+	   
+	}
+	
+
+	//자게 게시물 수정 컨펌
+	function submit_btn(){
+	   
+	   if(confirm("게시물을 수정하시겠습니까?")== true){
+	      document.getElementById("change").submit();
+	      
+	   }
+	}
 
 </script>
 <link rel="stylesheet"
@@ -62,14 +99,14 @@ function submit_btn(){
 			<div class="mb-3">
 				<label for="title">제목</label> <input type="text"
 					class="form-control" name="board_title" id="title"
-					value="${readBoard.boardVo.board_title }" maxlength="50">
+					value="${readBoard.boardVo.board_title }" maxlength="50" onkeyup="minlength1()">
 			</div>
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
 				<label for="content">글내용</label>
 				<textarea class="form-control" rows="10" cols="40"
-					name="board_content" maxlength="4000">${readBoard.boardVo.board_content }</textarea>
+					name="board_content" maxlength="4000" id="content" onkeyup="minlength2()">${readBoard.boardVo.board_content }</textarea>
 			</div>
 			<div class="mb-3">
 				<div class="row mb-5">
@@ -86,8 +123,8 @@ function submit_btn(){
 							class="btn btn-secondary btn-sm btn-block">목록</a>
 					</div>
 					<div class="col-2">
-						<input type="button" value="수정완료"
-							class="btn btn-primary btn-sm btn-block" onclick="submit_btn()"> <input
+						<input type="button" value="수정완료" disabled="disabled"
+							class="btn btn-primary btn-sm btn-block" onclick="submit_btn()" id="able"> <input
 							type="hidden" name="board_no"
 							value="${readBoard.boardVo.board_no }"> <input
 							type="hidden" name="member_no"

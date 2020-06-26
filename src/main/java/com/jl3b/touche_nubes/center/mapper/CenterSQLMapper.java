@@ -40,4 +40,6 @@ public interface CenterSQLMapper {
 	public void insertTime(LessonVo progTimeVo);					//시간대 등록
 	public void minusSeat();										//예약되면 인원수 차감
 	
+	
+	
 }
