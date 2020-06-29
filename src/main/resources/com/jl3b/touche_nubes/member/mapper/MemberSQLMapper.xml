@@ -173,8 +173,33 @@
       	UPDATE JL3B_MEMBER SET member_pw =#{member_pw} where member_no = #{member_no}   
    	  ]]>
    </update>
+   
+   <!-- 내가 쓴 글 내역(자게) -->
+   <select id="selectMyBoard" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_BOARD 
+   			WHERE 
+   				MEMBER_NO = #{member_no} 
+   			ORDER BY 
+   				BOARD_WDATE DESC
+   		]]>
+   </select>
    	
-	  
+   	<!-- 내가 쓴 글 내역(청원) -->
+   	<select id="selectMyIdea" resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
+ 		<![CDATA[
+ 			SELECT * 
+ 			FROM 
+ 				JL3B_IDEA 
+ 			WHERE 
+ 				MEMBER_NO = #{member_no} 
+ 			ORDER BY 
+ 				IDEA_WDATE DESC
+ 		]]>  	
+   	</select>
+
    
 	
 	<!-- 센터 -->

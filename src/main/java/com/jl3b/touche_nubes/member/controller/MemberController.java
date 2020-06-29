@@ -281,6 +281,9 @@ public class MemberController {
 		return "redirect:./login.do";
 	}
 	
+	//내가 쓴 글
+	//RequestMapping("/member_write.do")
+	
 }
 
 

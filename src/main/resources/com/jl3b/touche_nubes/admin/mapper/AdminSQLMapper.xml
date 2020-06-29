@@ -22,5 +22,12 @@
             ADMIN_PW = #{admin_pw}
       ]]>
    </select>
+   
+   <!-- 자게 댓글 삭제 -->
+      <delete id="deleteRe">
+	   <![CDATA[
+	   		DELETE FROM JL3B_BOARD_RE WHERE BOARD_RE_NO = #{board_re_no}
+	   ]]>
+   </delete>
 
 </mapper>

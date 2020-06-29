@@ -1,10 +1,8 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -76,7 +74,7 @@
 										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 500px"><a
 											href="${pageContext.request.contextPath }/board/notice_read.do?notice_no=${noticeList.noticeVo.notice_no}&currentPage=${currentPage }">
 												${noticeList.noticeVo.notice_title }</a></td>
-										<td>${noticeList.memberVo.member_rname }</td>
+										<td>${noticeList.memberVo.member_rname }${noticeList.adminVo.admin_name }</td>
 										<td><fmt:formatDate
 												value="${noticeList.noticeVo.notice_wdate }"
 												pattern="yy.MM.dd hh:mm:ss" /></td>

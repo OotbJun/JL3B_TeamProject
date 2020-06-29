@@ -8,4 +8,6 @@ public interface AdminSQLMapper {
 	
 	public AdminVo selectAdminByIdAndPw(AdminVo adminVo); // 관리자 로그인
 	
+	public void deleteRe(int board_re_no);                 //자유게시판 댓글 삭제
+	
 }

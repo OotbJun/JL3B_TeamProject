@@ -20,6 +20,11 @@ public class AdminService {
 		return adminSQLMapper.selectAdminByIdAndPw(adminVo);
 	}
 	
+	//자게 댓글 삭제
+	public void deleteRe(int board_re_no) {
+      adminSQLMapper.deleteRe(board_re_no);
+	}
+	
 		// 관리자로그아웃
 		//페이지 이동없이 로그아웃
 //		response.setContentType("text/html;charset=utf-8");

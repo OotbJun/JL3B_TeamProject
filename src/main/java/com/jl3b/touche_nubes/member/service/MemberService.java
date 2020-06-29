@@ -7,9 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper;
 import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper;
 import com.jl3b.touche_nubes.membervo.NpkiVo;
@@ -115,6 +117,16 @@ public class MemberService {
 	public void get_changePw(String member_pw,String member_id, String member_mail) {
 	    String hashCode = MemberMessageDigest.digest(member_pw);
 		memberSQLMapper.updateMemberPw(hashCode, member_id, member_mail);
+	}
+	
+	//내가 쓴 글 내역(자게)
+	public BoardVo getMyBoard(int member_no) {
+		return memberSQLMapper.selectMyBoard(member_no);
+	}
+	
+	//내가 쓴 글 내역(청원)
+	public IdeaVo getMyIdea(int member_no) {
+		return memberSQLMapper.selectMyIdea(member_no);
 	}
 	
 	

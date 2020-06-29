@@ -53,12 +53,12 @@ public class AdminController {
       
       AdminVo adminData = adminService.login(adminVo);
       
-      System.out.println("관리자 로그인 " + adminData.getAdmin_name());
       
       if(adminData == null) {
          return "./member/login_fail";
       }else {
          session.setAttribute("sessionAdmin", adminData);
+         System.out.println("관리자 로그인 " + adminData.getAdmin_name());
          return "redirect:./main.do";
       }
    }
@@ -325,7 +325,7 @@ public class AdminController {
       
       boardService.deleteBoard(boardVo, session);   
       
-      return "redirect:./board.do";
+      return "redirect:/admin/board.do";
    }
    
    //자게 글수정
@@ -342,6 +342,15 @@ public class AdminController {
          @RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
       boardService.changeBoard(boardVo, session);
       return "redirect:./board_read.do?board_no="+boardVo.getBoard_no()+"&currPage="+currPage;
+   }
+   
+   //자게 댓글 삭제
+   @RequestMapping("/board_delete_re_process.do")
+   public String deleteRe(int board_re_no, int board_no,
+         @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
+      adminService.deleteRe(board_re_no);
+      
+      return "redirect:/admin/board_read.do?board_no="+board_no+"&currentPage="+currentPage;
    }
    
    

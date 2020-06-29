@@ -109,8 +109,18 @@ footer {
 			<div class="col" style="font-size: medium; font-weight: bold;">${readIdea.ideaVo.idea_title}</div>
 		</div>
 		<div class="row mt-2 mb-1">
+		
+		<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
+			<c:if test="${!fn:contains(answer,'답변')}">
 			<div class="col-2 " style="font-size: small;">청원인 :
 				${readIdea.memberVo.member_rname }</div>
+			</c:if>
+			
+			<c:if test="${fn:contains(answer,'답변')}">
+				<div class="col-2 " style="font-size: small;">
+				${readIdea.adminVo.admin_name }</div>
+			</c:if>	
+				
 			<div class="col"></div>
 			<div class="col-2" style="font-size: small">
 				작성일 :

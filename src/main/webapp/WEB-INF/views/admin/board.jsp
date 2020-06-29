@@ -307,7 +307,7 @@
                               <td class="fix_horsehead" style="font-weight: bold">${boardNoticeList.noticeVo.horsehead_sort}</td>
                               <td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
                                  href="${pageContext.request.contextPath}/admin/notice_read.do?notice_no=${boardNoticeList.noticeVo.notice_no}">${boardNoticeList.noticeVo.notice_title}</a></td>
-                              <td>${boardNoticeList.memberVonotice.member_rname}</td>
+                              <td>${boardNoticeList.memberVonotice.member_rname}${boardNoticeList.adminVo.admin_name }</td>
                               <td><fmt:formatDate
                                     value="${boardNoticeList.noticeVo.notice_wdate}"
                                     pattern="yy.MM.dd hh:mm:ss" /></td>

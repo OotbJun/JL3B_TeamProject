@@ -77,11 +77,23 @@
             <div class="topbar-divider d-none d-sm-block"></div>
 
             <!-- Nav Item - User Information -->
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionAdmin.admin_name }</span>
-                
-              </a>
+            
+            <c:choose>
+            
+            <c:when test="${empty sessionAdmin }">
+	            <li class="nav-item dropdown no-arrow">
+	              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                <span class="mr-2 d-none d-lg-inline text-gray-600 small">로그인</span>
+	              </a>
+             </c:when>
+             
+             <c:otherwise>
+             	<li class="nav-item dropdown no-arrow">
+	              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	                <span class="mr-2 d-none d-lg-inline text-gray-600 small">${sessionAdmin.admin_name }</span>
+	              </a>
+             </c:otherwise>
+            </c:choose>  
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -96,10 +108,25 @@
                 <div class="dropdown-divider"></div>
                 
                 
-                
-                
-                
                 <c:choose>
+                <c:when test="${!empty sessionAdmin}">
+                     <a class="dropdown-item" href="${path}/admin/logout_process.do"
+                        > <i
+                        class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                     </a>
+                  </c:when>
+                
+                <c:otherwise>
+                <a class="dropdown-item" href="${path }/admin/login.do">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  login
+                </a>
+                </c:otherwise>
+                
+                </c:choose>
+                
+                <!--<c:choose>
                    <c:when test="${!empty sessionAdmin}">
                      <a class="dropdown-item" href="${path}/admin/logout_process.do"
                         data-toggle="modal"> <i
@@ -115,12 +142,14 @@
                      </a>
                   </c:otherwise>
                                 
-                </c:choose>
-                                                   
+                </c:choose> -->
+                                               
               </div>
             </li>
 
+
           </ul>
+          
 
         </nav>
         <!-- End of Topbar -->

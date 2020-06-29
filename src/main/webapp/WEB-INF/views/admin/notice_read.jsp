@@ -49,7 +49,7 @@
             
             <div class="row">
                <div class="col-1"><p class="font-weight-bolder">작성자:</p></div>
-               <div class="col-1">${readNotice.adminVo.admin_name }</div>
+               <div class="col-1">${readNotice.adminVo.admin_name }${readNotice.memberVo.member_rname }</div>
                <div class="col"></div>            
             </div>
             

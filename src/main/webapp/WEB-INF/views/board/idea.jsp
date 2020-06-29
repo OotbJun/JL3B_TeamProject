@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -77,7 +76,7 @@
 										<td class="fix_horsehead" style="font-weight: bold">${ideaNoticeList.noticeVo.horsehead_sort}</td>
 										<td class="text-left pl-1" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
 											href="${pageContext.request.contextPath}/board/notice_read.do?notice_no=${ideaNoticeList.noticeVo.notice_no}">${ideaNoticeList.noticeVo.notice_title}</a></td>
-										<td>${ideaNoticeList.memberVonotice.member_rname}</td>
+										<td>${ideaNoticeList.memberVonotice.member_rname}${ideaNoticeList.adminVo.admin_name }</td>
 										<td><fmt:formatDate
 												value="${ideaNoticeList.noticeVo.notice_wdate}"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
@@ -111,7 +110,7 @@
 												href="${pageContext.request.contextPath}/board/idea_read.do?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
 												${ideaList.ideaVo.idea_title}</a></td>
 										</c:if>
-										<td>${ideaList.memberVo.member_rname}</td>
+										<td>${ideaList.memberVo.member_rname}${ideaList.adminVo.admin_name }</td>
 										<td><fmt:formatDate value="${ideaList.ideaVo.idea_wdate}"
 												pattern="yy.MM.dd hh:mm:ss" /></td>
 										<td>${ideaList.ideaVo.idea_hits}</td>

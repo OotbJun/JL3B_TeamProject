@@ -59,7 +59,7 @@ li {
 		</div>
 		<div class="row mt-2 mb-1">
 			<div class="col-1 " style="font-size: small;">
-				${readNotice.memberVo.member_rname}</div>
+				${readNotice.memberVo.member_rname}${readNotice.adminVo.admin_name }</div>
 			<div class="col"></div>
 			<div class="col-1" style="font-size: small;"></div>
 			<div class="col-1" style="font-size: small"></div>
