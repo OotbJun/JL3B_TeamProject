@@ -2,6 +2,8 @@ package com.jl3b.touche_nubes.member.mapper;
 
 import com.jl3b.touche_nubes.membervo.MemberVo;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.jl3b.touche_nubes.boardvo.BoardVo;
@@ -50,8 +52,7 @@ public interface MemberSQLMapper {
     public MemberVo confirmPw(MemberVo membervo);                   //비밀번호 확인
     public void updateMypage(MemberVo membervo);                    //내 정보 수정(이름수정)
     public void updatePw(MemberVo membervo);                        //비밀번호 변경
-    public BoardVo selectMyBoard(int member_no);									//내가 쓴 글 내역(자게)
-    public IdeaVo selectMyIdea(int member_no);									//내가 쓴 글 내역(청원)
+    public List<BoardVo> selectMyBoard(int member_no);				//내가 쓴 글 내역(자게)
 	
 
 }

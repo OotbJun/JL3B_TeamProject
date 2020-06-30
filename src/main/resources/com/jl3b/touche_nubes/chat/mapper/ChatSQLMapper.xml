@@ -8,14 +8,35 @@
 	<!-- 채팅 입력 -->
 	<insert id="insertChat">
 		<![CDATA[
-			INSERT INTO JL3B_CHAT VALUES(JL3B_CHAT_SEQ.NEXTVAL, #{member_no}, #{chat_content}, SYSDATE)
+			INSERT INTO 
+				JL3B_CHAT 
+			VALUES(
+				JL3B_CHAT_SEQ.NEXTVAL, 
+				#{member_no}, 
+				#{member_rname}, 
+				#{chat_content}, 
+				SYSDATE
+			)
 		]]>
 	</insert>
 	
 	<!-- 채팅 출력 -->
 	<select id="selectChat" resultType="com.jl3b.touche_nubes.chatvo.ChatVo">
 		<![CDATA[
-			SELECT * FROM JL3B_CHAT WHERE CHAT_NO >= #{chat_no}
+			SELECT * 
+			FROM(
+				SELECT * 
+				FROM 
+					JL3B_CHAT 
+				ORDER BY 
+					CHAT_NO DESC
+				)
+			WHERE 
+				CHAT_NO > #{chat_no}
+			AND 
+				ROWNUM <= 30
+			ORDER BY 
+				CHAT_NO ASC
 		]]>
 	</select>
 	
@@ -26,10 +47,18 @@
 			VALUES(
 				JL3B_CHAT_SEQ.NEXTVAL, 
 				#{member_no}, 
-				'입장하셨습니다.', 
+				#{member_rname},	
+				#{member_rname}||'님이 입장하셨습니다.', 
 				SYSDATE
 			)
 		]]>
 	</insert>
+	
+	<!-- 입장한 이후로 채팅 내용 가져오려고 -->
+	<select id="newChatNo" resultType="int">
+		<![CDATA[
+			SELECT MAX(CHAT_NO) FROM JL3B_CHAT
+		]]>
+	</select>
 
 </mapper>

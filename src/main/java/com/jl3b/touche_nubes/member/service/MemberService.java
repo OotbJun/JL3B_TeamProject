@@ -1,5 +1,6 @@
 package com.jl3b.touche_nubes.member.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -119,15 +120,22 @@ public class MemberService {
 		memberSQLMapper.updateMemberPw(hashCode, member_id, member_mail);
 	}
 	
-	//내가 쓴 글 내역(자게)
-	public BoardVo getMyBoard(int member_no) {
-		return memberSQLMapper.selectMyBoard(member_no);
-	}
-	
-	//내가 쓴 글 내역(청원)
-	public IdeaVo getMyIdea(int member_no) {
-		return memberSQLMapper.selectMyIdea(member_no);
-	}
+	   //내가 쓴 글 내역(자게)
+   public List<Map<String,Object>> getMyBoard(int member_no) {
+      List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+      List<BoardVo> boardList = memberSQLMapper.selectMyBoard(member_no) ;
+       
+      
+      for(BoardVo boardVo : boardList) {
+         MemberVo memberVo = memberSQLMapper.selectMemberByNo(boardVo.getMember_no());
+            Map<String,Object> map = new HashMap<String, Object>();
+      
+            map.put("memberVo",memberVo);
+            map.put("boardVo",boardVo);
+            list.add(map);
+      }
+      return list;
+   }
 	
 	
 	

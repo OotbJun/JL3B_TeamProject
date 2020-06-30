@@ -48,13 +48,24 @@ li {
 
 
 <script type="text/javascript">
+
+   var my_no = ${sessionUser.member_no};
    
+   
+   //채팅 출력
    function chatList(){
-      
+	   
+	   
+      var chatNo = ${chat_no};
       
       var aaa = document.getElementById("chatBox");
+      var mmm = document.getElementById("mychat");
       var div = document.createElement("div");
+      var row = document.createElement("div");
+      row.setAttribute("class", "row");
+    
       var xmlhttp = new XMLHttpRequest();
+      
       
       
       
@@ -64,14 +75,28 @@ li {
             
             var chatContent = JSON.parse(xmlhttp.responseText);
             
+            //지우고 다시
+            var length = aaa.childNodes.length;
+            for(var i = 0; i < length; i++){
+            	aaa.removeChild(aaa.childNodes[0]);
+            }
+            
             for (var data of chatContent) {
-                     
+				
                var memberName = document.createElement("div");
                var chatContent = document.createElement("div");
                var chatDate = document.createElement("div");
+
+            	
+               if(my_no != data.chatVo.member_no){
+            	   row.setAttribute("class", "text-left");
+               }else{
+            	   row.setAttribute("class", "text-right");
+               }
                
                //이름
-               memberName.innerText = data.memberVo.member_rname;
+               //memberName.innerText = data.memberVo.member_rname;
+               memberName.innerText = data.chatVo.member_rname;
                
                //내용
                chatContent.innerText = data.chatVo.chat_content;
@@ -80,31 +105,59 @@ li {
                var milliseconds = data.chatVo.chat_date;   //날짜 이쁘게 자르자!
                var date = new Date(milliseconds);
                
-               chatDate.innerText = (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+               chatDate.innerText = (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2);
                
-               div.appendChild(memberName);
-               div.appendChild(chatContent);
-               div.appendChild(chatDate);
+             
+               row.appendChild(memberName);   
+               row.appendChild(chatContent);
+               row.appendChild(chatDate);
+               
+               div.appendChild(row);
                
                
                
+               aaa.appendChild(div);
               }
-            aaa.appendChild(div);
-         };
+            
+         }
          
       };
       
       xmlhttp.open("post", "./read_chat.do", true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-       xmlhttp.send("chat_no="+1);
+      xmlhttp.send("chat_no=" + chatNo);
       
    };
+   
+   //채팅 입력
+   function insertChat(){
+	   
+	   var content = document.getElementById("chat_content").value;
+	   var xmlhttp = new XMLHttpRequest();
+	   
+	   xmlhttp.onreadystatechange = function() {
+	         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+	        	 chatList();
+	         }
+	      };
+	      
+       xmlhttp.open("post", "./write_chat_process.do", true);
+       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+       xmlhttp.send("chat_content=" + content);   
+	   
+   };
+   
+   //
+   function refresh(){
+	   setInterval("chatList()", 3000);
+   }
+   
    
 </script>
 
 </head>
 
-<body onload="chatList()">
+<body onload="refresh()">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
    
    <div class="col mt-4">
@@ -130,7 +183,7 @@ li {
     <!-- ajax 처리하면 이렇게 해야함 -->
     
         <div id="chatBox">
-
+			
         </div>
         
         
@@ -148,27 +201,30 @@ li {
    </div>
 
   <!-- 채팅 작성 -->
-  <!-- 
+  
+  
+  
+  
    <div class="container" style="margin-top: 20px;">
       <label for="content" class="mt-4">채팅 내용~</label>
-      <form name="채팅 InsertForm" onsubmit="return false">
+      
          <div class="input-group">
-            <input type="hidden" value="1111"
-               id="채팅_no" /> 
-            
-               <input type="text" class="form-control"
-               id="채팅_content" name="채팅_content"
-               placeholder="내용을 입력하세요." maxlength="1000"> 
-            
-               <span
-               class="input-group-btn pl-2" style="padding-top: 4px">
-               <button class="btn btn-outline-primary btn-sm" type="button"
-                  name="채팅InsertBtn">전송</button>
-            </span>
+            <div class="row">
+		  	<div class="col">내용</div>
+		  	<div class="col-8">
+		  		<textarea rows="5" cols="40" id="chat_content"></textarea>
+		  	</div>
+		  	<div class="col">
+		  		<input type="button" value="입력" onclick="insertChat()">
+		  	</div>
+		  </div>
          </div>
-      </form>
+      
    </div>
-    -->
+    
+    
+    
+   
    <jsp:include page="../commons/include_footer.jsp"></jsp:include>
 
 

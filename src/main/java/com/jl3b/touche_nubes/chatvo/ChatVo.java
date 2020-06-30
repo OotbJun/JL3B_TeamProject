@@ -8,17 +8,19 @@ public class ChatVo {
 	private int member_no;
 	private String chat_content;
 	private Date chat_date;
+	private String member_rname;
 	
 	public ChatVo() {
 		super();
 	}
 
-	public ChatVo(int chat_no, int member_no, String chat_content, Date chat_date) {
+	public ChatVo(int chat_no, int member_no, String chat_content, Date chat_date, String member_rname) {
 		super();
 		this.chat_no = chat_no;
 		this.member_no = member_no;
 		this.chat_content = chat_content;
 		this.chat_date = chat_date;
+		this.member_rname = member_rname;
 	}
 
 	public int getChat_no() {
@@ -51,5 +53,13 @@ public class ChatVo {
 
 	public void setChat_date(Date chat_date) {
 		this.chat_date = chat_date;
+	}
+
+	public String getMember_rname() {
+		return member_rname;
+	}
+
+	public void setMember_rname(String member_rname) {
+		this.member_rname = member_rname;
 	}
 }

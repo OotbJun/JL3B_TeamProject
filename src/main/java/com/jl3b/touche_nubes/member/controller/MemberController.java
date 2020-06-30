@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.mail.internet.MimeMessage;
@@ -281,8 +282,18 @@ public class MemberController {
 		return "redirect:./login.do";
 	}
 	
-	//내가 쓴 글
-	//RequestMapping("/member_write.do")
+	   // 내가 쓴글 출력하기 
+	   @RequestMapping("mywrite.do")
+   public String myWrite(HttpSession session,Model model) {
+      
+      MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+      
+      List<Map<String,Object>> list = memberService.getMyBoard(memberVo.getMember_no());
+        
+      model.addAttribute("myBoardList", list);
+       
+        return "member/mywrite";
+   }
 	
 }
 

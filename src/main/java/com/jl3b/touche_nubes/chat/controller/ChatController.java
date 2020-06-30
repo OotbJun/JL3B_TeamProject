@@ -24,11 +24,28 @@ public class ChatController {
 	
 	
 	@RequestMapping("/chat.do")
-	public String enterChatRoom(HttpSession session) {
+	public String enterChatRoom(HttpSession session, ChatVo chatVo, Model model) {
+		
+		if(session.getAttribute("sessionCenter") != null ) {
+			return "./board/center_fail";
+		}
+		if(session.getAttribute("sessionUser") == null) {
+			return "./board/board_fail";
+		}
+		
+		try{
+			int chat_no = chatService.newChatNo();
+			model.addAttribute("chat_no", chat_no);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
-		//chatVo.setMember_no(memberVo.getMember_no());
-		chatService.enterChat(memberVo.getMember_no());
+		chatVo.setMember_no(memberVo.getMember_no());
+		chatVo.setMember_rname(memberVo.getMember_rname());
+		chatService.enterChat(chatVo);
 		
 		
 		return "chat/chat";
@@ -40,6 +57,7 @@ public class ChatController {
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		chatVo.setMember_no(memberVo.getMember_no());
+		chatVo.setMember_rname(memberVo.getMember_rname());
 		chatService.writeChat(chatVo);
 		
 		return "true";
@@ -47,9 +65,10 @@ public class ChatController {
 	
 	@RequestMapping("/read_chat.do")
 	@ResponseBody
-	public List<Map<String, Object>> readChat(int chat_no) {
+	public List<Map<String, Object>> readChat(int chat_no, Model model) {
 		
 		List<Map<String, Object>> chatList = chatService.readChat(chat_no);
+		model.addAttribute("chatList", chatList);
 		
 		return chatList;
 	}

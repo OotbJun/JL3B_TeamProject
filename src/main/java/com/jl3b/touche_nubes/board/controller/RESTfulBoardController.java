@@ -156,6 +156,19 @@ public class RESTfulBoardController {
 
 		return dislikeCount;
 	}
+	
+	   // 자기글 삭제
+    @RequestMapping("/my_board_delete.do")
+     public void deleteBoard(HttpSession session,BoardVo boardVo,@RequestParam(value = "chbox[]") List<String> chArr) {
+       
+       int board_no = 0;
+       
+      for(String i : chArr) {
+         board_no = Integer.parseInt(i);
+         boardVo.setBoard_no(board_no);
+         boardService.deleteBoard(boardVo,session);  
+      } 
+   }
 
 	/////////////////////////////////////////////// 청원
 	// 청원 동의

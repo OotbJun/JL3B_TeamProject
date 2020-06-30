@@ -75,7 +75,7 @@ footer {
       </div>
       <div class="col">
 
-         
+         <c:if test="${empty status }"><h1>진행중인 선거가 없습니다.</h1></c:if>
          <!-- admin만 가능 -->
          <c:if test="${!empty sessionAdmin && !status.equals('C_ING') && !status.equals('V_ING') }">
             <div class="row">

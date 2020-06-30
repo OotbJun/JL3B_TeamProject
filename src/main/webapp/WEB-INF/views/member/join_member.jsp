@@ -273,8 +273,8 @@ function check_npki() {
                   
            setTime--;               // 1초씩 감소
 }
-
-     
+	
+   
 
    </script>
 

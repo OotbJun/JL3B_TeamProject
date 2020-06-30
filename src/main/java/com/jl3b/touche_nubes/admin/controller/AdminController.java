@@ -514,7 +514,7 @@ public class AdminController {
    public String answerIdeaProcess(IdeaVo ideaVo, HttpSession session) {
       
       AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
-      ideaVo.setMember_no(adminVo.getAdmin_no());
+      ideaVo.setAdmin_no(adminVo.getAdmin_no());
       boardService.answerIdea(ideaVo, session);
 
       return "redirect:./idea.do";

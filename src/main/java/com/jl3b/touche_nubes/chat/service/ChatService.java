@@ -35,15 +35,15 @@ public class ChatService {
 		chatList = chatSQLMapper.selectChat(chat_no);
 				
 		
-		//System.out.println("챗 넘버 : " + chat_no);
+		System.out.println("챗 넘버 : " + chat_no);
 		
 		for(ChatVo chatVo : chatList) {
 			Map<String, Object> map = new HashMap<String, Object>();
 			
-			MemberVo memberVo = memberSQLMapper.selectMemberByNo(chatVo.getMember_no());
+			//MemberVo memberVo = memberSQLMapper.selectMemberByNo(chatVo.getMember_no());
 			
 			
-			map.put("memberVo", memberVo);
+			//map.put("memberVo", memberVo);
 			map.put("chatVo", chatVo);
 			
 			list.add(map);
@@ -52,9 +52,13 @@ public class ChatService {
 	}
 	
 	//채팅방 입장
-	public void enterChat(int member_no) {
+	public void enterChat(ChatVo chatVo) {
 		
-		chatSQLMapper.enterChat(member_no);
+		chatSQLMapper.enterChat(chatVo);
 	}
 	
+	//채팅 최신 내용 출력
+	public int newChatNo() {
+		return chatSQLMapper.newChatNo();
+	}
 }

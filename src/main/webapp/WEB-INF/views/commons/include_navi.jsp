@@ -4,8 +4,8 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-		<div class="container">
-		 <a class="navbar-brand" href="${pageContext.request.contextPath }/board/main.do">Touche Nubes</a>
+      <div class="container">
+       <a class="navbar-brand" href="${pageContext.request.contextPath }/board/main.do">Touche Nubes</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse"
          data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
          aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,9 @@
             </a></li>
             <li class="nav-item"><a class="nav-link"
                href="${pageContext.request.contextPath }/center/center.do">클래스
+            </a></li>
+             <li class="nav-item"><a class="nav-link"
+               href="${pageContext.request.contextPath }/chat/chat.do">채팅
             </a></li>
          </ul>
          <c:choose>

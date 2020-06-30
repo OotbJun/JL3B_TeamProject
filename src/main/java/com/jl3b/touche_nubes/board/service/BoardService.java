@@ -565,6 +565,8 @@ public class BoardService {
    public void answerIdea(IdeaVo ideaVo, HttpSession session) {
 
       AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
+      
+      
 
       if (adminVo != null) {
          boardSQLMapper.insertIdeaAnswer(ideaVo);

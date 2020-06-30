@@ -39,6 +39,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
 
@@ -574,7 +575,11 @@ public class BoardController {
    public String answerIdeaProcess(IdeaVo ideaVo, HttpSession session) {
       
       MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
+      //AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
+      
       ideaVo.setMember_no(memberVo.getMember_no());
+      //ideaVo.setAdmin_no(adminVo.getAdmin_no());
+      
       boardService.answerIdea(ideaVo, session);
 
       return "redirect:./idea.do";

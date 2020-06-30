@@ -36,7 +36,7 @@
          <a href="#">예약 내역</a>
       </li>
       <li class="breadcrumb-item ">
-         <a href="#">내가 쓴 글 확인하기</a>
+         <a href="${path}/member/mywrite.do">내가 쓴 글 확인하기</a>
       </li>   
    </ol>
    
