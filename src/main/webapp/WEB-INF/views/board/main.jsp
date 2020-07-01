@@ -91,6 +91,7 @@
 				</div>
 			</section>
 			
+			<jsp:include page="../commons/include_chat.jsp"></jsp:include>	<!-- 채팅 -->
 			<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 			
 			

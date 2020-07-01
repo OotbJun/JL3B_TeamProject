@@ -311,7 +311,7 @@ public class BoardService {
 
       if (memberVo != null) { // 예외처리
        
-    	  if(memberVo.getMember_no() == boardVo.getMember_no()  || memberVo.getMember_grade() >= 2) {
+    	  if(memberVo.getMember_no() == boardVo.getMember_no() || memberVo.getMember_grade() >= 2) {
     		  boardSQLMapper.deleteBoardByNo(boardVo.getBoard_no()); 
     	  }
     	  

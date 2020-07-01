@@ -48,51 +48,105 @@ li {
 
 
 <script type="text/javascript">
-
-   var my_no = ${sessionUser.member_no};
-   
    
    //채팅 출력
    function chatList(){
-	   
-	   
+      
       var chatNo = ${chat_no};
-      
       var aaa = document.getElementById("chatBox");
-      var mmm = document.getElementById("mychat");
-      var div = document.createElement("div");
-      var row = document.createElement("div");
-      row.setAttribute("class", "row");
-    
-      var xmlhttp = new XMLHttpRequest();
       
+      var xmlhttp = new XMLHttpRequest();
       
       
       
       xmlhttp.onreadystatechange = function() {
          
          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            
+        
             var chatContent = JSON.parse(xmlhttp.responseText);
-            
-            //지우고 다시
+            var nowUser = ${sessionUser.member_no};
+            //
             var length = aaa.childNodes.length;
             for(var i = 0; i < length; i++){
-            	aaa.removeChild(aaa.childNodes[0]);
+               aaa.removeChild(aaa.childNodes[0]);
             }
             
             for (var data of chatContent) {
-				
+               if(data.chatVo.member_no != nowUser ){
+                   var inneraaa = document.createElement("div");
+                     inneraaa.setAttribute("class","col-8 mr-auto");
+                     inneraaa.style.margin = '0px'; 
+               
+                     var nameTime = document.createElement("div");
+                  nameTime.setAttribute("class","row mr-auto alert alert-light");
+                  nameTime.style.margin = '0px';
+                  nameTime.style.padding = '0px';
+               
                var memberName = document.createElement("div");
-               var chatContent = document.createElement("div");
+                  memberName.setAttribute("class","col-2 font-italic text-info");
+                  memberName.style.margin = '0px';
+                  memberName.style.paddingRight = '0%';
+                  memberName.style.marginRight = '0%';
+                  memberName.style.fontSize = 'small';
+                  
                var chatDate = document.createElement("div");
+                  chatDate.setAttribute("class","col-10 weight-light text-black-50");
+                  chatDate.style.fontSize = 'x-small';
+                  chatDate.style.paddingTop = '1%';
+                  nameTime.appendChild(memberName);
+                    nameTime.appendChild(chatDate);
+                  
 
-            	
-               if(my_no != data.chatVo.member_no){
-            	   row.setAttribute("class", "text-left");
+               var content = document.createElement("div");
+                  content.setAttribute("class","row text-left mr-auto alert alert-secondary");
+                  content.style.margin = '0px';
+                  content.style.padding = '0px';
+
+               var chatContent = document.createElement("div");
+                  chatContent.setAttribute("class","col font-weight-normal");
+                  chatContent.style.fontSize = 'medium';
+
+               content.appendChild(chatContent);
+ 
+               
                }else{
-            	   row.setAttribute("class", "text-right");
-               }
+                  var inneraaa = document.createElement("div");
+                    inneraaa.setAttribute("class","col-8 ml-auto text-right");
+                    inneraaa.style.margin = '0px'; 
+               
+
+               var nameTime = document.createElement("div");
+                  nameTime.setAttribute("class","row ml-auto text-right alert alert-light");
+                  nameTime.style.margin = '0px';
+                  nameTime.style.padding = '0px';
+               
+               var memberName = document.createElement("div");
+                  memberName.setAttribute("class","col-10 ml-auto font-italic text-info");
+                  memberName.style.margin = '0px';
+                  memberName.style.fontSize = 'small';
+                  
+               var chatDate = document.createElement("div");
+                  chatDate.setAttribute("class","col-1 weight-light text-black-50");
+                  chatDate.style.fontSize = 'x-small';
+                  chatDate.style.paddingTop = '1%';
+                  chatDate.style.paddingLeft = '0%';
+                  chatDate.style.marginLeft = '0%';
+                  nameTime.appendChild(memberName);
+                    nameTime.appendChild(chatDate);
+                  
+
+               var content = document.createElement("div");
+                  content.setAttribute("class","row ml-auto text-right alert alert-secondary");
+                  content.style.margin = '0px';
+                  content.style.padding = '0px';
+
+               var chatContent = document.createElement("div");
+                  chatContent.setAttribute("class","col ml-auto font-weight-normal");
+                  chatContent.style.fontSize = 'medium';
+
+               content.appendChild(chatContent);
+            }
+               
                
                //이름
                //memberName.innerText = data.memberVo.member_rname;
@@ -105,18 +159,12 @@ li {
                var milliseconds = data.chatVo.chat_date;   //날짜 이쁘게 자르자!
                var date = new Date(milliseconds);
                
-               chatDate.innerText = (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + ("00" + date.getMinutes()).slice(-2);
+               chatDate.innerText = (date.getMonth() + 1) + "/" + date.getDate() + " " + date.getHours() + ":" + date.getMinutes();
+   
+               inneraaa.appendChild(nameTime);
+               inneraaa.appendChild(content);
                
-             
-               row.appendChild(memberName);   
-               row.appendChild(chatContent);
-               row.appendChild(chatDate);
-               
-               div.appendChild(row);
-               
-               
-               
-               aaa.appendChild(div);
+               aaa.appendChild(inneraaa);
               }
             
          }
@@ -126,30 +174,37 @@ li {
       xmlhttp.open("post", "./read_chat.do", true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
       xmlhttp.send("chat_no=" + chatNo);
-      
+
    };
-   
    //채팅 입력
    function insertChat(){
-	   
-	   var content = document.getElementById("chat_content").value;
-	   var xmlhttp = new XMLHttpRequest();
-	   
-	   xmlhttp.onreadystatechange = function() {
-	         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-	        	 chatList();
-	         }
-	      };
-	      
+      
+      var content = document.getElementById("chat_content").value;
+      var xmlhttp = new XMLHttpRequest();
+      
+      xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+               chatList();
+            }
+           
+         };
+         
        xmlhttp.open("post", "./write_chat_process.do", true);
        xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-       xmlhttp.send("chat_content=" + content);   
-	   
+       xmlhttp.send("chat_content=" + content);
+       
+       document.getElementById("chat_content").value = '';
+     
+       
    };
-   
-   //
+   function onKeyDown(){
+     if(event.keyCode == 13){ 
+        insertChat();
+       
+     }
+   }
    function refresh(){
-	   setInterval("chatList()", 3000);
+      setInterval("chatList()", 3000);
    }
    
    
@@ -172,54 +227,34 @@ li {
       </div>
    </div>
  
-   <div class="container" style="margin-top: 60px; border-bottom: solid thin; border-bottom-color: #f4f4f4">
-        <div class="row mt-1">
+   <div class="container text-center" style="margin-top: 60px; border-bottom: solid thin; border-bottom-color: #f4f4f4">
+
             <h4>건전하고 유의미한 대화가 이뤄지기를 바랍니다.</h4>
-        </div>
+
     </div>
 
    <!-- 채팅내용 -->
-   <div class="container" style="margin-top: 20px;">
+   <div class="container overflow-auto" style="size: ">
     <!-- ajax 처리하면 이렇게 해야함 -->
     
         <div id="chatBox">
-			
-        </div>
-        
-        
-    <!-- chat_list foreach 문 돌아갈 자리-->
-    <!-- 
-      <c:forEach items="${chatList}" var="chatList">
-            <div class="row mt-1">
-                <div class="col text-wrap" style="word-break: break-all;">
-                ${chatList.chatVo.chat_content }
-                </div>
-            </div>   
-      </c:forEach>
-     -->
-        
-   </div>
 
-  <!-- 채팅 작성 -->
-  
-  
-  
-  
-   <div class="container" style="margin-top: 20px;">
-      <label for="content" class="mt-4">채팅 내용~</label>
-      
-         <div class="input-group">
-            <div class="row">
-		  	<div class="col">내용</div>
-		  	<div class="col-8">
-		  		<textarea rows="5" cols="40" id="chat_content"></textarea>
-		  	</div>
-		  	<div class="col">
-		  		<input type="button" value="입력" onclick="insertChat()">
-		  	</div>
-		  </div>
-         </div>
-      
+        </div>
+    
+   
+    <div class="row mt-3" style="border-top: solid thick; border-top-color: black">
+        <div class="input-group mt-3">
+           
+           <div class="col-1 pt-1">내용</div>
+           <div class="col-10">
+              <input type="text" class="form-control" id="chat_content" onkeydown="onKeyDown()" ></textarea>
+           </div>
+           <div class="col-1">
+              <input type="button" value="입력" onclick="insertChat()">
+           </div>
+        </div>
+       
+      </div>
    </div>
     
     

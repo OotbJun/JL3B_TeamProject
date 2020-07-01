@@ -288,6 +288,7 @@ public class MemberController {
       
       MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
       
+      
       List<Map<String,Object>> list = memberService.getMyBoard(memberVo.getMember_no());
         
       model.addAttribute("myBoardList", list);

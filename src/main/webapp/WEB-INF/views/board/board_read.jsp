@@ -324,7 +324,8 @@ li {
 
    <!-- 게시글 내용 및 이미지 -->
    <div class="container" style="margin-top: 20px;">
-
+      <div class="col-1"></div>
+      <div class="col-10">>
       <c:forEach items="${readBoard.boardImgList}" var="BoardImgVo">
          <img style="max-width: 50%; height: auto"
             src="/upload/${BoardImgVo.board_img_title}">
@@ -333,6 +334,8 @@ li {
       <div class="row mt-1">
          <div class="col text-wrap" style="word-break: break-all;">${readBoard.boardVo.board_content }</div>
       </div>
+      </div>
+      <div class="col-1"></div>
    </div>
 
 
@@ -342,59 +345,31 @@ li {
          style="border-bottom: solid thin; border-bottom-color: black">
          <div class="col-3"></div>
          <!-- 추천! -->
-         <div class="col-6 text-center ">
-            <div class="row">
-               <div class="col-4"></div>
-               <div class="col-4">
-
-                  <!-- 
-                  <span style="color: red">${readBoard.upCount }</span> 
-                  <a
-                     href="${pageContext.request.contextPath }/board/choose_like_process.do?board_like=Y&board_no=${readBoard.boardVo.board_no}"
-                     style="text-decoration: none;"> 
-                     <img
-                     src="${pageContext.request.contextPath }/resources/img/heart.ico"
-                     style="width: 40%; height: auto">
-                  </a> 
-                  <a
-                     href="${pageContext.request.contextPath }/board/choose_like_process.do?board_like=N&board_no=${readBoard.boardVo.board_no }">
-                     <img
-                     src="${pageContext.request.contextPath }/resources/img/sad.png"
-                     style="width: 25%; height: auto">
-                  </a> <span style="color: red">${readBoard.downCount }</span>
-                -->
-
-                  <!-- 추천수 -->
+         <div class="col-6 text-center pt-3">
+           
+                 <!-- 추천수 -->
                   <span style="color: red" id="like_count"> </span>
 
-                  <!--  -->
-
-
-                  <button type="button" onclick="like()" class="btn btn-group text-center"
+                  <input type="image" onclick="like()" 
+                     src="${pageContext.request.contextPath }/resources/img/like.png"
+                  class="btn btn-group text-center mr-1" width="30" height="30"
                      id="board_like"
-                     style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;
-                      padding-bottom: 0px;"
+                     style="background-color: rgba(255, 255, 255, 0.0); border: none;
+                      padding: 0px;"
                      value="Y">
-                     <img class="btn-img"
-                        src="${pageContext.request.contextPath }/resources/img/starlike.png"
-                        style="max-width: 70%">
-                  </button>
+                  
 
 
-                  <button type="button" onclick="dislike()" class="btn btn-group"
-                     id="board_dislike"
-                    style="background-color: rgba(255, 255, 255, 0.0); border: none; max-width: 40%;
-                     margin: 0px; margin-right:-10px; padding-bottom: 0px;"
+                 <input type="image" onclick="dislike()" 
+                     src="${pageContext.request.contextPath }/resources/img/unlike.png"
+                      class="btn btn-group text-center ml-1"
+                     id="board_dislike"  width="30" height="30"
+                    style="background-color: rgba(255, 255, 255, 0.0);border: none;
+                      padding: 0px;"
                      value="N">
-                     <img class="btn-img"
-                        src="${pageContext.request.contextPath }/resources/img/stardislike.png"
-                        style="max-width: 70%">
-                  </button>
+                    
                   <span style="color: red" id="dislike_count"></span>
 
-               </div>
-               <div class="col-4"></div>
-            </div>
          </div>
 
 
@@ -403,7 +378,7 @@ li {
 
 
          <div class="col-3" style="padding: 6px auto;">
-            <div class="row mt-3 mr-1">
+            <div class="row mt-3 mr-1 pb-1">
                <div class="col"></div>
                <div class="col-2" style="margin-right: 4px">
 
@@ -472,10 +447,10 @@ li {
          </div>
          <div class="col"></div>
          <div class="col-2 text-right" style="padding-right: 0px">
-			<c:if test="${!empty sessionUser }">
+         <c:if test="${!empty sessionUser }">
             <a class="btn btn-light btn-sm"
                href="${pageContext.request.contextPath}/board/board_write.do">글쓰기</a>
-			</c:if>
+         </c:if>
          </div>
 
       </div>

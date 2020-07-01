@@ -147,7 +147,7 @@ public class CenterController {
 	@RequestMapping("/center_img_process.do")
 	public String uploadImgCenterProcess(MultipartFile [] centerImgFile, CenterVo centerVo, HttpSession session) {
 		
-		String RootFolderName = "C:/upload/";
+		String RootFolderName = "/var/storage";
 		Date today = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		String todayFolder = df.format(today);

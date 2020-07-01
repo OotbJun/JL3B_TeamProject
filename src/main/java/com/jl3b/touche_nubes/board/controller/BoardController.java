@@ -34,6 +34,8 @@ import com.jl3b.touche_nubes.boardvo.BoardImgVo;
 import com.jl3b.touche_nubes.boardvo.BoardLikeVo;
 import com.jl3b.touche_nubes.boardvo.BoardReVo;
 import com.jl3b.touche_nubes.boardvo.BoardVo;
+import com.jl3b.touche_nubes.chat.service.ChatService;
+import com.jl3b.touche_nubes.chatvo.ChatVo;
 import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
@@ -49,13 +51,31 @@ public class BoardController {
    
    @Autowired
    private BoardService boardService;
+   @Autowired
+   private ChatService chatService;
    
    private String y = null;
    
    //걍 메인 테스트용
    @RequestMapping("/main.do")
-   public String main() {
+   public String main(Model model, HttpSession session, ChatVo chatVo) {
       //boardService.test();
+      try{
+         int chat_no = chatService.newChatNo();
+         model.addAttribute("chat_no", chat_no);
+         //System.out.println("asd" + chatVo.getChat_no());
+      }catch(Exception e) {
+         e.printStackTrace();
+      }
+      
+      
+      if(session.getAttribute("sessionUser") != null) {
+         MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+         chatVo.setMember_no(memberVo.getMember_no());
+         chatVo.setMember_rname(memberVo.getMember_rname());
+         chatService.enterChat(chatVo);
+      }
+      
       return "board/main";
    }
    
@@ -231,7 +251,7 @@ public class BoardController {
       public String writeBoardProcess(MultipartFile [] boardImgList,BoardVo boardVo, HttpSession session) {
          // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
          // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-         String RootFolderName = "C:/upload/";
+         String RootFolderName = "/var/storage";
          Date today = new Date();
          SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
          String todayFolder = df.format(today);
@@ -433,7 +453,7 @@ public class BoardController {
    public String writeideaProcess(MultipartFile[] ideaImgList, IdeaVo ideaVo, HttpSession session) {
       // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
       // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-      String RootFolderName = "C:/upload/";
+      String RootFolderName = "/var/storage";
       Date today = new Date();
       SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
       String todayFolder = df.format(today);
