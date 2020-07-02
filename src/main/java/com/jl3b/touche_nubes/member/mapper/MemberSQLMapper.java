@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
+import com.jl3b.touche_nubes.membervo.CenterAuthVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 
@@ -41,6 +42,8 @@ public interface MemberSQLMapper {
     public CenterVo conditionCenterPw(CenterVo centerVo);			//센터 비밀번호 변경 조건
     public void updateCenterPw(CenterVo centerVo);					//센터 회원 비밀번호 변경
     public void deleteCenter(int center_no);						//관리자 권한 센터 삭제
+    public void updateCenterAuth(String key);                       // 센터 인증처리 시작
+    public void insertCenterAuth(CenterAuthVo centerAuthVo);        // 센터 인증완료  
     
 	
 	//관리자
@@ -53,6 +56,9 @@ public interface MemberSQLMapper {
     public void updateMypage(MemberVo membervo);                    //내 정보 수정(이름수정)
     public void updatePw(MemberVo membervo);                        //비밀번호 변경
     public List<BoardVo> selectMyBoard(int member_no);				//내가 쓴 글 내역(자게)
+    
+    public void memberDrop(int member_no);							//회원 탈퇴
+    
 	
 
 }

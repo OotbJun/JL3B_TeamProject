@@ -192,30 +192,16 @@ public class CenterController {
 	    return "redirect:./center_read.do?center_no="+centerVo.getCenter_no();
 	}
 	
-	//센터 정보 수정
-//	@RequestMapping("/center_modify.do")
-//	public String modifyCenter(int info_no, Model model) {
-//
-//		model.addAttribute("readCenter", centerService.viewCenterInfo(info_no));
-//		
-//		return "center/center_modify";
-//	}
-//	@RequestMapping("/center_modify_process.do")
-//	public String modifyCenterProcess(CenterInfoVo centerInfoVo) {
-//		
-//		centerService.modifyCenterInfo(centerInfoVo);
-//		
-//		return "redirect:./center.do";
-//	}
-	
-	//센터 정보 삭제
-//	@RequestMapping("/center_erase_process.do")
-//	public String eraseCenterProcess(int info_no) {
-//
-//		centerService.eraseCenterInfo(info_no);
-//		
-//		return "redirect:./center.do";
-//	}
+	//센터 탈퇴
+	@RequestMapping("/center_drop_process.do")
+	public String centerDrop(int center_no, HttpSession session) {
+		
+		centerService.centerDrop(center_no);
+		
+		session.invalidate();
+		
+		return "...";
+	}
 	
 	
 	///////////////////////////////////////////////리뷰

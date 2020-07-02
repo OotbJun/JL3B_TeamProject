@@ -6,12 +6,39 @@
 
 <mapper namespace="com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper">
 	
+	<!-- npki키 조회 -->
 	<select id="selectNpki" resultType="String">
 		<![CDATA[
 			SELECT * FROM JL3B_NPKI WHERE NPKI_KEY = #{npki_key}
 		]]>
 	</select>
 	
+	<!-- 새로운 npki키 생성 -->
+	<insert id="insertNpki">
+		<![CDATA[
+			INSERT INTO 
+				JL3B_NPKI 
+			VALUES(
+				JL3B_NPKI_SEQ.NEXTVAL, 
+				#{npki_type}, 
+				#{npki_key}
+			)
+		]]>
+	</insert>
+	
+	<!-- npki키 삭제 -->
+	<delete id="deleteNpki">
+		<![CDATA[
+			DELETE FROM JL3B_NPKI WHERE NPKI_NO = #{npki_no}
+		]]>
+	</delete>
+	
+	<!-- npki키 리스트 -->
+	<select id="selectNpkiAll" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT * FROM JL3B_NPKI ORDER BY NPKI_TYPE
+		]]>
+	</select>
 	
 	
 </mapper>

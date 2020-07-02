@@ -201,4 +201,15 @@
 		]]>
 	</update>
 	
+	<!-- 센터 탈퇴 -->
+	<update id="centerDrop">
+		<![CDATA[
+			UPDATE JL3B_CENTER_AUTH 
+			SET 
+				CENTER_AUTH_CERTIFICATION = 'N' 
+			WHERE 
+				CENTER_NO = #{center_no}
+		]]>
+	</update>
+	
 </mapper>

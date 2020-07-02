@@ -213,6 +213,13 @@
 		]]>
 	</select>
 	
+	<!-- 날짜를 뽑아보자 -->
+	<select id="selectElection" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_ROUND = #{round}
+		]]>
+	</select>
+	
 	<!-- 예외처리 - 기간에 맞게 처리하려고 -->
 	<select id="electionStatus" resultType="String">
 		<![CDATA[

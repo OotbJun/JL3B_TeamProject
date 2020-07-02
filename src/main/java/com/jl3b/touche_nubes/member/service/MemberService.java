@@ -18,6 +18,7 @@ import com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper;
 import com.jl3b.touche_nubes.membervo.NpkiVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
+import com.jl3b.touche_nubes.membervo.CenterAuthVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 
@@ -136,33 +137,56 @@ public class MemberService {
       }
       return list;
    }
+   
+   //회원 탈퇴
+   public void memberDrop(int member_no) {
+	   memberSQLMapper.memberDrop(member_no);
+   }
 	
 	
 	
 	////////////////////////////////////////////////센터
-	//센터 로그인
-	public CenterVo loginCenter(CenterVo centerVo) {		
-		return memberSQLMapper.selectCenterByIdAndPw(centerVo);
-	}
+   //센터 로그인
+   public CenterVo loginCenter(CenterVo centerVo) {
+	   String center_HashCode = MemberMessageDigest.digest(centerVo.getCenter_pw());
+	   centerVo.setCenter_pw(center_HashCode);
+	   return memberSQLMapper.selectCenterByIdAndPw(centerVo);
+   }
 	
 	//센터 회원가입
-	public void joinCenter(CenterVo centerVo, List<CenterImgVo> centerImgList) {
+	public void joinCenter(CenterVo centerVo, List<CenterImgVo> centerImgList, CenterAuthVo centerAuthVo) {
 		
 		int centerKey = centerSQLMapper.createCenterKey();
 		System.out.println(centerKey);
+	
 		centerVo.setCenter_no(centerKey);
 		
+	
 		if(npkiSQLMapper.selectNpki(centerVo.getNpki_key()) == null) {
 			return;
 		}else {
+			//센터 비밀번호 암호화 
+			String centerHashCode = MemberMessageDigest.digest(centerVo.getCenter_pw());
+			centerVo.setCenter_pw(centerHashCode);
+			centerAuthVo.setCenter_no(centerKey);
+			
+          
+           	memberSQLMapper.insertCenterAuth(centerAuthVo);		 //센터인증
 			memberSQLMapper.insertCenter(centerVo);
 		}
 		
 		for(CenterImgVo centerImgVo : centerImgList) {			//이미지 등록
 			centerImgVo.setCenter_no(centerKey);
-			centerImgSQLMapper.insertCenterInfoImg(centerImgVo);;
+			centerImgSQLMapper.insertCenterInfoImg(centerImgVo);
 		}
 	}
+	
+	// 센터 회원가입 인증
+	public void certification_Center(String key) {
+	       memberSQLMapper.updateCenterAuth(key);	
+	}
+	
+	
 	
 	//아이디 중복검사
 	public boolean confrimId(String id) {

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>Insert title here</title>
+<title>회원 정보 수정</title>
 
 <link rel="stylesheet"
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -22,8 +22,16 @@ function submit_btn(){
    if(confirm("회원정보를 수정하시겠습니까?")== true){
       document.getElementById("update_mypage").submit();
       
-   }else 
-      false;
+   } 
+}
+
+function drop_btn(){
+   if(confirm("회원탈퇴를 하시겠습니까?")==true){
+	  document.getElementById("member_drop").submit();
+      alert("정상적으로 처리 되었습니다.");  location.href="../";
+      
+   }
+   
 }
 </script>
 
@@ -163,9 +171,7 @@ function submit_btn(){
          
          </div>
       </div>
-   
-   
-   
+  
    
    <!-- 밑에 부분 -->   
       <div class="card-footer text-muted">
@@ -176,22 +182,20 @@ function submit_btn(){
                <div class="col">
                <input type="button" value="수정 완료" class="btn btn-secondary" onclick="submit_btn()">
                </div>
-               
             </div>
-            
          </div>
-      
-      
       </div>
-      
    </div>
    </form>
-   
-   
-
+    <form action="${path}/member/member_drop_process.do" id="member_drop">
+    <div class="col">
+     <input type="hidden" name="member_no" value="${sessionUser.member_no }">
+     <input type="button" value="회원탈퇴" class="btn btn-danger" onclick="drop_btn()">
+      </div>
+   </form>
 </div>
 
-	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
+   <jsp:include page="../commons/include_footer.jsp"></jsp:include>
 
 </body>
 

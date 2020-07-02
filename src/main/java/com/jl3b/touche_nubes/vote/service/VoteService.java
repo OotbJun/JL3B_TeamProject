@@ -39,7 +39,6 @@ public class VoteService {
    public void startElection() {
       System.out.println("타이머 테스트");
       voteSQLMapper.insertElection();
-      
    }
    
    //매일 상태 업데이트
@@ -211,18 +210,10 @@ public class VoteService {
       return voteSQLMapper.electionStatus(round);
    }
    
-//   //당선인 수정(선거테이블)
-//   public void changeWinner() {
-//      
-//      int round = voteSQLMapper.selectNewRound();
-//      
-//      ElectionVo electionVo = voteSQLMapper.voteEnd();      //이러면 되지 않을까?
-//      electionVo.setElection_round(round);
-//      
-//      if(voteSQLMapper.voteEnd() != null) {
-//         voteSQLMapper.updateWinner(electionVo);
-//      }
-//   }
+   //날짜 뽑자
+   public ElectionVo checkElection(int round) {
+	   return voteSQLMapper.selectElection(round);
+   }
    
    
    //test

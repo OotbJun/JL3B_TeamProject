@@ -32,6 +32,7 @@ import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
+import com.jl3b.touche_nubes.membervo.CenterAuthVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 
@@ -49,36 +50,42 @@ public class MemberController {
 		return "member/join_member_choice";
 	}
 	
+	//회원가입
 	@RequestMapping("join_member.do")
 	public String joinMemberPage() {
-		
 		return "member/join_member";
 	}
 	@RequestMapping("/join_member_process.do")
 	public String joinMemberProcess(MemberVo memberVo) { 
 
-		if (memberService.checkNpki(memberVo.getNpki_key()) == null) { //인증키값이 null로 들어오면 Fail 
-			return"/member/join_fail";
-		}else if(memberService.checkNpkiDupl(memberVo.getNpki_key()) != null) {
-			return"/member/join_fail";
-		}else {
-			MemberAuthVo memberAuthVo = new MemberAuthVo();
-			
-			String authkey = UUID.randomUUID().toString();
-			
-			memberAuthVo.setAuth_key(authkey);
-			
-			memberService.joinMember(memberVo,memberAuthVo);	
-			
-			//메일을 보내는 쓰레드 
-			MemberSenderThread thread = new MemberSenderThread(memberVo.getMember_mail(),memberAuthVo.getAuth_key(), mailSender);
-			
-			thread.start();
-			
-			System.out.println("회원가입 성공 " + memberVo.getMember_rname());
-			
-			return "redirect:./login.do";
-		}	
+		 if (memberService.checkNpki(memberVo.getNpki_key()) == null) { //인증키값이 null로 들어오면 Fail 
+	         return"/member/join_fail";
+	      }else if(memberService.checkNpkiDupl(memberVo.getNpki_key()) != null) {
+	         return"/member/join_fail";
+	      }else {
+	         MemberAuthVo memberAuthVo = new MemberAuthVo();
+	         
+	         String authkey = UUID.randomUUID().toString();
+	         
+	         memberAuthVo.setAuth_key(authkey);
+	         
+	         memberService.joinMember(memberVo,memberAuthVo);   
+	         
+	         //메일을 보내는 쓰레드 
+	         MemberSenderThread thread = new MemberSenderThread(memberVo.getMember_mail(),memberAuthVo.getAuth_key(), mailSender);
+	         
+	         thread.start();
+	         
+	         System.out.println("회원가입 성공 " + memberVo.getMember_rname());
+	         
+	         return "redirect:./join_member_complete.do";
+	      }   
+	}
+	
+	// 회원가입 대기화면 
+	@RequestMapping("/join_member_complete.do")
+	public String memberComplete() {
+		return "member/join_complete";
 	}
 	
 	//회원가입  인증 컨트롤러 
@@ -88,11 +95,12 @@ public class MemberController {
 		return "/member/certification_complete";
 			
 	}	
+	
+	//로그인
 	@RequestMapping("/login.do")
 	public String login() {
 		return "member/login";
 	}
-	
 	@RequestMapping("/login_process.do")
 	public String loginProcess(MemberVo memberVo, HttpSession session) {
 		MemberVo memberdata = memberService.loginMember(memberVo);
@@ -105,6 +113,7 @@ public class MemberController {
 		}
 	}
 	
+	//로그아웃
 	@RequestMapping("/logout_process.do")
     public String logOutProcess(HttpSession session) {
 		 session.invalidate();
@@ -140,7 +149,6 @@ public class MemberController {
 	public String joinCenterPage() {
 		return "member/join_center";
 	}
-	
 	@RequestMapping("join_center_process.do")
 	public String joinCenterProcess(CenterVo centerVo, HttpSession session, MultipartFile [] centerFile) {
 		
@@ -192,23 +200,31 @@ public class MemberController {
         System.out.println("센터vo : " + centerVo.getCenter_no());
         System.out.println("센터이미지 : " + centerImgList);
         
-        memberService.joinCenter(centerVo, centerImgList);
+        CenterAuthVo centerAuthVo = new CenterAuthVo();
+        String centerAuthkey = UUID.randomUUID().toString();
+        centerAuthVo.setCenter_auth_key(centerAuthkey);
+        
+        memberService.joinCenter(centerVo, centerImgList, centerAuthVo);
+        CenterSenderThread centerthread = new CenterSenderThread(centerVo.getCenter_mail(),centerAuthVo.getCenter_auth_key(), mailSender);
+		centerthread.start();
+        //CenterInfoVo centerInfoData = centerService.checkCenterInfo(centerInfoVo.getCenter_no());
 		
-		//CenterInfoVo centerInfoData = centerService.checkCenterInfo(centerInfoVo.getCenter_no());
-		
-		return "redirect:./login.do";
+		return "redirect:./join_member_complete.do";
 	}
+	
+	//센터 회원가입  인증 컨트롤러 
+	@RequestMapping("/certification_center_process.do")
+	public String certification_Center_Process(String key) {
+		
+		memberService.certification_Center(key);
+		
+		return "/member/certification_complete";
+		
+	}	
 	
 	//멤버 마이페이지
 	@RequestMapping("/mypage.do")
 	public String Mypage(Model model, HttpSession session) {
-      
-//		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
-      
-//		String aaa = memberService.getDate(memberVo.getMember_no());
-      
-//		model.addAttribute("memberDate", aaa);
-      
 		return "member/mypage";
    }
    
@@ -229,7 +245,6 @@ public class MemberController {
 			return "redirect:/member/update_mypage.do";
 		}
 	}
-   
   
 	//멤버 마이페이지 수정
 	@RequestMapping("/update_mypage.do")
@@ -244,7 +259,7 @@ public class MemberController {
 		memberService.updateMypageProcess(membervo);
 		MemberVo memberData = memberService.updateSession(membervo.getMember_no());
 		
-		System.out.println(memberData.getMember_id());
+		System.out.println(memberData.getMember_rname());
       
 		session.setAttribute("sessionUser", memberData);
       
@@ -284,18 +299,28 @@ public class MemberController {
 	
 	   // 내가 쓴글 출력하기 
 	   @RequestMapping("mywrite.do")
-   public String myWrite(HttpSession session,Model model) {
+	public String myWrite(HttpSession session,Model model) {
       
-      MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
       
       
-      List<Map<String,Object>> list = memberService.getMyBoard(memberVo.getMember_no());
-        
-      model.addAttribute("myBoardList", list);
+	    List<Map<String,Object>> list = memberService.getMyBoard(memberVo.getMember_no());
+	        
+	    model.addAttribute("myBoardList", list);
        
-        return "member/mywrite";
-   }
+	    return "member/mywrite";
+	}
 	
+	//회원 탈퇴
+	@RequestMapping("/member_drop_process.do")
+	public String memberDrop(int member_no, HttpSession session) {
+		
+		memberService.memberDrop(member_no);
+		
+		session.invalidate();
+		
+		return "redirect:../";
+	}
 }
 
 
@@ -344,6 +369,49 @@ class MemberSenderThread extends Thread{
   		
 		}catch (Exception e) {
   		e.printStackTrace();
+		}
+	}
+}
+
+class CenterSenderThread extends Thread{
+	private String email;
+	private String centerAuthKey;
+	private JavaMailSenderImpl MailSender;
+
+	public CenterSenderThread(String email, String centerAuthKey, JavaMailSenderImpl mailSender) {
+		super();
+		
+		this.email = email;
+		this.centerAuthKey= centerAuthKey;
+		MailSender = mailSender;
+	} 
+
+	public void run() {
+		try {
+		  	 MimeMessage message = null;	
+		  	 MimeMessageHelper messageHelper = null ;
+		  	 message = MailSender.createMimeMessage();
+		  	 messageHelper = new MimeMessageHelper(message,true,"UTF-8");
+		  	 messageHelper.setSubject("[TOUCHE NUBES] 센터 가입 이메일 인증입니다.");
+		
+		  	 String text = "";
+	 
+	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
+	  	 String link ="http://localhost:8181/touche_nubes/member/certification_center_process.do?key="+centerAuthKey;
+	  	 text += "Touche Nubes 센터에 가입하신 선생님 감사합니다.<br>";
+	  	 text += "센터등록  완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
+	  	 text += "<a href='"+link+"'>";
+	  	 text += "Touche Nubes사이트로 이동하기";
+	  	 text += "</a>";
+	 
+	  	 messageHelper.setText(text, true);								//내용
+	     messageHelper.setFrom("111", "Touche Nubes관리자입니다");						//보내는 사람
+	     messageHelper.setTo(email);
+
+     MailSender.send(message);
+		
+		}catch (Exception e) {
+		e.printStackTrace();
 		}
 	}
 }

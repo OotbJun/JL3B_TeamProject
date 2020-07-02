@@ -129,13 +129,8 @@ public class CenterService {
 		centerSQLMapper.insertCenterReview(centerReviewVo);
 	}
 	
-	//관리자 권한 센터 삭제
-	public void deleteCenter(int center_no, HttpSession session) {
-		
-		AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
-		
-		if(adminVo != null) {
-			memberSQLMapper.deleteCenter(center_no);
-		}
+	//센터 탈퇴
+	public void centerDrop(int center_no) {
+		centerSQLMapper.centerDrop(center_no);
 	}
 }

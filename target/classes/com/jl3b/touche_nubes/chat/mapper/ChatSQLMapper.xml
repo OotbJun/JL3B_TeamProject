@@ -33,8 +33,6 @@
 				)
 			WHERE 
 				CHAT_NO > #{chat_no}
-			AND 
-				ROWNUM <= 30
 			ORDER BY 
 				CHAT_NO ASC
 		]]>

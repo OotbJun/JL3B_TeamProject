@@ -97,6 +97,7 @@ public class BoardService {
    public List<Map<String, Object>> noticeList(String searchOption, String keyword, int currentPage) {
       List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
       List<NoticeVo> noticeList = null;
+      
 
       // 페이징 + 검색
       if (keyword == null) {

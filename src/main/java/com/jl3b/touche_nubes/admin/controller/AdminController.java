@@ -28,9 +28,14 @@ import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
+import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
+import com.jl3b.touche_nubes.membervo.NpkiVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
+import com.jl3b.touche_nubes.vote.service.VoteService;
+import com.jl3b.touche_nubes.votevo.CandyVo;
+import com.jl3b.touche_nubes.votevo.ElectionVo;
 
 @Controller
 @RequestMapping("/admin/*")
@@ -40,6 +45,10 @@ public class AdminController {
    private AdminService adminService;
    @Autowired
    private BoardService boardService;
+   @Autowired
+   private VoteService voteService;
+   @Autowired
+   private MemberService memberService;
    
    private String y = null;
    
@@ -519,6 +528,81 @@ public class AdminController {
 
       return "redirect:./idea.do";
    }
+   
+   
+   /////////////////회원관리
+   //npki키 생성
+   @RequestMapping("/create_npki_process.do")
+   public String createNpki(NpkiVo npkiVo) {
+	   
+	   adminService.createNpki(npkiVo);
+	   
+	   return "";
+	   
+   }
+   
+   //npki키 삭제
+   @RequestMapping("/remove_npki_process.do")
+   public String removeNpki(int npki_no) {
+	   
+	   adminService.removeNpki(npki_no);
+	   
+	   return "";
+	   
+   }
+   
+   //npki 리스트 출력~~~~할까 말까
+   
+   
+   //회원 탈퇴 처리
+   @RequestMapping("/member_drop_process.do")
+   public String memberDrop(int member_no) {
+	   
+	   memberService.memberDrop(member_no);
+	   
+	   return "redirect:./";
+   }
+   
+   
+   //선거
+   //선거 개시 -> 테이블에 새로운 회차 등록됨
+ 	@RequestMapping("vote_start.do")
+ 	public String voteStart() {
+ 		voteService.startElection();
+ 		
+ 		return "redirect:./vote.do";
+ 	}
+ 	
+ 	//선거 페이지
+ 	@RequestMapping("vote.do")
+ 	public String vote(Model model, HttpSession session) {
+ 		
+		try {
+			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.
+			model.addAttribute("round", round);		//round값을 받아줘서 항상 최신회차 출력을 위한 것.
+			String status = voteService.checkStatus(round);
+			model.addAttribute("status", status);
+			
+			System.out.println(round);
+			
+//			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
+//			CandyVo candyVo = voteService.check(memberNo, round);
+//			model.addAttribute("candyVo", candyVo);
+			
+			ElectionVo electionVo = voteService.checkElection(round);
+			model.addAttribute("electionVo", electionVo);
+			
+			
+			System.out.println("날짜"+electionVo.getCandy_startdate());
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+ 		
+ 		return "admin/vote";
+ 	}
+ 	
+ 	
 
 
 }

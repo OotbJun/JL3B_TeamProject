@@ -160,10 +160,10 @@
          ]]>
    	</select>
    	
-   	<!-- 마이페이지 정보변경 -->
+   	<!-- 마이페이지 이름변경 -->
    <update id="updateMypage">
 	   <![CDATA[
-	         UPDATE JL3B_member SET member_rname= #{member_rname} WHERE member_id=#{member_id}
+	         UPDATE JL3B_member SET member_rname=#{member_rname} WHERE member_no=#{member_no}
 	   ]]>
    </update>
    
@@ -199,6 +199,16 @@
  				IDEA_WDATE DESC
  		]]>  	
    	</select>
+   	
+   	 <!-- 회원 탈퇴 -->
+   <update id="memberDrop">
+   		<![CDATA[
+   			UPDATE JL3B_MEMBER_AUTH 
+   			SET 
+   				AUTH_CERTIFICATION = 'N' 
+   			WHERE MEMBER_NO = #{member_no}
+   		]]>
+   </update>
 
    
 	
@@ -242,15 +252,19 @@
 	
 	<!-- 센터 로그인 -->
 	<select id="selectCenterByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
-		<![CDATA[
-			SELECT * 
-			FROM 
-				JL3B_CENTER 
-			WHERE 
-				center_id = #{center_id} 
-			AND 
-				center_pw = #{center_pw}
-		]]>
+	<![CDATA[
+	         SELECT * 
+	         FROM 
+	            JL3B_center c, JL3B_center_AUTH a 
+	         WHERE 
+	            c.center_no = a.center_no 
+	         AND 
+	            c.center_id = #{center_id} 
+	         AND 
+	            c.center_pw = #{center_pw} 
+	         AND 
+	            a.center_auth_certification = 'Y'
+      ]]>   
 	</select>
 	
 	<!-- 이메일 중복확인 -->
@@ -323,12 +337,29 @@
    		]]>
    </update>
    
-   <!-- 관리자 권한 센터 삭제 -->
-   <delete id="deleteCenter">
-   		<![CDATA[
-   			DELETE FROM JL3B_CENTER WHERE CENTER_NO = #{center_no}
-   		]]>
-   </delete>
+    <!-- 센터 인증메일용 테이블 삽입  -->
+    <insert id="insertCenterAuth">
+	     <![CDATA[
+	         INSERT INTO JL3B_CENTER_AUTH
+	         VALUES(
+				 JL3B_CENTER_AUTH_seq.NEXTVAL,
+				 #{center_no},
+				 'N',
+				 #{center_auth_key}
+			 )
+		]]>
+	 </insert>
+	 
+	 <!-- 센터 메일로 넘어온 인증처리  -->
+	  <update id="updateCenterAuth">
+		<![CDATA[
+		     UPDATE JL3B_CENTER_AUTH
+		     SET 
+		     	center_auth_certification = 'Y'
+		     WHERE 
+		     	center_auth_key LIKE #{key}
+		 ]]>
+	  </update> 
    
    
    <!-- 관리자 -->
@@ -344,5 +375,8 @@
    			UPDATE JL3B_member SET member_GRADE = #{member_grade} WHERE member_NO = #{member_no}
    		]]>
    </update>
+   
+   
+  
 
 </mapper>

@@ -247,7 +247,7 @@ li {
            
            <div class="col-1 pt-1">내용</div>
            <div class="col-10">
-              <input type="text" class="form-control" id="chat_content" onkeydown="onKeyDown()" ></textarea>
+              <input type="text" class="form-control" id="chat_content" onkeydown="onKeyDown()" >
            </div>
            <div class="col-1">
               <input type="button" value="입력" onclick="insertChat()">

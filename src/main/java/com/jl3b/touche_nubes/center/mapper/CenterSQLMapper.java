@@ -32,14 +32,16 @@ public interface CenterSQLMapper {
 	public int selectReserverCount(int prog_no);						//인원 수 조회(예약 마감 활성화)
 	
 	//프로그램
-	public void insertProg(LessonInfoVo progVo);							//프로그램 등록
-	public void updateProg(LessonInfoVo progVo);							//프로그램 수정
-	public void deleteProg(int prog_no);							//프로그램 삭제
+	public void insertProg(LessonInfoVo progVo);						//프로그램 등록
+	public void updateProg(LessonInfoVo progVo);						//프로그램 수정
+	public void deleteProg(int prog_no);								//프로그램 삭제
 	
 	//프로그램 시간대
-	public void insertTime(LessonVo progTimeVo);					//시간대 등록
-	public void minusSeat();										//예약되면 인원수 차감
+	public void insertTime(LessonVo progTimeVo);						//시간대 등록
+	public void minusSeat();											//예약되면 인원수 차감
 	
+	
+	public void centerDrop(int center_no);								//센터 탈퇴
 	
 	
 }

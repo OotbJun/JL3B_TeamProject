@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>Insert title here</title>
+<title>센터 마이페이지</title>
 
 <link rel="stylesheet"
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -30,13 +30,13 @@
    <ol class="breadcrumb">
    
       <li class="breadcrumb-item active">
-         <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
+         <a href="${path}/center/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item ">
-         <a href="#">예약 내역</a>
+         <a href="#">예약 현황</a>
       </li>
       <li class="breadcrumb-item ">
-         <a href="${path}/member/mywrite.do">내가 쓴 글 확인하기</a>
+         <a href="${path}/center/mywrite.do">센터 클래스</a>
       </li>   
    </ol>
    
@@ -61,7 +61,7 @@
                         <label class="col-sm-2 col-form-label"><b>NAME</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_name" name="member_name" value="${sessionUser.member_rname }">   
+                           <input type="text" readonly class="form-control-plaintext" id="center_name" name="center_name" value="${sessionCenter.center_name }">   
                         </div>                     
                      </div>                     
                   </div>                              
@@ -74,7 +74,7 @@
                         <label class="col-sm-2 col-form-label"><b>ID</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_id" name="member_id" value="${sessionUser.member_id }">   
+                           <input type="text" readonly class="form-control-plaintext" id="center_id" name="center_id" value="${sessionCenter.center_id }">   
                         </div>                     
                      </div>                     
                   </div>                              
@@ -88,7 +88,7 @@
                         <label class="col-sm-2 col-form-label"><b>PW</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_pw" name="member_pw" value="●●●●●●●●●">   
+                           <input type="text" readonly class="form-control-plaintext" id="center_pw" name="center_pw" value="●●●●●●●●●">   
                         </div>                     
                      </div>                     
                   </div>                              
@@ -101,25 +101,12 @@
                         <label class="col-sm-2 col-form-label"><b>Email</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_email" name="member_mail" value="${sessionUser.member_mail }">   
+                           <input type="text" readonly class="form-control-plaintext" id="center_mail" name="center_mail" value="${sessionCenter.center_mail }">   
                         </div>                     
                      </div>                     
                   </div>                              
                </div>
                
-               
-               <!-- 회원등급 -->
-               <div class="row mt-1">
-                  <div class="col mt-1">
-                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"><b>회원등급</b></label>
-                        <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_grade" name="member_grade" value="${sessionUser.member_grade }등급">   
-                        </div>                     
-                     </div>                     
-                  </div>                              
-               </div>
                
                <!-- 인증키 -->
                <div class="row mt-1">
@@ -128,11 +115,14 @@
                         <label class="col-sm-2 col-form-label"><b>인증 KEY</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="npki_key" name="npki_key" value="${sessionUser.npki_key }">   
+                           <input type="text" readonly class="form-control-plaintext" id="npki_key" name="npki_key" value="${sessionCenter.npki_key }">   
                         </div>                     
                      </div>                     
                   </div>                              
                </div>
+               
+               
+              
                
                
                
@@ -143,7 +133,7 @@
                         <label class="col-sm-2 col-form-label"><b>가입일자</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">
-                           <fmt:formatDate pattern="yyyy.MM.dd" value="${sessionUser.member_jdate }"/>                  
+                           <fmt:formatDate pattern="yyyy.MM.dd" value="${sessionCenter.center_jdate }"/>                  
                             <!-- <input type="text" readonly class="form-control-plaintext" id="member_joindate" name="member_joindate" value="${memberDate }"> -->
                               
                         </div>                     
@@ -170,7 +160,7 @@
                <div class="col-5"></div>
                <div class="col-5"></div>
                <div class="col">
-               <a href="${path}/member/confirm_pw.do"><input type="button" value="정보수정" class="btn btn-outline-secondary btn-sm"></a></div>
+               <a href="${path}/center/confirm_pw.do"><input type="button" value="정보수정" class="btn btn-outline-secondary btn-sm"></a></div>
             </div>
          </div>
       
