@@ -32,6 +32,34 @@
 	   ]]>
    </delete>
    
+   <!-- 입주민 회원 리스트 -->
+    <select id="memberlist" resultType="com.jl3b.touche_nubes.membervo.MemberVo" >
+       <![CDATA[
+            SELECT M.MEMBER_RNAME, M.MEMBER_ID, M.MEMBER_GRADE, M.MEMBER_MAIL, M.NPKI_KEY, M.MEMBER_JDATE, a.auth_certification
+			FROM 
+				JL3B_MEMBER M, JL3B_MEMBER_AUTH A 
+			WHERE 
+				M.MEMBER_NO = A.MEMBER_NO
+			AND 
+				A.AUTH_CERTIFICATION = 'Y'
+      ]]>
+   
+   </select>
+   
+   <!-- 센터 회원 리스트 -->
+    <select id="centerlist" resultType="com.jl3b.touche_nubes.membervo.CenterVo" >
+       <![CDATA[
+            SELECT * 
+            FROM 
+            	JL3B_CENTER C, JL3B_CENTER_AUTH A
+			WHERE 
+				C.CENTER_NO = A.CENTER_NO
+			AND 
+				A.CENTER_AUTH_CERTIFICATION = 'Y'
+      ]]>
+   
+   </select>
+   
    
 
 </mapper>

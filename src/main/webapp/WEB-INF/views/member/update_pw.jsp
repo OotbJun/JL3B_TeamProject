@@ -23,24 +23,54 @@
 //비밀번호 확인
 $(function() {
    
-   $('#member_pw').keyup(function() {
-      $('#pwCheck').html('');
-   });
+	
+	if('#member_pw' != null){
+		$('#member_pw').keyup(function() {
+		      $('#pwCheck').html('');
+		   });
+	}
+	if('#center_pw' != null){
+		$('#center_pw').keyup(function() {
+		      $('#pwCheck').html('');
+		   });
+	}
+   
       
-      
-   $('#member_pw2').keyup(function() {
-      if ($('#member_pw').val() != $('#member_pw2').val()) {
-         
-         $('#pwCheck').html("비밀번호 불일치");
-         $('#pwCheck').attr('color', '#f82a2aa3');
-         $("#update_submit").attr("disabled", true);
-      } else {
-         $('#pwCheck').html("비밀번호 일치 ");
-         $('#pwCheck').attr('color', '#199894b3');
-         $("#update_submit").attr("disabled", false);
-      }
+   
+	if('#member_pw2' != null){
+		
+   		$('#member_pw2').keyup(function() {
+	      if ($('#member_pw').val() != $('#member_pw2').val()) {
+	         
+	         $('#pwCheck').html("비밀번호 불일치");
+	         $('#pwCheck').attr('color', '#f82a2aa3');
+	         $("#update_submit").attr("disabled", true);
+	      } else {
+	         $('#pwCheck').html("비밀번호 일치 ");
+	         $('#pwCheck').attr('color', '#199894b3');
+	         $("#update_submit").attr("disabled", false);
+	      }
 
-   });
+	   });
+   		
+	}
+	if('#center_pw2' != null){
+		
+	   $('#center_pw2').keyup(function() {
+	      if ($('#center_pw').val() != $('#center_pw2').val()) {
+	         
+	         $('#pwCheck').html("비밀번호 불일치");
+	         $('#pwCheck').attr('color', '#f82a2aa3');
+	         $("#update_submit").attr("disabled", true);
+	      } else {
+	         $('#pwCheck').html("비밀번호 일치 ");
+	         $('#pwCheck').attr('color', '#199894b3');
+	         $("#update_submit").attr("disabled", false);
+	      }
+
+	   });
+	}
+
 });
 
 
@@ -49,9 +79,7 @@ function submit_btn(){
    
    if(confirm("비밀번호를 수정하시겠습니까?")== true){
       document.getElementById("update_pw").submit();
-      
-   }else 
-      false;
+   }
 }
 
 
@@ -105,8 +133,16 @@ function submit_btn(){
                         <label class="col-sm-2 col-form-label"><b>새 PW</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
+                         
+                         <c:if test="${!empty sessionUser }">
                            <input type="password" class="form-control" name="member_pw" id="member_pw" maxlength="20">
-                           <input type="hidden" name="member_no" value="${sessionUser.member_no }">   
+                           <input type="hidden" name="member_no" value="${sessionUser.member_no }">
+                         </c:if>
+                         <c:if test="${!empty sessionCenter }">
+                           <input type="password" class="form-control" name="center_pw" id="center_pw" maxlength="20">
+                           <input type="hidden" name="center_no" value="${sessionCenter.center_no }">
+                         </c:if>
+                            
                         </div>                     
                      </div>                     
                   </div>                              
@@ -118,8 +154,14 @@ function submit_btn(){
                         <label class="col-sm-2 col-form-label"><b>새 PW 확인</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
+                        
+                        <c:if test="${!empty sessionUser }">
                            <input type="password" class="form-control" id="member_pw2" maxlength="20">   
-                           
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">
+                           <input type="password" class="form-control" id="center_pw2" maxlength="20">   
+                        </c:if>
+                        
                         </div>   
                         <div class="col">
                             <font id= "pwCheck" size="2"></font>

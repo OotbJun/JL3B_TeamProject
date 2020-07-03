@@ -29,7 +29,7 @@
       <li class="breadcrumb-item active">
          <a href="${path}/member/mywrite.do">자유게시판<span class="sr-only">(current)</span></a>
       </li>
-      <li class="breadcrumb-item "><a href="#">청원게시판</a>
+      <li class="breadcrumb-item "><a href="${path}/member/myidea.do">청원게시판</a>
       </li>
       <li class="breadcrumb-item ">
          <a href="${path}/member/mywrite.do">댓글</a>

@@ -26,6 +26,7 @@ import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.vote.service.VoteService;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.votevo.CandyVo;
+import com.jl3b.touche_nubes.votevo.ElectionVo;
 import com.jl3b.touche_nubes.votevo.VoteVo;
 
 @Controller
@@ -61,6 +62,9 @@ public class VoteController {
 			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
 			CandyVo candyVo = voteService.check(memberNo, round);
 			model.addAttribute("candyVo", candyVo);
+			
+			ElectionVo electionVo = voteService.checkElection(round);
+			model.addAttribute("electionVo", electionVo);
 			
 		}catch(Exception e) {
 			e.printStackTrace();

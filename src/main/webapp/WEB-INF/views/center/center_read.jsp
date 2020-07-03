@@ -238,6 +238,19 @@
  </div>
  </div>
  </div>
+ 
+ <div class="row py-5">
+      <div class="col section-2 section-description wow fadeIn text-center">
+        <h1>${readCenter.centerVo.center_name } 클래스 예약 </h1>
+     <div class="divider-1 wow fadeInUp"><span></span></div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-9 mx-auto">
+      <div id="accordionExample" class="accordion shadow">
+      </div>
+      </div>
+      </div>
       <!-- Section 3 -->
         <div class="section-3-container section-container text-center">
            <div class="container">

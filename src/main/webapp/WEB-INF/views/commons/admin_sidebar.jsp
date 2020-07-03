@@ -44,9 +44,10 @@
           <i class="fas fa-fw fa-wrench"></i>
           <span>게시판</span>
         </a>
-        <div id="collapseUtilities" class="collapse in" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">게시판 관리:</h6>
+         
             <a class="collapse-item" href="${path }/admin/notice.do">공지사항</a>
             <a class="collapse-item" href="${path }/admin/board.do">자유게시판</a>
             <a class="collapse-item" href="${path }/admin/idea.do">주민청원</a>
@@ -60,23 +61,23 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-           편의시설
+            setting
       </div>
 
   
 
       <!-- Nav Item - Charts -->
       <li class="nav-item">
-        <a class="nav-link" href="${path }/admin/vote.do">
+        <a class="nav-link" href="charts.html">
           <i class="fas fa-fw fa-chart-area"></i>
           <span>선거</span></a>
       </li>
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="${path}/admin/member_control.do">
           <i class="fas fa-fw fa-table"></i>
-          <span>클래스</span></a>
+          <span>회원관리</span></a>
       </li>
 
       <!-- Divider -->

@@ -154,17 +154,41 @@
 	  
 	  
 	  <!-- 비밀번호 확인 -->
-   	<select id="confirmPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+   	<select id="confirmMemberPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
          <![CDATA[
             SELECT * FROM JL3B_member WHERE Member_ID=#{member_id} AND Member_PW=#{member_pw}
          ]]>
    	</select>
    	
+   	<!-- 센터 비밀번호 확인 -->
+   	<select id="confirmCenterPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_ID = #{center_id} 
+   			AND 
+   				CENTER_PW = #{center_pw}
+   		]]>
+   	</select>
+   	
    	<!-- 마이페이지 이름변경 -->
-   <update id="updateMypage">
+   <update id="updateMember">
 	   <![CDATA[
 	         UPDATE JL3B_member SET member_rname=#{member_rname} WHERE member_no=#{member_no}
 	   ]]>
+   </update>
+   
+   <!-- 센터 정보 수정(이름)  -->
+   <update id="updateCenter">
+   		<![CDATA[
+   			UPDATE JL3B_CENTER 
+   			SET 
+   				CENTER_NAME = #{center_name} 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
    </update>
    
    <!-- 비밀번호 변경 -->
@@ -206,13 +230,24 @@
    			UPDATE JL3B_MEMBER_AUTH 
    			SET 
    				AUTH_CERTIFICATION = 'N' 
-   			WHERE MEMBER_NO = #{member_no}
+   			WHERE 
+   				MEMBER_NO = #{member_no}
    		]]>
    </update>
 
-   
 	
 	<!-- 센터 -->
+	<!-- 센터 회원 탈퇴 -->
+	<update id="centerDrop">
+		<![CDATA[
+			UPDATE JL3B_CENTER_AUTH 
+   			SET 
+   				CENTER_AUTH_CERTIFICATION = 'N' 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+		]]>
+	</update>
+	
 	<!-- 센터 가입 -->
 	<insert id="insertCenter">
 		<![CDATA[
@@ -377,6 +412,26 @@
    </update>
    
    
+   <!-- 날짜 이쁘게 뽑을라구 -->
+   <select id="selectMemberDate" resultType="String">
+   		<![CDATA[
+   			SELECT TO_CHAR(TRUNC(MEMBER_JDATE, 'DD'), 'RRRR-MM-DD') AS JOINDATE 
+   			FROM 
+   				JL3B_MEMBER 
+   			WHERE 
+   				MEMBER_NO = #{member_no}
+   		]]>
+   </select>
+   
+   <select id="selectCenterDate" resultType="String">
+   		<![CDATA[
+   			SELECT TO_CHAR(TRUNC(CENTER_JDATE, 'DD'), 'RRRR-MM-DD') AS JOINDATE 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
+   </select>
   
 
 </mapper>

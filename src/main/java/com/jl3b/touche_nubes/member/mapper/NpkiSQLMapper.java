@@ -10,6 +10,8 @@ public interface NpkiSQLMapper {
 	public void insertNpki(NpkiVo npkiVo);				//관리자가 새로운 npki키 생성
 	public void deleteNpki(int npki_no);				//npki키 삭제
 	public List<NpkiVo> selectNpkiAll();				//npki키 리스트
-	 
-	
+	public List<NpkiVo> selectMemberIng();				//사용중 입주민 npki
+	public List<NpkiVo> selectCenterIng();				//사용중 센터 npki
+	public List<NpkiVo> selectMemberUnused();			//미사용 입주민 npki
+	public List<NpkiVo> selectCenterUnused();			//미사용 센터 npki
 }

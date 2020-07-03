@@ -85,22 +85,41 @@ public class MemberService {
 	}
 	
 	//마이페이지 비밀번호 확인
-	public MemberVo confirmPw(MemberVo membervo) {
+	public MemberVo confirmMemberPw(MemberVo membervo) {
       
 		String hashCode = MemberMessageDigest.digest(membervo.getMember_pw());
 		membervo.setMember_pw(hashCode);
       
-		return memberSQLMapper.confirmPw(membervo);
+		return memberSQLMapper.confirmMemberPw(membervo);
     }
+	
+	//센터 비밀번호 확인
+	public CenterVo confirmCenterPw(CenterVo centerVo) {
+		
+		String hashCode = MemberMessageDigest.digest(centerVo.getCenter_pw());
+		centerVo.setCenter_pw(hashCode);
+		
+		return memberSQLMapper.confirmCenterPw(centerVo);
+	}
 	   
 	//마이페이지 정보 수정
-	public void updateMypageProcess(MemberVo membervo) {
-		memberSQLMapper.updateMypage(membervo);
+	public void updateMember(MemberVo membervo) {
+		memberSQLMapper.updateMember(membervo);
+	}
+	
+	//센터 정보 수정
+	public void updateCenter(CenterVo centerVo) {
+		memberSQLMapper.updateCenter(centerVo);
 	}
 	
 	//멤버no 받아오는거
 	public MemberVo updateSession(int member_no) {
 		return memberSQLMapper.selectMemberByNo(member_no);
+	}
+	
+	//센터 no 받아오기
+	public CenterVo updateCenterSession(int center_no) {
+		return memberSQLMapper.selectCenterByNo(center_no);
 	}
    
 	//비밀번호 변경 
@@ -108,6 +127,13 @@ public class MemberService {
         String hashCode = MemberMessageDigest.digest(membervo.getMember_pw());
         membervo.setMember_pw(hashCode);
         memberSQLMapper.updatePw(membervo);
+	}
+	
+	//센터 비밀번호 변경
+	public void updateCenterPw(CenterVo centerVo) {
+		String hashCode = MemberMessageDigest.digest(centerVo.getCenter_pw());
+		centerVo.setCenter_pw(hashCode);
+		memberSQLMapper.updateCenterPw(centerVo);
 	}
 	
 	//비밀번호 찾기
@@ -137,10 +163,31 @@ public class MemberService {
       }
       return list;
    }
+
+   // 내가 쓴글(청원)  
+   public List<Map<String,Object>> getMyIdea(int member_no){
+	   List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+	   List<IdeaVo> IdeaList = memberSQLMapper.selectMyIdea(member_no);
+	   
+	   for(IdeaVo ideaVo : IdeaList) {
+		   MemberVo memberVo = memberSQLMapper.selectMemberByNo(ideaVo.getMember_no());
+		    Map<String,Object> map = new HashMap<String, Object>();
+		    map.put("memberVo",memberVo);
+		    map.put("ideaVo",ideaVo);
+		    list.add(map);
+	   } 
+	   return list;
+   }
+   
    
    //회원 탈퇴
    public void memberDrop(int member_no) {
 	   memberSQLMapper.memberDrop(member_no);
+   }
+   
+   //센터 회원 탈퇴
+   public void centerDrop(int center_no) {
+	   memberSQLMapper.centerDrop(center_no);
    }
 	
 	
@@ -250,4 +297,13 @@ public class MemberService {
          return false;
       }
    }
+   
+   //날짜~~
+   public String getMemberDate(int member_no) {
+	   return memberSQLMapper.selectMemberDate(member_no);
+   }
+   public String getCenterDate(int center_no) {
+	   return memberSQLMapper.selectCenterDate(center_no);
+   }
+   
 }

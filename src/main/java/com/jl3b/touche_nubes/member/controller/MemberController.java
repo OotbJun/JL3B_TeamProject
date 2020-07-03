@@ -21,6 +21,8 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -225,6 +227,23 @@ public class MemberController {
 	//멤버 마이페이지
 	@RequestMapping("/mypage.do")
 	public String Mypage(Model model, HttpSession session) {
+		
+		String memberDate = null;			//if 때문에 밖에서 선언
+		String centerDate = null;
+		
+		if(session.getAttribute("sessionUser") != null) {								//if문 안 쓰면 널포인터 뜨더라
+			MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+			memberDate = memberService.getMemberDate(memberVo.getMember_no());			//그냥 날짜 자른거 담아서 넘겨주는 거야
+		}
+		
+		if(session.getAttribute("sessionCenter") != null) {
+			CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");
+			centerDate = memberService.getCenterDate(centerVo.getCenter_no());
+		}
+		
+		model.addAttribute("memberDate", memberDate);
+		model.addAttribute("centerDate", centerDate);
+		
 		return "member/mypage";
    }
    
@@ -236,34 +255,75 @@ public class MemberController {
 
 	//비밀번호 확인 프로세스
 	@RequestMapping("/confirm_pw_process.do")
-	public String ConfirmPwProcess(MemberVo membervo, HttpSession session) {
-		MemberVo userData = memberService.confirmPw(membervo);
-		if(userData == null) {
+	public String ConfirmPwProcess(MemberVo membervo, HttpSession session, CenterVo centerVo) {
+		
+		MemberVo userData = null;
+		CenterVo centerData = null;
+		
+		if(session.getAttribute("sessionUser") != null) {					//진짜 이렇게까지 해줘야 넘어가는 값 제대로 받아짐
+			userData = memberService.confirmMemberPw(membervo);
+		}
+		if(session.getAttribute("sessionCenter") != null) {					//안하면 member, center 둘 다 넘어가서 익셉션
+			centerData = memberService.confirmCenterPw(centerVo);
+		}
+		
+		if(userData == null && centerData == null) {
 			return "member/confirm_fail";
-		}else {
+		}
+		
+		if(userData != null) {
 			session.setAttribute("sessionUser", userData);
+			
+			return "redirect:/member/update_mypage.do";
+		}else {
+			session.setAttribute("sessionCenter", centerData);
+			
 			return "redirect:/member/update_mypage.do";
 		}
 	}
   
 	//멤버 마이페이지 수정
 	@RequestMapping("/update_mypage.do")
-	public String UpdateMypage() {
+	public String UpdateMypage(Model model, HttpSession session) {
+		
+		String memberDate = null;			//if 때문에 밖에서 선언
+		String centerDate = null;
+		
+		if(session.getAttribute("sessionUser") != null) {								//if문 안 쓰면 널포인터 뜨더라
+			MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+			memberDate = memberService.getMemberDate(memberVo.getMember_no());			//그냥 날짜 자른거 담아서 넘겨주는 거야
+		}
+		
+		if(session.getAttribute("sessionCenter") != null) {
+			CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");
+			centerDate = memberService.getCenterDate(centerVo.getCenter_no());
+		}
+		
+		model.addAttribute("memberDate", memberDate);
+		model.addAttribute("centerDate", centerDate);
+		
 		return "member/update_mypage";
 	}
    
 	//멤버 마이페이지 수정 프로세스
 	@RequestMapping("/update_mypage_process.do")
-	public String UpdateProcessMypage(MemberVo membervo, HttpSession session) {
+	public String UpdateProcessMypage(MemberVo membervo, HttpSession session, CenterVo centerVo) {
       
-		memberService.updateMypageProcess(membervo);
-		MemberVo memberData = memberService.updateSession(membervo.getMember_no());
+		if(session.getAttribute("sessionUser") != null) {
+			memberService.updateMember(membervo);
+			MemberVo memberData = memberService.updateSession(membervo.getMember_no());
+			session.setAttribute("sessionUser", memberData);							//로그아웃 없이 업데이트
+	      
+			return "redirect:/member/mypage.do";
+		}else {
+			memberService.updateCenter(centerVo);
+			CenterVo centerData = memberService.updateCenterSession(centerVo.getCenter_no());
+			session.setAttribute("sessionCenter", centerData);
+			
+			return "redirect:/member/mypage.do";
+		}
 		
-		System.out.println(memberData.getMember_rname());
-      
-		session.setAttribute("sessionUser", memberData);
-      
-		return "redirect:/member/mypage.do";
+		
 	}
    
 	//비밀번호 변경 페이지
@@ -273,9 +333,13 @@ public class MemberController {
 	}
 	//비번 변경 프로세스
 	@RequestMapping("/update_pw_process.do")
-	public String ChangePw(MemberVo membervo, Model model) {
+	public String ChangePw(MemberVo membervo, Model model, HttpSession session, CenterVo centerVo) {
       
-		memberService.updatePw(membervo);
+		if(session.getAttribute("sessionUser") != null) {
+			memberService.updatePw(membervo);
+		}else {
+			memberService.updateCenterPw(centerVo);
+		}
    
 		return "redirect:/member/mypage.do";
 	}
@@ -297,7 +361,7 @@ public class MemberController {
 		return "redirect:./login.do";
 	}
 	
-	   // 내가 쓴글 출력하기 
+	   // 내가 쓴글 출력하기(자게)
 	   @RequestMapping("mywrite.do")
 	public String myWrite(HttpSession session,Model model) {
       
@@ -310,18 +374,37 @@ public class MemberController {
        
 	    return "member/mywrite";
 	}
+	   
+	   // 내가 쓴글 출력하기 (청원)
+	   @RequestMapping("myidea.do")
+	 public String myIdea(HttpSession session,Model model) {
+		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+		List<Map<String,Object>> list = memberService.getMyIdea(memberVo.getMember_no());   
+		model.addAttribute("myIdeaList", list);
+		return "member/myidea";
+	}
+
+	   
 	
 	//회원 탈퇴
 	@RequestMapping("/member_drop_process.do")
-	public String memberDrop(int member_no, HttpSession session) {
+	public String memberDrop(MemberVo memberVo, HttpSession session, CenterVo centerVo) {		//int member_no, int center_no 주의!
 		
-		memberService.memberDrop(member_no);
 		
-		session.invalidate();
+		if(session.getAttribute("sessionUser") != null) {
+			memberService.memberDrop(memberVo.getMember_no());
+			session.invalidate();
+		}else {
+			memberService.centerDrop(centerVo.getCenter_no());
+			session.invalidate();
+		}
 		
 		return "redirect:../";
 	}
+	
 }
+	
+
 
 
 

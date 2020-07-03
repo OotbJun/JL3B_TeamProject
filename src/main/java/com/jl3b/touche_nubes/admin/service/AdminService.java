@@ -11,6 +11,8 @@ import com.jl3b.touche_nubes.admin.mapper.AdminSQLMapper;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper;
 import com.jl3b.touche_nubes.membervo.AdminVo;
+import com.jl3b.touche_nubes.membervo.CenterVo;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.membervo.NpkiVo;
 import com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper;
 
@@ -36,6 +38,21 @@ public class AdminService {
       adminSQLMapper.deleteRe(board_re_no);
 	}
 	
+   //---------------------------------------회원관리
+	public List<MemberVo> memberlist(){
+      
+		List<MemberVo> memberList= adminSQLMapper.memberlist();
+   
+		return memberList;
+   
+	}
+   
+	public List<CenterVo>centerlist(){
+      
+		List<CenterVo> centerList = adminSQLMapper.centerlist();
+		return centerList;
+	}
+	
 	//npki키 생성
 	public void createNpki(NpkiVo npkiVo) {
 		npkiSQLMapper.insertNpki(npkiVo);
@@ -55,6 +72,28 @@ public class AdminService {
 		
 	}
 	
+	//사용중 입주민 npki
+	public List<NpkiVo> memberUseNpki() {
+		List<NpkiVo> npkiList = npkiSQLMapper.selectMemberIng();
+		return npkiList;
+	}
+	//사용중 센터 npki
+	public List<NpkiVo> centerUseNpki() {
+		List<NpkiVo> npkiList = npkiSQLMapper.selectCenterIng();
+		return npkiList;
+	}
+	//미사용 입주민 npki
+	public List<NpkiVo> memberUnusedNpki() {
+		List<NpkiVo> npkiList = npkiSQLMapper.selectMemberUnused();
+		return npkiList;
+	}
+	//미사용 센터 npki
+	public List<NpkiVo> centerUnusedNpki() {
+		List<NpkiVo> npkiList = npkiSQLMapper.selectCenterUnused();
+		return npkiList;
+	}
+	
+	
 	//선거 개시
 	//@Scheduled(cron = "0 0/3 * * * *")
 	public void startElection() {
@@ -65,6 +104,11 @@ public class AdminService {
 	//회원 탈퇴 처리
 	public void memberDrop(int member_no) {
 		memberSQLMapper.memberDrop(member_no);
+	}
+	
+	//센터 회원 탈퇴
+	public void centerDrop(int center_no) {
+		memberSQLMapper.centerDrop(center_no);
 	}
 	
 		// 관리자로그아웃

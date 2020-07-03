@@ -40,6 +40,7 @@
       </li>   
    </ol>
    
+   
    <form action="${path}/member/confirm_pw_process.do" method="post">
    <div class="card mb-4">
       <div class="col">
@@ -64,8 +65,13 @@
                         <label class="col-sm-2 col-form-label"><b>ID &nbsp &nbsp  &nbsp  &nbsp|</b></label>
                         <div class="col-sm-4">   
                            
-                           <input class="form-control" type="text" name="member_id" id="member_id" placeholder="${sessionUser.member_id }" value="${sessionUser.member_id }" readonly>                  
-                        
+                           <c:if test="${!empty sessionUser }">
+                           	<input class="form-control" type="text" name="member_id" id="member_id" placeholder="${sessionUser.member_id }" value="${sessionUser.member_id }" readonly>
+                           </c:if>
+                           <c:if test="${!empty sessionCenter }">
+                           	<input class="form-control" type="text" name="center_id" id="center_id" placeholder="${sessionCenter.center_id }" value="${sessionCenter.center_id }" readonly>
+                           </c:if>
+                           
                         </div>                     
                      </div>                     
                   </div>                              
@@ -76,8 +82,15 @@
                   <div class="col mt-1">
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>PW &nbsp &nbsp  &nbsp|</b></label>
-                        <div class="col-sm-4">                        
-                           <input class="form-control" type="password" id="member_pw" name="member_pw" placeholder="비밀번호를 입력해주세요">   
+                        <div class="col-sm-4">
+                        
+                        <c:if test="${!empty sessionUser }">
+                        	<input class="form-control" type="password" id="member_pw" name="member_pw" placeholder="비밀번호를 입력해주세요">
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">
+                        	<input class="form-control" type="password" id="center_pw" name="center_pw" placeholder="비밀번호를 입력해주세요">
+                        </c:if>
+                        
                         </div>                     
                      </div>                     
                   </div>                              
@@ -110,11 +123,10 @@
       
       </div>
    </div></form>
+ 
    
+ 
    
-   
-
-</div>
 
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 

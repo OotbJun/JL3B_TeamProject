@@ -30,6 +30,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
 import com.jl3b.touche_nubes.membervo.AdminVo;
+import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.membervo.NpkiVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;
@@ -531,13 +532,30 @@ public class AdminController {
    
    
    /////////////////회원관리
+   //입주민
+   @RequestMapping("/member_control.do")
+   public String memberControl(Model model,MemberVo membervo) {
+      List<MemberVo>memberList = adminService.memberlist();
+      
+      model.addAttribute("memberList", memberList);
+      return "admin/member_control";
+   }
+   //센터
+   @RequestMapping("/center_control.do")
+   public String centerControl(Model model,CenterVo centervo) {
+      List<CenterVo>centerList = adminService.centerlist();
+      model.addAttribute("centerList", centerList);
+      return "admin/center_control";
+   }
+   
+   
    //npki키 생성
    @RequestMapping("/create_npki_process.do")
    public String createNpki(NpkiVo npkiVo) {
 	   
 	   adminService.createNpki(npkiVo);
 	   
-	   return "";
+	   return "redirect:/admin/npki_create.do";
 	   
    }
    
@@ -551,16 +569,72 @@ public class AdminController {
 	   
    }
    
-   //npki 리스트 출력~~~~할까 말까
+   //npki 리스트 출력
+   @RequestMapping("/npki_list.do")
+   public String npkiList(Model model) {
+	   
+	   List<NpkiVo> npkiList = adminService.npkiList();
+	   
+	   model.addAttribute("npkiList", npkiList);
+	   
+	   return "";
+   }
    
    
    //회원 탈퇴 처리
    @RequestMapping("/member_drop_process.do")
-   public String memberDrop(int member_no) {
+   public String memberDrop(int [] member_no) {
 	   
-	   memberService.memberDrop(member_no);
+	   //int member_no = 0;
+	   System.out.println("넘버 : " + member_no);
+	   //System.out.println("aa + " + drop_no);
 	   
-	   return "redirect:./";
+	   for(int i : member_no) {
+		   //int member_no = i;
+		   memberService.memberDrop(i);
+		   System.out.println("넘버 : " + i);
+	   }
+	   
+	   return "redirect:/admin/member_control.do";
+   }
+   
+   //센터 회원 탈퇴
+   @RequestMapping("/center_drop_process.do")
+   public String centerDrop(int [] center_no) {
+	   
+	   for(int i : center_no) {
+		   memberService.centerDrop(i);
+		   System.out.println("넘버 : " + i);
+	   }
+	   
+	   return "redirect:/admin/center_control.do";
+   }
+   
+   //인증키 관련
+   @RequestMapping("/npki_create.do")
+   public String npkiCreate(Model model) {
+//      List<NpkiVo>npkiCenter = adminService.npkiCenter();
+//      List<NpkiVo>npkiMember = adminService.npkiMember();
+//   
+//      List<MemberVo>memberList = adminService.memberlist();
+//      List<CenterVo>centerList = adminService.centerlist();
+//      
+//      model.addAttribute("npkiCenter", npkiCenter);
+//      model.addAttribute("npkiMember", npkiMember);
+//      model.addAttribute("memberList", memberList);
+//      model.addAttribute("centerList", centerList);
+	   
+	   List<NpkiVo> memberNpki = adminService.memberUseNpki();				//사용중 입주민
+	   List<NpkiVo> centerNpki = adminService.centerUseNpki();				//사용중 센터
+	   List<NpkiVo> memberUnusedNpki = adminService.memberUnusedNpki();		//미사용 입주민
+	   List<NpkiVo> centerUnusedNpki = adminService.centerUnusedNpki();		//미사용 센터
+	   
+	   model.addAttribute("memberNpki", memberNpki);
+	   model.addAttribute("centerNpki", centerNpki);
+	   model.addAttribute("memberUnusedNpki", memberUnusedNpki);
+	   model.addAttribute("centerUnusedNpki", centerUnusedNpki);
+	   
+      return "admin/npki_create";
    }
    
    
@@ -583,8 +657,6 @@ public class AdminController {
 			String status = voteService.checkStatus(round);
 			model.addAttribute("status", status);
 			
-			System.out.println(round);
-			
 //			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
 //			CandyVo candyVo = voteService.check(memberNo, round);
 //			model.addAttribute("candyVo", candyVo);
@@ -592,8 +664,6 @@ public class AdminController {
 			ElectionVo electionVo = voteService.checkElection(round);
 			model.addAttribute("electionVo", electionVo);
 			
-			
-			System.out.println("날짜"+electionVo.getCandy_startdate());
 			
 		}catch(Exception e) {
 			e.printStackTrace();

@@ -60,9 +60,17 @@
         </div>
             
         <!-- /.container-fluid -->
-		 <c:if test="${empty status }"><h1>진행중인 선거가 없습니다.</h1></c:if>
-		 <c:if test="${!empty status }"><h1>${round }회차 선거가 진행 중입니다.</h1></c:if>
-		 <c:if test="${status.equals('C_ING') }">입후보 등록기간 ${electionVo.candy_startdate }${electionVo.candy_enddate }</c:if>
+        <!-- 선거 없을 때 -->
+		 <c:if test="${status.equals('E_END') || empty status }"><h1>진행중인 선거가 없습니다.</h1></c:if>
+		 <!-- 선거 진행중 -->
+		 <c:if test="${!empty status && !status.equals('E_END') }"><h1>${round }회차 입주민 대표 선거가 진행 중입니다.</h1></c:if>
+		 <!-- 입후보 등록 기간 -->
+		 <c:if test="${status.equals('C_ING') }">후보 등록 기간 : <fmt:formatDate value="${electionVo.candy_startdate }" pattern="yy.MM.dd"/>
+		 												~<fmt:formatDate value="${electionVo.candy_enddate }" pattern="yy.MM.dd"/></c:if>
+		<!-- 투표 기간 -->
+		<c:if test="${status.equals('V_ING') }">투표 기간 : <fmt:formatDate value="${electionVo.vote_startdate }" pattern="yy.MM.dd"/>~
+															<fmt:formatDate value="${electionVo.vote_enddate }" pattern="yy.MM.dd"/></c:if>		 												
+		 												
          <!-- 선거 스타트 -->
          <c:if test="${!empty sessionAdmin && !status.equals('C_ING') && !status.equals('V_ING') }">
             <div class="row">

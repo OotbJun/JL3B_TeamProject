@@ -60,21 +60,35 @@
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>NAME</b></label>
                         <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_name" name="member_name" value="${sessionUser.member_rname }">   
+                        <div class="col-sm-4">
+                             
+                        <c:if test="${!empty sessionUser }">                   
+                           <input type="text" readonly class="form-control-plaintext" id="member_rname" name="member_rname" value="${sessionUser.member_rname }">   
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">                   
+                           <input type="text" readonly class="form-control-plaintext" id="center_name" name="center_name" value="${sessionCenter.center_name }">   
+                        </c:if>
+                        
                         </div>                     
                      </div>                     
                   </div>                              
                </div>
                
                <!-- 아이디 -->
-               <div class="row mt-1">
+               <div class="row mt-1">	
                   <div class="col mt-1">
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>ID</b></label>
                         <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_id" name="member_id" value="${sessionUser.member_id }">   
+                        <div class="col-sm-4">
+                                          
+                        <c:if test="${!empty sessionUser }">      
+                           <input type="text" readonly class="form-control-plaintext" id="member_id" name="member_id" value="${sessionUser.member_id }">
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">      
+                           <input type="text" readonly class="form-control-plaintext" id="center_id" name="center_id" value="${sessionCenter.center_id }">
+                        </c:if>
+                           
                         </div>                     
                      </div>                     
                   </div>                              
@@ -101,7 +115,14 @@
                         <label class="col-sm-2 col-form-label"><b>Email</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="member_email" name="member_mail" value="${sessionUser.member_mail }">   
+                        
+                        <c:if test="${!empty sessionUser }">
+                           <input type="text" readonly class="form-control-plaintext" id="member_email" name="member_mail" value="${sessionUser.member_mail }">
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">
+                           <input type="text" readonly class="form-control-plaintext" id="center_email" name="center_mail" value="${sessionCenter.center_mail }">
+                        </c:if>
+                           
                         </div>                     
                      </div>                     
                   </div>                              
@@ -109,6 +130,7 @@
                
                
                <!-- 회원등급 -->
+               <c:if test="${!empty sessionUser }">
                <div class="row mt-1">
                   <div class="col mt-1">
                      <div class="form-group row">
@@ -120,6 +142,7 @@
                      </div>                     
                   </div>                              
                </div>
+               </c:if>
                
                <!-- 인증키 -->
                <div class="row mt-1">
@@ -127,8 +150,15 @@
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>인증 KEY</b></label>
                         <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">                        
-                           <input type="text" readonly class="form-control-plaintext" id="npki_key" name="npki_key" value="${sessionUser.npki_key }">   
+                        <div class="col-sm-4">
+                        
+                        <c:if test="${!empty sessionUser }">                        
+                           <input type="text" readonly class="form-control-plaintext" id="npki_key" name="npki_key" value="${sessionUser.npki_key }">
+                        </c:if>
+                        <c:if test="${!empty sessionCenter }">                        
+                           <input type="text" readonly class="form-control-plaintext" id="npki_key" name="npki_key" value="${sessionCenter.npki_key }">
+                        </c:if>
+                           
                         </div>                     
                      </div>                     
                   </div>                              
@@ -143,9 +173,15 @@
                         <label class="col-sm-2 col-form-label"><b>가입일자</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">
-                           <fmt:formatDate pattern="yyyy.MM.dd" value="${sessionUser.member_jdate }"/>                  
-                            <!-- <input type="text" readonly class="form-control-plaintext" id="member_joindate" name="member_joindate" value="${memberDate }"> -->
-                              
+                           <!--<fmt:formatDate pattern="yyyy.MM.dd" value="${sessionUser.member_jdate }"/>-->
+                           
+                           <c:if test="${!empty sessionUser }">                  
+                            <input type="text" readonly class="form-control-plaintext" id="member_jdate" name="member_jdate" value="${memberDate }">
+                           </c:if>
+                           <c:if test="${!empty sessionCenter }">                  
+                            <input type="text" readonly class="form-control-plaintext" id="center_jdate" name="center_jdate" value="${centerDate }">
+                           </c:if>
+                           
                         </div>                     
                      </div>                     
                   </div>                              
