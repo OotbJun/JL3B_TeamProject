@@ -31,7 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
-import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
 import com.jl3b.touche_nubes.membervo.CenterAuthVo;
@@ -43,7 +43,7 @@ import com.jl3b.touche_nubes.membervo.MemberAuthVo;
 public class MemberController {
 	
 	@Autowired
-	private MemberService memberService;
+	private MemberServiceImpl memberService;
 	@Autowired
 	private JavaMailSenderImpl mailSender;
 	

@@ -40,7 +40,7 @@ import com.jl3b.touche_nubes.horseheadvo.HorseheadVo;
 import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
-import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.noticevo.NoticeVo;

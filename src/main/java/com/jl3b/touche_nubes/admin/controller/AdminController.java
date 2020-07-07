@@ -29,6 +29,7 @@ import com.jl3b.touche_nubes.ideavo.IdeaImgVo;
 import com.jl3b.touche_nubes.ideavo.IdeaLikeVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
@@ -548,14 +549,13 @@ public class AdminController {
       return "admin/center_control";
    }
    
-   
    //npki키 생성
-   @RequestMapping("/create_npki_process.do")
+   @RequestMapping("/npki_create_process.do")
    public String createNpki(NpkiVo npkiVo) {
 	   
 	   adminService.createNpki(npkiVo);
 	   
-	   return "redirect:/admin/npki_create.do";
+	   return "redirect:/admin/npki_list.do";
 	   
    }
    
@@ -577,7 +577,7 @@ public class AdminController {
 	   
 	   model.addAttribute("npkiList", npkiList);
 	   
-	   return "";
+	   return "admin/npki_create";
    }
    
    

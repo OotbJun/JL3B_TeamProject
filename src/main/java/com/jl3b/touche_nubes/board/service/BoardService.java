@@ -64,7 +64,7 @@ public class BoardService {
       MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
       AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
 
-      if (adminVo != null) { // 예외처리
+      if (adminVo != null || memberVo != null) { // 예외처리
     	  
     	  if(adminVo.getAdmin_no() == noticeVo.getAdmin_no() || memberVo.getMember_grade() >= 2) {
     		  boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());  
@@ -75,13 +75,42 @@ public class BoardService {
 
    // 글수정
    public void changeNotice(NoticeVo noticeVo, HttpSession session) {
+	   
+	   
+//	   if(session.getAttribute("sesssionUser") != null || session.getAttribute("sessionAdmin") != null) {
+//		   MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
+//		   AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
+//		   
+//		   System.out.println(adminVo.getAdmin_name());
+//		   
+//		   if(memberVo.getMember_grade() >= 2) {
+//			   boardSQLMapper.updateNoticeByNo(noticeVo);
+//		   }
+//		   if(adminVo != null) {
+//			   boardSQLMapper.updateNoticeByNo(noticeVo);
+//		   }
+//		   
+//	   }
+	   
+	   if(session.getAttribute("sessionUser") != null) {
+		   MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
+		   if(memberVo.getMember_grade() >= 2) {
+			   boardSQLMapper.updateNoticeByNo(noticeVo);
+		   }
+	   }
+	   if(session.getAttribute("sessionAdmin") != null) {
+		   boardSQLMapper.updateNoticeByNo(noticeVo);
+	   }
+	   
+//	   if(session.getAttribute("sessionAdmin") != null) {
+//		   //AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
+//		   boardSQLMapper.updateNoticeByNo(noticeVo);
+//	   }
+      
 
-      MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
-      AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
-
-      if (adminVo.getAdmin_no() == noticeVo.getAdmin_no() && adminVo != null || memberVo.getMember_grade() >= 2) { // 예외처리
-         boardSQLMapper.updateNoticeByNo(noticeVo);
-      }
+//      if (adminVo.getAdmin_no() == noticeVo.getAdmin_no() && adminVo != null || memberVo.getMember_grade() >= 2) { // 예외처리
+//         boardSQLMapper.updateNoticeByNo(noticeVo);
+//      }
    }
 
    // 검색

@@ -116,7 +116,7 @@ body {
 </head>
 
 
-<body onload="open_tab()">
+<body onload="open_tab()"  style="background-color: #000000;">
    <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
    <script

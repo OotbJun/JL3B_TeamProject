@@ -10,27 +10,39 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 공지 글읽기</title>
 <style>
-footer {
-	margin: 0 auto;
-	text-align: center;
+* {
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+margin: 0;
+	padding: 0;
+}
+html,body{
+height:100%;
+}
+#wrap{
+min-height: 100%;
+position: relative;
+}
+#content{
+margin-bottom: 72px;
+}
+footer{
+margin-top:-72px;
+height : 72px;
+bottom: 0;
+left: 0;
+right: 0;
 }
 
-#xxx * {
-	background-color: rgba(255, 255, 255, 0.0);
+
+#nav li {
+	display: inline;
 }
 
-#xxx {
-	background-color: rgba(255, 255, 255, 0.0);
-}
-
-ul {
-	list-style: none;
-	float: left;
-}
-
-li {
-	margin-left: 6px;
-	float: left;
+#nav a {
+	display: inline-block;
+	padding: 10px;
 }
 </style>
 
@@ -39,8 +51,13 @@ li {
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 </head>
-<body>
-	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+<body style="overflow-x: hidden;">
+	<div id="wrap">
+
+		<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+
+		<div id="content">
+
 	<div class="col mt-4" > 
 		<div class="row">
 			<div class="col-1"></div>
@@ -95,8 +112,7 @@ li {
 				<div class="row" style="padding-top: 4px; margin-right: 4px">
 					<div class="col"></div>
 					<div class="col-2" style="margin-right: 4px">
-						<c:set var="admin" value="${sessionUser.npki_key}"></c:set>
-						<c:if test="${fn:contains(admin,'admin')}">
+						<c:if test="${sessionUser.member_grade>=2 || !empty sessionAdmin }">
 							<form
 								action="${pageContext.request.contextPath }/board/notice_change.do"
 								method="post" class="form-control-sm" style="padding: 0px">
@@ -111,8 +127,7 @@ li {
 						</c:if>
 					</div>
 					<div class="col-2">
-						<c:set var="admin" value="${sessionUser.npki_key}"></c:set>
-						<c:if test="${fn:contains(admin,'admin')}">
+						<c:if test="${(sessionUser.member_grade>=2 && sessionUser.member_no==readNotice.noticeVo.member_no) || !empty sessionAdmin }">
 							<form
 								action="${pageContext.request.contextPath }/board/notice_delete_process.do"
 								method="post" class="form-control-sm" style="padding: 0px;">
@@ -131,6 +146,11 @@ li {
 	</div>
 
 
+	</div>
+
+
+		
+	</div>
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
@@ -145,3 +165,4 @@ li {
 		crossorigin="anonymous"></script>
 
 </body>
+</html>

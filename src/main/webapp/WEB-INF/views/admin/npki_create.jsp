@@ -45,46 +45,87 @@
                <ol class="breadcrumb">
 
                   <li class="breadcrumb-item active"><a
-                     href="${path}/admin/member_control.do">입주민 회원</a>
-                  </li>
-                  <li class="breadcrumb-item "><a href="${path}/admin/center_control.do">센터 회원<span class="sr-only">(current)</span></a></li>
-                  
-                  <li class="breadcrumb-item active"><a
-                     href="${path}/admin/npki_create.do">인증 키 관리</a>
+                     href="${path}/admin/member_control.do">입주민 회원<span class="sr-only">(current)</span></a></li>
+                  <li class="breadcrumb-item "><a href="${path}/admin/center_control.do">센터 회원</a></li>
+                  <li class="breadcrumb-item "><a href="${path}/admin/npki_create.do">인증 키 관리</a></li>
                   
                </ol>
 
-               <div class="card border-left-primary shadow my-5" style="overflow:auto;">
-                 <div class="card-body p-5"  >
+               <div class="card border-left-primary shadow my-5" >
+                 <div class="card-body p-5" >
                  
-                 <table class="table table-hover">
+                 <form action="${path}/admin/npki_create_process.do">
+                 <div class="row">
+                    <div class="col-2">
+                    <select class="form-control">
+                       <option>입주민</option>
+                       <option>센터</option>
+                    </select>       
+                    </div>
+                    <div class="col-3">
+                       <input class="form-control" type="text" placeholder="생성할 인증키를 입력하세요.">                   
+                    </div>
+                    <div class="col-2">
+                       <input class="btn btn-primary" type="submit" value="생성">
+                    </div>
+                    <div class="col-5"></div>
+                 </div>
+                 </form>
+                 <br><br>
+                 
+                 <div class="row">
+                 <!-- 입주민 인증키 -->
+                    <div class="col">
+                        <table class="table table-hover">
                         <thead>
                             <tr>
                                 
-                                <th>이름</th>                        
-                                <th>아이디</th>
+                                <th>입주민 인증키</th>                        
                                 
-                                <th>메일</th>
-                                <th>인증키</th>
-                                <th>가입날짜</th>
-                                <th></th>
+                                
                             </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${centerList}" var="center">
-                            <tr>
-                                
-                                <td>${center.center_name}</td>                                
-                                <td>${center.center_id}</td>
-                                                           
-                                <td>${center.center_mail}</td>
-                                <td>${center.npki_key}</td>
-                                <td><fmt:formatDate pattern="yyyy-MM-dd" value="${center.center_jdate}"/></td>
-                                <td><input type="button" class="btn btn-outline-danger" value="탈퇴"></td>
+                        <c:forEach items="${npkiMember}" var="member">
+                       
+                              <tr>                               
+                                <td></td>                                
+                               
                             </tr>
+                         
                         </c:forEach>
                         </tbody>
                     </table>
+                       
+                    </div>
+                    <!-- 센터 인증키 -->
+                    <div class="col">
+                       <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                
+                                                       
+                                <th>센터 인증키</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <c:forEach items="${npkiCenter}" var="center">
+                       
+                              <tr>                               
+                                <td></td>                                
+                               
+                            </tr>
+                         
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                    </div>              
+                 </div>
+                
+                    
+                    
+                    
                     
                  
                  </div>

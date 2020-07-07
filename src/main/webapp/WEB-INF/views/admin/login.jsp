@@ -133,17 +133,9 @@ body {
          </div>
          <div class="tab" style="background-color: white; border-color: none;" >
             <div class="row" style="margin: 2px 2px 2px 2px; background-color: white; border-color: none;" >
-               <div class="col-1"></div>
-               <div class="col-3">
-                  <button id='btnadmin' class="tablinks" 
-                     onclick="openCity(event, 'admin')" style="text-align: left; max-width: 100%">관리자</button>
-               </div>
-               <div class="col"></div>
-               <div class="col-3">
-                  <button id='btncenter' class="tablinks" 
-                     onclick="openCity(event, 'center')" style="text-align: right; max-width: 100%">센 터</button>
-               </div>
-               <div class="col-1"></div>
+               <div class="col text-center text-primary pt-1">
+                  <p>관리자 로그인 페이지 입니다</p>
+              </div>
             </div>
          </div>
 

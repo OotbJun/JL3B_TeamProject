@@ -9,6 +9,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>회원 정보 수정</title>
+<style type="text/css">
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 72px;
+}
+
+footer {
+	margin-top: -72px;
+	height: 72px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	display: inline-block;
+	padding: 10px;
+}
+</style>
 
 <link rel="stylesheet"
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -36,8 +75,12 @@ function drop_btn(){
 </script>
 
 </head>
-<body>
-<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+<body style="overflow-x: hidden;">
+	<div id="wrap">
+		<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+		
+		<div id="content">
+
 
 <div class="container" style="margin-top:5%">
    
@@ -82,16 +125,8 @@ function drop_btn(){
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>NAME</b> </label>
                         <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">
-                        
-                         <c:if test="${!empty sessionUser }">                        
-                           <input type="text" class="form-control" id="member_rname" name="member_rname" value="${sessionUser.member_rname }">
-                         </c:if>
-                         <c:if test="${!empty sessionCenter }">                        
-                           <input type="text" class="form-control" id="center_name" name="center_name" value="${sessionCenter.center_name }">
-                         </c:if>
-                         
-                            
+                        <div class="col-sm-4">                        
+                           <input type="text" class="form-control" id="member_rname" name="member_rname" value="${sessionUser.member_rname }">   
                         </div>                     
                      </div>                     
                   </div>                              
@@ -104,14 +139,7 @@ function drop_btn(){
                         <label class="col-sm-2 col-form-label"><b>ID</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                        
-                         <c:if test="${!empty sessionUser }">
                            <input type="text" class="form-control" id="member_id" name="member_id" value="${sessionUser.member_id }" placeholder="${sessionUser.member_id }" readonly>   
-                         </c:if>
-                         <c:if test="${!empty sessionCenter }">
-                           <input type="text" class="form-control" id="center_id" name="center_id" value="${sessionCenter.center_id }" placeholder="${sessionCenter.center_id }" readonly>   
-                         </c:if>
-                         
                         </div>                     
                      </div>                     
                   </div>                              
@@ -125,16 +153,8 @@ function drop_btn(){
                         <label class="col-sm-2 col-form-label"><b>PW </b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">                        
-                        
-                        <c:if test="${!empty sessionUser }">
                            <input type="text" readonly class="form-control-plaintext" id="member_pw" name="member_pw" value="●●●●●●●●●">   
                            <input type="hidden" name="member_no" value="${sessionUser.member_no }">
-                        </c:if>
-                        <c:if test="${!empty sessionCenter }">
-                           <input type="text" readonly class="form-control-plaintext" id="center_pw" name="center_pw" value="●●●●●●●●●">   
-                           <input type="hidden" name="center_no" value="${sessionCenter.center_no }">
-                        </c:if>
-                        
                         </div>   
                         <div class="col">
                             <a href="${path}/member/update_pw.do"><input type="button" value="비밀번호 변경" class="btn btn-secondary btn-sm"></a>
@@ -151,15 +171,8 @@ function drop_btn(){
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>Email</b></label>
                         <div class="col-1"><b>|</b></div>
-                        <div class="col-sm-4">              
-                        
-                         <c:if test="${!empty sessionUser }">          
-                           <input type="text" class="form-control" id="member_mail" name="member_mail" value="${sessionUser.member_mail }" placeholder="${sessionUser.member_mail }" readonly>
-                         </c:if>
-                         <c:if test="${!empty sessionCenter }">          
-                           <input type="text" class="form-control" id="center_mail" name="center_mail" value="${sessionCenter.center_mail }" placeholder="${sessionCenter.center_mail }" readonly>
-                         </c:if>
-                              
+                        <div class="col-sm-4">                        
+                           <input type="text" class="form-control" id="member_mail" name="member_mail" value="${sessionUser.member_mail }" placeholder="${sessionUser.member_mail }" readonly>   
                         </div>                     
                      </div>                     
                   </div>                              
@@ -167,8 +180,6 @@ function drop_btn(){
                
                
                <!-- 회원등급 -->
-               <!-- 
-               <c:if test="${!empty sessionUser }">
                <div class="row mt-1">
                   <div class="col mt-1">
                      <div class="form-group row">
@@ -180,30 +191,22 @@ function drop_btn(){
                      </div>                     
                   </div>                              
                </div>
-               </c:if>
-                -->
+               
                
                <!-- 가입일자 -->
-               <!--  
                <div class="row mt-1">
                   <div class="col mt-1">
                      <div class="form-group row">
                         <label class="col-sm-2 col-form-label"><b>가입일자</b></label>
                         <div class="col-1"><b>|</b></div>
                         <div class="col-sm-4">
-                           
-                         <c:if test="${!empty sessionUser }">                  
-                           <input type="text" readonly class="form-control-plaintext" id="member_jdate" name="member_jdate" value="${memberDate }">
-                         </c:if>
-                         <c:if test="${!empty sessionCenter }">                  
-                           <input type="text" readonly class="form-control-plaintext" id="center_jdate" name="center_jdate" value="${centerDate }">
-                         </c:if>
-                         
+                           <fmt:formatDate pattern="yyyy.MM.dd" value="${sessionUser.member_jdate }"/>                  
+                            <!-- <input type="text" readonly class="form-control-plaintext" id="member_joindate" name="member_joindate" value="${memberDate }"> -->
+                              
                         </div>                     
                      </div>                     
                   </div>                              
                </div>   
-                     -->
                               
             </div>
             <div class="col"></div>
@@ -229,25 +232,33 @@ function drop_btn(){
    </form>
     <form action="${path}/member/member_drop_process.do" id="member_drop">
     <div class="col">
-    
-    <c:if test="${!empty sessionUser }">
      <input type="hidden" name="member_no" value="${sessionUser.member_no }">
-     </c:if>
-    <c:if test="${!empty sessionCenter }">
-     <input type="hidden" name="center_no" value="${sessionCenter.center_no }">
-     </c:if>
-      
      <input type="button" value="회원탈퇴" class="btn btn-danger" onclick="drop_btn()">
       </div>
    </form>
 </div>
 
+ 
+  	</div>
+		
+	</div>
    <jsp:include page="../commons/include_footer.jsp"></jsp:include>
-
+   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"></script>
+   <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+   <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
 </body>
-
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-   
 </html>
+
+
+
+
+
+

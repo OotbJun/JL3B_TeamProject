@@ -116,45 +116,71 @@
 	
 	
 	<!-- 예약 -->
-	<!-- 프로그램 예약하기 -->
+	<!-- 강의 예약하기 -->
 	<insert id="insertReserve">
 		<![CDATA[
-			INSERT INTO JL3B_Reserve VALUES(JL3B_Reserve_SEQ.NEXTVAL, #{member_no}, #{prog_no})
+			INSERT INTO JL3B_Reserve VALUES(JL3B_Reserve_SEQ.NEXTVAL, #{member_no}, #{lesson_no})
 		]]>
 	</insert>
 	
+	<!-- 강의 예약 취소 -->
 	<delete id="deleteReserve">
 		<![CDATA[
-			DELETE FROM JL3B_Reserve WHERE Reserve_NO = #{reserve_no}
+			DELETE FROM JL3B_Reserve 
+			WHERE lesson_no=#{lesson_no} 
+    		AND member_no=#{member_no}
 		]]>
 	</delete>
 	
-	<!-- 예약 조회(본인 예약 내역) -->
-	<select id="selectReserveByMember" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+	<!-- 예약내역 확인 -->
+	<select id="readlesson" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
 		<![CDATA[
-			SELECT * FROM JL3B_Reserve WHERE member_NO = #{member_no}
+			 SELECT * FROM JL3B_Reserve 
+   			 WHERE member_no=#{member_no}
 		]]>
 	</select>
 	
-	<!-- 인원 수 조회(예약 마감 활성화) -->
-	<select id="selectReserveCount" resultType="int">
+	<!-- 예약자 확인 -->
+	<select id="readmember" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
 		<![CDATA[
-			SELECT COUNT(*) FROM JL3B_Reserve WHERE PROG_NO = #{prog_no}
+			SELECT * FROM JL3B_Reserve 
+   		 	WHERE lesson_no=#{lesson_no}
 		]]>
 	</select>
 	
 	
-	<!-- 프로그램 -->
-	<!-- 프로그램 등록 -->
-	<insert id="insertProg">
+	<!-- 예약자 수 확인 -->
+	<select id="coutbyReserve" resultType="int">
 		<![CDATA[
-			INSERT INTO JL3B_PROG 
+			SELECT COUNT(reserve_no) as cnt	
+			FROM Jl3B_Reserve 
+			WHERE lesson_no=#{lesson_no}
+		]]>
+	</select>
+
+	
+	<!-- 예약 체크 -->
+	<select id="checkReserve" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+	  	SELECT * FROM JL3B_Reserve 
+	  	WHERE lesson_no=#{lesson_no} 
+	  	AND member_no =#{member_no}
+  	</select>
+  	
+  	
+	<select id="createKey" resultType="int">
+		SELECT JL3B_lessonInfo_seq.nextval FROM DUAL
+	</select>
+	
+	<!-- 강의 -->
+	<!-- 강의 등록 -->
+	<insert id="insertlessonInfo">
+		<![CDATA[
+			INSERT INTO JL3B_lessonInfo 
 			VALUES(
-				JL3B_PROG_SEQ.NEXTVAL, 
-				#{center_no}, 
-				'예약가능', 
-				#{prog_title}, 
-				#{prog_content}
+				#{info_no}, 
+				#{center_no},
+				#{info_title}, 
+				#{info_content}
 			)
 		]]>
 	</insert>
@@ -179,36 +205,61 @@
 	</delete>
 	
 	
-	<!-- 프로그램 시간대 -->
+	<!-- 강의 -->
 	<!-- 시간대 등록 -->
-	<insert id="insertTime">
+	<insert id="insertlesson">
 		<![CDATA[
-			INSERT INTO JL3B_PROG_TIME 
+			INSERT INTO JL3B_lesson
 			VALUES(
-				JL3B_PROG_TIME_SEQ.NEXTVAL, 
-				#{prog_no}, 
-				SYSDATE, 
-				#{time_part}, 
-				#{time_seat}
+				JL3B_lesson_SEQ.NEXTVAL, 
+				#{info_no}, 
+				#{lesson_date}, 
+				#{lesson_time},
+				#{lesson_people}, 
+				'예약'
 			)
 		]]>
 	</insert>
 	
-	<!-- 예약되면 인원수 차감 -->
-	<update id="minusSeat">
+	<!-- 예약 인원 수 -->
+	<update id="countbyReserve">
 		<![CDATA[
-			UPDATE JL3B_PROG_TIME SET TIME_SEAT = TIME_SEAT - 1
+			SELECT COUNT(reserve_no) as cnt
+			FROM JL3B_reserve
+			WHERE lesson_no=#{lesson_no}
 		]]>
 	</update>
 	
-	<!-- 센터 탈퇴 -->
-	<update id="centerDrop">
+	<select id = "selectList" resultType="com.jl3b.touche_nubes.centervo.LessonVo">
 		<![CDATA[
-			UPDATE JL3B_CENTER_AUTH 
-			SET 
-				CENTER_AUTH_CERTIFICATION = 'N' 
+			SELECT a.lesson_no, b.center_no, a.info_no, b.info_title, b.info_content, a.lesson_date, a.lesson_time, a.lesson_people, a.lesson_horsehead
+			FROM JL3B_lesson a, JL3B_lessonInfo b 
+			WHERE a.info_no=b.info_no 
+			AND b.center_no = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 입주민 확인 -->
+	<select id="selectlessonInfoByNo" resultType="com.jl3b.touche_nubes.centervo.LessonInfoVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_lessonInfo
 			WHERE 
-				CENTER_NO = #{center_no}
+				info_no = #{no}
+		]]>
+	</select>
+	
+	
+	<!-- 예약 말머리 수정 -->
+	<update id="updateHorsehead">
+		<![CDATA[
+			UPDATE JL3B_lesson L1 SET lesson_horsehead = '마감'
+			WHERE (
+			SELECT COUNT(reserve_no) as cnt
+			FROM(SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
+			FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
+			) >= #{lesson_people}
 		]]>
 	</update>
 	

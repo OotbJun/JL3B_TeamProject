@@ -5,17 +5,71 @@
 <c:set var="path" value="${pageContext.request.contextPath}" />
 
 <script type="text/javascript">
+var isOpened = true;
 
+function openclo(){
+	 var chating = document.getElementById("all");
+	 var chatboutton = document.getElementById("chatboutton");
+    	if(isOpened==true){
+    	 chat_on(); 
+         refresh();
+         chatboutton.style.opacity = "0.5";
+         isOpened = false;
+         
+    	}else{
+         chat_on(); 
+         refresh();
+         chatboutton.style.opacity = "1";
+    	isOpened = true; 
+         //refresh();
+        
+   }
+}
+
+var myTimer = null;
+
+function refresh(){
+   if(isOpened==true){
+	   if(myTimer == null){
+	   		myTimer = setInterval("chatList()", 3000);
+   		}else{
+   			clearInterval(myTimer);
+   			setInterval("chatList()", 3000);
+   		};
+     
+    	}else{
+          clearInterval(myTimer);
+          myTimer = null;
+
+   }
+      
+};
 //채팅공간 만들기
 function chat_on() {
-      
-      
-      var chating = document.getElementById("all");
+   var chating = document.getElementById("all");
+   var chatBox = document.getElementById("chatBox");
+   var insertBox = document.getElementById("insertBox");
+   var content_col = document.getElementById("content_col");
+   var insert_col = document.getElementById("insert_col");
+   var content_type = document.getElementById("chat_content");
+   var insert_type = document.getElementById("insertChat");
+   
+   insertBox.style.width="300px";
+   insertBox.style.margin="0px";
+   insertBox.style.marginTop="2px";
+   insertBox.style.backgroundColor="#ffffff";
+   //insertBox.style.border="1px solid gray";
+   insertBox.style.borderTop="none";
+   
+        
+        
+   if(isOpened!=false){
+	  insertBox.style.display = "grid";
+	  chating.style.display = "block";
       chating.style.width="300px";
       chating.style.maxHeight="500px";
       chating.style.border="1px solid gray";
       
-      var chatBox = document.getElementById("chatBox");
       chatBox.style.width="300px";
       chatBox.style.height="450px";
       // chatBox.style.margin="0px";
@@ -23,50 +77,17 @@ function chat_on() {
       chatBox.style.backgroundColor="#FAFAFA";
       chatBox.style.borderBottom="1px solid gray";
 
-      var insertBox = document.getElementById("insertBox");
-      insertBox.style.width="300px";
-      insertBox.style.height="50px";
-      insertBox.style.margin="0px";
-      insertBox.style.marginTop="2px";
-      insertBox.style.backgroundColor="#ffffff";
-      insertBox.style.border="1px solid gray";
-      insertBox.style.borderTop="none";
-      
-            var content_col = document.createElement("div");
-            content_col.setAttribute("class", "col-9 pl-1 text-center");
-            content_col.style.paddingRight="0px";
-            content_col.style.paddingLeft="3px";
-          
-                var content_type = document.createElement("input");
-               content_type.setAttribute("type", "text");
-               content_type.setAttribute("id", "chat_content");
-               content_type.setAttribute("class", "form-control");
-               content_type.setAttribute("onkeydown", "onKeyDown()");
-            
-            var insert_col = document.createElement("div");
-            insert_col.setAttribute("class", "col-3 text-right");
-            insert_col.style.paddingRight="2px";
-            insert_col.style.paddingLeft="0px";
-      
-               var insert_type = document.createElement("input");
-               insert_type.setAttribute("type", "button");
-               insert_type.setAttribute("value", "입력");
-               insert_type.setAttribute("onclick", "insertChat()");
-               insert_type.setAttribute("class", "btn btn-primary btn");
-
-            content_col.appendChild(content_type);
-            insert_col.appendChild(insert_type);
-            
-         insertBox.appendChild(content_col);
-         insertBox.appendChild(insert_col);
 
       chating.appendChild(chatBox);
       chating.appendChild(insertBox);
    
-      
-   };   
+   }else{
+	   
+       chating.style.display = "none";
+   }   
 
-     //채팅 출력
+};
+     //채팅 출력창
       function chatList(){
          
          var chatNo = ${chat_no};
@@ -96,21 +117,22 @@ function chat_on() {
                      innerA.style.width="250px";
                       
                         var nameTime = document.createElement("div");
-                        nameTime.setAttribute("class","row mr-auto");
+                        nameTime.setAttribute("class","row mr-auto text-truncate");
                         nameTime.style.margin = '0px';
                         nameTime.style.padding = '0px';
                         nameTime.style.width="250px";
                   
                            var memberName = document.createElement("div");
-                           memberName.setAttribute("class","col-3 font-italic text-info ");
+                           memberName.setAttribute("class","col-3 font-italic text-info text-left");
                            memberName.style.margin = '0px';
                            memberName.style.paddingRight = '0%';
                            memberName.style.marginRight = '0%';
                            memberName.style.fontSize = 'x-small';
                      
                            var chatDate = document.createElement("div");
-                           chatDate.setAttribute("class","col-9 weight-light text-black-50");
+                           chatDate.setAttribute("class","col-9 weight-light text-black-50 text-left");
                            chatDate.style.fontSize = 'xx-small';
+                           chatDate.style.padding = '0';
                            chatDate.style.paddingTop = '1%';
                         
                         nameTime.appendChild(memberName);
@@ -118,13 +140,13 @@ function chat_on() {
                      
 
                         var content = document.createElement("div");
-                        content.setAttribute("class","row text-left mr-auto ");
+                        content.setAttribute("class","row text-left mr-auto alert alert-secondary");
                         content.style.margin = '0px';
                         content.style.padding = '0px';
                         content.style.width="250px";
 
                            var chatContent = document.createElement("div");
-                           chatContent.setAttribute("class","col-10 font-weight-normal text-break text-primary");
+                           chatContent.setAttribute("class","col-12 font-weight-normal text-break");
                            chatContent.style.fontSize = 'small';
                            chatContent.style.fontWeight = 'bold';
 
@@ -144,7 +166,7 @@ function chat_on() {
                         nameTime.style.padding = '0px';
                   
                            var memberName = document.createElement("div");
-                           memberName.setAttribute("class","col-9 ml-auto font-italic text-info");
+                           memberName.setAttribute("class","col-9 ml-auto font-italic text-info text-truncate");
                            memberName.style.margin = '0px';
                            memberName.style.paddingRight = '2px'; 
                            memberName.style.fontSize = 'x-small';
@@ -162,12 +184,12 @@ function chat_on() {
                      
 
                         var content = document.createElement("div");
-                        content.setAttribute("class","row ml-auto text-right alert alert-secondary");
+                        content.setAttribute("class","row ml-auto text-right alert alert-primary");
                         content.style.margin = '0px';
                         content.style.padding = '0px';
 
                            var chatContent = document.createElement("div");
-                           chatContent.setAttribute("class","col-10 ml-auto font-weight-normal text-break");
+                           chatContent.setAttribute("class","col-12 ml-auto font-weight-normal text-break");
                            chatContent.style.fontSize = 'small';
                            chatContent.style.fontWeight = 'bold';
 
@@ -209,7 +231,7 @@ function chat_on() {
      
       };
  
-    //채팅 입력
+    //채팅 입력창
       function insertChat(){
          
          var content = document.getElementById("chat_content").value;
@@ -219,21 +241,24 @@ function chat_on() {
                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                
                      chatList();  
-                
-                  
+       
                }
               
             };
             
           xmlhttp.open("post", "${path}/chat/write_chat_process.do", true);
           xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-          xmlhttp.send("chat_content=" + content);
+          if(content!=""){ 
+        	  xmlhttp.send("chat_content=" + content);             
+           }
+         
           
           document.getElementById("chat_content").value = '';
         
           
       };
    
+   //엔터키로 입력하는 func
     function onKeyDown(){
        
        var content = document.getElementById("chat_content").value;
@@ -244,24 +269,46 @@ function chat_on() {
         }
       }
    
+   //전송버튼 활성화
+   function makeborder() {
+	   var sendbtn = document.getElementById("sendbtn");
+	   
+	   sendbtn.style.border = "1px solid gray";
+}
+   //전송버튼 비활성화
+   function removeborder() {
+	   var sendbtn = document.getElementById("sendbtn");
+	   
+	   sendbtn.style.border = "none";
+	
+}
    
-    function refresh(){
-         setInterval("chatList()", 3000);
-      }
+   
 
+      
 </script>
 
-
-<div style="position: fixed; bottom: 55px; right: 20px;">
+<c:if test="${!empty sessionUser }">
+<div style="position: fixed; bottom: 105px; right: 20px; z-index: 3;">
    <!-- 채팅 박스 -->
-   <div id="all" class="text-center"  >
+   <div id="all" class="text-center mb-2" style="opacity: 0.8" >
       <div id="chatBox" style="overflow: auto;"></div>
-      <!-- 입력창 -->
-      <div class="row" id="insertBox" style="border: gray"></div>
+      
    </div>
+   <!-- 입력창 -->
+      <div class="row" id="insertBox" style="border: gray; display: none;" >
+        	<div class="col" style="padding-top:2px; padding-right: 3px; padding-left: 3px">
+      		<input type="text" id="chat_content" onkeydown="onKeyDown()" style="width:250px; height: auto" placeholder="친목질 환영">
+        	<img src="${pageContext.request.contextPath }/resources/img/send.png" id="sendbtn"
+        	style="width: 33px; height: auto;" onclick="insertChat();" onmouseover="makeborder();" onmouseout="removeborder();">
+      		</div> 
+      </div>
 </div>
 
-<div style="position: fixed; bottom: 15px; right: 10px;">
-   <button class="btn btn-outline-secondary"
-      onclick="chat_on(); refresh(); this.onclick=null;">채팅</button>
+<div style="position: fixed; bottom: 72px; right: 10px; width: 3%; height: auto; z-index: 2;" >
+   <button class="btn btn-outline-light btn-sm"
+      onclick="openclo();" id="chatboutton">
+     <img src="${pageContext.request.contextPath }/resources/img/chat_img.png" style="max-width: 100%">  
+     </button>
 </div>
+</c:if>

@@ -222,19 +222,7 @@
            </div>
         </div>
         <!-- Footer -->
-        <footer class="footer-container">
-        
-           <div class="container">
-              <div class="row">
-                 
-                    <div class="col">
-                       &copy; Touch Nubes <a href="${pageContext.request.contextPath }/center/center.do">Touch Nubes</a>.
-                    </div>
-                    
-                </div>
-           </div>
-                   
-        </footer>
+        <jsp:include page="../commons/include_footer.jsp"></jsp:include>
         <!-- Javascript -->
       <script src="${pageContext.request.contextPath }/resources/assets/js/jquery-3.3.1.min.js"></script>
       <script src="${pageContext.request.contextPath }/resources/assets/js/jquery-migrate-3.0.0.min.js"></script>

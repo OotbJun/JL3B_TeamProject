@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
-import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.vote.service.VoteService;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;

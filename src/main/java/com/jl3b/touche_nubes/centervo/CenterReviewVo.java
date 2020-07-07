@@ -6,6 +6,7 @@ public class CenterReviewVo {
 
 	private int review_no;
 	private int center_no;
+	private int lesson_no;
 	private int member_no;
 	private String review_comment;
 	private Date review_wdate;
@@ -14,10 +15,12 @@ public class CenterReviewVo {
 		super();
 	}
 
-	public CenterReviewVo(int review_no, int center_no, int member_no, String review_comment, Date review_wdate) {
+	public CenterReviewVo(int review_no, int center_no, int lesson_no, int member_no, String review_comment,
+			Date review_wdate) {
 		super();
 		this.review_no = review_no;
 		this.center_no = center_no;
+		this.lesson_no = lesson_no;
 		this.member_no = member_no;
 		this.review_comment = review_comment;
 		this.review_wdate = review_wdate;
@@ -37,6 +40,14 @@ public class CenterReviewVo {
 
 	public void setCenter_no(int center_no) {
 		this.center_no = center_no;
+	}
+
+	public int getLesson_no() {
+		return lesson_no;
+	}
+
+	public void setLesson_no(int lesson_no) {
+		this.lesson_no = lesson_no;
 	}
 
 	public int getMember_no() {

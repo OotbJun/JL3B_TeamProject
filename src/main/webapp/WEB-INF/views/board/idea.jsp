@@ -11,14 +11,43 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 주민청원</title>
 <style type="text/css">
-#nav {
-	position: 0px auto;
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	text-align: center;
-	margin: 0;
 }
 
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 72px;
+}
+
+footer {
+	margin-top: -72px;
+	height: 72px;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}
+
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	display: inline-block;
+	padding: 10px;
+}
 #nav li {
 	display: inline;
 }
@@ -35,9 +64,10 @@
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
 </head>
-<body>
-
+<body style="overflow-x: hidden;">
+<div id="wrap">
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+	<div id="content">
    <div class="col" style="margin-top:5%">
 		<div class="row">
 			<div class="col-1"></div>
@@ -132,9 +162,7 @@
 	<div class="container mt-3">
 		<div class="row">
 			<div class="col-1"></div>
-			
-			
-			
+	
 			<!--검색-->
 			<div class="col">
 				<form action="./idea.do" method="get">
@@ -158,9 +186,7 @@
 				</form>
 			</div>
 			<div></div>
-			
-			
-			
+		
 			<!-- 글쓰기 버튼 -->
 			<div class="col-2 text-right">
 			
@@ -172,8 +198,6 @@
 			<div class="col-1"></div>
 		</div>
 	</div>
-	
-
 	<div class="row mt-3">
 		<div class="col-2"></div>
 		<!-- 페이지 이동 -->
@@ -208,7 +232,9 @@
 		</div>
 		<div class="col-2"></div>
 	</div>
-
+</div>
+		
+	</div>
 	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 
 

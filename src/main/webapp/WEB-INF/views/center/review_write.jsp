@@ -8,6 +8,38 @@
 <head>
 
 <style>
+* {
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+margin: 0;
+	padding: 0;
+}
+html,body{
+height:100%;
+}
+#wrap{
+min-height: 100%;
+position: relative;
+}
+#content{
+margin-bottom: 72px;
+}
+footer{
+margin-top:-72px;
+height : 72px;
+bottom: 0;
+left: 0;
+right: 0;
+}
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	display: inline-block;
+	padding: 10px;
+}
 
 .thm-container {
     width: 100%;
@@ -159,7 +191,7 @@
 	}
 	
 	function minlength2() {
-	   var content = document.getElementById("content").value;
+	   var content = document.getElementById("reviewContent").value;
 	   if(content.length >= 3 ){
 	      contentfill = true;
 	      submitActive();
@@ -184,8 +216,10 @@
 </head>
 
     <body>
+	<div id="wrap">
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
+	<div id="content">
         <!-- Top content -->
         <div class="top-content">
         	<div class="container-fluid">
@@ -246,7 +280,7 @@
                      	class="contact-form" novalidate="novalidate" id="submit">
                          ${sessionUser.member_rname }
                          <textarea name="review_comment"  placeholder="리뷰를 정성껏 작성해주시면 감사합니다." 
-                         	id="content" onkeyup="minlength2()"></textarea>
+                         	id="reviewContent" onkeyup="minlength2()"></textarea>
                          <input type="hidden" name="center_no" value=${center_no }>
                          <button type="button" class="thm-btn yellow-bg" id="able" onclick="submit_btn()" disabled="disabled">리뷰 작성하기 </button>
                          <div class="form-result"></div><!-- /.form-result -->
@@ -271,17 +305,23 @@
                     
                 </div>
 	        </div>
-                	
-        </footer>
-        <!-- Javascript -->
-		<script src="${pageContext.request.contextPath }/resources/assets/js/jquery-3.3.1.min.js"></script>
-		<script src="${pageContext.request.contextPath }/resources/assets/js/jquery-migrate-3.0.0.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-        <script src="${pageContext.request.contextPath }/resources/assets/js/jquery.backstretch.min.js"></script>
-        <script src="${pageContext.request.contextPath }/resources/assets/js/wow.min.js"></script>
-        <script src="${pageContext.request.contextPath }/resources/assets/js/scripts.js"></script>
+     </div>
+	
+</div>
+<jsp:include page="../commons/include_footer.jsp"></jsp:include>
+</body>
 
-    </body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+	integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+	integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
+
 
 </html>

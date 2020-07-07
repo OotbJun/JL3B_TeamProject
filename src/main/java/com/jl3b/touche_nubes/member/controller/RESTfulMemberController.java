@@ -7,14 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.jl3b.touche_nubes.member.service.MemberService;
+import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 @Controller
 @ResponseBody
 @RequestMapping("/member/*")
 public class RESTfulMemberController {
 
    @Autowired
-   private MemberService memberService;
+   private MemberServiceImpl memberService;
 
    // 아이디 중복검사
    @RequestMapping("/confirmId.do")

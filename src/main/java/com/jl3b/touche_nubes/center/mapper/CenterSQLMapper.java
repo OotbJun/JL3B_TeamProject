@@ -1,6 +1,8 @@
 package com.jl3b.touche_nubes.center.mapper;
 
+
 import java.util.List;
+
 
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
@@ -26,22 +28,27 @@ public interface CenterSQLMapper {
 	public List<CenterReviewVo> selectCenterReviewAll(int center_no);	//클래스 리뷰 전체보기
 	
 	//예약
-	public void insertReserver(ReserveVo ReserverVo);					//프로그램 예약하기
-	public void deleteReserver(int reserver_no);						//예약 취소
-	public ReserveVo selectReserverByMember(int member_no);				//예약 조회(본인이 예약했던 내역)			
-	public int selectReserverCount(int prog_no);						//인원 수 조회(예약 마감 활성화)
+	public void insertReserve(ReserveVo reserveVo);					//프로그램 예약하기
+	public void deleteReserve(ReserveVo reserveVo);						//예약 취소
+	public List<ReserveVo> readmember(int lesson_no);				//예약자 확인		
+	public int coutbyReserve(int lesson_no);						//예약자 수 확인selectReserverCount
+	public ReserveVo checkReserve(ReserveVo reserveVo);		//예약 체크
+	public List<ReserveVo> readlesson(int member_no);				//예약내역 확인
 	
-	//프로그램
-	public void insertProg(LessonInfoVo progVo);						//프로그램 등록
-	public void updateProg(LessonInfoVo progVo);						//프로그램 수정
-	public void deleteProg(int prog_no);								//프로그램 삭제
+	//강의 정보
+	public void insertlessonInfo(LessonInfoVo lessonInfoVo);							//강의 등록
+	public void updateProg(LessonInfoVo progVo);							//프로그램 수정
+	public void deleteProg(int prog_no);							//프로그램 삭제
+	public LessonInfoVo selectlessonInfoByNo(int no);				//정보확인
 	
-	//프로그램 시간대
-	public void insertTime(LessonVo progTimeVo);						//시간대 등록
-	public void minusSeat();											//예약되면 인원수 차감
+	//강의
+	public void insertlesson(LessonVo LessonVo);					//시간대 등록
+	public int countbyReserve(int no);										//예약 인원수
+	public int createKey();													//가상 키 생성
+	public List<LessonVo> selectList(int no);								//센터 강의목록 노출
+	public void updateHorsehead(int lesson_people);
 	
-	
-	public void centerDrop(int center_no);								//센터 탈퇴
-	
-	
+
 }
+	
+

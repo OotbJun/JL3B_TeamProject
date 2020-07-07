@@ -7,18 +7,51 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Insert title here</title>
-<style>
+<style type="text/css">
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 72px;
+}
+
 footer {
-	margin: 0 auto;
-	text-align: center;
+	margin-top: -72px;
+	height: 72px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
-#xxx * {
-	background-color: rgba(255, 255, 255, 0.0);
+#nav li {
+	display: inline;
 }
 
-#xxx {
-	background-color: rgba(255, 255, 255, 0.0);
+#nav a {
+	display: inline-block;
+	padding: 10px;
+}
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	display: inline-block;
+	padding: 10px;
 }
 </style>
 
@@ -53,7 +86,7 @@ footer {
 	}
 	
 	function minlength2() {
-	   var content = document.getElementById("content").value;
+	   var content = document.getElementById("idea_content").value;
 	   if(content.length >= 3 ){
 	      contentfill = true;
 	      submitActive();
@@ -76,8 +109,10 @@ footer {
 </script>	
 	
 </head>
-<body>
+<body style="overflow-x: hidden;">
+<div id="wrap">
 	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+	<div id="content">
 	<div class="container" role="main" style="margin-top: 5%;">
 		<h2>청원 게시판 글 수정하기</h2>
 		<form
@@ -91,9 +126,9 @@ footer {
 			<div class="mb-3"></div>
 			<div class="mb-3"></div>
 			<div class="mb-3">
-				<label for="content">글내용</label>
+				<label for="idea_content">글내용</label>
 
-				<textarea class="form-control" rows="10" cols="40" id="content"
+				<textarea class="form-control" rows="10" cols="40" id="idea_content"
 					name="idea_content" maxlength="4000" onkeyup="minlength2()">${readIdea.ideaVo.idea_content }</textarea>
 			</div>
 			<div class="mb-3">
@@ -120,6 +155,9 @@ footer {
 			</div>
 		</form>
 	</div>
+	</div>
+	</div>
+	<jsp:include page="../commons/include_footer.jsp"></jsp:include>
 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
 		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
 		crossorigin="anonymous"></script>

@@ -10,17 +10,37 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 입주민 회원가입</title>
 <style>
-footer {
-   margin: 0 auto;
-   text-align: center;
+* {
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+margin: 0;
+	padding: 0;
+}
+html,body{
+height:100%;
+}
+#wrap{
+min-height: 100%;
+position: relative;
+}
+#content{
+margin-bottom: 72px;
+}
+footer{
+margin-top:-72px;
+height : 72px;
+bottom: 0;
+left: 0;
+right: 0;
+}
+#nav li {
+	display: inline;
 }
 
-#xxx * {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-
-#xxx {
-   background-color: rgba(255, 255, 255, 0.0);
+#nav a {
+	display: inline-block;
+	padding: 10px;
 }
 </style>
 
@@ -39,7 +59,7 @@ footer {
 
 <script type="text/javascript">
    function pageMove(){
-         setTimeout(test , 7*1000);
+         setTimeout(test , 6*1000);
       }
    function test(){
          location.href="/touche_nubes/member/login.do";
@@ -49,7 +69,7 @@ footer {
        setInterval(timeAttack,1000);
    }
          
-   var setTime = 7;      // 최초 설정 시간(기본 : 초)
+   var setTime = 5;      // 최초 설정 시간(기본 : 초)
 
  function timeAttack() {   // 1초씩 카운트
             
@@ -58,7 +78,7 @@ footer {
          clearInterval(timeAttack);      // 타이머 해제
              
       } else {
-               document.getElementById("ViewTimer").innerText = setTime+"초";      // div 영역에 보여줌
+               document.getElementById("ViewTimer").innerText = setTime+"초 후에  로그인페이지로 이동합니다.";      // div 영역에 보여줌
                document.getElementById("ViewTimer").style.color = "#11609c";
                document.getElementById("ViewTimer").style.fontWeight = "bold";
                document.getElementById("ViewTimer").style.fontSize = "x-large"
@@ -69,7 +89,10 @@ footer {
 
 </head>
 <body onload="timer(); pageMove();">
-   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+<div id="wrap">
+	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+
+	<div id="content">
 
    <div class="container text-center" style="margin-top: 6%">
       <div class="row">
@@ -80,36 +103,27 @@ footer {
          </div>
          <div class="col-2"></div>
       </div>
-      <div class="row" >
-         <div class="col-5"></div>
-         <div class="col" id="ViewTimer"></div>
-         <div class="col-5"></div>
-      </div>
-      <div class="row mt-4">
-         <div class="col-2">.</div>
-         <div class="col"><span style="font-size: large;">후에  로그인페이지로 이동합니다.</span><br>
-        </div>
-         <div class="col-2"></div>
-      </div>
-       <div class="row mt-4">
-         <div class="col-2">.</div>
-         <div class="col"><span style="font-size: large;">작성하신 이메일로 확인메일을 발송하였습니다.</span><br>
-        </div>
-         <div class="col-2"></div>
-      </div>
-        <div class="row mt-4">
-         <div class="col-2">.</div>
-         <div class="col"><span style="font-size: large;">이메일 인증 후 로그인을 부탁드립니다.</span><br>
-        </div>
-         <div class="col-2"></div>
-      </div>
-        <div class="row mt-4">
-         <div class="col-2">.</div>
-         <div class="col"><img src="${pageContext.request.contextPath }/resources/img/93.gif"><br>
-        </div>
-         <div class="col-2"></div>
-      </div>
    </div>
+   
+   <div class="container text-center">
+		<div class="row">
+			<div class="col-5">
+				<img
+					src="${pageContext.request.contextPath }/resources/img/greeting.gif"
+					style="margin: 0px 0px -50px 0px; max-width: 100%; height: auto;">
+			</div>
+			<div class="col-7 text-left">
+				<h4 style="padding-top:10%" id="ViewTimer"></h4>
+				<p style="border-top: solid medium; border-top-color: navy; padding-top: 2%">작성하신 이메일로 확인메일을 발송하였습니다.<br>이메일 인증 후 로그인을 부탁드립니다.</p>
+			</div>
+		</div>
+	</div>
+     
+     
+	</div>
+	
+</div>
+<jsp:include page="../commons/include_footer.jsp"></jsp:include>
    <script
       src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
       integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"

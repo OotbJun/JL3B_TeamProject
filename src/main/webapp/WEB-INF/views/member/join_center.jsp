@@ -10,17 +10,37 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 센터 회원가입</title>
 <style>
-footer {
-   margin: 0 auto;
-   text-align: center;
+* {
+box-sizing: border-box;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+margin: 0;
+	padding: 0;
+}
+html,body{
+height:100%;
+}
+#wrap{
+min-height: 100%;
+position: relative;
+}
+#content{
+margin-bottom: 72px;
+}
+footer{
+margin-top:-72px;
+height : 72px;
+bottom: 0;
+left: 0;
+right: 0;
+}
+#nav li {
+	display: inline;
 }
 
-#xxx * {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-
-#xxx {
-   background-color: rgba(255, 255, 255, 0.0);
+#nav a {
+	display: inline-block;
+	padding: 10px;
 }
 </style>
 
@@ -284,7 +304,11 @@ function check_npki() {
     </script>
 </head>
 <body onload="timer(); pageMove();">
-   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
+
+<div id="wrap">
+	<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+
+	<div id="content">
 
    <div class="container text-center" style="margin-top: 6%">
       <div class="row">
@@ -389,7 +413,7 @@ function check_npki() {
                </div>
 
                <!-- 회원가입 버튼 -->
-               <div class="row">
+               <div class="row mb-5">
                <div class="col-10"></div>
                <div class="col-2">
                   <input id="join_submit" type="button" value="회원가입" disabled="disabled"
@@ -400,6 +424,9 @@ function check_npki() {
             </form>
          </div>
          <div class="col-2"></div>
+      </div>
+
+   </div>
       </div>
 
    </div>

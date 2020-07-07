@@ -1,11 +1,10 @@
 package com.jl3b.touche_nubes.center.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +14,10 @@ import com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper;
 import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
+import com.jl3b.touche_nubes.centervo.LessonInfoVo;
+import com.jl3b.touche_nubes.centervo.LessonVo;
+import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
-import com.jl3b.touche_nubes.membervo.AdminVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 
@@ -68,6 +69,29 @@ public class CenterService {
 		map.put("centerImgVo", centerImgVo);
 		
 		return map;
+	}
+	
+	//센터 정보 상세보기 - 강의 목록
+	public List<Map<String,Object>> viewLessonList(int center_no){
+		List<Map<String,Object>> list = new ArrayList<Map<String,Object>>();
+		
+		List<LessonVo> lessonList = centerSQLMapper.selectList(center_no);	
+		for(LessonVo lessonVo : lessonList) {
+			CenterVo centerVo = memberSQLMapper.selectCenterByNo(center_no);
+			LessonInfoVo lessonInfoVo = centerSQLMapper.selectlessonInfoByNo(lessonVo.getInfo_no());
+			
+			Map<String,Object> map = new HashMap<String,Object>();
+			
+			int people = centerSQLMapper.coutbyReserve(lessonVo.getLesson_no());
+			
+			map.put("lessonInfoVo", lessonInfoVo);
+			map.put("centerVo", centerVo);
+			map.put("lessonVo", lessonVo);
+			map.put("people", people);
+			
+			list.add(map);
+			}
+		return list;
 	}
 	
 	//센터 리뷰 페이지
@@ -129,8 +153,66 @@ public class CenterService {
 		centerSQLMapper.insertCenterReview(centerReviewVo);
 	}
 	
-	//센터 탈퇴
-	public void centerDrop(int center_no) {
-		centerSQLMapper.centerDrop(center_no);
+	//강의 등록
+	public void writeLesson(LessonInfoVo lessonInfoVo, Date [] lesson_date, String [] lesson_time, int[] lesson_people) {	//하나의 info에 여러개의 lesson을 넣으려고 lesson table 컬럼 값들을 하나씩 다 받아와줌
+		 
+		int lessonKey = centerSQLMapper.createKey();	//동시에 두 테이블에 insert해야 해서 미리 sequence값을 생성해서 set시켜줌
+		lessonInfoVo.setInfo_no(lessonKey);	
+		centerSQLMapper.insertlessonInfo(lessonInfoVo);	//우선 info table을 생성
+		
+		int count = lesson_date.length;	//배열을 돌리기 위해 변수값 중 아무거나 하나를 길이로 설정해줌
+		
+		for(int i = 0 ; i < count ; i++) {	
+			
+			LessonVo lessonVo = new LessonVo();	//값들을 받아줄 lessonVo 객체 생성
+			lessonVo.setInfo_no(lessonKey);	//위에서 만들어준 lessonkey를 setting
+			
+			lessonVo.setLesson_date(lesson_date[i]);
+			lessonVo.setLesson_time(lesson_time[i]);
+			lessonVo.setLesson_people(lesson_people[i]);	//i번만큼 값을 돌려줌
+			
+			centerSQLMapper.insertlesson(lessonVo);	//lessonVo에 생성
+			
+		}
+			
 	}
+	
+	
+	//말머리 바꾸기
+	public void updateHorsehead(int lesson_people) {
+		centerSQLMapper.updateHorsehead(lesson_people);
+	}
+	
+	//예약
+		public void create(ReserveVo ReserveVo) {	
+			centerSQLMapper.insertReserve(ReserveVo);
+		}
+		
+		//예약 취소
+		public void delete(ReserveVo ReserveVo) {		
+			centerSQLMapper.deleteReserve(ReserveVo);
+		}
+			
+		//예약자 수 확인
+		public int countbyReserve(int lesson_no) {
+			return centerSQLMapper.coutbyReserve(lesson_no);
+		}
+		
+		//예약자 조회
+		public List<ReserveVo> readmember(int lesson_no) {
+			return centerSQLMapper.readmember(lesson_no);		
+		}
+		
+		//예약 게시물 조회
+		public List<ReserveVo> readlesson(int member_no) {
+			return centerSQLMapper.readlesson(member_no);
+		}
+		
+		//예약 있는지 체크
+		public ReserveVo check(ReserveVo ReserveVo) {
+			return centerSQLMapper.checkReserve(ReserveVo);
+		}
+
+	
+	
 }

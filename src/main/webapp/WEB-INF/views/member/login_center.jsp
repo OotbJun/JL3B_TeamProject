@@ -7,22 +7,44 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>센터 로그인</title>
 <style>
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 72px;
+}
+
 footer {
-   margin: 0 auto;
-   text-align: center;
+	margin-top: -72px;
+	height: 72px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 
-#xxx * {
-   background-color: rgba(255, 255, 255, 0.0);
+#nav li {
+	display: inline;
 }
 
-#xxx {
-   background-color: rgba(255, 255, 255, 0.0);
+#nav a {
+	display: inline-block;
+	padding: 10px;
 }
 
-body {
- background-image: "${pageContext.request.contextPath }/resources/img/login.jpg"
-}
 </style>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/login2.css">
 <link rel="stylesheet"
@@ -31,9 +53,12 @@ body {
    crossorigin="anonymous">
    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 </head>
-<body>
- <jsp:include page="../commons/include_navi.jsp"></jsp:include>
- 
+<body style="overflow-x: hidden;">
+	<div id="wrap">
+		<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+		
+		<div id="content">
+
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
@@ -54,6 +79,10 @@ body {
     </div>
   </div>
 </div>
+  </div>
+		
+	</div>
+   <jsp:include page="../commons/include_footer.jsp"></jsp:include>
    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
       integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
       crossorigin="anonymous"></script>

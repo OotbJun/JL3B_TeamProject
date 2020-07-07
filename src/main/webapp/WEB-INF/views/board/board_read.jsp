@@ -10,19 +10,34 @@
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>Touche 자게 글읽기</title>
 <style>
+* {
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html, body {
+	height: 100%;
+}
+
+#wrap {
+	min-height: 100%;
+	position: relative;
+}
+
+#content {
+	padding-bottom: 72px;
+}
+
 footer {
-   margin: 0 auto;
-   text-align: center;
+	margin-top: -72px;
+	height: 72px;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
-
-#xxx * {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-
-#xxx {
-   background-color: rgba(255, 255, 255, 0.0);
-}
-
 ul {
    list-style: none;
    float: left;
@@ -286,9 +301,12 @@ li {
 </script>
 </head>
 
-<body onload="refreshLike(), refreshDislike()">
-   <jsp:include page="../commons/include_navi.jsp"></jsp:include>
-   <div class="col mt-4">
+<body onload="refreshLike(), refreshDislike()"style="overflow-x: hidden;">
+	<div id="wrap">
+		<jsp:include page="../commons/include_navi.jsp"></jsp:include>
+		
+		<div id="content">
+		<div class="col mt-4">
       <div class="row">
          <div class="col-1" ></div>
          <div class="col text-center" style="margin-top:4%;">
@@ -325,7 +343,7 @@ li {
    <!-- 게시글 내용 및 이미지 -->
    <div class="container" style="margin-top: 20px;">
       <div class="col-1"></div>
-      <div class="col-10">>
+      <div class="col-10">
       <c:forEach items="${readBoard.boardImgList}" var="BoardImgVo">
          <img style="max-width: 50%; height: auto"
             src="/upload/${BoardImgVo.board_img_title}">
@@ -456,7 +474,8 @@ li {
       </div>
    </div>
 
-
+</div>
+</div>
    <jsp:include page="../commons/include_footer.jsp"></jsp:include>
 
 

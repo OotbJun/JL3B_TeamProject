@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.jl3b.touche_nubes.boardvo.BoardImgVo;
@@ -22,6 +24,8 @@ import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.center.service.CenterService;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
+import com.jl3b.touche_nubes.centervo.LessonInfoVo;
+import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 import com.jl3b.touche_nubes.votevo.CandyImgVo;
@@ -128,13 +132,15 @@ public class CenterController {
 	
 	//센터 정보 보기
 	@RequestMapping("/center_read.do")
-	public String readCenter(int center_no, Model model) {
-		
+	public String readCenter(int center_no, Model model,LessonVo lessonVo) {
+		//centerService.updateHorsehead(lessonVo.getLesson_people());
 		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);
 		List<Map<String, Object>> readReview = centerService.viewReviewList(center_no);
+		List<Map<String,Object>> lessonList = centerService.viewLessonList(center_no);
 		
 		model.addAttribute("readCenter", readCenter);
 		model.addAttribute("readReview", readReview);
+		model.addAttribute("lessonList", lessonList);
 		
 		return "center/center_read";
 	}
@@ -147,7 +153,7 @@ public class CenterController {
 	@RequestMapping("/center_img_process.do")
 	public String uploadImgCenterProcess(MultipartFile [] centerImgFile, CenterVo centerVo, HttpSession session) {
 		
-		String RootFolderName = "/var/storage";
+		String RootFolderName = "C:/upload/";
 		Date today = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		String todayFolder = df.format(today);
@@ -192,16 +198,30 @@ public class CenterController {
 	    return "redirect:./center_read.do?center_no="+centerVo.getCenter_no();
 	}
 	
-	//센터 탈퇴
-	@RequestMapping("/center_drop_process.do")
-	public String centerDrop(int center_no, HttpSession session) {
-		
-		centerService.centerDrop(center_no);
-		
-		session.invalidate();
-		
-		return "...";
-	}
+	//센터 정보 수정
+//	@RequestMapping("/center_modify.do")
+//	public String modifyCenter(int info_no, Model model) {
+//
+//		model.addAttribute("readCenter", centerService.viewCenterInfo(info_no));
+//		
+//		return "center/center_modify";
+//	}
+//	@RequestMapping("/center_modify_process.do")
+//	public String modifyCenterProcess(CenterInfoVo centerInfoVo) {
+//		
+//		centerService.modifyCenterInfo(centerInfoVo);
+//		
+//		return "redirect:./center.do";
+//	}
+	
+	//센터 정보 삭제
+//	@RequestMapping("/center_erase_process.do")
+//	public String eraseCenterProcess(int info_no) {
+//
+//		centerService.eraseCenterInfo(info_no);
+//		
+//		return "redirect:./center.do";
+//	}
 	
 	
 	///////////////////////////////////////////////리뷰
@@ -222,4 +242,32 @@ public class CenterController {
 		
 		return "redirect:./center_read.do?center_no="+centerReviewVo.getCenter_no();
 	}
+	
+	//강의 생성 페이지
+	@RequestMapping("/center_write.do")
+	public String writeLessonPage() {
+		System.out.println("강의 생성 페이지 호출 컨트롤러");
+		return "center/center_write";
+	}
+
+	//강의생성
+	@RequestMapping("/center_write_process.do")
+	public String create(LessonInfoVo lessonInfoVo, Date [] lesson_date, String [] lesson_time, int [] lesson_people, HttpSession session) {
+	
+		CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");	//로그인 한 세션유지 후 글 쓰기 위해...
+		
+		lessonInfoVo.setCenter_no(centerVo.getCenter_no());		//센터넘버를 갖고와서 info에 센터넘버 입력
+		
+		centerService.writeLesson(lessonInfoVo, lesson_date, lesson_time, lesson_people);	//생성
+		
+		return "redirect:./center_read.do?center_no="+centerVo.getCenter_no();
+	}
+//	//말머리 바꾸기
+//	@RequestMapping("/horsehead_process.do")
+//	public String updateHorsehead(int lesson_people) {
+//		centerService.updateHorsehead(lesson_people);
+//		
+//		return "redirect:./center_read.do";
+//	}
+	
 }
