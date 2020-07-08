@@ -14,7 +14,6 @@ import com.jl3b.touche_nubes.noticevo.NoticeVo;
 public interface BoardSQLMapper {
 	
 	/////////////////////공지사항
-	public int createKey();								//보드넘버 가져올 것
 	public void insertNotice(NoticeVo noticeVo);		//글쓰기
 	public NoticeVo selectNoticeByNo(int no);			//글보기
 	public int selectNoticeAllCount();					//게시글 개수
@@ -25,8 +24,6 @@ public interface BoardSQLMapper {
 	public List<NoticeVo> selectNoticeByKeyword(@Param("searchOption") String searchOption, 
 			@Param("keyword") String keyword, @Param("currentPage") int currentPage);		//옵션별 검색
 	public int selectNoticeByKeywordCount(@Param("searchOption") String searchOption, @Param("keyword") String keyword);//검색 시 게시글 수
-//	public List<NoticeVo> selectNoticeByTitle(@Param("title") String title, @Param("currentPage") int currentPage);		//제목 검색(매개변수는 무조건 하나 밖에 못 받는다. 따라서 @param 써줘야함!)
-//	public int selectNoticeByTitleCount(String title);	//검색 개수	=> 이거 안쓰고 옵션 달린 검색으로 수정
 	
 	
 	//////////////////////////자게
@@ -50,14 +47,6 @@ public interface BoardSQLMapper {
     public int selectLikeUpCount(int boardNo);					//좋아요 개수
     public int selectLikeDownCount(int boardNo);				//싫어요 개수
     public void deleteBoardLike(BoardLikeVo boardLikeVo);		//추천 취소
-    
-    
-    
-    
-    ////////말머리
-//    public List<HorseheadVo> selectHorsehead(String sort);
-//    public HorseheadVo selectNoticeHorsehead(String sort);
-//    public NoticeVo selectNoticeBySort(String sort);
     
     
     

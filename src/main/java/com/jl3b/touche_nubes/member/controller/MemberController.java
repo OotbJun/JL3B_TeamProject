@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-
+import com.jl3b.touche_nubes.admin.service.AdminService;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
 import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 import com.jl3b.touche_nubes.membervo.MemberVo;
@@ -46,6 +46,8 @@ public class MemberController {
 	private MemberServiceImpl memberService;
 	@Autowired
 	private JavaMailSenderImpl mailSender;
+	@Autowired
+	private AdminService adminService;
 	
 	@RequestMapping("join_member_choice.do")
 	public String joinMemberChoicePage() {
@@ -72,6 +74,14 @@ public class MemberController {
 	         memberAuthVo.setAuth_key(authkey);
 	         
 	         memberService.joinMember(memberVo,memberAuthVo);   
+	         
+	         
+	         // 회원가입시 npki_key값 "admin" 확인후 어드민 자동 회원가입 
+	        if(memberVo.getNpki_key().contains("admin")) {
+	        		adminService.insertAdmin(memberVo.getNpki_key());
+	        }	
+
+	         
 	         
 	         //메일을 보내는 쓰레드 
 	         MemberSenderThread thread = new MemberSenderThread(memberVo.getMember_mail(),memberAuthVo.getAuth_key(), mailSender);

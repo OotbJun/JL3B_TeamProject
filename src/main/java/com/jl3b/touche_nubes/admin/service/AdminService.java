@@ -54,8 +54,8 @@ public class AdminService {
 	}
 	
 	//npki키 생성
-	public void createNpki(NpkiVo npkiVo) {
-		npkiSQLMapper.insertNpki(npkiVo);
+	public void createNpki(String npki_type, String npki_key) {
+		npkiSQLMapper.insertNpki(npki_type, npki_key);
 	}
 	
 	//npki키 삭제
@@ -111,7 +111,15 @@ public class AdminService {
 		memberSQLMapper.centerDrop(center_no);
 	}
 	
-		// 관리자로그아웃
+	// 자동 어드민 회원가입 
+	public void insertAdmin(String npki_key) {
+	   adminSQLMapper.insertAdmin(npki_key);
+	}
+
+	
+
+	
+	// 관리자로그아웃
 		//페이지 이동없이 로그아웃
 //		response.setContentType("text/html;charset=utf-8");
 //		PrintWriter out = response.getWriter();
@@ -119,8 +127,4 @@ public class AdminService {
 //		out.println("location.href=document.referrer;");
 //		out.println("</script>");
 //		out.close();
-	
-	
-	//-----------------------------------------공지사항
-	
 }

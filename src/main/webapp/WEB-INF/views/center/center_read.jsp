@@ -80,51 +80,79 @@
 
 <script type="text/javascript">
 
-	function reserve(lessonNo) {
+
+var isConfirm = false;
+
+	function reserveConfirm(lessonNo, lesson_people){
+		if(isConfirm == false){
+			if(confirm("예약 하시겠습니까?") == true){
+				alert("예약 되었습니다."); 
+				reserve(lessonNo, lesson_people);
+				isConfirm = true;
+			}	
+		}else{
+			if(confirm("예약을 취소하시겠습니까?") == true){
+				alert("취소 되었습니다."); 
+				reserve(lessonNo, lesson_people);
+				isConfirm = false;
+			}
+		}
+		
+	}
+	
+	function reserve(lessonNo, lesson_people) {
 
 		
 		//var lessonNo = document.getElementById("lessonNo");
-		var lesson_people = document.getElementsByClassName("people").value;
+		//var lesson_people = document.getElementsByClassName("people").value;
 		var xmlhttp = new XMLHttpRequest();
 
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				refreshreserve(lessonNo);
+				refreshreserve(lessonNo, lesson_people);
 			}
 		};
 
 		xmlhttp.open("post", "./reserve_process.do", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("lesson_no=" + lessonNo + "&lesson_people" + lesson_people);
+		xmlhttp.send("lesson_no=" + lessonNo + "&lesson_people=" + lesson_people);
 
 	};
 
 
-	function refreshreserve(lessonNo) {
+	function refreshreserve(lessonNo, lesson_people) {
 
 		//var lessonNo = 11;
 		
-		
+		var limit = lesson_people;
 		var xmlhttp = new XMLHttpRequest();
-		var lessonPeople = document.getElementsByClassName("people");
 		var row = document.createElement("div");
+		var lessonPeople = document.getElementsByClassName("people");
+		
+		
+		var index = lessonNo -1;
 		
 		xmlhttp.onreadystatechange = function() {
 
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-				var people = xmlhttp.responseText;
+				var people = xmlhttp.responseText + "/" + limit;
+				
+				console.log(people);
+				console.log(lessonNo);
 
-				var length = lessonPeople.childNodes.length;
+				var length = lessonPeople[index].childNodes.length;
+				
+				console.log(length);
 
 				row.innerText = people;
 
 				for (var i = 0; i < length; i++) {
-					lessonPeople.removeChild(lessonPeople.childNodes[0]);
+					lessonPeople[index].removeChild(lessonPeople[index].childNodes[0]);
 				}
 
-				lessonPeople.appendChild(row);
+				lessonPeople[index].appendChild(row);
 			}
 
 		};
@@ -279,7 +307,7 @@
 																<c:forEach items="${lessonList }" var="aaa">
 																	<tr>
 																		
-																		<td class = "people">${aaa.people }/${aaa.lessonVo.lesson_people }</td>
+																		<td class="people">${aaa.people }/${aaa.lessonVo.lesson_people }</td>
 																		<td>${aaa.lessonInfoVo.info_title }</td>
 																		<td><fmt:formatDate
 																				value="${aaa.lessonVo.lesson_date }"
@@ -287,7 +315,7 @@
 																		<td>${aaa.lessonVo.lesson_time }시</td>
 																		<c:set var="reserve" value="${aaa.lessonVo.lesson_horsehead }"></c:set>
 																		<c:if test="${!fn:contains(reserve,'마감') }">
-																		<td><button type="button" onclick="reserve(${aaa.lessonVo.lesson_no})" class="btn btn-group">${aaa.lessonVo.lesson_horsehead }</button></td></c:if>
+																		<td><button type="button" onclick="reserveConfirm(${aaa.lessonVo.lesson_no}, ${aaa.lessonVo.lesson_people })" class="btn btn-group">${aaa.lessonVo.lesson_horsehead }</button></td></c:if>
 																		<c:if test="${fn:contains(reserve,'마감') }">
 																		<td>${aaa.lessonVo.lesson_horsehead }</td>																	</c:if>
 																	</tr>
@@ -331,12 +359,17 @@
                            </div>
                         </div>
                      </div>
+                     
                   </div>
                </div>
             </div>
+            
          </div>
+         <a href="${pageContext.request.contextPath }/center/center_write.do"><button
+                        type="button" class="btn btn-outline-primary btn-sm">글쓰기</button></a>
       </div>
    </div>
+  </div> 
    <!-- Footer -->
    <footer class="footer-container" style="background-color: #000000; color:#ffffff;">
 

@@ -84,30 +84,12 @@
 	]]>
 	</select>
 	
-	<!-- 제목 검색 -->
-	<select id="selectNoticeByTitle" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
-	<![CDATA[
-		SELECT * 
-		FROM(
-		    SELECT ROWNUM rnum, t1.*
-		    FROM(
-		        SELECT * 
-		        FROM JL3B_NOTICE 
-		        WHERE notice_title LIKE '%' || #{title} || '%'
-		        ORDER BY notice_no DESC) t1
-		        ) t2
-		WHERE t2.rnum >= (#{currentPage}-1)*10+1 AND t2.rnum <= #{currentPage}*10
-	]]>
-	</select>
-	
-	
 	<!-- 검색시 게시글 개수 -->
 	<select id="selectNoticeByKeywordCount" resultType="int">
 	<![CDATA[
 		SELECT COUNT(*) FROM JL3B_NOTICE WHERE #{searchOption} LIKE '%'||#{keyword}||'%'
 	]]>
 	</select>
-	
 	
 	
 	<!-- ////////////////////////////////////////////////////////자게 -->
@@ -182,13 +164,6 @@
 	      WHERE board_no=#{no}
       ]]>
 	</update>
-	<select id="selectHorseHead"
-		resultType="com.jl3b.touche_nubes.horseheadvo.HorseheadVo">
-		
-			   <![CDATA[
-		SELECT * FROM JL3B_HORSEHEAD
-			]]>
-	</select>
 	
 	 <select id="selectBoardAllCount" resultType="int">
 		<![CDATA[
@@ -197,7 +172,7 @@
 	</select>
 	
 	
-	<!-- 테스트!!!!!!!!!!!!!!!!!! 검색 수  -->
+	<!-- 검색 수  -->
 	 <select id="selectBoardByKeywordCount" resultType="int">
 	    <![CDATA[
 			SELECT COUNT(*) FROM JL3B_BOARD WHERE #{searchOption} LIKE '%'||#{keyword}||'%'			
@@ -284,29 +259,6 @@
 			DELETE FROM JL3B_BOARD_LIKE WHERE member_NO = #{member_no} AND BOARD_NO = #{board_no}
 		]]>
 	</delete>
-	
-	
-	<!-- /////////////////////////////////말머리 -->
-	<select id="selectHorsehead" resultType="com.jl3b.touche_nubes.horseheadvo.HorseheadVo">
-		<![CDATA[
-			SELECT * FROM JL3B_HORSEHEAD WHERE HORSEHEAD_SORT = #{HORSEHEAD_SORT}
-		]]>
-	</select>
-	<select id="selectNoticeHorsehead" resultType="com.jl3b.touche_nubes.horseheadvo.HorseheadVo">
-		<![CDATA[
-			SELECT * FROM JL3B_HORSEHEAD WHERE HORSEHEAD_SORT = #{HORSEHEAD_SORT}
-		]]>
-	</select>
-	<select id="selectNoticeBySort" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
-		<![CDATA[
-			SELECT * 
-			FROM 
-			JL3B_NOTICE
-			WHERE 
-			horsehead_sort = #{sort}
-		]]>
-	</select>
-	
 	
 	
 		<!-- ///////////////////////////////////////////////////////////////청원 -->
@@ -421,22 +373,7 @@
 	      WHERE idea_no=#{no}
       ]]>
 	</update>
-	
-	<!-- 검색 -->
-	<select id="selectIdeaByTitle"
-		resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
-	   <![CDATA[
-		SELECT * 
-		FROM (
-               SELECT ROWNUM rnum, t1.*  
-               FROM(
-                     SELECT * FROM JL3B_idea WHERE idea_title LIKE '%'||#{title}||'%'
-                     ORDER BY idea_gr_no desc, idea_no asc) t1
-                 )t2  
-           WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
-		]]>
-	</select>
-	
+
 	<!-- 게시글 개수 -->
 	 <select id="selectIdeaAllCount" resultType="int">
 	<![CDATA[
@@ -444,8 +381,6 @@
 		]]>
 	</select>
 	
-	<!-- 검색시 개수 -->
-
 	
 	 <!-- 추천 -->
    <insert id="insertIdeaLike">
@@ -484,6 +419,8 @@
          SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_no = #{idea_no}
       ]]>
    </select>
+   
+   <!-- 검색 개수 -->
    	 <select id="selectIdeaByKeywordCount" resultType="int">
 	    <![CDATA[
 		SELECT COUNT(*) FROM JL3B_IDEA WHERE #{searchOption} LIKE '%'||#{keyword}||'%'

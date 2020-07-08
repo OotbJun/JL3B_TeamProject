@@ -82,7 +82,7 @@ public class CenterService {
 			
 			Map<String,Object> map = new HashMap<String,Object>();
 			
-			int people = centerSQLMapper.coutbyReserve(lessonVo.getLesson_no());
+			int people = centerSQLMapper.countbyReserve(lessonVo.getLesson_no());
 			
 			map.put("lessonInfoVo", lessonInfoVo);
 			map.put("centerVo", centerVo);
@@ -162,6 +162,7 @@ public class CenterService {
 		
 		int count = lesson_date.length;	//배열을 돌리기 위해 변수값 중 아무거나 하나를 길이로 설정해줌
 		
+		
 		for(int i = 0 ; i < count ; i++) {	
 			
 			LessonVo lessonVo = new LessonVo();	//값들을 받아줄 lessonVo 객체 생성
@@ -179,8 +180,8 @@ public class CenterService {
 	
 	
 	//말머리 바꾸기
-	public void updateHorsehead(int lesson_people) {
-		centerSQLMapper.updateHorsehead(lesson_people);
+	public void updateHorsehead(LessonVo lessonVo) {
+		centerSQLMapper.updateHorsehead(lessonVo);
 	}
 	
 	//예약
@@ -195,7 +196,7 @@ public class CenterService {
 			
 		//예약자 수 확인
 		public int countbyReserve(int lesson_no) {
-			return centerSQLMapper.coutbyReserve(lesson_no);
+			return centerSQLMapper.countbyReserve(lesson_no);
 		}
 		
 		//예약자 조회

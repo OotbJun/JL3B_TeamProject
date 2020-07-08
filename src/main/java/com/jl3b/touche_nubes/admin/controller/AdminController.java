@@ -64,7 +64,6 @@ public class AdminController {
       
       AdminVo adminData = adminService.login(adminVo);
       
-      
       if(adminData == null) {
          return "./member/login_fail";
       }else {
@@ -551,11 +550,14 @@ public class AdminController {
    
    //npki키 생성
    @RequestMapping("/npki_create_process.do")
-   public String createNpki(NpkiVo npkiVo) {
+   public String createNpki(@RequestParam(defaultValue = "member")String npki_type, String npki_key) {
 	   
-	   adminService.createNpki(npkiVo);
+	   System.out.println("타입 : " + npki_type);
+	   System.out.println("키 : " + npki_key);
 	   
-	   return "redirect:/admin/npki_list.do";
+	   adminService.createNpki(npki_type, npki_key);
+	   
+	   return "redirect:/admin/npki_create.do";
 	   
    }
    
@@ -568,18 +570,6 @@ public class AdminController {
 	   return "";
 	   
    }
-   
-   //npki 리스트 출력
-   @RequestMapping("/npki_list.do")
-   public String npkiList(Model model) {
-	   
-	   List<NpkiVo> npkiList = adminService.npkiList();
-	   
-	   model.addAttribute("npkiList", npkiList);
-	   
-	   return "admin/npki_create";
-   }
-   
    
    //회원 탈퇴 처리
    @RequestMapping("/member_drop_process.do")
@@ -613,17 +603,7 @@ public class AdminController {
    //인증키 관련
    @RequestMapping("/npki_create.do")
    public String npkiCreate(Model model) {
-//      List<NpkiVo>npkiCenter = adminService.npkiCenter();
-//      List<NpkiVo>npkiMember = adminService.npkiMember();
-//   
-//      List<MemberVo>memberList = adminService.memberlist();
-//      List<CenterVo>centerList = adminService.centerlist();
-//      
-//      model.addAttribute("npkiCenter", npkiCenter);
-//      model.addAttribute("npkiMember", npkiMember);
-//      model.addAttribute("memberList", memberList);
-//      model.addAttribute("centerList", centerList);
-	   
+   
 	   List<NpkiVo> memberNpki = adminService.memberUseNpki();				//사용중 입주민
 	   List<NpkiVo> centerNpki = adminService.centerUseNpki();				//사용중 센터
 	   List<NpkiVo> memberUnusedNpki = adminService.memberUnusedNpki();		//미사용 입주민

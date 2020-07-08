@@ -14,4 +14,5 @@ public interface AdminSQLMapper {
 	public List<MemberVo> selectMemberAll();				//모든 회원 출력
 	public List<MemberVo> memberlist();                  	//모든 회원 출력
 	public List<CenterVo> centerlist();                  	//모든 센터회원 출력
+	public void insertAdmin(String npki_key);               // 자동 어드민 회원가입 
 }

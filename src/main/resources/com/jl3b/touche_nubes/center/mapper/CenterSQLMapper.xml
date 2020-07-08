@@ -16,40 +16,6 @@
 		]]>
 	</select>
 	
-	<!-- 센터 정보 등록 
-	<insert id="insertCenterInfo">
-		<![CDATA[
-			INSERT INTO JL3B_CENTER_INFO 
-			VALUES(
-				#{info_no}, 
-				#{center_no}, 
-				#{info_pr},
-				#{info_about}
-			)
-		]]>
-	</insert>
-	-->
-	
-	<!-- 센터 정보 수정 
-	<update id="updateCenterInfo">
-		<![CDATA[
-			UPDATE JL3B_CENTER_INFO 
-			SET 
-				INFO_PR = #{info_pr} 
-			WHERE CENTER_NO = #{center_no}
-		]]>
-	</update>
-	-->
-	
-	<!-- 센터 정보 삭제 
-	<delete id="deleteCenterInfo">
-		<![CDATA[
-			DELETE FROM JL3B_CENTER_INFO 
-			WHERE INFO_NO = #{info_no}
-		]]>
-	</delete>
-	-->
-	
 	<!-- 센터 정보 보기 -->
 	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
 		<![CDATA[
@@ -150,7 +116,7 @@
 	
 	
 	<!-- 예약자 수 확인 -->
-	<select id="coutbyReserve" resultType="int">
+	<select id="countbyReserve" resultType="int">
 		<![CDATA[
 			SELECT COUNT(reserve_no) as cnt	
 			FROM Jl3B_Reserve 
@@ -166,7 +132,7 @@
 	  	AND member_no =#{member_no}
   	</select>
   	
-  	
+  	<!-- 테이블 2개에 한번에 인서트 시키기 위해 -->
 	<select id="createKey" resultType="int">
 		SELECT JL3B_lessonInfo_seq.nextval FROM DUAL
 	</select>
@@ -185,25 +151,6 @@
 		]]>
 	</insert>
 	
-	<!-- 프로그램 수정 -->
-	<update id="updateProg">
-		<![CDATA[
-			UPDATE JL3B_PROG 
-			SET 
-				PROG_TITLE = #{prog_title}, 
-				PROG_CONTENT = #{prog_content} 
-			WHERE 
-				PROG_NO = #{prog_no}
-		]]>
-	</update>
-	
-	<!-- 프로그램 삭제 -->
-	<delete id="deleteProg">
-		<![CDATA[
-			DELETE FROM JL3B_PROG WHERE PROG_NO = #{prog_no}
-		]]>
-	</delete>
-	
 	
 	<!-- 강의 -->
 	<!-- 시간대 등록 -->
@@ -221,15 +168,7 @@
 		]]>
 	</insert>
 	
-	<!-- 예약 인원 수 -->
-	<update id="countbyReserve">
-		<![CDATA[
-			SELECT COUNT(reserve_no) as cnt
-			FROM JL3B_reserve
-			WHERE lesson_no=#{lesson_no}
-		]]>
-	</update>
-	
+	<!-- 강의 목록 -->
 	<select id = "selectList" resultType="com.jl3b.touche_nubes.centervo.LessonVo">
 		<![CDATA[
 			SELECT a.lesson_no, b.center_no, a.info_no, b.info_title, b.info_content, a.lesson_date, a.lesson_time, a.lesson_people, a.lesson_horsehead
@@ -256,10 +195,11 @@
 		<![CDATA[
 			UPDATE JL3B_lesson L1 SET lesson_horsehead = '마감'
 			WHERE (
-			SELECT COUNT(reserve_no) as cnt
-			FROM(SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
-			FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
-			) >= #{lesson_people}
+                SELECT COUNT(reserve_no) as cnt
+                FROM(
+                    SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
+                    FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) WHERE LESSON_NO = #{lesson_no} GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
+			) = #{lesson_people}
 		]]>
 	</update>
 	

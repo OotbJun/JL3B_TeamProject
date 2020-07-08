@@ -205,17 +205,17 @@
                      <li
                         class="page-item<c:if test="${beginPage-1 <= 0 }"> disabled</c:if>"><a
                         class="page-link"
-                        href="./notice.do?currentPage=${beginPage-1}&searchWord=${param.searchWord}">이전</a></li>
+                        href="./idea.do?currentPage=${beginPage-1}">이전</a></li>
                      <c:forEach begin="${beginPage}" end="${endPage}" var="i">
                         <li
                            class="page-item<c:if test="${currentPage == i}"> active</c:if>"><a
                            class="page-link"
-                           href="./notice.do?currentPage=${i}&searchWord=${param.searchWord}">${i}</a></li>
+                           href="./idea.do?currentPage=${i}">${i}</a></li>
                      </c:forEach>
                      <li
                         class="page-item<c:if test="${endPage+1 > (totalCount-1)/10+1}"> disabled</c:if>"><a
                         class="page-link"
-                        href="./notice.do?currentPage=${endPage+1}&searchWord=${param.search_word}">다음</a></li>
+                        href="./idea.do?currentPage=${endPage+1}">다음</a></li>
                   </ul>
                </nav>
 

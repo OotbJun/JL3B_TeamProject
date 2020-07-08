@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.jl3b.touche_nubes.center.service.CenterService;
+import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.membervo.MemberVo;
 
@@ -22,13 +23,15 @@ public class RESTfulCenterController {
 	
 	//예약하기
 	@RequestMapping("/reserve_process.do")
-	public String check(ReserveVo reserveVo, HttpSession session, Model model, int lesson_people) {
+	public String check(ReserveVo reserveVo, HttpSession session, Model model, LessonVo lessonVo) {
 		
 		if (session.getAttribute("sessionUser") == null) {
 			return "member/login";
 		}
 		
-		System.out.println("  : "+reserveVo.getLesson_no());
+		System.out.println("레슨 넘버 : "+reserveVo.getLesson_no());
+		
+		System.out.println("인원 : " + lessonVo.getLesson_people());
 
 		int memberVo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
 		reserveVo.setMember_no(memberVo);
@@ -36,7 +39,7 @@ public class RESTfulCenterController {
 		ReserveVo reserve = centerService.check(reserveVo); // 중복방지 본인확인
 		
 		model.addAttribute("reserve", reserve);
-		centerService.updateHorsehead(lesson_people);
+		centerService.updateHorsehead(lessonVo);
 
 		if (reserve == null) {
 			centerService.create(reserveVo);			

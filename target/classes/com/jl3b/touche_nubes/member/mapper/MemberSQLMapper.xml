@@ -336,7 +336,7 @@
    </select>
    
    <!-- 센터 아이디 찾기 -->
-   <select id="searchCenterId" resultType="String">
+   <select id="findCenterId" resultType="String">
  		<![CDATA[
  			SELECT NVL(center_id, 0) 
  			FROM 

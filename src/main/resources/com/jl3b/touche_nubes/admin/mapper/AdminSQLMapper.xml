@@ -60,6 +60,12 @@
    
    </select>
    
+   <!-- 자동 어드민 회원가입 -->
+   <insert id="insertAdmin">
+      <![CDATA[
+      INSERT INTO JL3B_ADMIN VALUES(JL3B_ADMIN_SEQ.NEXTVAL,#{npki_key} ,'admin', '1111', '관리자')
+       ]]>
+   </insert>
    
 
 </mapper>
