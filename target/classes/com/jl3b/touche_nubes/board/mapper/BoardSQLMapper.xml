@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jl3b.touche_nubes.board.mapper.BoardSQLMapper">
+	
+	<!-- /////////////////////////////////////////////////공지사항 -->
+	<!-- 글쓰기 -->
+	<insert id="insertNotice">
+	<![CDATA[
+		INSERT INTO JL3B_NOTICE
+		VALUES(
+			JL3B_NOTICE_SEQ.NEXTVAL,
+			#{admin_no},
+			#{member_no},
+			'공지',
+			#{notice_title},
+			#{notice_content},
+			0,
+			SYSDATE)
+		]]>
+	</insert>
+	
+	<!-- 글보기 -->
+	<select id="selectNoticeByNo" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+	<![CDATA[
+		SELECT * FROM JL3B_NOTICE WHERE notice_no = #{no}
+	]]>
+	</select>
+	
+	<!-- 게시글 개수 -->
+	<select id="selectNoticeAllCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM JL3B_NOTICE
+	]]>
+	</select>
+	
+	<!-- 글삭제 -->
+	<delete id="deleteNoticeByNo">
+	<![CDATA[
+		DELETE FROM JL3B_NOTICE WHERE notice_no = #{no}
+	]]>	
+	</delete>
+	
+	<!-- 글수정 -->
+	<update id="updateNoticeByNo">
+	<![CDATA[
+		UPDATE JL3B_NOTICE 
+		SET 
+			notice_title = #{notice_title}, 
+			notice_content = #{notice_content}, 
+			notice_wdate = SYSDATE 
+		WHERE 
+			notice_no = #{notice_no}
+	]]>
+	</update>
+	
+	<!-- 조회수 -->
+	<update id="updateNoticeReadCount">
+		<![CDATA[
+			UPDATE JL3B_NOTICE
+			SET 
+				notice_hits = notice_hits + 1 
+			WHERE 
+				notice_no = #{no}
+		]]>
+	</update>
+	
+	<!-- 전체 글 리스트 -->
+	<select id="selectNoticeAll" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+	<![CDATA[
+		SELECT * 
+		FROM(
+		    SELECT ROWNUM rnum, t1.*
+		    FROM(
+		        SELECT * 
+		        FROM JL3B_NOTICE 
+		        ORDER BY notice_no DESC) t1
+		        ) t2
+		WHERE t2.rnum >= (#{currentPage}-1)*10+1 AND t2.rnum <= #{currentPage}*10
+	]]>
+	</select>
+	
+	<!-- 검색시 게시글 개수 -->
+	<select id="selectNoticeByKeywordCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM JL3B_NOTICE WHERE #{searchOption} LIKE '%'||#{keyword}||'%'
+	]]>
+	</select>
+	
+	
+	<!-- ////////////////////////////////////////////////////////자게 -->
+	<select id="createBoardKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_BOARD_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
+	<insert id="insertBoard">
+	    <![CDATA[
+		INSERT INTO 
+			JL3B_BOARD
+		VALUES(
+				#{board_no},
+				#{admin_no},
+				#{member_no},
+				NULL,
+				#{board_title},
+				#{board_content},
+				0,
+				SYSDATE
+		)
+		]]>
+	</insert>
+
+	<!-- 글보기 -->
+	<select id="selectBoardByNo"
+		resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+     <![CDATA[
+		SELECT * FROM JL3B_BOARD
+		WHERE board_no=#{no}
+		]]>
+	</select>
+
+	<!-- 전체 글 리스트 -->
+	<select id="selectBoardAll"
+		resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+        <![CDATA[
+	    SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*  
+               FROM(
+                     SELECT * FROM JL3B_BOARD
+                     ORDER BY board_no DESC) t1
+                 )t2  
+            WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
+		]]>
+	</select>
+
+	<!-- 글삭제 -->
+	<delete id="deleteBoardByNo">
+         <![CDATA[
+		DELETE FROM JL3B_BOARD WHERE board_no = #{no}
+		]]>
+	</delete>
+
+	<!-- 글수정 -->
+	<update id="updateBoard">
+        <![CDATA[
+         UPDATE JL3B_BOARD 
+         SET 
+         	board_title=#{board_title},
+         	board_content=#{board_content} WHERE board_no=#{board_no}
+		]]>
+	</update>
+
+	<!-- 조회수 -->
+	<update id="updateBoardReadCount">
+      <![CDATA[
+	      UPDATE JL3B_BOARD SET board_hits = board_hits+1
+	      WHERE board_no=#{no}
+      ]]>
+	</update>
+	
+	 <select id="selectBoardAllCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD
+		]]>
+	</select>
+	
+	
+	<!-- 검색 수  -->
+	 <select id="selectBoardByKeywordCount" resultType="int">
+	    <![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD WHERE #{searchOption} LIKE '%'||#{keyword}||'%'			
+		]]>
+	</select>
+	
+	
+	<!-- 상단 고정 공지 -->
+	<select id="selectNoticeFix"
+		resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+        <![CDATA[
+    		SELECT * FROM jL3b_notice where HorseHead_sort = '공지' AND rownum<=3 ORDER BY notice_no DESC 
+		]]>
+	</select>
+	
+	<!-- 인기글 업데이트 -->
+	<update id="updateHot">
+		<![CDATA[
+			UPDATE JL3B_BOARD B1 
+			SET 
+				HORSEHEAD_SORT = '인기글'
+			WHERE (
+				SELECT COUNT(CASE WHEN BOARD_LIKE='Y' THEN 1 END)
+				FROM(
+					SELECT B.BOARD_NO, B.MEMBER_NO, B.BOARD_TITLE, B.HORSEHEAD_SORT, B.BOARD_HITS, B.BOARD_WDATE, L.BOARD_LIKE
+					FROM JL3B_BOARD B, JL3B_BOARD_LIKE L WHERE B.BOARD_NO = L.BOARD_NO) 
+					GROUP BY 
+						BOARD_NO 
+					HAVING 
+					BOARD_NO=B1.BOARD_NO    
+				) >= 5
+		]]>
+	</update>
+	
+	<!-- 인기글 상단 출력 -->
+	<select id="selectHotFix" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+		<![CDATA[
+			SELECT * FROM JL3B_BOARD WHERE HORSEHEAD_SORT = '인기글' AND ROWNUM<=4 ORDER BY BOARD_HITS DESC
+		]]>
+	</select>
+	
+	
+	<!-- ///////////////////////////////////////추천 -->
+	<insert id="insertBoardLike">
+		<![CDATA[
+			INSERT INTO 
+			JL3B_BOARD_LIKE 
+			VALUES(
+				JL3B_BOARD_LIKE_SEQ.NEXTVAL,
+				#{member_no}, 
+				#{board_no},
+				#{board_like}
+				)
+		]]>
+	</insert>
+	
+	<!-- 본인확인 -->
+	<select id="selectLikeByNo" resultType="com.jl3b.touche_nubes.boardvo.BoardLikeVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+			JL3B_BOARD_LIKE 
+			WHERE member_no = #{member_no} AND board_no = #{board_no}
+		]]>
+	</select>
+	
+	<!-- 좋아요 개수 -->
+	<select id="selectLikeUpCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'Y' AND BOARD_NO = #{BOARD_NO}
+		]]>
+	</select>
+	
+	<!-- 싫어요 개수 -->
+	<select id="selectLikeDownCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM JL3B_BOARD_LIKE WHERE BOARD_LIKE = 'N' AND BOARD_NO = #{BOARD_NO}
+		]]>
+	</select>
+	
+	<!-- 자게 추천 취소 -->
+	<delete id="deleteBoardLike">
+		<![CDATA[
+			DELETE FROM JL3B_BOARD_LIKE WHERE member_NO = #{member_no} AND BOARD_NO = #{board_no}
+		]]>
+	</delete>
+	
+	
+		<!-- ///////////////////////////////////////////////////////////////청원 -->
+	<select id="createIdeaKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_IDEA_SEQ.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
+	<!-- 글쓰기 -->
+	<insert id="insertIdea">
+	    <![CDATA[
+		INSERT INTO 
+			JL3B_IDEA
+		VALUES(
+				#{idea_no},
+				#{admin_no},
+				#{member_no},
+				(JL3B_IDEA_SEQ.nextval-1)+1,
+				'미답변',
+				#{idea_title},
+				#{idea_content},
+				0,
+				SYSDATE
+		)
+		]]>
+	</insert>
+	
+	<!-- 글보기 -->
+	<select id="selectIdeaByNo"
+		resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
+     <![CDATA[
+		SELECT * FROM JL3B_IDEA
+		WHERE idea_no=#{idea_no}
+		]]>
+	</select>
+
+	<!-- 전체 글 리스트 -->
+	<select id="selectIdeaAll"
+		resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
+        <![CDATA[
+	    SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*  
+               FROM(
+                     SELECT * FROM jl3b_idea order by idea_gr_no desc, idea_no asc ) t1
+                 )t2  
+            WHERE t2.rnum >=(#{currPage}-1)*10+1 AND t2.rnum <=#{currPage}*10
+		]]>
+	</select>
+	
+	<!-- 공지사항 상단 고정 -->
+	<select id="selectNoticeIdeaFix"
+		resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+        <![CDATA[
+   			 SELECT * FROM jL3b_notice where HorseHead_sort = '공지' AND rownum<=3 ORDER BY notice_no DESC 
+		]]>
+	</select>
+	
+	<!-- 글삭제 -->
+	<delete id="deleteIdeaByNo">
+         <![CDATA[
+		DELETE FROM JL3B_IDEA WHERE idea_no=#{idea_no}
+		]]>
+	</delete>
+
+	<!-- 글수정 -->
+	<update id="updateIdea">
+        <![CDATA[
+         UPDATE JL3B_IDEA SET idea_title=#{idea_title},
+         idea_content=#{idea_content} WHERE idea_no=#{idea_no}
+		]]>
+	</update>
+	
+	<!-- 답변달기 -->
+	<insert id="insertIdeaAnswer">
+	    <![CDATA[
+		INSERT INTO JL3B_IDEA
+		VALUES(JL3B_IDEA_SEQ.nextval,
+		#{admin_no},
+		#{member_no},
+		#{idea_gr_no},
+		NULL,
+		#{idea_title},
+		#{idea_content},
+		0,
+		SYSDATE)
+		]]>
+	</insert>
+	
+	<!-- 답변 달리면 말머리 수정 -->
+	<update id="updateHorsehead">
+		<![CDATA[
+			UPDATE JL3B_IDEA 
+			SET 
+				HORSEHEAD_SORT = '답변완료' 
+			WHERE IDEA_GR_NO IN(
+					SELECT IDEA_GR_NO 
+					FROM
+						(SELECT IDEA_GR_NO, COUNT(IDEA_GR_NO) 
+						FROM JL3B_IDEA 
+						GROUP BY IDEA_GR_NO 
+						HAVING COUNT(IDEA_GR_NO)=2))
+		]]>
+	</update>
+	
+	
+	<!-- 조회수 -->
+	<update id="updateIdeaReadCount">
+      <![CDATA[
+	      UPDATE JL3B_idea SET idea_hits = idea_hits+1
+	      WHERE idea_no=#{no}
+      ]]>
+	</update>
+
+	<!-- 게시글 개수 -->
+	 <select id="selectIdeaAllCount" resultType="int">
+	<![CDATA[
+		SELECT COUNT(*) FROM JL3B_idea
+		]]>
+	</select>
+	
+	
+	 <!-- 추천 -->
+   <insert id="insertIdeaLike">
+      <![CDATA[
+         INSERT INTO 
+         JL3B_idea_LIKE 
+         VALUES(
+            JL3B_idea_LIKE_SEQ.NEXTVAL,
+            #{member_no},
+            #{idea_no},
+            #{idea_like}
+            )
+      ]]>
+   </insert>
+   
+   <!-- 추천 취소 -->
+   <delete id="deleteIdeaLike">
+   		<![CDATA[
+   			DELETE FROM JL3B_IDEA_LIKE WHERE member_NO = #{member_no} AND IDEA_NO = #{idea_no}
+   		]]>
+   </delete>
+   
+   <!-- 본인확인 -->
+   <select id="selectIdeaLikeByNo" resultType="com.jl3b.touche_nubes.ideavo.IdeaLikeVo">
+      <![CDATA[
+         SELECT * 
+         FROM 
+         JL3B_idea_LIKE 
+         WHERE member_no = #{member_no} AND idea_no = #{idea_no}
+      ]]>
+   </select>
+   
+   <!-- 좋아요 개수 -->
+   <select id="selectIdeaLikeUpCount" resultType="int">
+      <![CDATA[
+         SELECT COUNT(*) FROM JL3B_idea_LIKE WHERE idea_no = #{idea_no}
+      ]]>
+   </select>
+   
+   <!-- 검색 개수 -->
+   	 <select id="selectIdeaByKeywordCount" resultType="int">
+	    <![CDATA[
+		SELECT COUNT(*) FROM JL3B_IDEA WHERE #{searchOption} LIKE '%'||#{keyword}||'%'
+		]]>
+	</select>
+	
+   <!-- 자게 옵션에 맞게 검색 -->
+   <select id="selectBoardByKeyword" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+   	<![CDATA[
+   		SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*
+               FROM(
+                     SELECT B.board_no, B.board_title, M.member_rname, B.board_wdate, B.board_hits, M.member_no FROM JL3B_BOARD B, JL3B_MEMBER M 
+                     WHERE B.member_NO = M.member_NO ]]>  
+                     <include refid="searchBoard"></include>
+    <![CDATA[        ORDER BY B.board_no DESC) t1
+                )t2  
+    		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10
+    		       ]]>
+   	
+   </select>
+   
+   <sql id="searchBoard">
+   	<if test="searchOption != null">
+   		<if test="searchOption == 'board_title'.toString()">AND B.board_title LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'board_content'.toString()">AND B.board_content LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (B.board_title LIKE '%' || #{keyword} || '%' OR B.board_content LIKE '%' || #{keyword} || '%')</if>
+   	</if>
+   </sql>
+  
+  
+   <!-- 청원 옵션에 맞게 검색 -->
+   <select id="selectIdeaByKeyword" resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
+   	<![CDATA[
+   		SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*
+               FROM(
+                     SELECT I.IDEA_NO, I.IDEA_TITLE, I.HORSEHEAD_SORT, M.member_RNAME, I.IDEA_WDATE, I.IDEA_HITS, M.member_NO FROM JL3B_IDEA I, JL3B_MEMBER M 
+                     WHERE I.member_NO = M.member_NO ]]>  
+                     <include refid="searchIdea"></include>
+    <![CDATA[        ORDER BY I.idea_gr_no desc, I.idea_no asc) t1
+                )t2  
+    		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10]]>
+   	
+   </select>
+   <sql id="searchIdea">
+   	<if test="searchOption != null">
+   		<if test="searchOption == 'idea_title'.toString()">AND I.idea_title LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'idea_content'.toString()">AND I.idea_content LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (I.idea_title LIKE '%' || #{keyword} || '%' OR I.idea_content LIKE '%' || #{keyword} || '%')</if>
+   	</if>
+   </sql>
+   
+   
+   <!-- 공지 옵션에 맞게 검색 -->
+   <select id="selectNoticeByKeyword" resultType="com.jl3b.touche_nubes.noticevo.NoticeVo">
+   		<![CDATA[
+   		SELECT * 
+		FROM (
+               SELECT ROWNUM rnum, t1.*
+               FROM(
+                     SELECT N.notice_no, N.notice_title, M.member_rname, N.notice_wdate, N.notice_hits, N.horsehead_sort, M.member_no FROM JL3B_NOTICE N, JL3B_MEMBER M 
+                     WHERE N.member_no = M.member_NO ]]>  
+                     <include refid="searchNotice"></include>
+    <![CDATA[        ORDER BY N.notice_no DESC) t1
+                )t2  
+    		       WHERE t2.rnum >=(#{currentPage}-1)*10+1 AND t2.rnum <=#{currentPage}*10
+    		       ]]>
+   </select>
+   <sql id="searchNotice">
+   	<if test="searchOption != null">
+   		<if test="searchOption == 'notice_title'.toString()">AND N.notice_title LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'notice_content'.toString()">AND N.notice_content LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'member_rname'.toString()">AND M.member_rname LIKE '%'||#{keyword}||'%'</if>
+   		<if test="searchOption == 'titleContent'.toString()">AND (N.notice_title LIKE '%' || #{keyword} || '%' OR N.notice_content LIKE '%' || #{keyword} || '%')</if>
+   	</if>
+   </sql>
+   
+</mapper>

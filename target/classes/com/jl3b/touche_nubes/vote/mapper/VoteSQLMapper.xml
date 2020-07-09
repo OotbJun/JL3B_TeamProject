@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.vote.mapper.VoteSQLMapper">
+	
+	<!-- 파일 업로드할 때 쓸 용도로 시퀀스 미리 생성 -->
+	<select id="createCandyKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_Candy_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
+	<!-- 후보 등록 -->
+	<insert id="insertCandy">
+		<![CDATA[
+			INSERT INTO JL3B_CANDY 
+			VALUES(
+				#{candy_no},
+				#{member_no},
+				#{election_round},
+				#{candy_intro},
+				#{candy_content}
+			)
+		]]>
+	</insert>
+	
+	<!-- 후보 수정 -->
+	<update id="updateCandy">
+		<![CDATA[
+			UPDATE JL3B_CANDY 
+			SET 
+				CANDY_INTRO = #{candy_intro}, 
+				CANDY_CONTENT = #{candy_content} 
+			WHERE CANDY_NO = #{candy_no}
+		]]>
+	</update>
+	
+	<!-- 후보 삭제 -->
+	<delete id="deleteCandy">
+		<![CDATA[
+			DELETE FROM JL3B_CANDY WHERE candy_no = #{no}
+		]]>
+	</delete>
+	
+	<!-- 투표 -->
+	<insert id="insertVote">
+		<![CDATA[
+			INSERT INTO JL3B_VOTE
+			VALUES(
+				JL3B_VOTE_SEQ.NEXTVAL,
+				#{member_no},
+				#{candy_no},
+				#{election_round}
+			)
+		]]>
+	</insert>
+	
+	<!-- 투표종료시 3개 한번에 사용-->
+	<!-- 1. 당선인 출력-->	
+	<select id="selectResultWinner" resultType="Integer">
+		<![CDATA[
+			SELECT CANDY_NO
+			FROM 
+				JL3B_VOTE 
+			GROUP BY 
+				CANDY_NO
+			HAVING 
+				COUNT(CANDY_NO) = (SELECT MAX(COUNT(*)) FROM JL3B_VOTE GROUP BY CANDY_NO)
+		]]>
+	</select>
+	
+	<!-- 2. 당선인 수정(선거 테이블) -->
+	<update id="updateWinner">
+		<![CDATA[
+			UPDATE JL3B_ELECTION 
+			SET CANDY_NO = #{candy_no} 
+			WHERE ELECTION_STATUS = 'E_END' 
+			AND ELECTION_ROUND = #{election_round}
+		]]>
+	</update>
+	
+	<!-- 3. 당선인 등업(입주민 테이블)-->
+	<update id="updateGrade">
+		<![CDATA[
+			UPDATE JL3B_member SET member_GRADE = 2 WHERE member_NO = #{no}
+		]]>
+	</update>
+	
+	<!-- 다득표수 -->
+	<select id="selectNumberVote" resultType="int">
+		<![CDATA[
+			SELECT MAX(COUNT(*)) FROM JL3B_VOTE GROUP BY CANDY_NO
+		]]>
+	</select>
+	
+	<!-- 후보자 상세 페이지 -->
+	<select id="selectCandyByNo" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CANDY 
+			WHERE CANDY_NO = #{no}
+		]]>
+	</select>
+	
+	<!-- 선거개시!  -->
+	<!-- 선거 개시 등록 -->
+	<insert id="insertElection">
+		<![CDATA[
+			INSERT INTO 
+				JL3B_ELECTION 
+			VALUES(
+				JL3B_ELECTION_SEQ.NEXTVAL, 
+				NULL, 
+				SYSDATE, 
+				SYSDATE+3, 
+				SYSDATE+4, 
+				SYSDATE+5, 
+				'C_ING'
+			)
+		]]>	
+	</insert>
+	
+	<!-- 최신 회차 출력 -->
+	<select id="selectNewRound" resultType="int">
+		<![CDATA[
+			SELECT MAX(ELECTION_ROUND) FROM JL3B_ELECTION
+		]]>
+	</select>
+	
+	<!-- 후보 리스트 출력 -->
+	<select id="selectCandyList" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * FROM 
+				JL3B_CANDY C, JL3B_ELECTION E 
+			WHERE C.ELECTION_ROUND = E.ELECTION_ROUND
+			AND E.ELECTION_ROUND = #{no}
+		]]>
+	</select>
+	
+	<!-- 해당 회차 당선인 출력(등업용 필요할 것 같아서) -->
+	<select id="selectRoundWinner" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_ROUND = {no}
+		]]>
+	</select>
+	
+	<!-- 투표 중복방지 본인확인 -->
+	<select id="selectVoteByNo" resultType="com.jl3b.touche_nubes.votevo.VoteVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_VOTE
+			WHERE member_no = #{member_no} AND ELECTION_ROUND = #{election_round}
+		]]>
+	</select>
+	
+	<!-- 입후보 중복방지 본인확인 -->
+	<select id="selectCandyDupl" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CANDY 
+			WHERE member_no = #{member_no} 
+			AND election_round = #{election_round}
+		]]>
+	</select>
+	
+	<!-- 후보자 각각의 득표수 -->
+	<select id="selectEachNumberVote" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+			FROM JL3B_VOTE
+			WHERE ELECTION_ROUND = (SELECT MAX(ELECTION_ROUND) FROM JL3B_VOTE)
+            AND CANDY_NO = #{no}
+		]]>
+	</select>
+	
+	<!-- 매일 스케줄링 이용 업데이트문 -->
+	<update id="updateVoteIng">
+		<![CDATA[
+			UPDATE JL3B_ELECTION 
+			SET ELECTION_STATUS = 'V_ING' 
+			WHERE SYSDATE BETWEEN VOTE_STARTDATE 
+			AND VOTE_ENDDATE
+		]]>
+	</update>
+	<update id="updateElectionEnd">
+		<![CDATA[
+			UPDATE JL3B_ELECTION 
+			SET ELECTION_STATUS = 'E_END' 
+			WHERE SYSDATE > VOTE_ENDDATE
+		]]>
+	</update>
+	
+	<!-- 제약조건 - 기간 확인 후 인서트가 되게끔 -->
+	<select id="candyAble" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">	<!-- 후보등록기간 -->
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_STATUS = 'C_ING'
+		]]>
+	</select>
+	<select id="voteAble" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">		<!-- 투표기간 -->		
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_STATUS = 'V_ING'
+		]]>
+	</select>
+	<select id="voteEnd" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">		<!-- 지난 투표인지 확인 -> 결과 발표용 -->
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_STATUS = 'E_END'
+		]]>
+	</select>
+	
+	<!-- 날짜를 뽑아보자 -->
+	<select id="selectElection" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">
+		<![CDATA[
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_ROUND = #{round}
+		]]>
+	</select>
+	
+	<!-- 예외처리 - 기간에 맞게 처리하려고 -->
+	<select id="electionStatus" resultType="String">
+		<![CDATA[
+			SELECT ELECTION_STATUS FROM JL3B_ELECTION WHERE ELECTION_ROUND = #{round}
+		]]>
+	</select>
+	
+	
+	
+	<!-- test -->
+	<select id="check" resultType="com.jl3b.touche_nubes.votevo.CandyVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CANDY 
+			WHERE member_no = #{member_no}
+			AND election_round = #{round}
+		]]>
+	</select>
+	
+</mapper>

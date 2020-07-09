@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jl3b.touche_nubes.center.mapper.CenterSQLMapper">
+	
+	
+	<!-- 센터정보 -->
+	<!-- 파일업로드용 키 -->
+	<select id="createCenterKey" resultType="int">
+		<![CDATA[
+			SELECT JL3B_center_seq.NEXTVAL FROM DUAL
+		]]>
+	</select>
+	
+	<!-- 센터 정보 보기 -->
+	<select id="selectCenterInfoByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CENTER
+			WHERE CENTER_NO = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 센터 리스트 -->
+	<select id="selectCenterInfoAll" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER ORDER BY center_no DESC
+		]]>
+	</select>
+	
+	
+	<!-- 센터리뷰 -->
+	<!-- 센터 리뷰 등록 -->
+	<insert id="insertCenterReview">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER_REVIEW 
+			VALUES(
+				JL3B_CENTER_REVIEW_SEQ.NEXTVAL, 
+				#{center_no},
+				#{member_no},
+				#{review_comment}, 
+				SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!-- 센터 리뷰 수정 -->
+	<update id="updateCenterReview">
+		<![CDATA[
+			UPDATE JL3B_CENTER_REVIEW 
+			SET 
+				REVIEW_COMMENT = #{review_comment}, REVIEW_WDATE = SYSDATE 
+			WHERE REVIEW_NO = #{review_no}
+		]]>
+	</update>
+	
+	<!-- 센터 리뷰 삭제 -->
+	<delete id="deleteCenterReview">
+		<![CDATA[
+			DELETE FROM JL3B_CENTER_REVIEW WHERE REVIEW_NO = #{review_no}
+		]]>
+	</delete>
+	
+	<!-- 센터 리뷰 보기 -->
+	<select id="selectCenterReviewByNo" resultType="com.jl3b.touche_nubes.centervo.CenterReviewVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_REVIEW WHERE REVIEW_NO = #{review_no}
+		]]>
+	</select>
+	
+	<!-- 리뷰 전체보기 -->
+	<select id="selectCenterReviewAll" resultType="com.jl3b.touche_nubes.centervo.CenterReviewVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_REVIEW WHERE CENTER_NO = #{center_no}
+		]]>
+	</select>
+	
+	
+	<!-- 예약 -->
+	<!-- 강의 예약하기 -->
+	<insert id="insertReserve">
+		<![CDATA[
+			INSERT INTO JL3B_Reserve VALUES(JL3B_Reserve_SEQ.NEXTVAL, #{member_no}, #{lesson_no})
+		]]>
+	</insert>
+	
+	<!-- 강의 예약 취소 -->
+	<delete id="deleteReserve">
+		<![CDATA[
+			DELETE FROM JL3B_Reserve 
+			WHERE lesson_no=#{lesson_no} 
+    		AND member_no=#{member_no}
+		]]>
+	</delete>
+	
+	<!-- 예약내역 확인 -->
+	<select id="readlesson" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+		<![CDATA[
+			 SELECT * FROM JL3B_Reserve 
+   			 WHERE member_no=#{member_no}
+		]]>
+	</select>
+	
+	<!-- 예약자 확인 -->
+	<select id="readmember" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+		<![CDATA[
+			SELECT * FROM JL3B_Reserve 
+   		 	WHERE lesson_no=#{lesson_no}
+		]]>
+	</select>
+	
+	
+	<!-- 예약자 수 확인 -->
+	<select id="countbyReserve" resultType="int">
+		<![CDATA[
+			SELECT COUNT(reserve_no) as cnt	
+			FROM Jl3B_Reserve 
+			WHERE lesson_no=#{lesson_no}
+		]]>
+	</select>
+
+	
+	<!-- 예약 체크 -->
+	<select id="checkReserve" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+	  	SELECT * FROM JL3B_Reserve 
+	  	WHERE lesson_no=#{lesson_no} 
+	  	AND member_no =#{member_no}
+  	</select>
+  	
+  	<!-- 테이블 2개에 한번에 인서트 시키기 위해 -->
+	<select id="createKey" resultType="int">
+		SELECT JL3B_lessonInfo_seq.nextval FROM DUAL
+	</select>
+	
+	<!-- 강의 -->
+	<!-- 강의 등록 -->
+	<insert id="insertlessonInfo">
+		<![CDATA[
+			INSERT INTO JL3B_lessonInfo 
+			VALUES(
+				#{info_no}, 
+				#{center_no},
+				#{info_title}, 
+				#{info_content}
+			)
+		]]>
+	</insert>
+	
+	
+	<!-- 강의 -->
+	<!-- 시간대 등록 -->
+	<insert id="insertlesson">
+		<![CDATA[
+			INSERT INTO JL3B_lesson
+			VALUES(
+				JL3B_lesson_SEQ.NEXTVAL, 
+				#{info_no}, 
+				#{lesson_date}, 
+				#{lesson_time},
+				#{lesson_people}, 
+				'예약'
+			)
+		]]>
+	</insert>
+	
+	<!-- 강의 목록 -->
+	<select id = "selectList" resultType="com.jl3b.touche_nubes.centervo.LessonVo">
+		<![CDATA[
+			SELECT a.lesson_no, b.center_no, a.info_no, b.info_title, b.info_content, a.lesson_date, a.lesson_time, a.lesson_people, a.lesson_horsehead
+			FROM JL3B_lesson a, JL3B_lessonInfo b 
+			WHERE a.info_no=b.info_no 
+			AND b.center_no = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 입주민 확인 -->
+	<select id="selectlessonInfoByNo" resultType="com.jl3b.touche_nubes.centervo.LessonInfoVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_lessonInfo
+			WHERE 
+				info_no = #{no}
+		]]>
+	</select>
+	
+	
+	<!-- 예약 말머리 수정 예약-> 마감-->
+	<update id="updateHorsehead">
+		<![CDATA[
+			UPDATE JL3B_lesson L1 SET lesson_horsehead = '마감'
+			WHERE (
+                SELECT COUNT(reserve_no) as cnt
+                FROM(
+                    SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
+                    FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) WHERE LESSON_NO = #{lesson_no} GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
+			) = #{lesson_people}
+		]]>
+	</update>
+	
+		<!-- 예약 말머리 수정 마감->예약 -->
+	<update id="deleteHorsehead">
+		<![CDATA[
+			UPDATE JL3B_lesson L1 SET lesson_horsehead = '예약'
+			WHERE (
+                SELECT COUNT(reserve_no) as cnt
+                FROM(
+                    SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
+                    FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) WHERE LESSON_NO = #{lesson_no} GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
+			) < #{lesson_people}
+		]]>
+	</update>
+	
+	<!-- lesson_people 조회 -->
+	<select id="horsePeople" resultType="int">
+	<![CDATA[
+		SELECT Lesson_people from jl3b_lesson where lesson_no=#{no}
+	]]>
+	</select>
+	
+	
+		<!-- 강의 정보 목록 -->
+	<select id="selectInfo" resultType="com.jl3b.touche_nubes.centervo.LessonInfoVo">
+		<![CDATA[
+			SELECT * FROM JL3B_lessonInfo WHERE center_no=#{no}
+		]]>
+	</select>
+	
+		<!-- 강의 확인 
+	<select id="selectLessonByNo" resultType="com.jl3b.touche_nubes.centervo.LessonVo">	
+		<![CDATA[
+			SELECT * FROM JL3B_Lesson WHERE center_no=#{no}
+		]]>
+	</select>
+	-->
+	
+	
+	
+	<!-- 테스트 -->
+	<select id="reserveMember" resultType="com.jl3b.touche_nubes.centervo.ReserveVo">
+		<![CDATA[
+			SELECT A.INFO_NO, A.LESSON_DATE, A.LESSON_TIME, C.MEMBER_NO FROM JL3B_LESSON A, JL3B_RESERVE C WHERE A.LESSON_NO=C.LESSON_NO AND A.LESSON_NO=#{lesson_no}
+		]]>
+	</select>
+	
+	<!-- 테스트2 -->
+	<select id="resultHorsehead" resultType="String">
+		<![CDATA[
+			SELECT LESSON_HORSEHEAD FROM JL3B_LESSON WHERE LESSON_NO = #{lesson_no}
+		]]>
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.member.mapper.MemberSQLMapper">
+	
+	
+	<!-- 입주민 -->
+	<!-- 입주민 가입 -->
+	<insert id="insertMember">
+		<![CDATA[
+			INSERT INTO JL3B_member VALUES(
+				#{member_no},
+				#{npki_key},
+				#{member_id},
+				#{member_pw},
+				#{member_rname},
+				#{member_mail},
+				1,
+				0,
+				SYSDATE)
+		]]>
+	</insert>
+	
+	<!-- 입주민 로그인 -->
+	<select id="selectMemberByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_MEMBER r, JL3B_MEMBER_AUTH a 
+			WHERE 
+				r.member_no = a.member_no 
+			AND 
+				r.member_id = #{member_id} 
+			AND 
+				r.member_pw = #{member_pw} 
+			AND 
+				a.auth_certification = 'Y'
+		]]>
+	</select>
+	
+	<!-- 입주민 확인 -->
+	<select id="selectMemberByNo" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_member 
+			WHERE 
+				member_no = #{no}
+		]]>
+	</select>
+	
+	<!-- 아이디 확인 -->
+	<select id="selectMemberById" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_member 
+			WHERE 
+				member_id = #{id}
+		]]>
+	</select>
+	
+	<!-- 입주민 인증번호 중복방지 -->
+	<select id="selectMemberByNpki" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_member 
+			WHERE NPKI_KEY = #{key}
+		]]>	
+	</select>
+	
+	<!-- 인증번호 유효성검사? -->
+   <select id="existNpki" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_NPKI 
+         WHERE NPKI_KEY = #{key}
+      ]]>   
+   </select>
+   
+   <!-- 아이디 찾기 -->
+   <select id="searchMemberId" resultType="String">
+ 		<![CDATA[
+ 			SELECT NVL(member_id,0) 
+ 			FROM JL3B_member 
+ 			WHERE 
+ 				NPKI_KEY = #{npki_key} 
+ 			AND 
+ 				member_RNAME = #{member_rname}
+ 		]]>  
+   </select>
+   
+   <!-- 비밀번호 변경 조건 -->
+   <select id="conditionMemberPw" resultType="String">
+   		<![CDATA[
+   			SELECT MEMBER_PW
+   			FROM 
+   				JL3B_member 
+   			WHERE 
+   				member_ID = #{member_id} 
+   			AND 
+   				member_MAIL = #{member_mail}
+   		]]>
+   </select>
+	
+   <!-- 입주민 회원 비밀번호 변경 -->
+   <update id="updateMemberPw">
+   		<![CDATA[
+   			UPDATE JL3B_member 
+   			Set 
+   				member_pw = #{member_pw} 
+   			WHERE 
+   				member_id = #{member_id} 
+   			AND 
+   				member_mail = #{member_mail}
+   		]]>
+   </update>
+   
+   <!-- 인증 키 -->
+   <select id="creatKey" resultType="int">
+         <![CDATA[
+	      	SELECT JL3B_member_SEQ.nextval FROM DUAL
+	     ]]>
+   </select>
+   
+   <!-- 인증메일용 테이블 삽입  -->
+    <insert id="insertAuth">
+	     <![CDATA[
+	         INSERT INTO JL3B_MEMBER_AUTH
+	         VALUES(
+				 JL3B_MEMBER_AUTH_seq.NEXTVAL,
+				 #{member_no},
+				 'N',
+				 #{auth_key}
+			 )
+		]]>
+	 </insert>
+	 
+	 <!-- 메일로 넘어온 인증처리  -->
+	  <update id="updateAuth">
+		<![CDATA[
+		     UPDATE JL3B_MEMBER_AUTH
+		     SET 
+		     	auth_certification = 'Y'
+		     WHERE 
+		     	auth_key LIKE #{key}
+		 ]]>
+	  </update> 
+	  
+	  
+	  <!-- 비밀번호 확인 -->
+   	<select id="confirmMemberPw" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+         <![CDATA[
+            SELECT * FROM JL3B_member WHERE Member_ID=#{member_id} AND Member_PW=#{member_pw}
+         ]]>
+   	</select>
+   	
+   	<!-- 센터 비밀번호 확인 -->
+   	<select id="confirmCenterPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_ID = #{center_id} 
+   			AND 
+   				CENTER_PW = #{center_pw}
+   		]]>
+   	</select>
+   	
+   	<!-- 마이페이지 이름변경 -->
+   <update id="updateMember">
+	   <![CDATA[
+	         UPDATE JL3B_member SET member_rname=#{member_rname} WHERE member_no=#{member_no}
+	   ]]>
+   </update>
+   
+   <!-- 센터 정보 수정(이름)  -->
+   <update id="updateCenter">
+   		<![CDATA[
+   			UPDATE JL3B_CENTER 
+   			SET 
+   				CENTER_NAME = #{center_name} 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
+   </update>
+   
+   <!-- 비밀번호 변경 -->
+   <update id="updatePw">
+      <![CDATA[
+      	UPDATE JL3B_MEMBER SET member_pw =#{member_pw} where member_no = #{member_no}   
+   	  ]]>
+   </update>
+   
+   <!-- 내가 쓴 글 내역(자게) -->
+   <select id="selectMyBoard" resultType="com.jl3b.touche_nubes.boardvo.BoardVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_BOARD 
+   			WHERE 
+   				MEMBER_NO = #{member_no} 
+   			ORDER BY 
+   				BOARD_WDATE DESC
+   		]]>
+   </select>
+   	
+   	<!-- 내가 쓴 글 내역(청원) -->
+   	<select id="selectMyIdea" resultType="com.jl3b.touche_nubes.ideavo.IdeaVo">
+ 		<![CDATA[
+ 			SELECT * 
+ 			FROM 
+ 				JL3B_IDEA 
+ 			WHERE 
+ 				MEMBER_NO = #{member_no} 
+ 			ORDER BY 
+ 				IDEA_WDATE DESC
+ 		]]>  	
+   	</select>
+   	
+   	 <!-- 회원 탈퇴 -->
+   <update id="memberDrop">
+   		<![CDATA[
+   			UPDATE JL3B_MEMBER_AUTH 
+   			SET 
+   				AUTH_CERTIFICATION = 'N' 
+   			WHERE 
+   				MEMBER_NO = #{member_no}
+   		]]>
+   </update>
+
+	
+	<!-- 센터 -->
+	<!-- 센터 회원 탈퇴 -->
+	<update id="centerDrop">
+		<![CDATA[
+			UPDATE JL3B_CENTER_AUTH 
+   			SET 
+   				CENTER_AUTH_CERTIFICATION = 'N' 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+		]]>
+	</update>
+	
+	<!-- 센터 가입 -->
+	<insert id="insertCenter">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER VALUES(
+				#{center_no},
+				#{npki_key},
+				#{center_id},
+				#{center_pw},
+				#{center_name},
+				#{center_mail},
+				#{center_pr},
+				#{center_about},
+				SYSDATE)
+		]]>
+	</insert>
+   
+   <!-- 센터 인증번호 중복방지 -->
+   <select id="selectCenterByNpki" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT *
+   			FROM
+   				JL3B_CENTER
+   			WHERE NPKI_KEY = #{key}
+   		]]>
+   </select>
+   
+   <!-- 센터 보기 -->
+	<select id="selectCenterByNo" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+		<![CDATA[
+			SELECT * 
+			FROM 
+				JL3B_CENTER
+			WHERE 
+				center_no = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 센터 로그인 -->
+	<select id="selectCenterByIdAndPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+	<![CDATA[
+	         SELECT * 
+	         FROM 
+	            JL3B_center c, JL3B_center_AUTH a 
+	         WHERE 
+	            c.center_no = a.center_no 
+	         AND 
+	            c.center_id = #{center_id} 
+	         AND 
+	            c.center_pw = #{center_pw} 
+	         AND 
+	            a.center_auth_certification = 'Y'
+      ]]>   
+	</select>
+	
+	<!-- 이메일 중복확인 -->
+   <select id="existEmail" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+         	JL3B_member 
+         WHERE 
+         	member_mail = #{member_mail}
+      ]]>
+   </select>
+   
+   <!-- 센터 아이디 중복체크 -->
+   <select id="selectCenterById" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_CENTER
+         WHERE 
+            center_id = #{center_id}
+      ]]>
+   </select>
+   
+   <!-- 센터 이메일 중복확인 -->
+   <select id="existCenterEmail" resultType="String">
+      <![CDATA[
+         SELECT * 
+         FROM 
+            JL3B_CENTER
+         WHERE 
+            center_mail = #{center_mail}
+      ]]>
+   </select>
+   
+   <!-- 센터 아이디 찾기 -->
+   <select id="findCenterId" resultType="String">
+ 		<![CDATA[
+ 			SELECT NVL(center_id, 0) 
+ 			FROM 
+ 				JL3B_CENTER 
+ 			WHERE 
+ 				NPKI_KEY = #{npki_key} 
+ 			AND 
+ 				CENTER_NAME = #{center_name}
+ 		]]>  
+   </select>
+   
+   <!-- 센터 비밀번호 변경 조건 -->
+   <select id="conditionCenterPw" resultType="com.jl3b.touche_nubes.membervo.CenterVo">
+   		<![CDATA[
+   			SELECT * 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_ID = #{center_id} 
+   			AND 
+   				CENTER_MAIL = #{center_mail}
+   		]]>
+   </select>
+   
+   <!-- 센터 비밀번호 변경 -->
+   <update id="updateCenterPw">
+   		<![CDATA[
+   			UPDATE JL3B_CENTER 
+   			SET 
+   				CENTER_PW = #{center_pw} 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
+   </update>
+   
+    <!-- 센터 인증메일용 테이블 삽입  -->
+    <insert id="insertCenterAuth">
+	     <![CDATA[
+	         INSERT INTO JL3B_CENTER_AUTH
+	         VALUES(
+				 JL3B_CENTER_AUTH_seq.NEXTVAL,
+				 #{center_no},
+				 'N',
+				 #{center_auth_key}
+			 )
+		]]>
+	 </insert>
+	 
+	 <!-- 센터 메일로 넘어온 인증처리  -->
+	  <update id="updateCenterAuth">
+		<![CDATA[
+		     UPDATE JL3B_CENTER_AUTH
+		     SET 
+		     	center_auth_certification = 'Y'
+		     WHERE 
+		     	center_auth_key LIKE #{key}
+		 ]]>
+	  </update> 
+   
+   
+   <!-- 관리자 -->
+   <!-- 전체 회원 목록 출력 -->
+   <select id="selectMemberAll" resultType="com.jl3b.touche_nubes.membervo.MemberVo">
+   		<![CDATA[
+   			SELECT * FROM JL3B_member ORDER BY member_GRADE DESC
+   		]]>
+   </select>
+   
+   <update id="updateMemberGrade">
+   		<![CDATA[
+   			UPDATE JL3B_member SET member_GRADE = #{member_grade} WHERE member_NO = #{member_no}
+   		]]>
+   </update>
+   
+   
+   <!-- 날짜 이쁘게 뽑을라구 -->
+   <select id="selectMemberDate" resultType="String">
+   		<![CDATA[
+   			SELECT TO_CHAR(TRUNC(MEMBER_JDATE, 'DD'), 'RRRR-MM-DD') AS JOINDATE 
+   			FROM 
+   				JL3B_MEMBER 
+   			WHERE 
+   				MEMBER_NO = #{member_no}
+   		]]>
+   </select>
+   
+   <select id="selectCenterDate" resultType="String">
+   		<![CDATA[
+   			SELECT TO_CHAR(TRUNC(CENTER_JDATE, 'DD'), 'RRRR-MM-DD') AS JOINDATE 
+   			FROM 
+   				JL3B_CENTER 
+   			WHERE 
+   				CENTER_NO = #{center_no}
+   		]]>
+   </select>
+  
+
+</mapper>
