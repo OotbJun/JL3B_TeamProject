@@ -187,7 +187,7 @@ function startBlink() {
                     </div>
                     <!-- 센터 인증키 -->
                     <!-- 사용중 -->
-                    <div class="col" style="height: 60vh; overflow: auto;">
+                    <div class="col" style="max-height: 60vh; overflow: auto;">
                        <table class="table table-hover pb-2">
                         <thead>
                             <tr>

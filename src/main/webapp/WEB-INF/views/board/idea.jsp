@@ -129,7 +129,7 @@ footer {
 										
 									<c:set var="answer" value="${ideaList.ideaVo.idea_title}"></c:set>
 										<c:if test="${fn:contains(answer,'답변')}">
-											<td class="text-left pl-5" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
+											<td class="text-left pl-4" style="overflow:hidden; text-overflow: ellipsis; max-width: 506px"><a
 												href="${pageContext.request.contextPath}/board/idea_read.do?idea_no=${ideaList.ideaVo.idea_no}&currPage=${currPage }">
 												${ideaList.ideaVo.idea_title}</a>
 											</td>

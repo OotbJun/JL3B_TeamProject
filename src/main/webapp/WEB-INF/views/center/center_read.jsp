@@ -84,56 +84,24 @@ li {
    rel="stylesheet" id="bootstrap-css">
 <script
    src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+   
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>  
 
 <script type="text/javascript">
 
-function textout(lessonNo, lesson_people){
-		
-		var xmlhttp = new XMLHttpRequest();
-		var row = document.createElement("td");
-		var horseHead = document.getElementsByClassName("horse");
-		
-		
-		
-		var index = lessonNo -1;		
-		
-		xmlhttp.onreadystatechange = function(){
-			
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-				
-				var hhhorsehead = JSON.parse(xmlhttp.responseText);
-				
-				for(x of horse){
-					x.innerText = hhhorsehead.data;
-				}
-				
-				
-				
-				for(var i=0;i<length;i++){
-					horseHead[index].removeChild(horseHead[index].childNodes[0]);
-				}
-				horseHead[index].appendChild(row);
-			}
-		};
-		xmlhttp.open("post", "./update_horsehead.do", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send("lesson_no=" + lessonNo + "&lesson_people=" + lesson_people);
 
-	};
-	
-
-
-	function reserveConfirm(lessonNo, lesson_people){
+//예약 확인
+	function reserveConfirm(lessonNo, lesson_people, i){
 	
 		if(confirm("예약 하시겠습니까?") == true){
 			alert("예약 되었습니다."); 
-			reserve(lessonNo, lesson_people);
+			reserve(lessonNo, lesson_people, i);
 			//isConfirm = true;
 		}	
 	}
-	
-	function reserve(lessonNo, lesson_people) {
+
+//예약 ajax
+	function reserve(lessonNo, lesson_people, i) {
 
 		
 		//var lessonNo = document.getElementById("lessonNo");
@@ -143,8 +111,8 @@ function textout(lessonNo, lesson_people){
 		xmlhttp.onreadystatechange = function() {
 			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 				
-				refreshHorsehead(lessonNo, lesson_people);
-				refreshreserve(lessonNo, lesson_people);
+				refreshHorsehead(lessonNo, lesson_people, i);
+				refreshreserve(lessonNo, lesson_people, i);
 			}
 		};
 
@@ -155,81 +123,60 @@ function textout(lessonNo, lesson_people){
 
 	};
 
+//신청인원 출력 ajax
+   function refreshreserve(lessonNo, lesson_people, i) {
 
-	function refreshreserve(lessonNo, lesson_people) {
+      //var lessonNo = 11;
+      
+      var limit = lesson_people;
+      var xmlhttp = new XMLHttpRequest();
+      var lessonPeople = document.getElementsByClassName("people");
+     
+      xmlhttp.onreadystatechange = function() {
 
-		//var lessonNo = 11;
-		
-		var limit = lesson_people;
-		var xmlhttp = new XMLHttpRequest();
-		var row = document.createElement("div");
-		var lessonPeople = document.getElementsByClassName("people");
-		
-		
-		var index = lessonNo -1;
-		
-		xmlhttp.onreadystatechange = function() {
+         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
 
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            var people = xmlhttp.responseText + "/" + limit;
 
-				var people = xmlhttp.responseText + "/" + limit;
-				
+            lessonPeople[i].innerText = people;
+            
+         }
 
-				var length = lessonPeople[index].childNodes.length;
-				
+      };
 
-				row.innerText = people;
-
-				for (var i = 0; i < length; i++) {
-					lessonPeople[index].removeChild(lessonPeople[index].childNodes[0]);
-				}
-
-				lessonPeople[index].appendChild(row);
-			}
-
-		};
-
-		xmlhttp.open("get", "./get_people.do?lesson_no=" + lessonNo, true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send();
-	};
+      xmlhttp.open("get", "./get_people.do?lesson_no=" + lessonNo, true);
+      xmlhttp.setRequestHeader("Content-type",
+            "application/x-www-form-urlencoded");
+      xmlhttp.send();
+   };
+//말머리 변경 ajax	
+function refreshHorsehead(lessonNo, lesson_people, i){
 	
-	
-	function refreshHorsehead(lessonNo, lesson_people){
-		
-		var xmlhttp = new XMLHttpRequest();
-		var row = document.createElement("td");
-		var horseHead = document.getElementsByClassName("horse");
-		//var bookbtn = document.getElementsByClassName("bookbtn");
-		
-		
-		var index = lessonNo -1;		
-		
-		xmlhttp.onreadystatechange = function(){
-			
-			if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
-				
-				var hhhorsehead = JSON.parse(xmlhttp.responseText);
-				
-				console.log(hhhorsehead.data);
-				
-				var length = horseHead[index].childNodes.length;
-				
-				horseHead[index].innerText = hhhorsehead.data;
-				
-				for(var i=0;i<length;i++){
-					horseHead[index].removeChild(horseHead[index].childNodes[0]);
-				}
-				horseHead[index].appendChild(row);
-			}
-		};
-		xmlhttp.open("post", "./update_horsehead.do", true);
-		xmlhttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
-		xmlhttp.send("lesson_no=" + lessonNo + "&lesson_people=" + lesson_people);
+      var xmlhttp = new XMLHttpRequest();
+      var row = document.createElement("td");
+      var horseHead = document.getElementsByClassName("horse");
+      
+      xmlhttp.onreadystatechange = function(){
+         
+         if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            
+            var hhhorsehead = JSON.parse(xmlhttp.responseText);
+            
+            console.log(hhhorsehead.data);
+            
+            
+            
+            horseHead[i].innerText ="";
+            horseHead[i].innerText = hhhorsehead.data;
+            
+         }
+      };
+      xmlhttp.open("post", "./update_horsehead.do", true);
+      xmlhttp.setRequestHeader("Content-type",
+            "application/x-www-form-urlencoded");
+      xmlhttp.send("lesson_no=" + lessonNo + "&lesson_people=" + lesson_people);
 
-	};
+   };
 	
 	
 	function galleryFun() {
@@ -239,10 +186,7 @@ function textout(lessonNo, lesson_people){
 	      picBox.append(moveLi);
 	      
 	      $('#picBox').css("left" , "0px");
-	      
-	      $('#picBox').animate({
-	         "left" : -300 + "px"
-	      }, 300);
+	   
 	   }
 
 	   function slideImg() {
@@ -253,7 +197,7 @@ function textout(lessonNo, lesson_people){
 
 </head>
 
-<body style="overflow-x: hidden;" onload="slideImg() textout()">
+<body style="overflow-x: hidden;" onload="slideImg()">
    <div id="wrap">
       <jsp:include page="../commons/include_navi.jsp"></jsp:include>
 
@@ -377,7 +321,7 @@ function textout(lessonNo, lesson_people){
 															</thead>
 															<tbody>
 																<!--row-->
-																<c:forEach items="${lessonList }" var="aaa">
+																<c:forEach items="${lessonList }" var="aaa" varStatus="status">
 																	<tr>
 																		
 																		<td class="people">${aaa.people }/${aaa.lessonVo.lesson_people }</td>
@@ -386,13 +330,11 @@ function textout(lessonNo, lesson_people){
 																				value="${aaa.lessonVo.lesson_date }"
 																				pattern="yy.MM.dd" /></td>
 																		<td>${aaa.lessonVo.lesson_time }시</td>
-																		<td class="horse" onclick="reserveConfirm(${aaa.lessonVo.lesson_no}, ${aaa.lessonVo.lesson_people })"></td>
+																		<td class="horse" onclick="reserveConfirm(${aaa.lessonVo.lesson_no}, ${aaa.lessonVo.lesson_people }, ${status.index })">${aaa.lessonVo.lesson_horsehead}</td>
 																																	
 																	</tr>
-																</c:forEach>
-														
-
-															</tbody>
+																</c:forEach>															
+																</tbody>
 														</table>
 													</div>
                                  </div>

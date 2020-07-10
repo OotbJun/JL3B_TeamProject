@@ -37,6 +37,9 @@
       <c:if test="${!empty sessionCenter }">
          <a href="${path }/center/mylesson.do">예약 내역</a>
       </c:if>   
+      <c:if test="${!empty sessionUser }">
+      	<a href="${path }/member/mylesson.do">예약 내역</a>
+      </c:if>
          
       </li>
       <li class="breadcrumb-item ">

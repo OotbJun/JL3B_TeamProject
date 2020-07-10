@@ -341,7 +341,7 @@ li {
    </div>
 
    <!-- 게시글 내용 및 이미지 -->
-   <div class="container" style="margin-top: 20px;">
+   <div class="container" style="margin-top: 20px; min-height:100px;">
       <div class="col-1"></div>
       <div class="col-10">
       <c:forEach items="${readBoard.boardImgList}" var="BoardImgVo">

@@ -169,7 +169,7 @@ public class CenterService {
 	}
 	
 	//강의 등록
-	public void writeLesson(LessonInfoVo lessonInfoVo, Date [] lesson_date, String [] lesson_time, int[] lesson_people) {	//하나의 info에 여러개의 lesson을 넣으려고 lesson table 컬럼 값들을 하나씩 다 받아와줌
+	public void writeLesson(LessonInfoVo lessonInfoVo, Date [] lesson_date, String [] lesson_time, int[] lesson_people, int center_no) {	//하나의 info에 여러개의 lesson을 넣으려고 lesson table 컬럼 값들을 하나씩 다 받아와줌
 		 
 		int lessonKey = centerSQLMapper.createKey();	//동시에 두 테이블에 insert해야 해서 미리 sequence값을 생성해서 set시켜줌
 		lessonInfoVo.setInfo_no(lessonKey);	
@@ -186,6 +186,7 @@ public class CenterService {
 			lessonVo.setLesson_date(lesson_date[i]);
 			lessonVo.setLesson_time(lesson_time[i]);
 			lessonVo.setLesson_people(lesson_people[i]);	//i번만큼 값을 돌려줌
+			lessonVo.setCenter_no(center_no);
 			
 			centerSQLMapper.insertlesson(lessonVo);	//lessonVo에 생성
 			
@@ -199,6 +200,7 @@ public class CenterService {
 		centerSQLMapper.updateHorsehead(lessonVo);
 	}
 	
+	//말머리 마감으로
 	public void deleteHorsehead(LessonVo lessonVo) {
 		centerSQLMapper.deleteHorsehead(lessonVo);
 	}
@@ -293,7 +295,7 @@ public class CenterService {
 //		return list;
 //	}
 	
-	////
+	//예약자 내역
 	public List<Map<String, Object>> reserveMember(int lesson_no) {
 		
 		
@@ -315,8 +317,14 @@ public class CenterService {
 		return list;
 	}
 	
+	//말머리 변경
 	public String resultHorsehead(int lesson_no) {
 		return centerSQLMapper.resultHorsehead(lesson_no);
+	}
+	
+	//강의 삭제
+	public void removeLesson(int lesson_no) {
+		centerSQLMapper.deleteLesson(lesson_no);
 	}
 	
 }

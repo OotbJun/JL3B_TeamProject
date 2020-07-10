@@ -14,8 +14,9 @@
  <meta name="author" content="">
 <title>입주민 회원 관리</title>
 
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+
  <!-- Custom fonts for this template-->
-  <link href="${path }/resources/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
   <!-- Custom styles for this template-->
@@ -29,6 +30,15 @@ function drop_btn(){
       alert("정상적으로 처리 되었습니다."); 
    }
 }
+
+//전체선택
+function cAll() {
+            if ($("#checkAll").is(':checked')) {
+                $("input[type=checkbox]").prop("checked", true);
+            } else {
+                $("input[type=checkbox]").prop("checked", false);
+            }
+        }
 	
 </script>
 
@@ -70,7 +80,7 @@ function drop_btn(){
                         <thead>
                             <tr>
                                 
-                                <th></th>
+                                <th><input type="checkbox" name="checkAll" id="checkAll" onclick="cAll();"></th>
                                 <th>이름</th>                        
                                 <th>아이디</th>
                                 <th>등급</th>
@@ -84,7 +94,7 @@ function drop_btn(){
                         <tbody>
                         <c:forEach items="${memberList}" var="member">
                             <tr>
-                            <td><input type="checkbox" name="member_no" value="${member.member_no }"></td>
+                            <td><input type="checkbox" name="member_no" value="${member.member_no }" class="checkSelect"></td>
                                 <td>${member.member_rname}</td>                                
                                 <td>${member.member_id}</td>
                                 <td>${member.member_grade}</td>                             

@@ -39,87 +39,7 @@ public class CenterController {
 	@Autowired
 	private CenterService centerService;
 	
-	//센터 초이스(등록, 리스트출력 등) 나중에 따로 빼야될 듯
-//	@RequestMapping("/center_choice.do")
-//	public String centerChoice(Model model, HttpSession session) {
-//		
-//		int info_no = centerService.getInfoNo();
-//		model.addAttribute("info_no", info_no);
-//		
-//		if(session.getAttribute("sessionCenter") != null) {					//중복방지, 정보 등록한 센터는 다시 등록 안 보이게끔
-//			CenterInfoVo centerInfoVo = centerService.checkCenterInfo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());	
-//			model.addAttribute("centerInfoVo", centerInfoVo);
-//		}
-//		return "center/center_choice";
-//	}
 	
-	//센터 정보 등록
-//	@RequestMapping("/center_write.do")
-//	public String writeCenter(HttpSession session) {
-//		
-//		CenterInfoVo centerInfoData = centerService.checkCenterInfo(((CenterVo)session.getAttribute("sessionCenter")).getCenter_no());
-//		
-//		if(centerInfoData == null) {			//중복등록 방지 -> 사실상 의미 없겠다.
-//			
-//		}else {
-//			return "center/center_fail";
-//		}
-//		return "center/center_write";
-//	}
-//	@RequestMapping("/center_write_process.do")
-//	public String writeCenterProcess(CenterInfoVo centerInfoVo, HttpSession session, MultipartFile [] centerFile) {
-//		//파일업로드
-//		String rootFolderName = "C:/upload/";
-//	       
-//	    Date today = new Date();
-//        
-//	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-//        
-//	    String todayFolder = df.format(today);
-//        
-//	    String saveFolderName = rootFolderName + todayFolder;
-//        
-//	    File saveFolder = new File (saveFolderName);
-//        
-//	    if(!saveFolder.exists()){
-//        	saveFolder.mkdirs();
-//        }
-//		
-//        List<CenterImgVo> centerImgList = new ArrayList<CenterImgVo>();
-//        
-//         for(MultipartFile file : centerFile) {
-//        	if(file.getSize() <= 0) {
-//        		continue;
-//        	}
-//        	//파일명 랜덤 이름
-//        	String saveFileTitle = UUID.randomUUID().toString();
-//  	      
-//        	String oriFileTitle = file.getOriginalFilename();
-//  	      
-//  	      	saveFileTitle += "_" + System.currentTimeMillis();
-//  	      
-//  	      	saveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
-//  	      
-//	  	    String saveRealPath = saveFolderName + "/" + saveFileTitle;
-//	
-//	  	    try {
-//	  	    	file.transferTo(new File(saveRealPath));
-//	  	     }catch(IOException e) {
-//	  	        e.printStackTrace();
-//	  	     }
-//	  	    
-//	  	    CenterImgVo centerImgVo = new CenterImgVo();
-//	  	    centerImgVo.setCenter_img_title(todayFolder + "/" + saveFileTitle);
-//	  	    centerImgVo.setCenter_img_path(saveRealPath);
-//	  	    centerImgList.add(centerImgVo);
-//        }
-//		
-//		CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");
-//		centerInfoVo.setCenter_no(centerVo.getCenter_no());
-//		CenterInfoVo centerInfoData = centerService.checkCenterInfo(centerInfoVo.getCenter_no());
-//		
-//		return "redirect:./center.do";
-//	}
 	
 	//센터 리스트
 	@RequestMapping("/center.do")
@@ -136,6 +56,8 @@ public class CenterController {
 	@RequestMapping("/center_read.do")
 	public String readCenter(int center_no, Model model,LessonVo lessonVo) {
 		//centerService.updateHorsehead(lessonVo.getLesson_people());
+		centerService.deleteHorsehead(lessonVo);
+		
 		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);
 		List<Map<String, Object>> readReview = centerService.viewReviewList(center_no);
 		List<Map<String,Object>> lessonList = centerService.viewLessonList(center_no);
@@ -157,7 +79,7 @@ public class CenterController {
 	@RequestMapping("/center_img_process.do")
 	public String uploadImgCenterProcess(MultipartFile [] centerImgFile, CenterVo centerVo, HttpSession session) {
 		
-		String RootFolderName = "C:/upload/";
+		String RootFolderName = "/var/storage";
 		Date today = new Date();
 		SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 		String todayFolder = df.format(today);
@@ -271,7 +193,7 @@ public class CenterController {
 		
 		lessonInfoVo.setCenter_no(centerVo.getCenter_no());		//센터넘버를 갖고와서 info에 센터넘버 입력
 		
-		centerService.writeLesson(lessonInfoVo, lesson_date, lesson_time, lesson_people);	//생성
+		centerService.writeLesson(lessonInfoVo, lesson_date, lesson_time, lesson_people, centerVo.getCenter_no());	//생성
 		
 		return "redirect:./center_read.do?center_no="+centerVo.getCenter_no();
 	}
@@ -349,6 +271,19 @@ public class CenterController {
 		model.addAttribute("reserveList", reserveList);
 		
 		return "center/popup";
+	}
+	
+	//강의 삭제
+	@RequestMapping("/delete_lesson_process.do")
+	public String removeLesson(int[] lesson_no) {
+		
+		
+		for(int i : lesson_no) {
+			centerService.removeLesson(i);
+			   System.out.println("넘버 : " + i);
+		   }
+		
+		return "redirect:./mylesson.do";
 	}
 
 }

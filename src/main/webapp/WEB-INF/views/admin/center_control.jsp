@@ -21,6 +21,28 @@
   <!-- Custom styles for this template-->
   <link href="${path }/resources/css/sb-admin-2.min.css" rel="stylesheet">
 
+
+<script type="text/javascript">
+
+function drop_btn(){
+   if(confirm("회원탈퇴를 하시겠습니까?")==true){
+	  document.getElementById("center_drop").submit();
+      alert("정상적으로 처리 되었습니다."); 
+   }
+}
+
+//전체선택
+function cAll() {
+            if ($("#checkAll").is(':checked')) {
+                $("input[type=checkbox]").prop("checked", true);
+            } else {
+                $("input[type=checkbox]").prop("checked", false);
+            }
+        }
+	
+</script>
+
+
 </head>
 <body id="page-top">
 <!-- Page Wrapper -->
@@ -57,13 +79,13 @@
                <div class="card border-left-primary shadow my-5" style="overflow:auto;">
                  <div class="card-body p-5"  >
                  
+                 <form action="${path }/admin/center_drop_process.do" id="center_drop">
                  <table class="table table-hover">
                         <thead>
                             <tr>
-                                
+                                <th><input type="checkbox" name="checkAll" id="checkAll" onclick="cAll();"></th>
                                 <th>이름</th>                        
                                 <th>아이디</th>
-                                
                                 <th>메일</th>
                                 <th>인증키</th>
                                 <th>가입날짜</th>
@@ -73,20 +95,19 @@
                         <tbody>
                         <c:forEach items="${centerList}" var="center">
                             <tr>
-                                
+                                <td><input type="checkbox" name="member_no" value="${member.member_no }" class="checkSelect"></td>
                                 <td>${center.center_name}</td>                                
                                 <td>${center.center_id}</td>
-                                                           
                                 <td>${center.center_mail}</td>
                                 <td>${center.npki_key}</td>
                                 <td><fmt:formatDate pattern="yyyy-MM-dd" value="${center.center_jdate}"/></td>
-                                <td><input type="button" class="btn btn-outline-danger" value="탈퇴"></td>
+                                
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
-                    
-                 
+                    <input type="button" class="btn btn-outline-danger" value="탈퇴" onclick="drop_btn()">
+                 </form>
                  </div>
              </div>
              

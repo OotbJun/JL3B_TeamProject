@@ -432,6 +432,26 @@
    				CENTER_NO = #{center_no}
    		]]>
    </select>
+   
+  <!--마이페이지 센터 예약내역 확인  -->
+  <select id="selectMyCenter" resultType="map">
+   <![CDATA[
+   
+	SELECT center_name,info_title, lesson_date , lesson_time, r.lesson_no
+        FROM jl3b_center c ,jl3b_lesson e, jl3b_lessoninfo l ,jl3b_reserve r
+            where c.center_no = l.center_no 
+            and e.info_no = l.info_no 
+            and r.lesson_no = e.lesson_no
+            and r.member_no =#{member_no}
+    ]]>
+   </select>
+   
+    <!--마이페이지 센터 예약취소 -->
+   <delete id="deleteReserve">
+      <![CDATA[
+   		DELETE JL3B_RESERVE WHERE lesson_no=#{lesson_no} AND MEMBER_NO = #{member_no}
+	     ]]>
+		</delete>
   
 
 </mapper>

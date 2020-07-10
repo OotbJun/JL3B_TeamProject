@@ -166,7 +166,7 @@ public class MemberController {
 		
 //		memberService.joinCenter(centerVo);
 		
-		String rootFolderName = "C:/upload/";
+		String rootFolderName = "/var/storage";
 	    Date today = new Date();
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 	    String todayFolder = df.format(today);
@@ -412,6 +412,16 @@ public class MemberController {
 		return "redirect:../";
 	}
 	
+    // 내가 예약한 내역 
+	@RequestMapping("mylesson.do")
+	public String myLesson(HttpSession session,Model model) {
+		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+		List<Map<String,Object>> list = memberService.getMyCenter(memberVo.getMember_no());
+		model.addAttribute("myLessonList",list);
+		
+		return "member/mylesson";
+   }
+	
 }
 	
 
@@ -447,7 +457,7 @@ class MemberSenderThread extends Thread{
 		  	 String text = "";
   	 
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
-	  	 String link ="http://172.30.1.8:8181/touche_nubes/member/certification_process.do?key="+authKey;
+	  	 String link ="http://15.164.48.63:8181/touche_nubes/member/certification_process.do?key="+authKey;
 	  	 text += "Touche Nubes 입주민 가입을 환영합니다.<br>";
 	  	 text += "입주민 회원가입 완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
 	  	 text += "<a href='"+link+"'>";
@@ -490,7 +500,7 @@ class CenterSenderThread extends Thread{
 		  	 String text = "";
 	 
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
-	  	 String link ="http://localhost:8181/touche_nubes/member/certification_center_process.do?key="+centerAuthKey;
+	  	 String link ="http://15.164.48.63:8181/touche_nubes/member/certification_center_process.do?key="+centerAuthKey;
 	  	 text += "Touche Nubes 센터에 가입하신 선생님 감사합니다.<br>";
 	  	 text += "센터등록  완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
 	  	 text += "<a href='"+link+"'>";
@@ -534,7 +544,7 @@ class PasswordSenderThread extends Thread{
 		 String text = "";
   	 
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
-	  	 String link ="http://172.30.1.8:8181/touche_nubes/member/login.do";
+	  	 String link ="http://15.164.48.63:8181/touche_nubes/member/login.do";
 	  	 text += "Touche Nubes 비밀번호를 알려드립니다.<br>";
 	  	 text += "비밀번호는 "+password+" 입니다.<br>";
 	  	 text += "비밀번호를 입력하여 재 로그인을 부탁드립니다.";

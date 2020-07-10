@@ -1,5 +1,7 @@
 package com.jl3b.touche_nubes.member.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -7,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.jl3b.touche_nubes.center.service.CenterService;
+import com.jl3b.touche_nubes.centervo.LessonVo;
+import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
 @Controller
 @ResponseBody
@@ -15,6 +20,8 @@ public class RESTfulMemberController {
 
    @Autowired
    private MemberServiceImpl memberService;
+   @Autowired
+   private CenterService centerService;
 
    // 아이디 중복검사
    @RequestMapping("/confirmId.do")
@@ -98,5 +105,21 @@ public class RESTfulMemberController {
          return "false";
       }
    }
+   
+   //나의 센터예약 취소하기 
+   @RequestMapping("/my_reserve_delete.do")
+   public void deleteReserve(ReserveVo reserveVo,@RequestParam(value = "chbox[]") List<String> chArr) {
+	   
+	   System.out.println("레슨 : " + reserveVo.getLesson_no());
+	   System.out.println("멤버 : " + reserveVo.getMember_no());
+	   System.out.println("리저브 : " + reserveVo.getReserve_no());
+	   
+	   for(String i : chArr) {
+		   int lesson_no = Integer.parseInt(i);
+		   reserveVo.setLesson_no(lesson_no);
+		   memberService.deleteReserve(reserveVo);
+		   //centerService.deleteHorsehead(reserveVo.getLesson_no());
+	   }  
+   }	   
    
 }

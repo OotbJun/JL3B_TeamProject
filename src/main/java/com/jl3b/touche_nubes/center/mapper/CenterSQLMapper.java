@@ -34,7 +34,7 @@ public interface CenterSQLMapper {
 	public List<ReserveVo> readlesson(int member_no);					//예약내역 확인
 	
 	//강의 정보
-	public void insertlessonInfo(LessonInfoVo lessonInfoVo);			//강의 등록
+	public void insertlessonInfo(LessonInfoVo lessonInfoVo);			//강의 정보 등록
 	public LessonInfoVo selectlessonInfoByNo(int no);					//정보확인
 	public List<LessonInfoVo> selectInfo(int no);
 	
@@ -44,6 +44,7 @@ public interface CenterSQLMapper {
 	public List<LessonVo> selectList(int no);							//센터 강의목록 노출
 	public void updateHorsehead(LessonVo lessonVo);						//말머리 수정
 	public void deleteHorsehead(LessonVo lessonVo);						//말머리 마감->예약
+	public void deleteLesson(int lesson_no);							//강의 삭제
 	
 	public int horsePeople(int no);										//lesson_people 수 조회
 	//public List<LessonVo> selectLessonByNo(int no);

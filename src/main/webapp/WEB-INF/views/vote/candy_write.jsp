@@ -77,8 +77,8 @@ footer {
 	}
 	
 	function minlength2() {
-	   var content = document.getElementById("content").value;
-	   if(content.length >= 3 ){
+	   var candy_content = document.getElementById("candy_content").value;
+	   if(candy_content.length >= 3 ){
 	      contentfill = true;
 	      submitActive();
 	   }else{
@@ -145,7 +145,7 @@ footer {
 			<div class="mb-3">
 				<label for="content">공약사항</label>
 				<textarea class="form-control" rows="10" cols="40" name="candy_content"
-					id="content" placeholder="공약을 입력해주세요" maxlength="1000" onkeyup="minlength2()"></textarea>
+					id="candy_content" placeholder="공약을 입력해주세요" maxlength="1000" onkeyup="minlength2()"></textarea>
 			</div>
 
 			<div class="mb-3">

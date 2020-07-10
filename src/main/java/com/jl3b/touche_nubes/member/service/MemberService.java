@@ -7,6 +7,8 @@ import java.util.Map;
 
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.LessonVo;
+import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.membervo.CenterAuthVo;
 import com.jl3b.touche_nubes.membervo.CenterVo;
@@ -110,5 +112,11 @@ public interface MemberService {
    //날짜~~
    public String getMemberDate(int member_no);
    public String getCenterDate(int center_no);
-	
+   
+   //나의 예약 내역
+   public List<Map<String,Object>> getMyCenter(int member_no);
+   
+   //예약 취소하기
+   public void deleteReserve(ReserveVo reserveVo);
+
 }

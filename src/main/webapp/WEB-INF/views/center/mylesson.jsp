@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>작성글 보기</title>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
+
 <style type="text/css">
 * {
 box-sizing: border-box;
@@ -49,9 +49,11 @@ right: 0;
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
    crossorigin="anonymous">
    
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>   
    
 <script type="text/javascript">
-
+	
+	//수강생 팝업
 	function popup(lesson_no){
 		
 		var url = "${path}/center/test.do?lesson_no="+lesson_no;
@@ -60,6 +62,25 @@ right: 0;
 		window.open(url, "", option);
 		
 	}
+	
+	//삭제 확인
+	function delete_btn(){
+		   if(confirm("강의를 삭제하시겠습니까?")==true){
+			  document.getElementById("lesson_delete").submit();
+		      alert("정상적으로 처리 되었습니다."); 
+		   }
+		}
+	
+	//전체 선택
+	function cAll() {
+            if ($("#checkAll").is(':checked')) {
+                $("input[type=checkbox]").prop("checked", true);
+            } else {
+                $("input[type=checkbox]").prop("checked", false);
+            }
+    }
+	
+
 
 </script>   
    
@@ -76,7 +97,13 @@ right: 0;
    <small></small>
    </h2>
    <hr> 
+   
    <ol class="breadcrumb">
+   
+   <li class="breadcrumb-item active">
+         <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
+      </li>
+      
       <li class="breadcrumb-item active">
          <a href="${path}/center/mylesson.do">예약내역<span class="sr-only">(current)</span></a>
       </li>
@@ -87,51 +114,25 @@ right: 0;
       <div class="row">
          <div class="col-1"></div>
          <div class="col">
+         
+         <form action="${path }/center/delete_lesson_process.do" id="lesson_delete">
+         
             <div class="row">
                <div class="col">
                <section id ="writedcontent">
                <ul style="list-style: none;"  >
                <li style="float: left;">
+               
+               
                <div class="allCheck" >
-               <input type="checkbox" name="allCheck" id="allCheck">
-                <label for="allCheck">모두 선택</label> 
-                <script>
-                   $("#allCheck").click(function(){
-                      var chk = $("#allCheck").prop("checked");
-                      if(chk) {
-                       $(".chBox").prop("checked", true);
-                      } else {
-                       $(".chBox").prop("checked", false);
-                      }
-                  });
-                </script>
+               <input type="checkbox" id="checkAll" name="checkAll" onclick="cAll();">
+               <label for="allCheck">모두 선택</label> 
                </div>
                </li>
                <li style="margin-left: 87%;">
                <div class="delBtn">
-               <input type="button" class="selectDelte_btn" id="delete" value="선택삭제">
-               <script>
-                $(".selectDelte_btn").click(function(){
-                     var confirm_val = confirm("정말 삭제하시겠습니까?");
-        
-                 if(confirm_val) {
-                        var checkArr = new Array();
-      
-                  $("input[class='chBox']:checked").each(function(){
-                         checkArr.push($(this).attr("data-boardno"));
-                        });
-       
-                     $.ajax({
-                           url : "${pageContext.request.contextPath }/board/my_board_delete.do",
-                             type : "post",
-                           data : { chbox : checkArr },
-                              success : function(){
-                             location.href = "${pageContext.request.contextPath }/member/mywrite.do";
-                            }
-                         });
-                       } 
-                   });
-               </script>
+               <input type="button" class="selectDelte_btn" id="delete" value="선택삭제" onclick="delete_btn()">
+               
                </div>
                </li>
                </ul>
@@ -140,6 +141,7 @@ right: 0;
                   <table class="table table-hover text-center">
                      <thead style="font-size: small">
                         <tr>
+                           <th></th>
                            <th>강의</th>
                            <th>강의 날짜</th>
                            <th>강의 시간</th>
@@ -152,7 +154,7 @@ right: 0;
                         <c:forEach items="${lessonList }" var="aaa">
                            <tr class="text-center">
                              
-                             
+                              <td><input type="checkbox" name="lesson_no" value="${aaa.lessonVo.lesson_no }"></td>
                               <td>${aaa.lessonInfoVo.info_title}</td>
                               <td><fmt:formatDate value="${aaa.lessonVo.lesson_date}" pattern="yy.MM.dd"/></td>
                               <td>${aaa.lessonVo.lesson_time}시</td>
@@ -165,6 +167,7 @@ right: 0;
                      </tbody>
                   </table>
                </div>
+               </form>
             </div>
             <div class="col-1">
             </div>

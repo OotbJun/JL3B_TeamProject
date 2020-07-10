@@ -12,6 +12,8 @@ import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper;
 import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.LessonVo;
+import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
 import com.jl3b.touche_nubes.member.mapper.MemberSQLMapper;
 import com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper;
@@ -305,5 +307,17 @@ public class MemberServiceImpl implements MemberService {
    public String getCenterDate(int center_no) {
 	   return memberSQLMapper.selectCenterDate(center_no);
    }
+   
+   // 나의 센터내역 가져오기
+   public List<Map<String,Object>> getMyCenter(int member_no) {
+	  
+	  List<Map<String,Object>> myCenterList = memberSQLMapper.selectMyCenter(member_no);
+      return myCenterList;
+	}
+
+   // 나의 센터예약 취소하기 
+    public void deleteReserve(ReserveVo reserveVo) {
+       memberSQLMapper.deleteReserve(reserveVo);
+    }
    
 }
