@@ -16,6 +16,7 @@ public interface CenterSQLMapper {
 	public int createCenterKey();									//파일업로드용
 	public CenterVo selectCenterInfoByNo(int center_no);			//센터 보기
 	public List<CenterVo> selectCenterInfoAll();					//센터 리스트
+	
 
 	//센터 리뷰
 	public void insertCenterReview(CenterReviewVo centerReviewVo);		//클래스 리뷰 등록
@@ -50,7 +51,7 @@ public interface CenterSQLMapper {
 	
 	
 	///////////테스트
-	public ReserveVo reserveMember(int lesson_no);
+	public List<ReserveVo> reserveMember(int lesson_no);
 	public String resultHorsehead(int lesson_no);
 	
 }

@@ -344,11 +344,9 @@ public class CenterController {
 	@RequestMapping("/test.do")
 	public String test(Model model, int lesson_no) {
 		
-		System.out.println("레슨 넘버 : " + lesson_no);
+		List<Map<String, Object>> reserveList = centerService.reserveMember(lesson_no);
 		
-		Map<String, Object> map = centerService.reserveMember(lesson_no);
-		
-		model.addAttribute("map", map);
+		model.addAttribute("reserveList", reserveList);
 		
 		return "center/popup";
 	}

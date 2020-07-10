@@ -294,17 +294,25 @@ public class CenterService {
 //	}
 	
 	////
-	public Map<String, Object> reserveMember(int lesson_no) {
+	public List<Map<String, Object>> reserveMember(int lesson_no) {
 		
-		Map<String, Object> map = new HashMap<String, Object>();
+		
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
 			
-		ReserveVo reserveVo = centerSQLMapper.reserveMember(lesson_no);
-		MemberVo memberVo = memberSQLMapper.selectMemberByNo(reserveVo.getMember_no());
+		List<ReserveVo> reserveList = centerSQLMapper.reserveMember(lesson_no);
 		
-		map.put("reserveVo", reserveVo);
-		map.put("memberVo", memberVo);
+		for(ReserveVo reserveVo : reserveList) {
+			MemberVo memberVo = memberSQLMapper.selectMemberByNo(reserveVo.getMember_no());
+			
+			Map<String, Object> map = new HashMap<String, Object>();
+			
+			map.put("reserveVo", reserveVo);
+			map.put("memberVo", memberVo);
+			
+			list.add(map);
 		
-		return map;
+		}
+		return list;
 	}
 	
 	public String resultHorsehead(int lesson_no) {

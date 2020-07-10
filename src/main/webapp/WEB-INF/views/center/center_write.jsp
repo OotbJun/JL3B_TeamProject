@@ -300,7 +300,7 @@ footer {
                   <div class="col-8"></div>
                   <div class="col-2">
                      <a
-                        href="${pageContext.request.contextPath }/center/center_choice.do"
+                        href="${pageContext.request.contextPath }/center/center.do"
                         class="btn btn-secondary btn-md btn-block">목록으로</a>
                   </div>
                   <div class="col-2">

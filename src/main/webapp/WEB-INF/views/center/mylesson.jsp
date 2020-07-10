@@ -142,6 +142,7 @@ right: 0;
                         <tr>
                            <th>강의</th>
                            <th>강의 날짜</th>
+                           <th>강의 시간</th>
                            <th>수강생</th>
                         </tr>
                      </thead>
@@ -154,10 +155,10 @@ right: 0;
                              
                               <td>${aaa.lessonInfoVo.info_title}</td>
                               <td><fmt:formatDate value="${aaa.lessonVo.lesson_date}" pattern="yy.MM.dd"/></td>
-                              
+                              <td>${aaa.lessonVo.lesson_time}시</td>
                               
                                <c:if test="${aaa.people > 0 }">
-                              <td><button type="button" onclick="popup(${aaa.lessonVo.lesson_no })">보기</button></td>
+                              <td><button type="button" class="btn btn-outline-secondary btn-sm" onclick="popup(${aaa.lessonVo.lesson_no })">보기</button></td>
                                          </c:if>
                            </tr>
                        </c:forEach>
