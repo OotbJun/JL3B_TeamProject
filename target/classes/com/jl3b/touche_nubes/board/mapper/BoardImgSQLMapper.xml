@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jl3b.touche_nubes.board.mapper.BoardImgSQLMapper">
+  
+  	<!-- ////////////////////////////////////자게 -->
+   <insert id="insertBoardImg">
+   <![CDATA[
+        INSERT INTO JL3B_BOARD_IMG
+        VALUES(
+        JL3B_BOARD_IMG_seq.NEXTVAL, 
+        #{board_no},
+        #{board_img_title},
+        #{board_img_path},
+        SYSDATE
+        )
+      ]]>
+   </insert>
+    <select id="selectBoardByNo" resultType="com.jl3b.touche_nubes.boardvo.BoardImgVo">
+   <![CDATA[
+           SELECT * 
+           FROM JL3B_BOARD_IMG 
+           WHERE board_no = #{board_no} 
+      ]]>
+   </select>
+   
+   <!-- 이미지 삭제 -->
+   <delete id="deleteBoardImg">
+      <![CDATA[
+       DELETE FROM JL3b_board_IMG WHERE board_no = #{board_no}
+      ]]>
+   </delete>
+   
+   
+   <!-- /////////////////////////////////////////청원 -->
+      <insert id="insertIdeaImg">
+   <![CDATA[
+        INSERT INTO JL3B_IDEA_IMG
+        VALUES(
+        JL3B_IDEA_IMG_seq.NEXTVAL, 
+        #{idea_no},
+        #{idea_img_title},
+        #{idea_img_path},
+        SYSDATE
+        )
+      ]]>
+   </insert>
+    <select id="selectIdeaByNo" resultType="com.jl3b.touche_nubes.ideavo.IdeaImgVo">
+   <![CDATA[
+           SELECT * 
+           FROM JL3B_IDEA_IMG 
+           WHERE idea_no = #{idea_no} 
+      ]]>
+   </select>
+   
+   
+   
+   
+</mapper>

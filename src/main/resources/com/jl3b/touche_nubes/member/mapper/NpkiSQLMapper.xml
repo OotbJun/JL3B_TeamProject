@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 복붙 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.member.mapper.NpkiSQLMapper">
+	
+	<!-- npki키 조회 -->
+	<select id="selectNpki" resultType="String">
+		<![CDATA[
+			SELECT * FROM JL3B_NPKI WHERE NPKI_KEY = #{npki_key}
+		]]>
+	</select>
+	
+	<!-- 새로운 npki키 생성 -->
+	<insert id="insertNpki">
+		<![CDATA[
+			INSERT INTO 
+				JL3B_NPKI 
+			VALUES(
+				JL3B_NPKI_SEQ.NEXTVAL, 
+				#{npki_type}, 
+				#{npki_key}
+			)
+		]]>
+	</insert>
+	
+	<!-- npki키 삭제 -->
+	<delete id="deleteNpki">
+		<![CDATA[
+			DELETE FROM JL3B_NPKI WHERE NPKI_NO = #{npki_no}
+		]]>
+	</delete>
+	
+	<!-- npki키 리스트 -->
+	<select id="selectNpkiAll" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT * FROM JL3B_NPKI ORDER BY NPKI_TYPE
+		]]>
+	</select>
+	
+	<!-- 입주민 사용중 npki -->
+	<select id="selectMemberIng" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT N.NPKI_TYPE, N.NPKI_KEY 
+			FROM 
+				JL3B_MEMBER M, JL3B_NPKI N
+			WHERE 
+				M.NPKI_KEY = N.NPKI_KEY
+		]]>
+	</select>
+	
+	<!-- 센터 사용중 npki -->
+	<select id="selectCenterIng" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT N.NPKI_TYPE, N.NPKI_KEY 
+			FROM 
+				JL3B_CENTER C, JL3B_NPKI N
+			WHERE 
+				C.NPKI_KEY = N.NPKI_KEY
+		]]>
+	</select>
+	
+	<!-- 미사용 입주민 npki -->
+	<select id="selectMemberUnused" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT NPKI_TYPE, NPKI_KEY 
+			FROM 
+				JL3B_NPKI
+			WHERE 
+				NPKI_KEY NOT IN
+					(SELECT NPKI_KEY 
+					FROM 
+						JL3B_MEMBER)
+			AND 
+				NPKI_TYPE = 'member'
+			ORDER BY 
+				NPKI_NO
+		]]>
+	</select>
+	
+	<!-- 미사용 센터 npki -->
+	<select id="selectCenterUnused" resultType="com.jl3b.touche_nubes.membervo.NpkiVo">
+		<![CDATA[
+			SELECT NPKI_TYPE, NPKI_KEY 
+			FROM 
+				JL3B_NPKI
+			WHERE 
+				NPKI_KEY NOT IN
+					(SELECT NPKI_KEY 
+					FROM 
+						JL3B_CENTER)
+			AND 
+				NPKI_TYPE = 'center'
+			ORDER BY 
+				NPKI_NO
+		]]>
+	</select>
+	
+	
+</mapper>

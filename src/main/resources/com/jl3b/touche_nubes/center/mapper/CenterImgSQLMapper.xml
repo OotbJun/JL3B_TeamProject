@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper">
+	
+	<insert id="insertCenterInfoImg">
+		<![CDATA[
+			INSERT INTO JL3B_CENTER_IMG 
+			VALUES(
+				JL3B_CENTER_IMG_SEQ.NEXTVAL, 
+				#{center_no}, 
+				#{center_img_title}, 
+				#{center_img_path}, 
+				SYSDATE
+			)
+		]]>
+	</insert>
+	
+	<!-- 상세페이지에서 전체 이미지 출력 -->
+	<select id="selectCenterImgAll" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
+		<![CDATA[
+			SELECT * 
+           	FROM 
+           		JL3B_CENTER_IMG 
+           	WHERE 
+           		center_no = #{center_no}
+           	AND 
+           		ROWNUM <= 7 
+           	ORDER BY 
+           		CENTER_IMG_NO DESC
+		]]>	
+	</select>
+	
+	<!-- 리스트에서 대표 이미지 하나만 출력 -->
+	<select id="selectCenterImg" resultType="com.jl3b.touche_nubes.centervo.CenterImgVo">
+		<![CDATA[
+			SELECT * 
+           	FROM 
+           		JL3B_CENTER_IMG 
+           	WHERE 
+           		center_no = #{center_no} 
+           	AND 
+           		ROWNUM <= 1 
+           	ORDER BY 
+           		CENTER_IMG_NO ASC 
+		]]>
+	</select>
+	
+</mapper>
