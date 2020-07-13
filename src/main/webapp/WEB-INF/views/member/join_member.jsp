@@ -58,8 +58,19 @@ right: 0;
 	src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script type="text/javascript">
-	// 아이디 중복확인  ajax   
 
+	//test
+	//비밀번호 정규식 / 8자리 이상, 숫자, 특수문자 1회이상, 영문 2개 이상
+    var regPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,20}$/;
+
+    //이메일 정규식
+    var regMail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+
+    //아이디 정규식 / 영문, 숫자 4~20자리
+    var regId = /^[0-9a-z]{4,20}$/;
+
+
+	// 아이디 중복확인  ajax   
 	var isConfirmed1 = false;
 	var isConfirmed2 = false;
 	var isConfirmed3 = false;
@@ -108,15 +119,21 @@ right: 0;
 					toggleSubmitButton();
 
 				}
-
 			}
-
 		};
 		xmlhttp.open("post",
 				"${pageContext.request.contextPath}/member/confirmId.do", true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("member_id=" + member_id);
+		
+		if(!regId.test(member_id)){
+			document.getElementById("id_check").innerHTML = "아이디는 영문 + 숫자 조합으로 4~20자까지."
+			document.getElementById("id_check").style.color = "#ae0e36";
+			document.getElementById("id_check").style.fontWeight = "bold";
+			document.getElementById("id_check").style.fontSize = "large";
+		}else{
+			xmlhttp.send("member_id=" + member_id);
+		}
 	}
 
 	//비밀번호 일치 확인 ajax
@@ -124,24 +141,32 @@ right: 0;
 	function confirmPw() {
 		var pw = document.getElementById("member_pw").value;
 		var check_pw = document.getElementById("check_pw").value
-
-		if (pw == check_pw) {
-			document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
-			document.getElementById("checked_pw").style.color = "#11609c";
-			document.getElementById("checked_pw").style.fontWeight = "bold";
-			document.getElementById("checked_pw").style.fontSize = "large";
-			isConfirmed2 = true;
-			toggleSubmitButton();
-
-		} else {
-			document.getElementById("checked_pw").innerText = "비밀번호가 일치하지 않습니다"
-			document.getElementById("checked_pw").style.color = "#ae0e36";
-			document.getElementById("checked_pw").style.fontWeight = "bold";
-			document.getElementById("checked_pw").style.fontSize = "large"
-			isConfirmed2 = false
-			toggleSubmitButton();
+		
+		if(regPw.test(pw)){
+			if (pw == check_pw) {
+				document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
+				document.getElementById("checked_pw").style.color = "#11609c";
+				document.getElementById("checked_pw").style.fontWeight = "bold";
+				document.getElementById("checked_pw").style.fontSize = "large";
+				isConfirmed2 = true;
+				toggleSubmitButton();
+	
+			} else {
+				document.getElementById("checked_pw").innerText = "비밀번호가 일치하지 않습니다"
+				document.getElementById("checked_pw").style.color = "#ae0e36";
+				document.getElementById("checked_pw").style.fontWeight = "bold";
+				document.getElementById("checked_pw").style.fontSize = "large"
+				isConfirmed2 = false
+				toggleSubmitButton();
+			}
+			document.getElementById("pw_check").innerText = ""
+		}else{
+			document.getElementById("pw_check").innerText = "비밀번호는 숫자, 영문, 특수문자 포함 8~20자까지."
+			document.getElementById("pw_check").style.color = "#ae0e36";
+			document.getElementById("pw_check").style.fontWeight = "bold";
+			document.getElementById("pw_check").style.fontSize = "large"
+				isConfirmed2 = false
 		}
-
 	}
 	//인증번호
 
@@ -240,7 +265,18 @@ right: 0;
 				true);
 		xmlhttp.setRequestHeader("Content-type",
 				"application/x-www-form-urlencoded");
-		xmlhttp.send("member_mail=" + member_mail);
+		
+		if(!regMail.test(member_mail)){
+			document.getElementById("emailchecked").innerText = "이메일 형식에 맞지 않습니다."
+			document.getElementById("emailchecked").style.color = "#20604f";
+			document.getElementById("emailchecked").style.fontWeight = "bold";
+			document.getElementById("emailchecked").style.fontSize = "large";
+		}else{
+			xmlhttp.send("member_mail=" + member_mail);
+		}
+		
+		
+		
 	}
 
 	function pageMove() {
@@ -248,8 +284,8 @@ right: 0;
 	}
 
 	function test() {
-		alert("회원가입시간이 종료되었습니다. 다시 시도해주세욬ㅋㅋㅋㅋㅋㅋㅋㅋ");
-		location.href = "/touche_nubes/";
+		alert("회원가입시간이 종료되었습니다. 다시 시도해주시기 바랍니다.");
+		location.href = "/JL3B/";
 	}
 
 	function timer() {

@@ -53,7 +53,10 @@
                         <a class="dropdown-item"
                            href="${pageContext.request.contextPath }/member/logout_process.do">로그아웃</a>
                         <a class="dropdown-item" href="${pageContext.request.contextPath }/member/mypage.do">마이페이지</a> 
-                        <a class="dropdown-item" href="${pageContext.request.contextPath }/member/mypage.do">Something else here</a>
+                        
+                        <c:if test="${!empty sessionAdmin }">
+                        <a class="dropdown-item" href="${pageContext.request.contextPath }/admin/main.do">관리자 페이지</a>
+                        </c:if>
                      </div></li>
                </ul>
             </c:when>

@@ -2,6 +2,8 @@ package com.jl3b.touche_nubes.member.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -13,6 +15,7 @@ import com.jl3b.touche_nubes.center.service.CenterService;
 import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.member.service.MemberServiceImpl;
+import com.jl3b.touche_nubes.membervo.MemberVo;
 @Controller
 @ResponseBody
 @RequestMapping("/member/*")
@@ -108,18 +111,20 @@ public class RESTfulMemberController {
    
    //나의 센터예약 취소하기 
 //   @RequestMapping("/my_reserve_delete.do")
-//   public void deleteReserve(ReserveVo reserveVo,@RequestParam(value = "chbox[]") List<String> chArr) {
-//	   
-//	   System.out.println("레슨 : " + reserveVo.getLesson_no());
-//	   System.out.println("멤버 : " + reserveVo.getMember_no());
-//	   System.out.println("리저브 : " + reserveVo.getReserve_no());
-//	   
-//	   for(String i : chArr) {
-//		   int lesson_no = Integer.parseInt(i);
-//		   reserveVo.setLesson_no(lesson_no);
-//		   memberService.deleteReserve(reserveVo);
-//		   //centerService.deleteHorsehead(reserveVo.getLesson_no());
-//	   }  
-//   }	   
+//   public void deleteReserve(ReserveVo reserveVo,@RequestParam(value = "chbox[]") List<String> chArr, HttpSession session) {
+//      
+//      System.out.println("레슨 : " + reserveVo.getLesson_no());
+//      System.out.println("멤버 : " + reserveVo.getMember_no());
+//      System.out.println("리저브 : " + reserveVo.getReserve_no());
+//      
+//      for(String i : chArr) {
+//         int lesson_no = Integer.parseInt(i);
+//         reserveVo.setLesson_no(lesson_no);
+//         MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+//         reserveVo.setMember_no(memberVo.getMember_no());
+//         memberService.deleteReserve(reserveVo);
+//         centerService.deleteHorsehead(lesson_no);
+//      }  
+//   }      
    
 }

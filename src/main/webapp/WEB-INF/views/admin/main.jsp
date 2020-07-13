@@ -40,11 +40,42 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-4 text-gray-800">main Page <br>메인페이지 사진 넣어야댐</h1>
-             
-                                
-           
-        </div>
+          <h2 class="h3 mb-4 text-gray-800">HOME</h2>
+          <div class="row">
+             <div class="col">
+                <div class="card border-left-primary shadow h-100 py-2">
+                   <div class="card-body">
+                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">공지사항</div>                  
+                       <a href="${path}/admin/notice.do"><input type="button" class="btn btn-primary btn-sm" value="바로가기"></a>               
+                   </div>             
+                </div>             
+             </div>
+             <div class="col">
+                <div class="card border-left-info shadow h-100 py-2">
+                   <div class="card-body">
+                       <div class="text-xs font-weight-bold text-info text-uppercase mb-1">자유게시판</div>
+                       <a href="${path}/admin/board.do"><input type="button" class="btn btn-info btn-sm" value="바로가기"></a>               
+                   </div>             
+                   </div>             
+                </div>                   
+             <div class="col">
+                <div class="card border-left-warning h-100 py-2">
+                   <div class="card-body">
+                       <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">주민청원</div>
+                       <a href="${path}/admin/idea.do"><input type="button" class="btn btn-warning btn-sm" value="바로가기"></a>               
+                   </div>             
+                   </div>             
+                </div>            
+          </div>
+          <div class="row">
+             <div class="col">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                   <h6 class="m-0 font-weight-bold text-primary">TN ADMIN PAGE</h6>
+                </div>
+                <div class="card-body"><img src="${pageContext.request.contextPath }/resources/img/admin_main.jpg" width="800px" height="520px"></div>
+             </div>        
+          </div>
+    </div>
             
         <!-- /.container-fluid -->
 
@@ -52,7 +83,13 @@
       <!-- End of Main Content -->
 
       <!-- Footer -->
-     <jsp:include page="../commons/admin_footer.jsp"></jsp:include>
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+           <span>Copyright &copy; Touche_Nubes 2020</span>
+          </div>
+        </div>
+      </footer>
       <!-- End of Footer -->
 
     </div>

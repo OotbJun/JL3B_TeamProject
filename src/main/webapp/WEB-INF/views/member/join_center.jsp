@@ -236,8 +236,8 @@ function check_npki() {
 
       
    function test(){
-         alert("회원가입시간이 종료되었습니다. 다시 시도해주세욬ㅋㅋㅋㅋㅋㅋㅋㅋ");
-         location.href="/touche_nubes/";
+         alert("회원가입시간이 종료되었습니다. 다시 시도해주시기 바랍니다.");
+         location.href="/JL3B/";
       }
       
    function timer() {

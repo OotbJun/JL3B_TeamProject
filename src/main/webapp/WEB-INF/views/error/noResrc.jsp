@@ -55,14 +55,19 @@ footer {
 <body style="overflow-x: hidden;">
 	<div id="wrap">
 	
+			
 			<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #000000">
 				<div class="container">
 					<a class="navbar-brand" href="${pageContext.request.contextPath }/">Touche Nubes</a>
+				  <c:if test="${!empty sessionAdmin }">
+					<a class="navbar-brand" href="${pageContext.request.contextPath }/admin/main.do">Touche Nubes</a>
+				  </c:if>
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 						aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
+		
 
 					<c:choose>
 						<c:when test="${!empty sessionUser || !empty sessionCenter }">

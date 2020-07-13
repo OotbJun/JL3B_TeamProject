@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>자게 글쓰기</title>
+<title>Touche 자게 글쓰기</title>
 <style>
 * {
 	box-sizing: border-box;

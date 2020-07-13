@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>공지 글쓰기</title>
+<title>Touche 공지 글쓰기</title>
 <style>
 * {
 	box-sizing: border-box;

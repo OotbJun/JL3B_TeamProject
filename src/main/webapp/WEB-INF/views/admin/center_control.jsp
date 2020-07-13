@@ -12,7 +12,7 @@
  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
  <meta name="description" content="">
  <meta name="author" content="">
-<title>Insert title here</title>
+<title>센터 회원 관리</title>
 
  <!-- Custom fonts for this template-->
   <link href="${path }/resources/css/all.min.css" rel="stylesheet" type="text/css">

@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>자게 글 수정</title>
+<title>Touche 자게 글수정</title>
 <style>
 * {
 	box-sizing: border-box;

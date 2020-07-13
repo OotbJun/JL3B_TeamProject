@@ -86,7 +86,7 @@ public class VoteController {
 	public String writeCandyProcess(MultipartFile [] candyFile, CandyVo candyVo, HttpSession session) {
 		
 		
-	    String rootFolderName = "/var/storage";
+	    String rootFolderName = "/var/storage/";
 	    Date today = new Date();
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 	    String todayFolder = df.format(today);

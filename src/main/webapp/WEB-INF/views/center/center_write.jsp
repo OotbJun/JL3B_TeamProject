@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>강의 등록하기</title>
+<title>Touche 강의 등록하기</title>
 <style>
 * {
    box-sizing: border-box;

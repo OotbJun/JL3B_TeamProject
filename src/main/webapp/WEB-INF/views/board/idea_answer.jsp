@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>청원 답글</title>
+<title>Touche 청원 답글</title>
 <style type="text/css">
 * {
 	box-sizing: border-box;

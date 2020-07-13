@@ -93,7 +93,7 @@
       <li class="nav-item">
         <a class="nav-link" href="${path}/admin/member_control.do">
           <i class="fas fa-fw fa-table"></i>
-          <span>클래스</span></a>
+          <span>회원 관리</span></a>
       </li>
 
       <!-- Divider -->

@@ -214,9 +214,9 @@ public class BoardController {
             @RequestParam(value="currPage", required = false, defaultValue ="1")int currPage) {
          
       List<Map<String, Object>> list = boardService.boardList(searchOption, searchWord, currPage);      //그냥 자게
-      List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);            //상단 고정 공지
-      boardService.changeHot();                                                         //인기글 업데이트
-      List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);               //인기글 고정
+      List<Map<String, Object>> list2 = boardService.boardNoticeList(searchWord,currPage);            	//상단 고정 공지
+      boardService.changeHot();                                                         				//인기글 업데이트
+      List<Map<String, Object>> list3 = boardService.boardHotList(searchWord, currPage);               	//인기글 고정
       
       
       
@@ -251,7 +251,7 @@ public class BoardController {
       public String writeBoardProcess(MultipartFile [] boardImgList,BoardVo boardVo, HttpSession session) {
          // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
          // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-         String RootFolderName = "/var/storage";
+         String RootFolderName = "/var/storage/";
          Date today = new Date();
          SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
          String todayFolder = df.format(today);
@@ -413,7 +413,7 @@ public class BoardController {
    public String writeideaProcess(MultipartFile[] ideaImgList, IdeaVo ideaVo, HttpSession session) {
       // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
       // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-      String RootFolderName = "/var/storage";
+      String RootFolderName = "/var/storage/";
       Date today = new Date();
       SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
       String todayFolder = df.format(today);

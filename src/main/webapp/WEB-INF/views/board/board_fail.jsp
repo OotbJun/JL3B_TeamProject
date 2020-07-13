@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>Insert title here</title>
+<title>Touche Nubes</title>
 <style>
 footer {
    margin: 0 auto;

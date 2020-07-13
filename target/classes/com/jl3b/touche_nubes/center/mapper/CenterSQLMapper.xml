@@ -210,11 +210,11 @@
 		<![CDATA[
 			UPDATE JL3B_lesson L1 SET lesson_horsehead = '예약'
 			WHERE (
-                SELECT COUNT(NVL(LESSON_NO, 0)) as cnt
+                SELECT COUNT(NVL(RESERVE_NO, 0)) as cnt
                 FROM(
                     SELECT L.lesson_no, L.info_no, L.lesson_people, L.lesson_horsehead, R.reserve_no
-                    FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO) WHERE LESSON_NO = #{lesson_no} GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
-			) <= #{lesson_people}
+                    FROM JL3B_lesson L, JL3B_reserve R WHERE L.lesson_no = R.lesson_NO(+)) WHERE LESSON_NO = #{lesson_no} GROUP BY lesson_NO HAVING lesson_NO=L1.lesson_NO    
+			) >= #{lesson_people} -1
 		]]>
 	</update>
 	

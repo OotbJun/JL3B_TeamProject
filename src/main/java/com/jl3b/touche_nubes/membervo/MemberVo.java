@@ -11,7 +11,6 @@ public class MemberVo {
 	private String member_rname;
 	private String member_mail;
 	private int member_grade;
-	private int member_point;
 	private Date member_jdate;
 	
 	public MemberVo() {
@@ -19,7 +18,7 @@ public class MemberVo {
 	}
 
 	public MemberVo(int member_no, String npki_key, String member_id, String member_pw, String member_rname, String member_mail,
-			int member_grade, int member_point, Date member_jdate) {
+			int member_grade, Date member_jdate) {
 		super();
 		this.member_no = member_no;
 		this.npki_key = npki_key;
@@ -28,7 +27,6 @@ public class MemberVo {
 		this.member_rname = member_rname;
 		this.member_mail = member_mail;
 		this.member_grade = member_grade;
-		this.member_point = member_point;
 		this.member_jdate = member_jdate;
 	}
 
@@ -86,14 +84,6 @@ public class MemberVo {
 
 	public void setMember_grade(int member_grade) {
 		this.member_grade = member_grade;
-	}
-
-	public int getMember_point() {
-		return member_point;
-	}
-
-	public void setMember_point(int member_point) {
-		this.member_point = member_point;
 	}
 
 	public Date getMember_jdate() {

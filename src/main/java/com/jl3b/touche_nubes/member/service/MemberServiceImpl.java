@@ -316,20 +316,18 @@ public class MemberServiceImpl implements MemberService {
 	}
 
    // 나의 센터예약 취소하기 
-    public void deleteReserve(int[] lesson_no, int member_no) {
-    	
-    	int count = lesson_no.length;
-    	
-    	for(int i = 0; i < count; i++) {
-    		ReserveVo reserveVo = new ReserveVo();
-    		
-    		reserveVo.setLesson_no(lesson_no[i]);
-    		reserveVo.setMember_no(member_no);
-    		
-    		memberSQLMapper.deleteReserve(reserveVo);
-    	}
-    	
-        
-    }
-   
+   public void deleteReserve(int[] lesson_no, int member_no, int[] lesson_people) {
+	   
+	  int count = lesson_no.length;
+	   
+	  for(int i = 0; i < count; i++) {
+		  ReserveVo reserveVo = new ReserveVo();
+		  
+		  reserveVo.setLesson_no(lesson_no[i]);
+		  reserveVo.setMember_no(member_no);
+		  
+		  memberSQLMapper.deleteReserve(reserveVo);
+	  }
+      
+   }
 }

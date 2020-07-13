@@ -117,6 +117,6 @@ public interface MemberService {
    public List<Map<String,Object>> getMyCenter(int member_no);
    
    //예약 취소하기
-   public void deleteReserve(int[] lesson_no, int member_no);
+   public void deleteReserve(int[] lesson_no, int member_no, int[] lesson_people);
 
 }

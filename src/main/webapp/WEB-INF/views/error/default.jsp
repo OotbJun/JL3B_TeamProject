@@ -55,6 +55,8 @@ footer {
 <body style="overflow-x: hidden;">
 	<div id="wrap">
 		<div class="container text-center">
+		
+		
 			<nav id="xxx" class="navbar navbar-expand-lg navbar-light pl-5">
 				<div class="container">
 					<a class="navbar-brand" style="margin-right: -3%"
@@ -62,12 +64,21 @@ footer {
 						src="${pageContext.request.contextPath }/resources/img/navi-logo.png"
 						style="max-width: 75%; height: auto; margin: 0">
 					</a>
+				<c:if test="${!empty sessionAdmin }">
+					<a class="navbar-brand" style="margin-right: -3%"
+						href="${pageContext.request.contextPath }/admin/main.do"> <img
+						src="${pageContext.request.contextPath }/resources/img/navi-logo.png"
+						style="max-width: 75%; height: auto; margin: 0">
+					</a>
+				</c:if>	
 					<button class="navbar-toggler" type="button" data-toggle="collapse"
 						data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
 						aria-expanded="false" aria-label="Toggle navigation">
 						<span class="navbar-toggler-icon"></span>
 					</button>
-
+		
+		
+		
 					<c:choose>
 						<c:when test="${!empty sessionUser || !empty sessionCenter }">
 							

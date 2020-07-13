@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
-<title>작성글 보기</title>
+<title>강의 리스트</title>
 
 <style type="text/css">
 * {
@@ -125,13 +125,11 @@ right: 0;
                
                
                <div class="allCheck" >
-               <input type="checkbox" id="checkAll" name="checkAll" onclick="cAll();">
-               <label for="allCheck">모두 선택</label> 
                </div>
                </li>
                <li style="margin-left: 87%;">
                <div class="delBtn">
-               <input type="button" class="selectDelte_btn" id="delete" value="선택 삭제" onclick="delete_btn()">
+               <input type="button" class="btn btn btn-outline-success" id="delete" value="선택 삭제" onclick="delete_btn()">
                
                </div>
                </li>
@@ -141,7 +139,7 @@ right: 0;
                   <table class="table table-hover text-center">
                      <thead style="font-size: small">
                         <tr>
-                           <th></th>
+                           <th><input type="checkbox" id="checkAll" name="checkAll" onclick="cAll();"></th>
                            <th>강의</th>
                            <th>강의 날짜</th>
                            <th>강의 시간</th>
@@ -158,10 +156,10 @@ right: 0;
                               <td>${aaa.lessonInfoVo.info_title}</td>
                               <td><fmt:formatDate value="${aaa.lessonVo.lesson_date}" pattern="yy.MM.dd"/></td>
                               <td>${aaa.lessonVo.lesson_time}시</td>
-                              
+                              <td>
                                <c:if test="${aaa.people > 0 }">
-                              <td><button type="button" class="btn btn-outline-secondary btn-sm" onclick="popup(${aaa.lessonVo.lesson_no })">보기</button></td>
-                                         </c:if>
+                              <button type="button" class="btn btn-outline-secondary btn-sm" onclick="popup(${aaa.lessonVo.lesson_no })">보기</button></c:if> 
+                              </td>
                            </tr>
                        </c:forEach>
                      </tbody>

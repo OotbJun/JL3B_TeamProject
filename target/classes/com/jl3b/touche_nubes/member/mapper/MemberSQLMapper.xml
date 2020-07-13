@@ -19,7 +19,6 @@
 				#{member_rname},
 				#{member_mail},
 				1,
-				0,
 				SYSDATE)
 		]]>
 	</insert>
