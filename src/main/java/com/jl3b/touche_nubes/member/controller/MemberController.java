@@ -171,7 +171,7 @@ public class MemberController {
 		
 //		memberService.joinCenter(centerVo);
 		
-		String rootFolderName = "/var/storage";
+		String rootFolderName = "/var/storage/";
 	    Date today = new Date();
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
 	    String todayFolder = df.format(today);
@@ -479,7 +479,7 @@ class MemberSenderThread extends Thread{
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
 	  	 String link ="http://15.164.48.63:8080/JL3B/member/certification_process.do?key="+authKey;
 	  	 text += "Touche Nubes 입주민 가입을 환영합니다.<br>";
-	  	 text += "입주민 회원가입 완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
+	  	 text += "입주민 회원가입 완료를 위해 아래의 링크를 클릭해 주세요.<br>";
 	  	 text += "<a href='"+link+"'>";
 	  	 text += "Touche Nubes사이트로 이동하기";
 	  	 text += "</a>";
@@ -522,7 +522,7 @@ class CenterSenderThread extends Thread{
 	  	 // 이후에 AWS 서버 IP로 변경해주어야 합니다!!! 
 	  	 String link ="http://15.164.48.63:8080/JL3B/member/certification_center_process.do?key="+centerAuthKey;
 	  	 text += "Touche Nubes 센터에 가입하신 선생님 감사합니다.<br>";
-	  	 text += "센터등록  완료를 위해 아래의 링크를 클릭해 주세요 ^오^b<br>";
+	  	 text += "센터등록  완료를 위해 아래의 링크를 클릭해 주세요.<br>";
 	  	 text += "<a href='"+link+"'>";
 	  	 text += "Touche Nubes사이트로 이동하기";
 	  	 text += "</a>";

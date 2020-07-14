@@ -436,7 +436,7 @@
   <select id="selectMyCenter" resultType="map">
    <![CDATA[
    
-	SELECT center_name,info_title, lesson_date , lesson_time, lesson_people, r.lesson_no
+	SELECT center_name,info_title, lesson_date , lesson_time, lesson_people, r.lesson_no, c.center_no
         FROM jl3b_center c ,jl3b_lesson e, jl3b_lessoninfo l ,jl3b_reserve r
             where c.center_no = l.center_no 
             and e.info_no = l.info_no 

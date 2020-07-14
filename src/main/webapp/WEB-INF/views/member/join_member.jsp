@@ -127,7 +127,7 @@ right: 0;
 				"application/x-www-form-urlencoded");
 		
 		if(!regId.test(member_id)){
-			document.getElementById("id_check").innerHTML = "아이디는 영문 + 숫자 조합으로 4~20자까지."
+			document.getElementById("id_check").innerHTML = "아이디는 영문 + 숫자 조합으로 4~20자까지"
 			document.getElementById("id_check").style.color = "#ae0e36";
 			document.getElementById("id_check").style.fontWeight = "bold";
 			document.getElementById("id_check").style.fontSize = "large";
@@ -161,7 +161,7 @@ right: 0;
 			}
 			document.getElementById("pw_check").innerText = ""
 		}else{
-			document.getElementById("pw_check").innerText = "비밀번호는 숫자, 영문, 특수문자 포함 8~20자까지."
+			document.getElementById("pw_check").innerText = "비밀번호는 숫자, 영문, 특수문자 포함 8~20자까지"
 			document.getElementById("pw_check").style.color = "#ae0e36";
 			document.getElementById("pw_check").style.fontWeight = "bold";
 			document.getElementById("pw_check").style.fontSize = "large"

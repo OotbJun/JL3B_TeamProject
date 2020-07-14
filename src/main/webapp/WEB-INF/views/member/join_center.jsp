@@ -58,6 +58,16 @@ right: 0;
    src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
 
 <script type="text/javascript"> //ajax 및 예외처리 js 코드
+
+	//비밀번호 정규식 / 8자리 이상, 숫자, 특수문자 1회이상, 영문 2개 이상
+	var regPw = /(?=.*\d{1,50})(?=.*[~`!@#$%\^&*()-+=]{1,50})(?=.*[a-zA-Z]{2,50}).{8,20}$/;
+	
+	//이메일 정규식
+	var regMail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+	
+	//아이디 정규식 / 영문, 숫자 4~20자리
+	var regId = /^[0-9a-z]{4,20}$/;
+
     var isConfirmed1 =false;
    var isConfirmed2 =false;
    var isConfirmed3 =false;
@@ -113,7 +123,17 @@ right: 0;
       };
       xmlhttp.open("post","${pageContext.request.contextPath}/member/confirmCenterId.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("center_id=" + center_id);
+      
+      if(!regId.test(center_id)){
+			document.getElementById("id_check").innerHTML = "아이디는 영문 + 숫자 조합으로 4~20자까지"
+			document.getElementById("id_check").style.color = "#ae0e36";
+			document.getElementById("id_check").style.fontWeight = "bold";
+			document.getElementById("id_check").style.fontSize = "large";
+		}else{
+			xmlhttp.send("center_id=" + center_id);
+		}
+      
+      
    }
 
    //비밀번호 일치 확인 ajax
@@ -122,23 +142,34 @@ function confirmPw(){
       var center_pw = document.getElementById("center_pw").value;
       var check_pw = document.getElementById("check_pw").value
   
-   if (center_pw==check_pw) {    
-      document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
-      document.getElementById("checked_pw").style.color = "#11609c";
-      document.getElementById("checked_pw").style.fontWeight = "bold";
-      document.getElementById("checked_pw").style.fontSize = "large";
-      isConfirmed2 =true;
-      toggleSubmitButton();
+      if(regPw.test(center_pw)){
+    	  
+    	  if (center_pw==check_pw) {    
+    	      document.getElementById("checked_pw").innerText = "비밀번호가 일치합니다"
+    	      document.getElementById("checked_pw").style.color = "#11609c";
+    	      document.getElementById("checked_pw").style.fontWeight = "bold";
+    	      document.getElementById("checked_pw").style.fontSize = "large";
+    	      isConfirmed2 =true;
+    	      toggleSubmitButton();
 
-} else {      
-      document.getElementById("checked_pw").innerText = "비밀번호가 일치하지 않습니다"
-      document.getElementById("checked_pw").style.color = "#ae0e36";
-      document.getElementById("checked_pw").style.fontWeight = "bold";
-      document.getElementById("checked_pw").style.fontSize = "large"
-      isConfirmed2 = false
-      toggleSubmitButton();
-   }
-   
+    	} else {      
+    	      document.getElementById("checked_pw").innerText = "비밀번호가 일치하지 않습니다"
+    	      document.getElementById("checked_pw").style.color = "#ae0e36";
+    	      document.getElementById("checked_pw").style.fontWeight = "bold";
+    	      document.getElementById("checked_pw").style.fontSize = "large"
+    	      isConfirmed2 = false
+    	      toggleSubmitButton();
+    	   }
+    	  document.getElementById("pw_check").innerText = ""
+      }else{
+			document.getElementById("pw_check").innerText = "비밀번호는 숫자, 영문, 특수문자 포함 8~20자까지"
+			document.getElementById("pw_check").style.color = "#ae0e36";
+			document.getElementById("pw_check").style.fontWeight = "bold";
+			document.getElementById("pw_check").style.fontSize = "large"
+			isConfirmed2 = false
+	  }
+      
+      
 }
    //인증번호
 
@@ -226,7 +257,17 @@ function check_npki() {
       
       xmlhttp.open("post","${pageContext.request.contextPath}/member/checkCenterEmail.do",true);
       xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      xmlhttp.send("center_mail=" + center_mail);
+		
+      if(!regMail.test(center_mail)){
+			document.getElementById("emailchecked").innerText = "이메일 형식에 맞지 않습니다."
+			document.getElementById("emailchecked").style.color = "#20604f";
+			document.getElementById("emailchecked").style.fontWeight = "bold";
+			document.getElementById("emailchecked").style.fontSize = "large";
+	  }else{
+		xmlhttp.send("center_mail=" + center_mail);
+	  }
+      
+
    }
   
    
@@ -335,10 +376,10 @@ function check_npki() {
                <div class="form-group">
                   <label for="center_id">ID</label> <input
                      onblur="toggleSubmitButton()" type="text" class="form-control"
-                     id="center_id" name="center_id" placeholder="시용할 ID 입력" required
+                     id="center_id" name="center_id" placeholder="사용할 ID 입력" required
                      onkeyup="confirmId()" maxlength="20">
                   <!-- ajax 처리되서 중복확인 바로 되는 부분 -->
-                  <div class="check_font text-center" id="id_check"></div>
+                  <div class="check_font" id="id_check"></div>
                </div>
 
                <div class="form-group">

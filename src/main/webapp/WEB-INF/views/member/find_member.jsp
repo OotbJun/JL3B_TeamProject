@@ -93,7 +93,6 @@ $('#modal').modal("show");
 </head>
 <body style="overflow-x: hidden;">
 	<div id="wrap">
-		<jsp:include page="../commons/include_navi.jsp"></jsp:include>
 		
 		<div id="content">
 

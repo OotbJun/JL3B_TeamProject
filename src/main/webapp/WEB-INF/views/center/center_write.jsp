@@ -258,11 +258,11 @@ footer {
                         <div class="col">
                            <div class="row font-weight-bold" style="color: #124b66">
                               <div class="col-6 text-left">
-                                 개강 <input class="ml-2 mr-1" id="startDate" type="date" min="${today }">
+                                 개설 <input class="ml-2 mr-1" id="startDate" type="date" min="${today }">
                                  <!-- 우선 달력으로 기간 설정하고-->
                               </div>
                               <div class="col-6 text-right">
-                                 종강 <input class="ml-2" id="endDate" type="date" min="${today }">
+                                 마감 <input class="ml-2" id="endDate" type="date" min="${today }">
                               </div>
                            </div>
                         </div>

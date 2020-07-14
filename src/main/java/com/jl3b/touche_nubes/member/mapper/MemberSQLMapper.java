@@ -20,7 +20,7 @@ public interface MemberSQLMapper {
 	///////입주민
 	public void insertMember(MemberVo memberVo);
 	public MemberVo selectMemberByIdAndPw(MemberVo memberVo);
-	public MemberVo selectMemberByNo(int no);
+	public MemberVo selectMemberByNo(int no);						//멤버넘버로 해당 멤버 정보 한줄 뽑는 용도
 	public MemberVo selectMemberById(String id);
 	public MemberVo selectMemberByNpki(String key);		 			//인증번호 중복방지
 	public String existNpki(String key);							//인증키 확인

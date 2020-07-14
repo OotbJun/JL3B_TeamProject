@@ -61,19 +61,19 @@ public class BoardController {
    public String main(Model model, HttpSession session, ChatVo chatVo) {
       //boardService.test();
       try{
-         int chat_no = chatService.newChatNo();
-         model.addAttribute("chat_no", chat_no);
+         int chat_no = chatService.newChatNo();						//메인페이지에서 채팅창 입장시 챗넘버 MAX값 뽑아서
+         model.addAttribute("chat_no", chat_no);					//넘겨준다.
          //System.out.println("asd" + chatVo.getChat_no());
       }catch(Exception e) {
          e.printStackTrace();
       }
       
       
-      if(session.getAttribute("sessionUser") != null) {
-         MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
-         chatVo.setMember_no(memberVo.getMember_no());
+      if(session.getAttribute("sessionUser") != null) {				//예외처리
+         MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");			//세션값 MemberVo에 담고
+         chatVo.setMember_no(memberVo.getMember_no());								//다시 ChatVo에 담겨진 멤버 넘버, 멤버 네임 세팅
          chatVo.setMember_rname(memberVo.getMember_rname());
-         chatService.enterChat(chatVo);
+         chatService.enterChat(chatVo);												//채팅방 입장 메서드 호출(insert ~~님이 입장하셨습니다.)
       }
       
       return "board/main";
@@ -88,7 +88,7 @@ public class BoardController {
    @RequestMapping("/notice_write_process.do")
    public String writeNoticeProcess(NoticeVo noticeVo, HttpSession session, Model model) {
       
-      MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
+      MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");	//noticeVo등 해당 Vo에 멤버 넘버값이 필요하기 때문에 세션 값 뽑아와서 담아주는 작업
       noticeVo.setMember_no(memberVo.getMember_no());
       boardService.writeNotice(noticeVo);
       
@@ -102,28 +102,28 @@ public class BoardController {
    public String notice(@RequestParam(defaultValue = "notice_title")String searchOption, String searchWord, Model model, HttpSession session,
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {
       
-      if(session.getAttribute("sessionUser") != null) {
-         MemberVo memberData = (MemberVo)session.getAttribute("sessionUser");      //등업 한 후 로그아웃 없이 바로 공지 글 쓸 수 있게
-         MemberVo updateData = boardService.updateSession(memberData);
-         session.setAttribute("sessionUser", updateData);                     //될지 모르겠네
+      if(session.getAttribute("sessionUser") != null) {							//등업 한 후 로그아웃 없이 바로 공지 글 쓸 수 있게
+         MemberVo memberData = (MemberVo)session.getAttribute("sessionUser");	//현재 로그인 돼있는 정보 담고
+         MemberVo updateData = boardService.updateSession(memberData);			//로그인 된 정보로 셀렉트 해줘서 업데이트된 정보(당선되고 등급이 올라간 상태)를 다시 담아준다
+         session.setAttribute("sessionUser", updateData);                     	//세션값 다시 세팅, 즉 로그아웃 없이 등급업 된 상태로 바뀌는 거
          System.out.println("갱신 테스트");
       }
       
       
-      if(currentPage <= 0) {
+      if(currentPage <= 0) {			//페이지가 없으면 최소 1로 되게끔
          currentPage = 1;
       }
       
-      List<Map<String, Object>> list = boardService.noticeList(searchOption, searchWord, currentPage);
+      List<Map<String, Object>> list = boardService.noticeList(searchOption, searchWord, currentPage);	//검색 옵션, 검색어, 페이지 넘겨준다(쿼리보면 이해될듯).
       
       //총 게시글 수
-      int totalCount = boardService.noticeSearchCount(searchOption, searchWord);
+      int totalCount = boardService.noticeSearchCount(searchOption, searchWord);		//검색을 해도 페이징처리 해야되니깐 매개변수 넘겨준다
       
       //페이지 짜르는 거 할 거야
-      int beginPage = ((currentPage-1) / 5) * 5 + 1;
-      int endPage = ((currentPage-1)/5+1)*5;
+      int beginPage = ((currentPage-1) / 5) * 5 + 1;		//currentPage값이 그대로 나옴(1이면 1, 10이면 10)
+      int endPage = ((currentPage-1) / 5 + 1 ) * 5;			//currentPage값 + 4
       
-      if(endPage > (totalCount-1)/10 + 1) {
+      if(endPage > (totalCount-1)/10 + 1) {					//endPage값이 총게시글 수보다 크면 endPage 유지
          endPage = (totalCount-1)/10 + 1;
       }
       
@@ -148,15 +148,15 @@ public class BoardController {
       
       
       //쿠키 이용해서 조회수 중복 방지
-      boolean isRead = false;                        //디폴트는 false로 세팅
+      boolean isRead = false;                        	 //디폴트는 false로 세팅
       
-      Cookie[] cookies = request.getCookies();         //쿠키 배열 생성
+      Cookie[] cookies = request.getCookies();         	 //배열로 쿠키값 담아준다
       
       for(Cookie cookie : cookies) {
-         String name = cookie.getName();               //네임 변수에 담아주고
+         String name = cookie.getName();         		 //쿠키네임 가져와서
          if(name.startsWith("read_notice_no")) {         //네임이 read_notice_no로 시작된다면
-            int no = Integer.parseInt(name.substring(name.indexOf("|")+1));      //파이프+1 자리부터 잘라서 변수에 담아준다.
-            
+            int no = Integer.parseInt(name.substring(name.indexOf("|")+1));     //파이프+1 자리부터 잘라서 parseInt로 String값을 int로 변환 후(비교해야 되니까) 변수에 담아준다.
+            																	//indexOf : 문자열의 위치 리턴, substring : 문자열 자름
             if(no == notice_no) {                  //변수가 notice_no와 같다면 트루로 변환, 즉 한번이라도 읽은 넘버는 true로
                isRead = true;
             }
@@ -164,11 +164,12 @@ public class BoardController {
       }
       
       Cookie cookie = new Cookie("read_notice_no|" + notice_no, "aaaa");      //키에 notice_no 붙여주고, 값은 쓸모 없어서 대충
-      response.addCookie(cookie);                                    //쿠키 추가
+      response.addCookie(cookie);                                    	//쿠키 넣어준다
       
       if(!isRead) {
-         boardService.updateNoticeReadCount(notice_no);                  //isRead가 false면 조회수 증가
+         boardService.updateNoticeReadCount(notice_no);                 //isRead가 false면 조회수 증가
       }
+      
       y="read";
       Map<String, Object> map = boardService.viewNotice(notice_no, y);
       
@@ -182,7 +183,7 @@ public class BoardController {
    @RequestMapping("/notice_delete_process.do")
    public String deleteNotice(NoticeVo noticeVo, HttpSession session) {
       
-      boardService.deleteNotice(noticeVo, session);
+      boardService.deleteNotice(noticeVo, session);		//예외처리 위하여 세션도 넘김
       
       return "redirect:./notice.do";
    }
@@ -193,7 +194,7 @@ public class BoardController {
          @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {      
       
       y=null;
-      model.addAttribute("readNotice", boardService.viewNotice(notice_no, y));
+      model.addAttribute("readNotice", boardService.viewNotice(notice_no, y));	//수정페이지 들어가면 원글 남아있어야 하니까 메서드 호출해서 모델에 담아준다
       model.addAttribute("currentPage", currentPage);
       
       return "board/notice_change";
@@ -202,9 +203,9 @@ public class BoardController {
    public String changeNoticeProcess(NoticeVo noticeVo, HttpSession session,
          @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage) {                  
       
-      boardService.changeNotice(noticeVo, session);
+      boardService.changeNotice(noticeVo, session);		//이것도 예외처리 때문에 세션도 넘긴다
       
-      return "redirect:./notice_read.do?notice_no="+noticeVo.getNotice_no()+"&currentPage="+currentPage;
+      return "redirect:./notice_read.do?notice_no="+noticeVo.getNotice_no()+"&currentPage="+currentPage;	//수정페이지에 currentPage 매개변수가 세팅 돼 있어서 같이 넘겨줘야 한다
    }
    
    
@@ -251,15 +252,15 @@ public class BoardController {
       public String writeBoardProcess(MultipartFile [] boardImgList,BoardVo boardVo, HttpSession session) {
          // Vo 객체에는 필요한 정보들을 불러낼 수 있기 때문에 사용한다.
          // session.getAttribute 는 오브젝트파일로 받기 때문에 ResiVo로 형변환 한다.
-         String RootFolderName = "/var/storage/";
-         Date today = new Date();
+         String RootFolderName = "/var/storage/";						//저장 폴더 생성
+         Date today = new Date();										//오늘 날짜 생성
          SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
-         String todayFolder = df.format(today);
-         String SaveFolderName = RootFolderName + todayFolder;
-         File SaveFolder = new File (SaveFolderName);
+         String todayFolder = df.format(today);							//포맷에 맞게 날짜 세팅
+         String SaveFolderName = RootFolderName + todayFolder;			//폴더 + 날짜
+         File SaveFolder = new File (SaveFolderName);					//즉 /var/storage/2020/00/00
       
-         if(!SaveFolder.exists()){
-            SaveFolder.mkdirs();
+         if(!SaveFolder.exists()){										//폴더 존재하지 않으면
+            SaveFolder.mkdirs();										//폴더 생성
          
          }
          List<BoardImgVo> BoardImgList = new ArrayList<BoardImgVo>();

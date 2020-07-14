@@ -47,6 +47,7 @@
 	</filter-mapping>
 	
 	<!-- 에러페이지 처리 -->
+	<!-- 
    <error-page>
       <location>/error</location>
    </error-page>
@@ -60,7 +61,7 @@
       <error-code>500</error-code>
       <location>/error/server_error</location>
    </error-page>
-	
+	 -->
 	
 
 </web-app>

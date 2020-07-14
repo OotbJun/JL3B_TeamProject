@@ -42,6 +42,7 @@
 			VALUES(
 				JL3B_CENTER_REVIEW_SEQ.NEXTVAL, 
 				#{center_no},
+				#{lesson_no},
 				#{member_no},
 				#{review_comment}, 
 				SYSDATE
@@ -188,6 +189,21 @@
 				JL3B_lessonInfo
 			WHERE 
 				info_no = #{no}
+		]]>
+	</select>
+	
+	<!-- 하나만 -->
+	<select id="infoTitle" resultType="String">
+		<![CDATA[
+			SELECT I.INFO_TITLE 
+			FROM 
+				JL3B_LESSON L, JL3B_LESSONINFO I, JL3B_RESERVE R 
+			WHERE 
+				L.LESSON_NO = R.LESSON_NO 
+			AND 
+				I.INFO_NO = L.INFO_NO 
+			AND 
+				L.LESSON_NO = #{lesson_no}
 		]]>
 	</select>
 	

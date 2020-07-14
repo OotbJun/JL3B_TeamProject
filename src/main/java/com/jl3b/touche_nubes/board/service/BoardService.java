@@ -60,17 +60,19 @@ public class BoardService {
 
    // 글삭제
    public void deleteNotice(NoticeVo noticeVo, HttpSession session) {
-
-      MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
-      AdminVo adminVo = (AdminVo) session.getAttribute("sessionAdmin");
-
-      if (adminVo != null || memberVo != null) { // 예외처리
-    	  
-    	  if(adminVo.getAdmin_no() == noticeVo.getAdmin_no() || memberVo.getMember_grade() >= 2) {
-    		  boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());  
-    	  }
-         
-      }
+	   
+	   MemberVo memberVo = null;
+	   																		//예외처리를 이렇게 해줘야 익셉션 안 뜨더라 이말이야~
+	   if(session.getAttribute("sessionUser") != null) {					//분기를 나눠주고
+		   memberVo = (MemberVo) session.getAttribute("sessionUser");
+		   if(memberVo.getMember_grade() >= 2) {							//멤버 등급이 2등급 이상일 때 삭제 가능
+ 	 		  boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());  
+ 	 	  }
+	   }
+	   if(session.getAttribute("sessionAdmin") != null) {					//어드민이면 그냥 삭제
+		   boardSQLMapper.deleteNoticeByNo(noticeVo.getNotice_no());
+	   }
+	   
    }
 
    // 글수정
@@ -116,9 +118,9 @@ public class BoardService {
    // 검색
    public int noticeSearchCount(String searchOption, String searchWord) {
       if (searchWord == null) {
-         return boardSQLMapper.selectNoticeAllCount();
+         return boardSQLMapper.selectNoticeAllCount();									//총게시글 수
       } else {
-         return boardSQLMapper.selectNoticeByKeywordCount(searchOption, searchWord);
+         return boardSQLMapper.selectNoticeByKeywordCount(searchOption, searchWord);	//검색된 게시글 수
       }
    }
 
@@ -130,16 +132,16 @@ public class BoardService {
 
       // 페이징 + 검색
       if (keyword == null) {
-         noticeList = boardSQLMapper.selectNoticeAll(currentPage);
+         noticeList = boardSQLMapper.selectNoticeAll(currentPage);									//그냥 전체 리스트
       } else {
-         noticeList = boardSQLMapper.selectNoticeByKeyword(searchOption, keyword, currentPage);
+         noticeList = boardSQLMapper.selectNoticeByKeyword(searchOption, keyword, currentPage);		//검색된 결과 리스트
       }
 
       // 담기
       for (NoticeVo noticeVo : noticeList) {
-         MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
-         AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
-         noticeVo.setNotice_title(noticeVo.getNotice_title().replaceAll("<script>", "&lt;script&gt;"));
+         MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());		//멤버테이블에 있는 정보가 필요하기 때문에(작성자) noticeVo에 set된 멤버넘버 값으로 셀렉트
+         AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());			//마찬가지
+         noticeVo.setNotice_title(noticeVo.getNotice_title().replaceAll("<script>", "&lt;script&gt;"));		//스크립트 방지
          noticeVo.setNotice_title(noticeVo.getNotice_title().replaceAll("</script>", "&lt;/script&gt;"));
          Map<String, Object> map = new HashMap<String, Object>();
 
@@ -182,7 +184,7 @@ public class BoardService {
 
    // 등업되면 로그아웃 없이 바로 글 쓸 수 있게
    public MemberVo updateSession(MemberVo memberVo) {
-      return memberSQLMapper.selectMemberByNo(memberVo.getMember_no());
+      return memberSQLMapper.selectMemberByNo(memberVo.getMember_no());		//순수하게 셀렉트 하나만 땡기는 메서드가 필요했다
    }
 
    //////////////////////////////////////////////// 자게
@@ -409,6 +411,7 @@ public class BoardService {
 
          map.put("boardReVo", boardReVo);
          map.put("memberVo", memberVo);
+         
 
          list.add(map);
       }

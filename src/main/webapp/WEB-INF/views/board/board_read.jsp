@@ -78,6 +78,9 @@ li {
 
    //댓글 출력
    function commentList() {
+	   
+	  var reWriter = ${sessionUser.member_no};
+	   
       board_no = $('#board_no').val();
       console.log("보드" + board_no);
       $
@@ -101,18 +104,21 @@ li {
                                        + value.boardReVo.board_re_content
                                        + '</div>';
                                  a += '<div class="col-3 text-right">'
-                                 a += '<c:if test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentUpdate('
-                                       + value.boardReVo.board_re_no
-                                       + ',\''
-                                       + value.boardReVo.board_re_content
-                                       + '\');"style="font-size: x-small; margin-right: 4px; color:white;"; class="btn btn-info btn-sm";> 수정 </a></c:if>'
-                                 a += '<c:if test="${!empty sessionUser && sessionUser.member_no == readBoard.memberVo.member_no || !empty sessionCenter && sessionCenter.center_no == readBoard.centerVo.center_no}"><a onclick="commentDelete('
-                                       + value.boardReVo.board_re_no
-                                       + ');"style="font-size:x-small; color:white;"; class="btn btn-danger btn-sm";> 삭제 </a></c:if></div>'
+                                 if(reWriter == value.boardReVo.member_no ){
+                                	 a += '<a onclick="commentUpdate('
+                                         + value.boardReVo.board_re_no
+                                         + ',\''
+                                         + value.boardReVo.board_re_content
+                                         + '\');"style="font-size: x-small; margin-right: 4px; color:white;"; class="btn btn-info btn-sm";> 수정 </a>'
+                                   a += '<a onclick="commentDelete('
+                                         + value.boardReVo.board_re_no
+                                         + ');"style="font-size:x-small; color:white;"; class="btn btn-danger btn-sm";> 삭제 </a></div>'
+                                 }
+                                
                                  a += '</div></div>';
                               });
                   $("#commentList").html(a);
-               }
+               }   
             });
    }
 

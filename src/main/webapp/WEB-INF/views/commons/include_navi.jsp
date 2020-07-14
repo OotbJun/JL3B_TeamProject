@@ -29,9 +29,7 @@
             <li class="nav-item"><a class="nav-link"
                href="${pageContext.request.contextPath }/center/center.do">클래스
             </a></li>
-             <li class="nav-item"><a class="nav-link"
-               href="${pageContext.request.contextPath }/chat/chat.do">채팅
-            </a></li>
+             
          </ul>
          <c:choose>
             <c:when test="${!empty sessionUser || !empty sessionCenter }">

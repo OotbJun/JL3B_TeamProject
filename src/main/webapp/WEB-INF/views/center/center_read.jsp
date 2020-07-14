@@ -209,7 +209,7 @@ function refreshHorsehead(lessonNo, lesson_people, i){
          <div class="container mt-3">
             <div class="row">
                <div class="col section-1 section-description wow fadeIn">
-                  <h1 class="mb-2">${readCenter.centerVo.center_name }에오신 걸
+                  <h1 class="mb-2">${readCenter.centerVo.center_name }에 오신 걸
                      환영합니다!</h1>
                   <p class="mt-2" style="font-size: small;">${readCenter.centerVo.center_about }</p>
                </div>
@@ -242,7 +242,7 @@ function refreshHorsehead(lessonNo, lesson_people, i){
                   <div class="row py-5">
                      <div
                         class="col section-2 section-description wow fadeIn text-center">
-                        <h1>${readCenter.centerVo.center_name }클래스 예약</h1>
+                        <h1>${readCenter.centerVo.center_name } 클래스 예약</h1>
                         <div class="divider-1 wow fadeInUp">
                            <span></span>
                         </div>
@@ -333,8 +333,10 @@ function refreshHorsehead(lessonNo, lesson_people, i){
                                                          <td>${aaa.lessonVo.lesson_time }시</td>
                                                          <td class="horse"
                                                             onclick="reserveConfirm(${aaa.lessonVo.lesson_no}, ${aaa.lessonVo.lesson_people }, ${status.index })">${aaa.lessonVo.lesson_horsehead}</td>
-
                                                       </tr>
+                                                      <form action="${pageContext.request.contextPath }/center/center_read.do" method="get">
+                                                      	<input type="hidden" value="${aaa.lessonInfoVo.info_no }" name="info_no">
+                                                      </form>
                                                    </c:forEach>
                                                 </tbody>
                                              </table>
@@ -360,14 +362,17 @@ function refreshHorsehead(lessonNo, lesson_people, i){
                                     <div class="card-body">
                                        <div class="card card-outline-secondary my-4">
                                           <div class="card-body">
+                                         
                                              <c:forEach items="${readReview }" var="readReview">
                                                 <div class="row">
+                                                
+                                                  
+                                                   <div class="col text-left" style="font-size: small;">
+                                                      <p>${readReview.centerReviewVo.review_comment }</p>
+                                                   </div>
                                                    <div class="col-2">
                                                       <small class="text-muted">${readReview.memberVo.member_rname}
                                                       </small>
-                                                   </div>
-                                                   <div class="col-8 text-left" style="font-size: small;">
-                                                      <p>${readReview.centerReviewVo.review_comment }</p>
                                                    </div>
                                                    <div class="col-2">
                                                       <small><fmt:formatDate
@@ -377,6 +382,7 @@ function refreshHorsehead(lessonNo, lesson_people, i){
                                                 </div>
                                                 <hr>
                                              </c:forEach>
+                                            
                                           </div>
                                        </div>
                                     </div>

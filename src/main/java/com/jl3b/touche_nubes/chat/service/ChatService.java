@@ -58,7 +58,8 @@ public class ChatService {
 	}
 	
 	//채팅 최신 내용 출력
-	public Integer newChatNo() {
-		return chatSQLMapper.newChatNo();
+	public Integer newChatNo() {					//Integer 이유 : 채팅 테이블에 로우가 하나도 없을 때 아래 쿼리 결과가 null값 나오는데
+													//				 int는 기본 타입이라 null 못 담아서 Integer로 처리.
+		return chatSQLMapper.newChatNo();			//MAX값을 뽑아서 내가 입장한 이후의 채팅만 보이게끔
 	}
 }

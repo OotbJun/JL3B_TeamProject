@@ -54,6 +54,7 @@ public interface CenterSQLMapper {
 	///////////테스트
 	public List<ReserveVo> reserveMember(int lesson_no);
 	public String resultHorsehead(int lesson_no);
+	public String infoTitle(int lesson_no);
 	
 }
 	

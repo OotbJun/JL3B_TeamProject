@@ -199,7 +199,7 @@ footer {
                  <!-- 추천수 -->
                 <span style="color: red" id="idea_like_count"></span>
 
-                  <input type="image" onclick="like()" 
+                  <input type="image" 
                      src="${pageContext.request.contextPath }/resources/img/heart.ico"
                   class="btn btn-group text-center mr-1" width="32" height="32"
                      id="idea_like"  onclick="ideaLike()"

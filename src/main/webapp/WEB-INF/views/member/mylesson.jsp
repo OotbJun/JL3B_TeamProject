@@ -9,7 +9,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=divice-width initial-scale=1">
 <title>나의 예약 내역</title>
-<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.9.0/jquery.js"></script>
 <style type="text/css">
 * {
 box-sizing: border-box;
@@ -48,20 +47,16 @@ right: 0;
    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
    crossorigin="anonymous">
-<script
-  src="https://code.jquery.com/jquery-3.4.1.min.js"
-  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-  crossorigin="anonymous"></script>
-  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 
 //삭제 확인
 function delete_btn(){
-	   if(confirm("강의를 삭제하시겠습니까?")==true){
-		  document.getElementById("lesson_delete").submit();
-	      alert("정상적으로 처리 되었습니다."); 
-	   }
-	}
+      if(confirm("강의를 삭제하시겠습니까?")==true){
+        document.getElementById("lesson_delete").submit();
+         alert("정상적으로 처리 되었습니다."); 
+      }
+   }
 
 //전체 선택
 function cAll() {
@@ -72,7 +67,15 @@ function cAll() {
         }
 }
 
-
+$('#exampleModal').on('show.bs.modal', function (event) {
+     var button = $(event.relatedTarget) // Button that triggered the modal
+     var recipient = button.data('whatever') // Extract info from data-* attributes
+     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+     var modal = $(this)
+     modal.find('.modal-title').text('New message to ' + recipient)
+     modal.find('.modal-body input').val(recipient)
+   })
 </script>
   
 </head>
@@ -149,7 +152,7 @@ function cAll() {
                                <td>${Lesson.INFO_TITLE}</td>
                               <td><fmt:formatDate value="${Lesson.LESSON_DATE}" pattern="yy.MM.dd"/></td>
                               <td>${Lesson.LESSON_TIME}시</td>
-                              <td>후기작성예정</td>
+                              <td><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">후기작성 하러가기</button></td>
                            </tr>
                            <input type="hidden" value="${Lesson.LESSON_PEOPLE }" name="lesson_people">
                        </c:forEach>
@@ -159,7 +162,6 @@ function cAll() {
                   <input type="hidden" value="${sessionUser.member_no }" name="member_no">
                </div>
               </form> 
-               
             </div>
             <div class="col-1">
             </div>
@@ -169,9 +171,42 @@ function cAll() {
       </div>
    </div>
    </div>
-   </div>
+   <!-- 모달창 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">강의리뷰 작성하기</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="${pageContext.request.contextPath }/center/review_write_process.do">
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">리뷰쓰기</label>
+            <textarea class="form-control" id="message-text" name="review_comment">${Lesson.INFO_TITLE} 수강 후기<br></textarea>
+          </div>
+         <c:forEach items="${myLessonList}" var="Lesson">
+         <input type="hidden" value="${Lesson.LESSON_NO}" name="lesson_no">
+          <input type="hidden" value="${Lesson.CENTER_NO}" name="center_no">
+           </c:forEach>
+         <input type="submit" value="리뷰남기기" class="btn btn-primary btn-md btn-block">
+         <input type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" value="돌아가기">
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
       <jsp:include page="../commons/include_footer.jsp"></jsp:include>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"></script>
+   <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"></script>
 </body>
 </html>

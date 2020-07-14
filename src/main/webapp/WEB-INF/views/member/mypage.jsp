@@ -42,11 +42,13 @@
       </c:if>
          
       </li>
-      <li class="breadcrumb-item ">
+      
       <c:if test="${!empty sessionUser }">
+      <li class="breadcrumb-item ">
          <a href="${path}/member/mywrite.do">내가 쓴 글 확인하기</a>
-      </c:if>   
-      </li>   
+      </li>
+      </c:if>      
+      
    </ol>
    
    
@@ -57,7 +59,7 @@
             <div class="col-8">
                <div class="row mt-4">         
                   <div class="col">
-                     <h5><strong>내정보 관리 </strong></h5>
+                     <h5><strong>내 정보 관리 </strong></h5>
                   </div>
                   <div class="col"></div>
                   <div class="col"></div>

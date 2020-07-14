@@ -63,6 +63,7 @@ public class CenterController {
 		List<Map<String,Object>> lessonList = centerService.viewLessonList(center_no);
 		List<LessonInfoVo> infoList = centerService.viewInfoList(center_no);
 		
+		
 		model.addAttribute("readCenter", readCenter);
 		model.addAttribute("readReview", readReview);
 		model.addAttribute("lessonList", lessonList);
@@ -253,6 +254,8 @@ public class CenterController {
 		CenterVo centerVo = (CenterVo)session.getAttribute("sessionCenter");
 		
 		List<Map<String, Object>> lessonList = centerService.viewLessonList(centerVo.getCenter_no());
+		
+		//String infoTitle = centerService.infoTitle()
 		
 		model.addAttribute("lessonList", lessonList);
 		

@@ -62,7 +62,7 @@ right: 0;
          setTimeout(test , 6*1000);
       }
    function test(){
-         location.href="/touche_nubes/member/login.do";
+         location.href="/JL3B/member/login.do";
       }
    
    function timer() {

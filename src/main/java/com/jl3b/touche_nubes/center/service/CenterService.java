@@ -93,7 +93,6 @@ public class CenterService {
 			map.put("people", people);
 			
 			
-			
 			list.add(map);
 			}
 		return list;

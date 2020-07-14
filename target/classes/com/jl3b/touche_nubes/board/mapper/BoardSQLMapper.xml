@@ -277,8 +277,8 @@
 				#{idea_no},
 				#{admin_no},
 				#{member_no},
-				(JL3B_IDEA_SEQ.nextval-1)+1,
 				'미답변',
+				(JL3B_IDEA_SEQ.nextval-1)+1,
 				#{idea_title},
 				#{idea_content},
 				0,
@@ -337,15 +337,16 @@
 	<insert id="insertIdeaAnswer">
 	    <![CDATA[
 		INSERT INTO JL3B_IDEA
-		VALUES(JL3B_IDEA_SEQ.nextval,
-		#{admin_no},
-		#{member_no},
-		#{idea_gr_no},
-		NULL,
-		#{idea_title},
-		#{idea_content},
-		0,
-		SYSDATE)
+		VALUES(
+			JL3B_IDEA_SEQ.nextval,
+			#{admin_no},
+			#{member_no},
+			NULL,
+			#{idea_gr_no},
+			#{idea_title},
+			#{idea_content},
+			0,
+			SYSDATE)
 		]]>
 	</insert>
 	
