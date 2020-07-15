@@ -155,7 +155,7 @@ right: 0;
 					<div class="col-2 text-right">
 						<c:set value="${sessionUser.npki_key }" var="key"></c:set>
 						<c:if
-							test="${sessionUser.member_grade>=2 || fn:contains(key, 'admin')}">
+							test="${sessionUser.member_grade>=2 || fn:contains(key, 'admin')}">		<!-- 지울까 말까 -->
 							<a
 								href="${pageContext.request.contextPath }/board/notice_write.do"
 								class="btn btn-outline-primary btn-sm">글쓰기</a>

@@ -137,11 +137,12 @@ right: 0;
                   <table class="table table-hover text-center">
                      <thead style="font-size: small">
                         <tr>
-                           <td>글선택</td>
-                           <td>글내용</td>
+                           <td></td>
+                           <td>제목</td>
                            <td>작성자</td>
                            <td>작성일</td>
-                           <td>글삭제</td>
+                           <td>조회수</td>
+                           <td>삭제</td>
                         </tr>
                      </thead>
                      <!-- 자유게시판 리스트 -->
@@ -165,6 +166,7 @@ right: 0;
                               <td><fmt:formatDate
                                     value="${boardList.boardVo.board_wdate}"
                                     pattern="yy.MM.dd hh:mm:ss" /></td>
+                              <td>${boardList.boardVo.board_hits }</td>      
                               <td><button type="button" class="delete_${boardList.boardVo.board_no}_btn btn btn-outline-success btn-sm" data-boardno="${boardList.boardVo.board_no}">삭제</button>
                                           
                         <script>

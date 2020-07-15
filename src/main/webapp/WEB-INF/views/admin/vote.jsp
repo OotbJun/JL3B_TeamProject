@@ -59,7 +59,7 @@
                  <div class="card-body p-5" >
                  
                     <!-- 선거 없을 때 -->
-       <c:if test="${status.equals('E_END') || empty status }"><h2 class="text-gray-800 text-center">-현재 진행중인 선거가 없습니다-</h2><br></c:if>
+       <c:if test="${status.equals('E_END') || empty status }"><h2 class="text-gray-800 text-center">-현재 진행중인 선거가 없습니다.-</h2><br></c:if>
        <!-- 선거 진행중 -->
        <c:if test="${!empty status && !status.equals('E_END') }"><h2 class="text-gray-800 text-center">${round }회차 입주민 대표 선거가 진행 중입니다.<br></h2></c:if>
        <!-- 입후보 등록 기간 -->

@@ -72,7 +72,7 @@ footer {
 	<div class="container">
 		<!-- Page Heading -->
 		<h1 class="my-4">
-			${round }회차 입주민 선거 <small>후보자</small>
+			${round }회차 입주민 선거 <small>투표</small>
 		</h1>
 		<form
 			action="${pageContext.request.contextPath }/vote/vote_process.do">

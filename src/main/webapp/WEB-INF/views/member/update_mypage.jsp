@@ -39,7 +39,7 @@ function drop_btn(){
 
 <div class="container" style="margin-top:5%">
    
-   <h2 class="mt-4 mb-3">비밀번호 확인
+   <h2 class="mt-4 mb-3">회원 정보 수정
    <small></small>
    </h2>
    <hr>
@@ -50,11 +50,11 @@ function drop_btn(){
          <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item ">
-         <a href="#">예약 내역</a>
+         <a href="${path }/member/mylesson.do">예약 내역</a>
       </li>
       <li class="breadcrumb-item ">
       <c:if test="${!empty sessionUser }">
-         <a href="#">내가 쓴 글 확인하기</a>
+         <a href="${path}/member/mywrite.do">내가 쓴 글 확인하기</a>
       </c:if>   
       </li>   
    </ol>
@@ -68,7 +68,7 @@ function drop_btn(){
             <div class="col-8">
                <div class="row mt-4">         
                   <div class="col">
-                     <h5><strong>내정보 관리 </strong></h5>
+                     <h5><strong>내 정보 관리 </strong></h5>
                   </div>
                   <div class="col"></div>
                   <div class="col"></div>

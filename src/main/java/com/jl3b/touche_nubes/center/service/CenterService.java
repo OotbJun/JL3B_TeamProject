@@ -115,9 +115,9 @@ public class CenterService {
 		List<CenterReviewVo> reviewList = centerSQLMapper.selectCenterReviewAll(center_no);
 		
 		
+		
 		for(CenterReviewVo centerReviewVo : reviewList) {
 			MemberVo memberVo = memberSQLMapper.selectMemberByNo(centerReviewVo.getMember_no());
-			
 			
 			Map<String, Object> map = new HashMap<String, Object>();
 			
@@ -332,6 +332,32 @@ public class CenterService {
 	//강의 삭제
 	public void removeLesson(int lesson_no) {
 		centerSQLMapper.deleteLesson(lesson_no);
+	}
+	
+	/////
+//	public String infoTitle(int lesson_no) {
+//		return centerSQLMapper.infoTitle(lesson_no);
+//	}
+	
+	//리뷰 출력
+	public List<Map<String, Object>> reviewList(int center_no) {
+		
+		//List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		List<Map<String, Object>> reviewList = centerSQLMapper.reviewList(center_no);
+		
+//		for(CenterReviewVo centerReviewVo : reviewList) {
+//			MemberVo memberVo = memberSQLMapper.selectMemberByNo(centerReviewVo.getMember_no());
+//			
+//			Map<String, Object> map = new HashMap<String, Object>();
+//			
+//			map.put("memberVo", memberVo);
+//			map.put("centerReviewVo", centerReviewVo);
+//			
+//			list.add(map);
+//		}
+		
+		return reviewList;
 	}
 	
 }

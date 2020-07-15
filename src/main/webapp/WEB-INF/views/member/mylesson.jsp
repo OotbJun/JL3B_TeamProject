@@ -97,7 +97,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
          <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item active">
-         <a href="${path}/member/mylesson.do">예약내역<span class="sr-only">(current)</span></a>
+         <a href="${path}/member/mylesson.do">예약 내역<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item ">
       <c:if test="${!empty sessionUser }">
@@ -185,12 +185,14 @@ $('#exampleModal').on('show.bs.modal', function (event) {
         <form action="${pageContext.request.contextPath }/center/review_write_process.do">
           <div class="form-group">
             <label for="message-text" class="col-form-label">리뷰쓰기</label>
-            <textarea class="form-control" id="message-text" name="review_comment">${Lesson.INFO_TITLE} 수강 후기<br></textarea>
+            <textarea class="form-control" id="message-text" name="review_comment"></textarea>
           </div>
          <c:forEach items="${myLessonList}" var="Lesson">
          <input type="hidden" value="${Lesson.LESSON_NO}" name="lesson_no">
           <input type="hidden" value="${Lesson.CENTER_NO}" name="center_no">
            </c:forEach>
+           
+           
          <input type="submit" value="리뷰남기기" class="btn btn-primary btn-md btn-block">
          <input type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" value="돌아가기">
       </form>

@@ -2,7 +2,7 @@ package com.jl3b.touche_nubes.center.mapper;
 
 
 import java.util.List;
-
+import java.util.Map;
 
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.centervo.CenterReviewVo;
@@ -37,6 +37,7 @@ public interface CenterSQLMapper {
 	public void insertlessonInfo(LessonInfoVo lessonInfoVo);			//강의 정보 등록
 	public LessonInfoVo selectlessonInfoByNo(int no);					//정보확인
 	public List<LessonInfoVo> selectInfo(int no);
+	public LessonInfoVo selectLessonInfoByCenterNo(int center_no);		//센터 넘버로 뽑기
 	
 	//강의
 	public void insertlesson(LessonVo LessonVo);						//시간대 등록
@@ -47,14 +48,14 @@ public interface CenterSQLMapper {
 	public void deleteLesson(int lesson_no);							//강의 삭제
 	
 	public int horsePeople(int no);										//lesson_people 수 조회
-	//public List<LessonVo> selectLessonByNo(int no);
 	
 	
 	
 	///////////테스트
 	public List<ReserveVo> reserveMember(int lesson_no);
 	public String resultHorsehead(int lesson_no);
-	public String infoTitle(int lesson_no);
+	//public String infoTitle(int lesson_no);
+	public List<Map<String, Object>> reviewList(int center_no);			//리뷰 출력 뭔가 될듯
 	
 }
 	

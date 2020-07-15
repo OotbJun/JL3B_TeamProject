@@ -265,20 +265,20 @@ public class BoardController {
          }
          List<BoardImgVo> BoardImgList = new ArrayList<BoardImgVo>();
          
-         for(MultipartFile file :boardImgList ) {
-            if(file.getSize() <=0) {
+         for(MultipartFile file :boardImgList ) {						//리스트에 파일 담아준다
+            if(file.getSize() <=0) {									//단 파일크기가 0보다 작을시 즉 업로드 안할 경우 그냥 컨티뉴
                continue;
             }
          //파일명 랜덤 이름 
          String SaveFileTitle = UUID.randomUUID().toString();
          String oriFileTitle = file.getOriginalFilename();
-         SaveFileTitle += "_" + System.currentTimeMillis();
-         SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));
-         String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;
+         SaveFileTitle += "_" + System.currentTimeMillis();				//파일 랜덤 이름 + 현재 시간
+         SaveFileTitle += oriFileTitle.substring(oriFileTitle.lastIndexOf("."));	//파일 원래 이름 자른다 .JPG 앞으로
+         String SaveRealPath = SaveFolderName + "/" + SaveFileTitle;	//경로는 폴더 이름 + 파일 이름
 
          try {
             
-            file.transferTo(new File(SaveRealPath));
+            file.transferTo(new File(SaveRealPath));			//저장된 경로에 파일 생성
             
          }catch(IOException e) {
             e.printStackTrace();
@@ -286,9 +286,9 @@ public class BoardController {
          
             // DB에 담을 Vo객체를 생성 
             BoardImgVo boardImgVo = new BoardImgVo();
-            boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);
-            boardImgVo.setBoard_img_path(SaveRealPath);
-            BoardImgList.add(boardImgVo);
+            boardImgVo.setBoard_img_title(todayFolder+"/"+SaveFileTitle);			//파일 제목 설정
+            boardImgVo.setBoard_img_path(SaveRealPath);								//파일 경로 설정
+            BoardImgList.add(boardImgVo);											//설정된 VO값 리스트에 담아준다
          }
          
          MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
@@ -330,7 +330,7 @@ public class BoardController {
       y="read";
        
       Map<String, Object> map = boardService.viewBoard(board_no, session, y);
-      List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);
+      List<Map<String, Object>> boardReplList = boardService.getReplyList(board_no);		//댓글 리스트
       
       model.addAttribute("readBoard", map);
       model.addAttribute("boardReplList",boardReplList);

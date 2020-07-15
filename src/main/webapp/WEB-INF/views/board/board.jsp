@@ -173,8 +173,9 @@ footer {
 							<div class="row">
 
 								<!-- 검색 조건 -->
+								<!-- SELECT NAME 설정, 실질적으로 넘어가는 것(아마 옵션 값을 담아서 넘기는 듯) -->
 								<select name="searchOption" class="ml-3">
-
+								<!-- OPTION VALUE 설정 - 이거는 매퍼랑 일치시켜줘야 할 듯, IF문 빼도 될 거 같은데 -->
 									<option value="board_title"
 										<c:if test="${searchOption.equals('board_title') }">selected="selected"</c:if>>제목</option>
 									<option value="board_content"

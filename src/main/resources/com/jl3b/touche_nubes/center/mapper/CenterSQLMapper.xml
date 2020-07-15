@@ -174,10 +174,16 @@
 	<select id = "selectList" resultType="com.jl3b.touche_nubes.centervo.LessonVo">
 		<![CDATA[
 			SELECT a.lesson_no, b.center_no, a.info_no, b.info_title, b.info_content, a.lesson_date, a.lesson_time, a.lesson_people, a.lesson_horsehead
-			FROM JL3B_lesson a, JL3B_lessonInfo b 
-			WHERE a.info_no=b.info_no 
-			AND b.center_no = #{center_no}
-			ORDER BY LESSON_DATE
+			FROM 
+				JL3B_lesson a, JL3B_lessonInfo b 
+			WHERE 
+				a.info_no=b.info_no 
+			AND 
+				b.center_no = #{center_no}
+            AND 
+            	A.LESSON_DATE > SYSDATE-1
+			ORDER BY 
+				LESSON_DATE
 		]]>
 	</select>
 	
@@ -192,7 +198,14 @@
 		]]>
 	</select>
 	
-	<!-- 하나만 -->
+	<!-- 센터 넘버로 뽑기 -->
+	<select id="selectLessonInfoByCenterNo" resultType="com.jl3b.touche_nubes.centervo.LessonInfoVo">
+		<![CDATA[
+			SELECT * FROM JL3B_LESSONINFO WHERE CENTER_NO = #{center_no}
+		]]>
+	</select>
+	
+	<!-- 하나만 
 	<select id="infoTitle" resultType="String">
 		<![CDATA[
 			SELECT I.INFO_TITLE 
@@ -206,7 +219,7 @@
 				L.LESSON_NO = #{lesson_no}
 		]]>
 	</select>
-	
+	-->
 	
 	<!-- 예약 말머리 수정 예약-> 마감-->
 	<update id="updateHorsehead">
@@ -286,7 +299,22 @@
 		]]>
 	</select>
 	
-	
+	<!-- 리뷰 출력 테스트 -->
+	<select id="reviewList" resultType="map">
+		<![CDATA[
+			SELECT *
+			FROM 
+				JL3B_LESSON L, JL3B_LESSONINFO I, JL3B_CENTER_REVIEW R, JL3B_MEMBER M 
+			WHERE 
+				L.LESSON_NO = R.LESSON_NO 
+			AND 
+				I.INFO_NO = L.INFO_NO 
+			AND 
+				M.MEMBER_NO = R.MEMBER_NO 
+            AND
+				L.CENTER_NO = #{center_no}
+		]]>
+	</select>
 	
 	
 </mapper>

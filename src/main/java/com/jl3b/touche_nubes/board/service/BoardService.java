@@ -94,7 +94,7 @@ public class BoardService {
 //		   
 //	   }
 	   
-	   if(session.getAttribute("sessionUser") != null) {
+	   if(session.getAttribute("sessionUser") != null) {						//마찬가지로 분기를 나눠주고 조건을 걸어줘야 익셉션 안 뜬다
 		   MemberVo memberVo = (MemberVo) session.getAttribute("sessionUser");
 		   if(memberVo.getMember_grade() >= 2) {
 			   boardSQLMapper.updateNoticeByNo(noticeVo);
@@ -158,9 +158,9 @@ public class BoardService {
    public Map<String, Object> viewNotice(int notice_no, String y) {
       Map<String, Object> map = new HashMap<String, Object>();
 //      boardSQLMapper.updateNoticeReadCount(notice_no); // 조회수 -> 쿠키 사용해서 쓸 거야~
-      NoticeVo noticeVo = boardSQLMapper.selectNoticeByNo(notice_no);
-      MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());
-      AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());
+      NoticeVo noticeVo = boardSQLMapper.selectNoticeByNo(notice_no);					//글 하나 뽑는 거
+      MemberVo memberVo = memberSQLMapper.selectMemberByNo(noticeVo.getMember_no());	//작성자 때문에 회원 하나 뽑는 거
+      AdminVo adminVo = adminSQLMapper.selectAdminNo(noticeVo.getAdmin_no());			//마찬가지 관리자 하나 뽑자
       if (y != null) {
          noticeVo.setNotice_title(noticeVo.getNotice_title().replaceAll("<script>", "&lt;script&gt;"));
          noticeVo.setNotice_title(noticeVo.getNotice_title().replaceAll("</script>", "&lt;/script&gt;"));
@@ -198,7 +198,7 @@ public class BoardService {
 
       for (BoardImgVo boardImgVo : boardImgList) {
 
-         boardImgVo.setBoard_no(boardKey);
+         boardImgVo.setBoard_no(boardKey);						//BOARD테이블 넘버와 IMG테이블 넘버가 같아야 하니까 미리 시퀀스 값 생성 후 세팅
 
          boardImgSQLMapper.insertBoardImg(boardImgVo);
       }
@@ -225,8 +225,8 @@ public class BoardService {
          boardVo.setBoard_title(boardVo.getBoard_title().replaceAll("<script>", "&lt;script&gt;"));
          boardVo.setBoard_title(boardVo.getBoard_title().replaceAll("</script>", "&lt;/script&gt;"));
 
-         int like = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());
-         int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());
+         int like = boardSQLMapper.selectLikeUpCount(boardVo.getBoard_no());				//리스트에서 좋아요 개수 출력
+         int replyCount = boardReplSQLMapper.selectReplyCount(boardVo.getBoard_no());		//제목 옆에 댓글 개수 출력
 
          Map<String, Object> map = new HashMap<String, Object>();
 
@@ -245,7 +245,7 @@ public class BoardService {
       List<Map<String, Object>> list2 = new ArrayList<Map<String, Object>>();
       List<NoticeVo> noticelist = null;
       if (searchWord == null) {
-         noticelist = boardSQLMapper.selectNoticeFix();
+         noticelist = boardSQLMapper.selectNoticeFix();					//똑같다 다만 rownum으로 최신순으로 자른 거
       } else {
          noticelist = boardSQLMapper.selectNoticeFix();
       }
@@ -362,7 +362,7 @@ public class BoardService {
 
    ////////////////////////////////// 테스트
    // 총 게시글 수, 검색 게시글 수
-   public int getBoardDataCount(String searchOption, String searchWord) {
+   public int getBoardDataCount(String searchOption, String searchWord) {				//아마 페이징 때문에 + 검색 옵션도 바껴서 만든 걸로 기억
       if (searchWord == null) {
          return boardSQLMapper.selectBoardAllCount();
       } else {
@@ -440,7 +440,7 @@ public class BoardService {
 
    // 게시글 번호로 삭제시킴으로 전체 댓글 삭제
    public void deleteBoardRe(int board_no) {
-      boardReplSQLMapper.deleteBoardRe(board_no);
+      boardReplSQLMapper.deleteBoardRe(board_no);			//보드넘버로 삭제 시키기 때문에 해당 글에 달린 댓글 전체 삭제
    }
 
    //////////////////////////////////////////////////////////////////////// 청원
@@ -608,8 +608,8 @@ public class BoardService {
 
    }
 
-   //// 테스트
-   public BoardReVo checkReply(BoardReVo boardReVo) {
+   //// 본인확인
+   public BoardReVo checkReply(BoardReVo boardReVo) {			//수정, 삭제를 위한 본인확인				
       return boardReplSQLMapper.selectCheckReply(boardReVo);
    }
 

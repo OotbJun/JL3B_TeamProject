@@ -363,20 +363,23 @@ function refreshHorsehead(lessonNo, lesson_people, i){
                                        <div class="card card-outline-secondary my-4">
                                           <div class="card-body">
                                          
-                                             <c:forEach items="${readReview }" var="readReview">
+                                             <c:forEach items="${reviewList }" var="review">
                                                 <div class="row">
                                                 
-                                                  
+                                                <div class="col-2">
+                                                      <small class="text-muted">${review.INFO_TITLE}
+                                                      </small>
+                                                      </div>
                                                    <div class="col text-left" style="font-size: small;">
-                                                      <p>${readReview.centerReviewVo.review_comment }</p>
+                                                      <p>${review.REVIEW_COMMENT }</p>
                                                    </div>
                                                    <div class="col-2">
-                                                      <small class="text-muted">${readReview.memberVo.member_rname}
+                                                      <small class="text-muted">${review.MEMBER_RNAME}
                                                       </small>
                                                    </div>
                                                    <div class="col-2">
                                                       <small><fmt:formatDate
-                                                            value="${readReview.centerReviewVo.review_wdate}"
+                                                            value="${review.REVIEW_WDATE}"
                                                             pattern="yyyy.MM.dd"></fmt:formatDate></small>
                                                    </div>
                                                 </div>

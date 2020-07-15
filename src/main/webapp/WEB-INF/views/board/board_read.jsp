@@ -185,33 +185,33 @@ li {
    //추천수
    function refreshLike() {
 
-      var boardNo = ${readBoard.boardVo.board_no};
+      var boardNo = ${readBoard.boardVo.board_no};					//모델에 담긴 넘버 값 세팅 -> 넘겨줘야 하니까
       var xmlhttp = new XMLHttpRequest();
-      var likeBox = document.getElementById("like_count");
+      var likeBox = document.getElementById("like_count");			//like_count(span) 가져와서 다시 세팅하기 위함
       var boxRow = document.createElement("span");
 
       xmlhttp.onreadystatechange = function() {
 
-         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {	//readyState==4 : 데이터를 전부 받은 상태, 200 : 요청 성공
 
-            var likeCount = xmlhttp.responseText;
+            var likeCount = xmlhttp.responseText;					//RESTful에서 리턴 타입 int 받아오기
 
             //var likeBox2 = document.createElement("span");
 
-            var length = likeBox.childNodes.length;
+            var length = likeBox.childNodes.length;					//반복문 돌리기 위해 length 세팅
 
-            boxRow.innerText = likeCount;
+            boxRow.innerText = likeCount;							//span 안에 받아온 int 값 담아준다.
 
             for (var i = 0; i < length; i++) {
-               likeBox.removeChild(likeBox.childNodes[0]);
+               likeBox.removeChild(likeBox.childNodes[0]);			//remove하고 append 해야 그 자리에서 변경
             }
 
-            likeBox.appendChild(boxRow);
+            likeBox.appendChild(boxRow);							//다시 append 해서 숫자 증감
          }
 
       };
 
-      xmlhttp.open("get", "./get_likecount.do?board_no=" + boardNo, true);
+      xmlhttp.open("get", "./get_likecount.do?board_no=" + boardNo, true);	//보통 select는 get방식, insert ..~ 이런거는 post방식
       xmlhttp.setRequestHeader("Content-type",
             "application/x-www-form-urlencoded");
       xmlhttp.send();
@@ -221,12 +221,12 @@ li {
    function like() {
 
       var boardNo = ${readBoard.boardVo.board_no};
-      var like = document.getElementById("board_like").value;
+      var like = document.getElementById("board_like").value;			//board_like 값, Y겠지 -> 인서트 시킬려고 가져온다.
       var xmlhttp = new XMLHttpRequest();
 
       xmlhttp.onreadystatechange = function() {
          if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-            refreshLike();
+            refreshLike();				//성공한다면 증감을 보여줘야 하니까 출력 메서드 재호출
             refreshDislike();
          }
       };
@@ -234,7 +234,7 @@ li {
       xmlhttp.open("post", "./choose_like_process.do", true);
       xmlhttp.setRequestHeader("Content-type",
             "application/x-www-form-urlencoded");
-      xmlhttp.send("board_no=" + boardNo + "&board_like=" + like);
+      xmlhttp.send("board_no=" + boardNo + "&board_like=" + like);		//해당 보드 넘버 + Y값 넘겨준다.
 
    }
 

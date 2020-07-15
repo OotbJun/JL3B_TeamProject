@@ -33,7 +33,6 @@
          <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item ">
-      
       <c:if test="${!empty sessionCenter }">
          <a href="${path }/center/mylesson.do">강의 내역</a>
       </c:if>   

@@ -54,20 +54,20 @@ public class CenterController {
 	
 	//센터 정보 보기
 	@RequestMapping("/center_read.do")
-	public String readCenter(int center_no, Model model,LessonVo lessonVo) {
-		//centerService.updateHorsehead(lessonVo.getLesson_people());
-		//centerService.deleteHorsehead(lessonVo);
-		
-		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);
-		List<Map<String, Object>> readReview = centerService.viewReviewList(center_no);
-		List<Map<String,Object>> lessonList = centerService.viewLessonList(center_no);
-		List<LessonInfoVo> infoList = centerService.viewInfoList(center_no);
+	public String readCenter(int center_no, Model model) {
+
+		Map<String, Object> readCenter = centerService.viewCenterInfo(center_no);				//센터 정보
+		List<Map<String, Object>> readReview = centerService.viewReviewList(center_no);			//???
+		List<Map<String,Object>> lessonList = centerService.viewLessonList(center_no);			//예약 리스트
+		List<LessonInfoVo> infoList = centerService.viewInfoList(center_no);					//강의 정보
+		List<Map<String, Object>> reviewList = centerService.reviewList(center_no);				//리뷰 리스트
 		
 		
 		model.addAttribute("readCenter", readCenter);
 		model.addAttribute("readReview", readReview);
 		model.addAttribute("lessonList", lessonList);
 		model.addAttribute("infoList", infoList);
+		model.addAttribute("reviewList", reviewList);
 		
 		return "center/center_read";
 	}

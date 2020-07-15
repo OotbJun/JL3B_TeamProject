@@ -68,7 +68,7 @@ function cAll() {
                   <li class="breadcrumb-item active"><a
                      href="${path}/admin/member_control.do">입주민 회원<span class="sr-only">(current)</span></a></li>
                   <li class="breadcrumb-item "><a href="${path}/admin/center_control.do">센터 회원</a></li>
-                  <li class="breadcrumb-item "><a href="${path}/admin/npki_create.do">인증 키</a></li>
+                  <li class="breadcrumb-item "><a href="${path}/admin/npki_create.do">인증 키 관리</a></li>
                   
                </ol>
 

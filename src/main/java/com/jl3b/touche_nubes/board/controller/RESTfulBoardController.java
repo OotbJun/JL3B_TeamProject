@@ -61,7 +61,7 @@ public class RESTfulBoardController {
 	@ResponseBody
 	private int updateReplyList(@RequestParam int board_re_no, @RequestParam String board_re_content) {
 
-		BoardReVo boardReVo = new BoardReVo();
+		BoardReVo boardReVo = new BoardReVo();									//여기도 예외처리 들어가야 되는 거 아닌가?
 		boardReVo.setBoard_re_no(board_re_no);
 		boardReVo.setBoard_re_content(board_re_content);
 
@@ -80,7 +80,7 @@ public class RESTfulBoardController {
 		int memberNo = ((MemberVo) session.getAttribute("sessionUser")).getMember_no();
 		//AdminVo adminVo = (AdminVo)session.getAttribute("sessionAdmin");
 		boardReVo.setMember_no(memberNo);
-		BoardReVo replyData = boardService.checkReply(boardReVo);
+		BoardReVo replyData = boardService.checkReply(boardReVo);				//왜 삭제만 한거지..?
 		
 		if(replyData == null || memberNo == 0) {
 			return 0;
@@ -96,7 +96,7 @@ public class RESTfulBoardController {
 	@RequestMapping("/choose_like_process.do")
 	public String chooseBoardLikeProcess(BoardLikeVo boardLikeVo, HttpSession session, Model model) {
 
-		if (session.getAttribute("sessionUser") == null) {
+		if (session.getAttribute("sessionUser") == null) {				//이거 자체는 의미 없는 것 같고
 			return "board/board_fail";
 		}
 
@@ -109,7 +109,7 @@ public class RESTfulBoardController {
 		model.addAttribute("likeData", likeData);
 		
 
-		if (likeData == null) {
+		if (likeData == null) {								//추천 이력이 있다면 취소, 없다면 추천
 			boardService.chooseLike(boardLikeVo);			//추천
 			return "true";
 		} else {
