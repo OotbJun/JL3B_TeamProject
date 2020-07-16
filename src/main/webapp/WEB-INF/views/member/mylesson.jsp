@@ -37,7 +37,6 @@ right: 0;
 #nav li {
    display: inline;
 }
-
 #nav a {
    display: inline-block;
    padding: 10px;
@@ -50,6 +49,36 @@ right: 0;
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script type="text/javascript">
 
+
+function setData(lesson_no,center_no){
+	//lesson_no = a;
+	//center_no = b;
+	
+	$(".xxx").remove();
+	
+	i1 = $("<input>");
+	i1.attr("type" , "hidden");
+	i1.attr("name" , "lesson_no");
+	i1.attr("value" , String(lesson_no));
+	//i1.attr("class" , "xxx");
+	i1.addClass("xxx");
+
+	i2 = $("<input>");
+	i2.attr("type" , "hidden");
+	i2.attr("name" , "center_no");
+	i2.attr("value" , String(center_no));
+	//i2.attr("class" , "xxx");
+	i2.addClass("xxx");
+
+	
+	frm_write = $("#frm_write");
+	
+	frm_write.append(i1);
+	frm_write.append(i2);
+
+	
+}
+
 //삭제 확인
 function delete_btn(){
       if(confirm("강의를 삭제하시겠습니까?")==true){
@@ -57,7 +86,6 @@ function delete_btn(){
          alert("정상적으로 처리 되었습니다."); 
       }
    }
-
 //전체 선택
 function cAll() {
         if ($("#checkAll").is(':checked')) {
@@ -67,15 +95,6 @@ function cAll() {
         }
 }
 
-$('#exampleModal').on('show.bs.modal', function (event) {
-     var button = $(event.relatedTarget) // Button that triggered the modal
-     var recipient = button.data('whatever') // Extract info from data-* attributes
-     // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-     // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-     var modal = $(this)
-     modal.find('.modal-title').text('New message to ' + recipient)
-     modal.find('.modal-body input').val(recipient)
-   })
 </script>
   
 </head>
@@ -152,7 +171,9 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                <td>${Lesson.INFO_TITLE}</td>
                               <td><fmt:formatDate value="${Lesson.LESSON_DATE}" pattern="yy.MM.dd"/></td>
                               <td>${Lesson.LESSON_TIME}시</td>
-                              <td><button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">후기작성 하러가기</button></td>
+                              <td><button onclick="setData(${Lesson.LESSON_NO},${Lesson.CENTER_NO })" type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">후기작성 하러가기
+                      			 </button>
+                              </td>
                            </tr>
                            <input type="hidden" value="${Lesson.LESSON_PEOPLE }" name="lesson_people">
                        </c:forEach>
@@ -182,16 +203,11 @@ $('#exampleModal').on('show.bs.modal', function (event) {
         </button>
       </div>
       <div class="modal-body">
-        <form action="${pageContext.request.contextPath }/center/review_write_process.do">
+        <form id="frm_write" action="${pageContext.request.contextPath }/center/review_write_process.do">
           <div class="form-group">
             <label for="message-text" class="col-form-label">리뷰쓰기</label>
             <textarea class="form-control" id="message-text" name="review_comment"></textarea>
           </div>
-         <c:forEach items="${myLessonList}" var="Lesson">
-         <input type="hidden" value="${Lesson.LESSON_NO}" name="lesson_no">
-          <input type="hidden" value="${Lesson.CENTER_NO}" name="center_no">
-           </c:forEach>
-           
            
          <input type="submit" value="리뷰남기기" class="btn btn-primary btn-md btn-block">
          <input type="button" class="btn btn-secondary btn-lg btn-block" data-dismiss="modal" value="돌아가기">

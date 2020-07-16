@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
@@ -118,5 +119,5 @@ public interface MemberService {
    
    //예약 취소하기
    public void deleteReserve(int[] lesson_no, int member_no, int[] lesson_people);
-
+   
 }

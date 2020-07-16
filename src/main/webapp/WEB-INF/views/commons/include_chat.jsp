@@ -298,7 +298,7 @@ function chat_on() {
    <!-- 입력창 -->
       <div class="row" id="insertBox" style="border: gray; display: none;" >
         	<div class="col" style="padding-top:2px; padding-right: 3px; padding-left: 3px">
-      		<input type="text" id="chat_content" onkeydown="onKeyDown()" style="width:250px; height: auto" placeholder="친목질 환영">
+      		<input type="text" id="chat_content" onkeydown="onKeyDown()" style="width:250px; height: auto" placeholder="내용을 입력해주세요.">
         	<img src="${pageContext.request.contextPath }/resources/img/send.png" id="sendbtn"
         	style="width: 33px; height: auto;" onclick="insertChat();" onmouseover="makeborder();" onmouseout="removeborder();">
       		</div> 

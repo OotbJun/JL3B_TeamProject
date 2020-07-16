@@ -451,6 +451,7 @@
    		DELETE JL3B_RESERVE WHERE lesson_no=#{lesson_no} AND MEMBER_NO = #{member_no}
 	     ]]>
 		</delete>
+		
   
 
 </mapper>

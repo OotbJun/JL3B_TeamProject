@@ -74,7 +74,7 @@ footer {
          <a href="${path}/member/mypage.do">회원 정보<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item active">
-         <a href="${path}/member/mylesson.do">예약내역<span class="sr-only">(current)</span></a>
+         <a href="${path}/member/mylesson.do">예약 내역<span class="sr-only">(current)</span></a>
       </li>
       <li class="breadcrumb-item active">
          <a href="${path}/member/mywrite.do">자유게시판<span class="sr-only">(current)</span></a>

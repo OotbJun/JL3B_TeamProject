@@ -360,4 +360,9 @@ public class CenterService {
 		return reviewList;
 	}
 	
+	//
+   public CenterReviewVo checkReview(CenterReviewVo centerReviewVo) {
+	   return centerSQLMapper.checkReview(centerReviewVo);
+   }
+	
 }

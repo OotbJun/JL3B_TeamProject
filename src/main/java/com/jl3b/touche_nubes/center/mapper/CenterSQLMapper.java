@@ -56,6 +56,7 @@ public interface CenterSQLMapper {
 	public String resultHorsehead(int lesson_no);
 	//public String infoTitle(int lesson_no);
 	public List<Map<String, Object>> reviewList(int center_no);			//리뷰 출력 뭔가 될듯
+	public CenterReviewVo checkReview(CenterReviewVo centerReviewVo);
 	
 }
 	

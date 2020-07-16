@@ -154,14 +154,20 @@ public class CenterController {
 	///////////////////////////////////////////////리뷰
 	//리뷰 등록
 	@RequestMapping("/review_write.do")
-	public String writeReview(Model model, int center_no) {
+	public String writeReview(Model model, CenterReviewVo centerReviewVo) {
 		
-		model.addAttribute("center_no", center_no);
+		CenterReviewVo reviewData = centerService.checkReview(centerReviewVo);
+		
+		model.addAttribute("center_no", centerReviewVo.getCenter_no());
+		model.addAttribute("reviewData", reviewData);
 		
 		return "center/review_write";
 	}
 	@RequestMapping("/review_write_process.do")
 	public String writeReviewProcess(CenterReviewVo centerReviewVo, HttpSession session) {
+		
+		System.out.println("센터 : " + centerReviewVo.getCenter_no());
+		System.out.println("레슨 : " + centerReviewVo.getLesson_no());
 		
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		centerReviewVo.setMember_no(memberVo.getMember_no());
@@ -283,7 +289,6 @@ public class CenterController {
 		
 		for(int i : lesson_no) {
 			centerService.removeLesson(i);
-			   System.out.println("넘버 : " + i);
 		   }
 		
 		return "redirect:./mylesson.do";

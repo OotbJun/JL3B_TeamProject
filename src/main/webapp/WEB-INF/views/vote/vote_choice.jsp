@@ -2,6 +2,7 @@
    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <!DOCTYPE html>
 <html>
@@ -73,6 +74,12 @@ footer {
       <div class="col">
 
          <c:if test="${empty status || status.equals('E_END') }"><h1>현재 진행중인 선거가 없습니다.</h1></c:if>
+         <!-- 입후보 등록 기간 -->
+       <c:if test="${status.equals('C_ING') }"><h4>후보 등록 기간 : <fmt:formatDate value="${electionVo.candy_startdate }" pattern="yy.MM.dd"/>
+                                           ~<fmt:formatDate value="${electionVo.candy_enddate }" pattern="yy.MM.dd"/></h4></c:if>
+ 		<!-- 투표 기간 -->
+      <c:if test="${status.equals('V_ING') }"><h4>투표 기간 : <fmt:formatDate value="${electionVo.vote_startdate }" pattern="yy.MM.dd"/>~
+                                             <fmt:formatDate value="${electionVo.vote_enddate }" pattern="yy.MM.dd"/></h4></c:if>                                                  
          <!-- admin만 가능 -->
          <!-- 관리자 페이지에서 하자 
          <c:if test="${!status.equals('C_ING') && !status.equals('V_ING') }">

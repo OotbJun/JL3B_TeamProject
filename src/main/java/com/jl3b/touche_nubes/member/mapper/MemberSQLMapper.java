@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 import com.jl3b.touche_nubes.boardvo.BoardVo;
+import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
@@ -66,6 +67,7 @@ public interface MemberSQLMapper {
     public void centerDrop(int center_no);							//센터 회원 탈퇴
     public List<Map<String,Object>> selectMyCenter(int member_no);  //내 센터 예약 확인 
     public void deleteReserve(ReserveVo reserveVo);					// 내 센터예약 취소하기 
+    
     
     
     //날짜 이쁘게 뽑을라구

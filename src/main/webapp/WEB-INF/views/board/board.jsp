@@ -119,7 +119,8 @@ footer {
 													<td class="text-left pl-1"
 														style="overflow: hidden; text-overflow: ellipsis; max-width: 506px"><a
 														href="${pageContext.request.contextPath}/board/board_read.do?board_no=${boardHotList.boardVo.board_no}">${boardHotList.boardVo.board_title}
-															(${boardHotList.replyCount })</a></td>
+															<c:if test="${boardHotList.replyCount > 0 }">
+															(${boardHotList.replyCount })</c:if></a></td>
 													<td>${boardHotList.memberVoHot.member_rname}</td>
 													<td><fmt:formatDate
 															value="${boardHotList.boardVo.board_wdate}"

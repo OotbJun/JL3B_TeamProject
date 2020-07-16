@@ -316,5 +316,12 @@
 		]]>
 	</select>
 	
+	<!-- 테스트 -->
+	<select id="checkReview" resultType="com.jl3b.touche_nubes.centervo.CenterReviewVo">
+		<![CDATA[
+			SELECT * FROM JL3B_CENTER_REVIEW WHERE LESSON_NO = #{lesson_no} AND MEMBER_NO = {member_no}
+		]]>
+	</select>	
+	
 	
 </mapper>

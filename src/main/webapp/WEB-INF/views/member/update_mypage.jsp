@@ -57,6 +57,21 @@ function drop_btn(){
          <a href="${path}/member/mywrite.do">내가 쓴 글 확인하기</a>
       </c:if>   
       </li>   
+       <li class="ml-auto">
+      <form action="${path}/member/member_drop_process.do" id="member_drop">
+    <div class="col">
+    
+    <c:if test="${!empty sessionUser }">
+     <input type="hidden" name="member_no" value="${sessionUser.member_no }">
+     </c:if>
+    <c:if test="${!empty sessionCenter }">
+     <input type="hidden" name="center_no" value="${sessionCenter.center_no }">
+     </c:if>
+      
+     <input type="button" value="회원탈퇴" class="btn btn-outline-danger btn-sm" onclick="drop_btn()">
+      </div>
+   </form>
+   </li>
    </ol>
    
    <form id="update_mypage" action="${path}/member/update_mypage_process.do" method="post">
@@ -226,19 +241,6 @@ function drop_btn(){
          </div>
       </div>
    </div>
-   </form>
-    <form action="${path}/member/member_drop_process.do" id="member_drop">
-    <div class="col">
-    
-    <c:if test="${!empty sessionUser }">
-     <input type="hidden" name="member_no" value="${sessionUser.member_no }">
-     </c:if>
-    <c:if test="${!empty sessionCenter }">
-     <input type="hidden" name="center_no" value="${sessionCenter.center_no }">
-     </c:if>
-      
-     <input type="button" value="회원탈퇴" class="btn btn-danger" onclick="drop_btn()">
-      </div>
    </form>
 </div>
 

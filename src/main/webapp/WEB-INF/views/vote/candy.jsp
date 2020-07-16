@@ -80,7 +80,7 @@ footer {
 				<div class="col-lg-4 col-sm-6 mb-4">
 					<div class="card h-100">
 						<img class="card-img-top"
-							src="/upload/${candyList.candyImgList.candy_img_title}">
+							src="/upload/${candyList.candyImgList.candy_img_title}" style="max-width:100%; height:auto; overflow: hidden;">
 						<div class="card-body">
 							<h4 class="card-title">
 								<a

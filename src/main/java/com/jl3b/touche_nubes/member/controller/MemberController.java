@@ -422,6 +422,8 @@ public class MemberController {
 	public String myLesson(HttpSession session,Model model) {
 		MemberVo memberVo = (MemberVo)session.getAttribute("sessionUser");
 		List<Map<String,Object>> list = memberService.getMyCenter(memberVo.getMember_no());
+		
+		
 		model.addAttribute("myLessonList",list);
 		
 		return "member/mylesson";

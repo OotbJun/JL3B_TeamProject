@@ -12,6 +12,7 @@ import com.jl3b.touche_nubes.boardvo.BoardVo;
 import com.jl3b.touche_nubes.center.mapper.CenterImgSQLMapper;
 import com.jl3b.touche_nubes.center.mapper.CenterSQLMapper;
 import com.jl3b.touche_nubes.centervo.CenterImgVo;
+import com.jl3b.touche_nubes.centervo.CenterReviewVo;
 import com.jl3b.touche_nubes.centervo.LessonVo;
 import com.jl3b.touche_nubes.centervo.ReserveVo;
 import com.jl3b.touche_nubes.ideavo.IdeaVo;
@@ -328,6 +329,6 @@ public class MemberServiceImpl implements MemberService {
 		  
 		  memberSQLMapper.deleteReserve(reserveVo);
 	  }
-      
    }
+   
 }
