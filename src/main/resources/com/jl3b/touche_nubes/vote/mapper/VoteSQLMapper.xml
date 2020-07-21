@@ -209,7 +209,7 @@
 	</select>
 	<select id="voteEnd" resultType="com.jl3b.touche_nubes.votevo.ElectionVo">		<!-- 지난 투표인지 확인 -> 결과 발표용 -->
 		<![CDATA[
-			SELECT * FROM JL3B_ELECTION WHERE ELECTION_STATUS = 'E_END'
+			SELECT * FROM JL3B_ELECTION WHERE ELECTION_STATUS = 'E_END' AND ROWNUM = 1 ORDER BY ELECTION_ROUND DESC
 		]]>
 	</select>
 	

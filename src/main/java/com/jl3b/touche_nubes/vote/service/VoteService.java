@@ -38,35 +38,36 @@ public class VoteService {
    //@Scheduled(cron = "0 0/3 * * * *")
    public void startElection() {
       System.out.println("타이머 테스트");
-      voteSQLMapper.insertElection();
+      voteSQLMapper.insertElection();						//선거 스타트(그냥 인서트) -> 처음부터 후보등록기간으로 세팅
    }
    
    //매일 상태 업데이트
-   @Scheduled(cron = "0 0 12 * * *")
+   @Scheduled(cron = "0 0 12 * * *")						//초, 분, 시, 일, 월, 연도
    public void gang() {
       System.out.println("투표 상태 갱신 테스트");
       
-      //////////
+      //////////트라이캐치 안쓰면 선거회차가 아예 없을경우 NULL값이라서 익셉션 뜬다.(생각해보면 Integer로 받으면 될 것 같기도 한데..)
       try {
-         int round = voteSQLMapper.selectNewRound();                  //최신 회차 담아주고
-         voteSQLMapper.updateVoteIng();                           //투표기간으로 자동 갱신
-         voteSQLMapper.updateElectionEnd();                        //선거기간 끝으로 자동 갱신
+         int round = voteSQLMapper.selectNewRound();              //최신 회차 담아주고(MAX값 셀렉트)
+         voteSQLMapper.updateVoteIng();                           //날짜가 지났다면 투표기간으로 갱신
+         voteSQLMapper.updateElectionEnd();                       //날짜가 지났다면 투표종료로 갱신
          
-         ElectionVo electionVo = new ElectionVo();                  //이러면 되지 않을까?
+         ElectionVo electionVo = new ElectionVo();                  //이러면 되지 않을까?	-----	내가 이걸 뭔 정신에 했을까
+         electionVo.setElection_round(round);                     	//where절 해당 회차
+         CandyVo candyVo = new CandyVo();                        	//테스트!
+         candyVo.setCandy_no(electionVo.getCandy_no());				//솔직히 필요 없을 것 같다
          
-         electionVo.setElection_round(round);                     //where절 해당 회차
-         CandyVo candyVo = new CandyVo();                        //테스트!
-         candyVo.setCandy_no(electionVo.getCandy_no());
          
-         
-         if(voteSQLMapper.selectResultWinner() != null) {
-            electionVo.setCandy_no(voteSQLMapper.selectResultWinner());      //당선인
+         if(voteSQLMapper.selectResultWinner() != null) {			//가장 많은 득표를 받은 사람이 존재하면
+            electionVo.setCandy_no(voteSQLMapper.selectResultWinner());      //선거회차 테이블에 당선인으로 세팅
          }
          
-         if(voteSQLMapper.voteEnd() != null) {
+         if(voteSQLMapper.voteEnd() != null) {						//최근 종료된 투표가 있다면
             
-            voteSQLMapper.updateWinner(electionVo);                                                //선거테이블 당선인 수정
-            voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getMember_no());   //레지테이블 등급 변경
+            voteSQLMapper.updateWinner(electionVo);                 //선거테이블 당선인 수정(해당 회차만)
+            voteSQLMapper.updateGrade(voteSQLMapper.selectCandyByNo(electionVo.getCandy_no()).getMember_no());   //멤버테이블 등급 변경
+            				//캔디테이블에서 선거회차테이블에 있는 캔디넘버로 당선인을 뽑아오고,
+            				//캔디테이블에 멤버넘버 값이 있으니 뽑아온 당선인의 멤버넘버 값을 다시 담아주는 형태
             
 //            ResiVo resiData = memberSQLMapper.selectResiByNo(candyVo.getResi_no());
 //            System.out.println("레지넘버 : " + resiData.getResi_no());
@@ -80,10 +81,10 @@ public class VoteService {
    
    //후보 등록
    public void writeCandy(CandyVo candyVo, List<CandyImgVo> candyImgList) {
-      int candyKey = voteSQLMapper.createCandyKey();
+      int candyKey = voteSQLMapper.createCandyKey();	//이미지랑 같이 인서트 돼야하니까
       candyVo.setCandy_no(candyKey);
       
-      if(voteSQLMapper.candyAble() != null) {            //기간이 맞는지 확인 후 맞다면 후보등록 가능
+      if(voteSQLMapper.candyAble() != null) {           //기간이 맞는지 확인 후 맞다면 후보등록 가능
          voteSQLMapper.insertCandy(candyVo);
       }
       
@@ -92,18 +93,19 @@ public class VoteService {
          voteImgSQLMapper.insertCandyImg(candyImgVo);
       }
    }
+   
    //후보 등록 중복방지 본인확인
    public CandyVo checkCandy(CandyVo candyVo) {
       return voteSQLMapper.selectCandyDupl(candyVo);
    }
    
    //후보 수정
-   public void changeCandy(CandyVo candyVo) {
+   public void changeCandy(CandyVo candyVo) {		//만들었는데 안 씀
       voteSQLMapper.updateCandy(candyVo);
    }
    
    //후보 삭제
-   public void deleteCandy(int no) {
+   public void deleteCandy(int no) {				//만들었는데 안 씀
       voteSQLMapper.deleteCandy(no);
    }
 
@@ -125,20 +127,15 @@ public class VoteService {
       
       
       for(CandyVo candyVo : candyList) {
-         MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getMember_no());
-         candyVo.setCandy_intro(candyVo.getCandy_intro().replaceAll("<script>", "&lt;script&gt;"));
+         MemberVo memberVo = memberSQLMapper.selectMemberByNo(candyVo.getMember_no());			//후보자 정보 담아주고
+         candyVo.setCandy_intro(candyVo.getCandy_intro().replaceAll("<script>", "&lt;script&gt;"));		//스크립트 방지
          candyVo.setCandy_intro(candyVo.getCandy_intro().replaceAll("</script>", "&lt;/script&gt;"));
-         CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());   //리스트에 이미지 출력
-         
-         
-         
-         
+         CandyImgVo candyImgList = voteImgSQLMapper.selectCandyByNo(candyVo.getCandy_no());   	//리스트에 이미지 출력
          
          Map<String, Object> map = new HashMap<String, Object>();
          map.put("memberVo", memberVo);
          map.put("candyVo", candyVo);
          map.put("candyImgList", candyImgList);
-         
          
          list.add(map);
       }
@@ -216,7 +213,7 @@ public class VoteService {
    }
    
    
-   //test
+   //test	=====================	리뷰 준비하면서 보니까 굳이 필요없었네. 똑같은 쿼리 있었음...
    public CandyVo check(int member_no, int election_round) {
       return voteSQLMapper.check(member_no, election_round);
    }

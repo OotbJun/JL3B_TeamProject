@@ -54,23 +54,23 @@ public class VoteController {
 		
 		
 		try {
-			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.
+			int round = voteService.newRound();		//트라이캐치 안 쓰니까 choice페이지에서 round값 null로 못 받더라.(이것도 integer쓰면 되지 않을까)
 			model.addAttribute("round", round);		//round값을 받아줘서 항상 최신회차 출력을 위한 것.
-			String status = voteService.checkStatus(round);
-			model.addAttribute("status", status);
+			String status = voteService.checkStatus(round);		//당 회차에 맞는 선거 상태 값 담아준다(C_ING, V_ING, E_END).
+			model.addAttribute("status", status);				//jsp에서 예외처리 하려고
 			
-			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
-			CandyVo candyVo = voteService.check(memberNo, round);
-			model.addAttribute("candyVo", candyVo);
 			
-			ElectionVo electionVo = voteService.checkElection(round);
+			int memberNo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();	//뭐였는지 기억이 잘 안나는데
+			CandyVo candyVo = voteService.check(memberNo, round);							//아마도 음
+			model.addAttribute("candyVo", candyVo);									//그 후보등록하면 다시 못하게 예외처리 하려고 이렇게 한 거 같음
+			
+			
+			ElectionVo electionVo = voteService.checkElection(round);		//이거는 상단에 기간 날짜로 표기해주려고
 			model.addAttribute("electionVo", electionVo);
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		
 		
 		
 			
@@ -85,7 +85,7 @@ public class VoteController {
 	@RequestMapping("candy_write_process.do")
 	public String writeCandyProcess(MultipartFile [] candyFile, CandyVo candyVo, HttpSession session) {
 		
-		
+		/////
 	    String rootFolderName = "/var/storage/";
 	    Date today = new Date();
 	    SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
@@ -124,32 +124,34 @@ public class VoteController {
 	  	    candyImgVo.setCandy_img_path(saveRealPath);
 	  	    candyImgList.add(candyImgVo);
         }
-        
-        candyVo.setElection_round(voteService.newRound());
-        int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
- 		candyVo.setMember_no(memberVo);
+        /////////////여기까지 그냥 이미지
          
-        CandyVo candyCheckData = voteService.checkCandy(candyVo); 
+         
+        candyVo.setElection_round(voteService.newRound());		//캔디테이블에 당회차 세팅
+        int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
+ 		candyVo.setMember_no(memberVo);							//세션값으로 멤버넘버 세팅
+         
+        CandyVo candyCheckData = voteService.checkCandy(candyVo); 	//중복방지 조회
         
         //후보등록 중복방지
         if(candyCheckData == null) {
-        	voteService.writeCandy(candyVo, candyImgList);
+        	voteService.writeCandy(candyVo, candyImgList);		//중복값 없으면 등록
         }else {
-        	return "vote/candy_fail";
+        	return "vote/candy_fail";							//있으면 이미 등록된 후보~~
         }
 		
 		return "redirect:./candy.do?election_round="+voteService.newRound();
 	}
 	
 	//후보 삭제
-	@RequestMapping("candy_delete_process.do")
+	@RequestMapping("candy_delete_process.do")			//안 쓰고
 	public String deleteCandy(int candy_no) {
 		voteService.deleteCandy(candy_no);
 		return "redirect:./candy.do";
 	}
 	
 	//후보 수정
-	@RequestMapping("candy_change.do")
+	@RequestMapping("candy_change.do")					//이것도 안 쓰고
 	public String changeCandy(int candy_no, Model model) {
 		model.addAttribute("readCandy", voteService.viewCandy(candy_no));
 		return "vote/candy_change";
@@ -178,7 +180,7 @@ public class VoteController {
 	public String vote(VoteVo voteVo, Model model, int election_round) {
 		
 		List<Map<String, Object>> list = voteService.candyList(election_round);
-		int round = voteService.newRound();
+		int round = voteService.newRound();				//당회차 표시해주기 위해서 담아준다
 		
 		model.addAttribute("candyList", list);
 		model.addAttribute("round", round);
@@ -188,11 +190,11 @@ public class VoteController {
 	public String voteProcess(VoteVo voteVo, HttpSession session) {
 		
 		int memberVo = ((MemberVo)session.getAttribute("sessionUser")).getMember_no();
-		voteVo.setMember_no(memberVo);										//로그인한 no값 담아주기.
+		voteVo.setMember_no(memberVo);									//로그인한 세션 값 담아주기.
 
-		voteVo.setElection_round(voteService.newRound());				//election_round값도 담고
+		voteVo.setElection_round(voteService.newRound());				//최신 회차 값도 담고
 		//voteVo.setElection_round(election_round);
-		VoteVo voteData = voteService.checkVote(voteVo);
+		VoteVo voteData = voteService.checkVote(voteVo);				//중복 방지 체크
 		
 		
 		//투표 중복방지
@@ -226,7 +228,7 @@ public class VoteController {
 	
 	//선거 득표수 보기
 	@RequestMapping("vote_result.do")
-	public String resultVote(Model model, int election_round) {
+	public String resultVote(Model model, int election_round) {				//choice 페이지에서 round값 넘겨준다
 		List<Map<String, Object>> list = voteService.resultVote(election_round);
 		model.addAttribute("voteList", list);
 		
